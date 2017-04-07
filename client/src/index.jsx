@@ -3,9 +3,14 @@ import ReactDOM from 'react-dom';
 
 
 class App extends React.Component {
-  render () {
+  constructor() {
+    super();
+    this.state = {};
+  }
+
+  render() {
     return <p> Hello world!</p>;
   }
 }
 
-ReactDOM.render(<App/>, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'));
