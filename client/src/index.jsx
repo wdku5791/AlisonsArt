@@ -13,10 +13,10 @@ import { Container, Divider } from 'semantic-ui-react';
 import { createStore } from 'redux';
 import Home from './components/Home.js';
 import Auctions from './components/Auctions.jsx';
-import reducer from './reducers/index.jsx';
+// import reducer from './reducers/index.jsx';
 import NavBar from './components/NavBar.jsx';
 
-const store = createStore(reducer);
+// const store = createStore(reducer);
 
 const Index = () => {
 	return (
