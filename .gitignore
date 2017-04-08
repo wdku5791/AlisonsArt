@@ -37,3 +37,6 @@ client/public/bundle.js
 # see https://npmjs.org/doc/faq.html#Should-I-check-my-node_modules-folder-into-git
 node_modules/
 bower_components/
+
+# React Test snapshots
+test/__snapshots__/
