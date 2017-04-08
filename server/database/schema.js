@@ -20,7 +20,7 @@ module.exports = function createSchemas (db) {
       artist_id BIGINT REFERENCES users(id),\
       age VARCHAR(50) NOT NULL,\
       estimated_price BIGINT NOT NULL,\
-      name VARCHAR() NOT NULL,\
+      art_name VARCHAR(50) NOT NULL,\
       description TEXT,\
       dimensions TEXT\
     )')
@@ -38,7 +38,7 @@ module.exports = function createSchemas (db) {
       start_price BIGINT NOT NULL,\
       buyout_price BIGINT NOT NULL,\
       current_bid BIGINT,\
-      bid_counter BIGINT,\
+      bid_counter BIGINT\
     )')
   })
   .catch((error) => {
@@ -50,7 +50,7 @@ module.exports = function createSchemas (db) {
       bidder_id BIGINT REFERENCES users(id),\
       auction_id BIGINT REFERENCES auctions(id),\
       bid_date TIMESTAMP NOT NULL,\
-      bid_price BIGINT NOT NULL,\
+      bid_price BIGINT NOT NULL\
     )')
   })
   .catch((error) => {
