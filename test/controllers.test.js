@@ -1,3 +1,4 @@
+process.env.NODE_ENV = "TESTING";
 const supertest = require('supertest');
 const app = require('../server/server.js');
 
