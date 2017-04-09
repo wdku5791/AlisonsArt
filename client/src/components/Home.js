@@ -4,7 +4,13 @@ const Home = () => (
 	<div>
 	  <div>
 		  <img src="./assets/temp.png" />
-		  <span> art description</span>
+		  <div>
+			  <span>Name (by artist)</span> 
+			  <span>Description</span>
+			  <span>Year</span>
+			  <span>Estimated value</span>
+			  <button>Bid now</button>
+		  </div>
 	  </div>
 	  <Divider />
 	  <p>---------------------------</p>
