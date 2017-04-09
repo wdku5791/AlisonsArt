@@ -22,7 +22,8 @@ module.exports = function createSchemas (db) {
       estimated_price BIGINT NOT NULL,\
       art_name VARCHAR(50) NOT NULL,\
       description TEXT,\
-      dimensions TEXT\
+      dimensions TEXT,\
+      image TEXT\
     )')
   })
   .catch((error) => {
@@ -88,7 +89,7 @@ module.exports = function createSchemas (db) {
     console.log('error creating database tables 7', error);
   })
   .then(()=>{
-    return db.query('CREATE TABLE IF NOT EXISTS artwork_attributes (\
+    return db.query('CREATE TABLE IF NOT EXISTS followers (\
       id SERIAL PRIMARY KEY NOT NULL,\
       follower_id BIGINT NOT NULL REFERENCES users(id),\
       followee_id BIGINT NOT NULL REFERENCES users(id)\
