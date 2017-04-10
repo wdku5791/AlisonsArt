@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 // import LoggedOutNav from './LoggedOutNav.jsx';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Image } from 'semantic-ui-react';
 
 
 class NavBar extends Component {
-
-	// constructor(props) {
-	// 	super(props);
-	// }
 
 	render() {
 		return (
@@ -18,19 +14,19 @@ class NavBar extends Component {
 		  <div>
 			  <input type="text" placeholder="search" />
 			  {'  '}
-			  <Link to="/home">Home</Link>
+			  <NavLink to="/home" activeStyle={{color: 'red'}}>Home</NavLink>
 			  {'  '}
-			  <Link to="/auctions">Auctions</Link>
+			  <NavLink to="/auctions" activeStyle={{color: 'red'}}>Auctions</NavLink>
 			  {'  '}
-			  <Link to="/artists">Artists</Link>
+			  <NavLink to="/artists" activeStyle={{color: 'red'}}>Artists</NavLink>
 			  {'  '}
-			  <Link to="/events">Events</Link>
+			  <NavLink to="/events" activeStyle={{color: 'red'}}>Events</NavLink>
 			  {'  '}
-			  <Link to="/contact">Contact us</Link>
+			  <NavLink to="/contactus" activeStyle={{color: 'red'}}>Contact us</NavLink>
 			  {'  '}
-			  <Link to="/login">Log In</Link>
+			  <NavLink to="/login" activeStyle={{color: 'red'}}>Log In</NavLink>
 			  {'  '}
-			  <Link to="/signup">Sign Up</Link>
+			  <NavLink to="/signup" activeStyle={{color: 'red'}}>Sign Up</NavLink>
 			  {this.props.children}
 			</div>
 		</div>);
