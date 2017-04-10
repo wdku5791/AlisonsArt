@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, browserHistory } from 'react-router-dom';
+import { Link, hashHistory } from 'react-router-dom';
 // import { Grid, Icon, Header, Input, Menu, Segment } from 'semantic-ui-react';
 
 class LoggedOutNav extends Component {
@@ -8,6 +8,8 @@ class LoggedOutNav extends Component {
 	}
 
 	render() {
+
+		console.log(this.props);
 
 		return (
 			<div>
@@ -26,6 +28,7 @@ class LoggedOutNav extends Component {
 			  <Link to="/login">Log In</Link>
 			  {'  '}
 			  <Link to="/signup">Sign Up</Link>
+			  {this.props.children}
 			</div>
 
 			);
