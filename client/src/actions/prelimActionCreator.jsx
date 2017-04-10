@@ -6,15 +6,15 @@ export function itemHasErrored (bool) {
 }
 
 export function itemIsLoading(bool){
-	return {
-		type: 'ITEM_IS_LOADING',
-		isLoading: bool
-	};
+  return {
+    type: 'ITEM_IS_LOADING',
+    isLoading: bool
+  };
 }
 
 export function itemsFetchDataSuccess(items) {
   return {
-  	type: 'ITEMS_FETCH_DATA_SUCCESS',
-  	items
+    type: 'ITEMS_FETCH_DATA_SUCCESS',
+    items
   };
 }
