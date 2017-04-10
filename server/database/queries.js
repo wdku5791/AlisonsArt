@@ -1,22 +1,22 @@
-let db = require('./config');
+const db = require('./config');
 
 module.exports = {
-  getUser: function (userId) {
+  getUser(userId) {
     return db.query('select * from users where id=$1', [userId]);
   },
-  getUsers: function () {
+  getUsers() {
     return db.query('select * from users');
   },
-  getUserOwnedAuctions: function (userId) {
+  getUserOwnedAuctions(userId) {
     return db.query('select * from auctions where owner_id=$1', [userId]);
   },
-  getUserBiddingAuctions: function () {
+  getUserBiddingAuctions() {
     //TODO
   },
-  getUserBids: function (userId) {
+  getUserBids(userId) {
     return db.query('select * from bids where bidder_id=$1', [userId]);
   },
-  getUserBidsPerAuction: function ({user_id, auction_id}) {
+  getUserBidsPerAuction({ user_id, auction_id }) {
     /*
     {
       user_id:
@@ -26,14 +26,20 @@ module.exports = {
     */
     return db.query('select * from bids where bidder_id=$1 and auction_id=$2', [user_id, auction_id]);
   },
-  getUserMessages: function (userId) {
+  getUserMessages(userId) {
     return db.query('select * from messages where sender_id=$1 or receiver_id=$1', [userId]);
   },
-  getAuctions: function () {
-    return db.query('select * from auctions');
+  getAuctions({ limit, end_date }) {
+    /*
+    {
+      limit:
+      end_date:
+    }
+    */
+    return db.query('select * from auctions where end_date > $2 ORDER BY end_date ASC LIMIT $1', [limit, end_date]);
   },
 
-  createUser: function (userObj) {
+  createUser(userObj) {
     /*
     {
       password:
@@ -52,7 +58,7 @@ module.exports = {
       (${username}, ${first_name}, ${last_name}, ${email}, ${address}, ${type}, ${password})\
       returning id', userObj);
   },
-  createAuction: function (auctionObj) {
+  createAuction(auctionObj) {
     /*
     {
       owner_id:
@@ -64,16 +70,16 @@ module.exports = {
       current_bid:
       bid_counter:
     }
-    insert into auctions (owner_id, artwork_id, start_date, end_date, start_price, buyout_price, bid_counter) values ('1', '1', '2017-01-07 04:05:06 -8:00', '2017-01-08 04:05:06 -8:00', '100', '500', '0')
+    insert into auctions (owner_id, artwork_id, start_date, end_date, start_price, buyout_price, bid_counter) values ('1', '1', '2017-01-07 04:05:06 -8:00', '2017-01-08 0:05:06 -8:00', '100', '500', '0')
     */
 
     return db.query('insert into auctions \
-      (owner_id, artwork_id, start_date, end_date, start_price, buyout_price, bid_counter)\
+      (owner_id, artwork_id, start_date, end_date, start_price, buyout_price)\
       values \
-      (${owner_id}, ${artwork_id}, ${start_date}, ${end_date}, ${start_price}, ${buyout_price}, 0)\
+      (${owner_id}, ${artwork_id}, ${start_date}, ${end_date}, ${start_price}, ${buyout_price})\
       returning id', auctionObj);
   },
-  createArtwork: function (artworkObj) {
+  createArtwork(artworkObj) {
     /*
     {
       artist_id:
@@ -93,7 +99,7 @@ module.exports = {
       (${artist_id}, ${age}, ${estimated_price}, ${art_name}, ${description}, ${dimensions}, ${image_url})\
       returning id', artworkObj);
   },
-  createBid: function (bidObj) {
+  createBid(bidObj) {
     /*
     {
       bidder_id:
@@ -109,7 +115,7 @@ module.exports = {
       (${bidder_id}, ${auction_id}, ${bid_date}, ${bid_price})\
       returning id', bidObj);
   },
-  createFollower: function (followerObj) {
+  createFollower(followerObj) {
     /*
     {
       follower_id:
@@ -123,7 +129,7 @@ module.exports = {
       (${follower_id}, ${followee_id})\
       returning id', followerObj);
   },
-  createMessage: function (messageObj) {
+  createMessage(messageObj) {
     /*
     {
       text:
@@ -140,10 +146,10 @@ module.exports = {
       returning id', messageObj);
   },
 
-  updateUser: function () {
+  updateUser() {
     //TODO
   },
-  updateAuction: function () {
+  updateAuction() {
     //TODO
   },
 

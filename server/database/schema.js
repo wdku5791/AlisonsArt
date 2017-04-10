@@ -1,6 +1,4 @@
-const pgp = require('pg-promise')();
-
-module.exports = function createSchemas (db) {
+module.exports = function createSchemas(db) {
   return db.query('DROP TABLE IF EXISTS\
     followers, artwork_attributes, attributes, messages,\
     bids, auctions, artworks, users cascade \
@@ -8,7 +6,7 @@ module.exports = function createSchemas (db) {
   .catch((error) => {
     console.log('error dropping existing tables', error);
   })
-  .then(()=>{
+  .then(() => {
     return db.query('CREATE TABLE IF NOT EXISTS users (\
       id SERIAL PRIMARY KEY NOT NULL,\
       password VARCHAR(300) NOT NULL,\
@@ -23,7 +21,7 @@ module.exports = function createSchemas (db) {
   .catch((error) => {
     console.log('error creating database tables users', error);
   })
-  .then(()=>{
+  .then(() => {
     return db.query('CREATE TABLE IF NOT EXISTS artworks (\
       id SERIAL PRIMARY KEY NOT NULL,\
       artist_id BIGINT REFERENCES users(id),\
@@ -38,7 +36,7 @@ module.exports = function createSchemas (db) {
   .catch((error) => {
     console.log('error creating database tables artworks', error);
   })
-  .then(()=>{
+  .then(() => {
     return db.query('CREATE TABLE IF NOT EXISTS auctions (\
       id SERIAL PRIMARY KEY NOT NULL,\
       owner_id BIGINT REFERENCES users(id),\
@@ -48,13 +46,13 @@ module.exports = function createSchemas (db) {
       start_price BIGINT NOT NULL,\
       buyout_price BIGINT NOT NULL,\
       current_bid BIGINT,\
-      bid_counter BIGINT\
+      bid_counter BIGINT DEFAULT 0\
     )');
   })
   .catch((error) => {
     console.log('error creating database tables auctions', error);
   })
-  .then(()=>{
+  .then(() => {
     return db.query('CREATE TABLE IF NOT EXISTS bids (\
       id SERIAL PRIMARY KEY NOT NULL,\
       bidder_id BIGINT REFERENCES users(id),\
@@ -66,7 +64,7 @@ module.exports = function createSchemas (db) {
   .catch((error) => {
     console.log('error creating database tables bids', error);
   })
-  .then(()=>{
+  .then(() => {
     return db.query('CREATE TABLE IF NOT EXISTS attributes (\
       id SERIAL PRIMARY KEY NOT NULL,\
       attribute VARCHAR(50) NOT NULL\
@@ -75,7 +73,7 @@ module.exports = function createSchemas (db) {
   .catch((error) => {
     console.log('error creating database tables attributes', error);
   })
-  .then(()=>{
+  .then(() => {
     return db.query('CREATE TABLE IF NOT EXISTS messages (\
       id SERIAL PRIMARY KEY NOT NULL,\
       text text NOT NULL,\
@@ -87,7 +85,7 @@ module.exports = function createSchemas (db) {
   .catch((error) => {
     console.log('error creating database tables messages', error);
   })
-  .then(()=>{
+  .then(() => {
     return db.query('CREATE TABLE IF NOT EXISTS artwork_attributes (\
       id SERIAL PRIMARY KEY NOT NULL,\
       attribute_id BIGINT NOT NULL REFERENCES attributes(id),\
@@ -97,7 +95,7 @@ module.exports = function createSchemas (db) {
   .catch((error) => {
     console.log('error creating database tables artwork_attributes', error);
   })
-  .then(()=>{
+  .then(() => {
     return db.query('CREATE TABLE IF NOT EXISTS followers (\
       id SERIAL PRIMARY KEY NOT NULL,\
       follower_id BIGINT NOT NULL REFERENCES users(id),\
@@ -107,7 +105,7 @@ module.exports = function createSchemas (db) {
   .catch((error) => {
     console.log('error creating database tables followers', error);
   })
-  .then(()=> {
+  .then(() => {
     console.log('database tables created');
-  })
+  });
 };
