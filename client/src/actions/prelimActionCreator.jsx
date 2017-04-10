@@ -1,7 +1,7 @@
 export function itemHasErrored (bool) {
   return {
-  	type: 'ITEM_HAS_ERRORED',
-  	hasErrored: bool
+    type: 'ITEM_HAS_ERRORED',
+    hasErrored: bool
   };
 }
 

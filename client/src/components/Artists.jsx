@@ -2,9 +2,9 @@ import React from 'react';
 
 const Artists = () => {
   return (
-  	<div>
-  	artists page
-  	</div>
+    <div>
+    artists page
+    </div>
   );
 }
 

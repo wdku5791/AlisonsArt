@@ -25,21 +25,21 @@ const store = createStore(reducer);
 const Index = () => {
 	return (
 		<Router history={hashHistory}>
-	    <NavBar>
-	        <Route path="/home" component={Home} />
-		    <Route path="/auctions" component={Auctions} />
-		    <Route path="/artists" component={Artists} />
-		    <Route path="/events" component={Events} />
-		    <Route path="/login" component={LogIn} />
-		    <Route path="/signup" component={SignUp} />
-	    </NavBar>
+			<NavBar>
+				<Route path="/home" component={Home} />
+				<Route path="/auctions" component={Auctions} />
+				<Route path="/artists" component={Artists} />
+				<Route path="/events" component={Events} />
+				<Route path="/login" component={LogIn} />
+				<Route path="/signup" component={SignUp} />
+			</NavBar>
 		</Router>
 	)
 }
 
 render(
 	<Provider store={store}>
-	  <Index/>
+		<Index/>
 	</Provider>, 
 	document.getElementById('root')
 );
