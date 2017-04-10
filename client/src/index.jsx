@@ -24,7 +24,7 @@ const store = createStore(reducer);
 // nest children Routes into NavBar component can solve the rendering of the child components
 const Index = () => {
 	return (
-	<Router history={hashHistory}>
+		<Router history={hashHistory}>
 	    <NavBar>
 	        <Route path="/home" component={Home} />
 		    <Route path="/auctions" component={Auctions} />
@@ -33,7 +33,8 @@ const Index = () => {
 		    <Route path="/login" component={LogIn} />
 		    <Route path="/signup" component={SignUp} />
 	    </NavBar>
-	</Router>)
+		</Router>
+	)
 }
 
 render(
