@@ -1,18 +1,27 @@
 const pgp = require('pg-promise')();
 
 module.exports = function createSchemas (db) {
-  return db.query('CREATE TABLE IF NOT EXISTS users (\
+  return db.query('DROP TABLE IF EXISTS\
+    followers, artwork_attributes, attributes, messages,\
+    bids, auctions, artworks, users cascade \
+    ')
+  .catch((error) => {
+    console.log('error dropping existing tables', error);
+  })
+  .then(()=>{
+    return db.query('CREATE TABLE IF NOT EXISTS users (\
       id SERIAL PRIMARY KEY NOT NULL,\
       password VARCHAR(300) NOT NULL,\
-      username VARCHAR(30) NOT NULL,\
-      email VARCHAR(30) NOT NULL,\
+      username VARCHAR(30) NOT NULL UNIQUE,\
+      email VARCHAR(30) NOT NULL UNIQUE,\
       first_name VARCHAR(30) NOT NULL,\
       last_name VARCHAR(30) NOT NULL,\
       type VARCHAR(30) NOT NULL,\
       address VARCHAR(50)\
-    );')
+    )');
+  })
   .catch((error) => {
-    console.log('error creating database tables 1', error);
+    console.log('error creating database tables users', error);
   })
   .then(()=>{
     return db.query('CREATE TABLE IF NOT EXISTS artworks (\
@@ -22,11 +31,12 @@ module.exports = function createSchemas (db) {
       estimated_price BIGINT NOT NULL,\
       art_name VARCHAR(50) NOT NULL,\
       description TEXT,\
-      dimensions TEXT\
-    )')
+      dimensions TEXT,\
+      image_url TEXT\
+    )');
   })
   .catch((error) => {
-    console.log('error creating database tables 2', error);
+    console.log('error creating database tables artworks', error);
   })
   .then(()=>{
     return db.query('CREATE TABLE IF NOT EXISTS auctions (\
@@ -39,10 +49,10 @@ module.exports = function createSchemas (db) {
       buyout_price BIGINT NOT NULL,\
       current_bid BIGINT,\
       bid_counter BIGINT\
-    )')
+    )');
   })
   .catch((error) => {
-    console.log('error creating database tables 3', error);
+    console.log('error creating database tables auctions', error);
   })
   .then(()=>{
     return db.query('CREATE TABLE IF NOT EXISTS bids (\
@@ -51,19 +61,19 @@ module.exports = function createSchemas (db) {
       auction_id BIGINT REFERENCES auctions(id),\
       bid_date TIMESTAMP NOT NULL,\
       bid_price BIGINT NOT NULL\
-    )')
+    )');
   })
   .catch((error) => {
-    console.log('error creating database tables 4', error);
+    console.log('error creating database tables bids', error);
   })
   .then(()=>{
     return db.query('CREATE TABLE IF NOT EXISTS attributes (\
       id SERIAL PRIMARY KEY NOT NULL,\
       attribute VARCHAR(50) NOT NULL\
-    )')
+    )');
   })
   .catch((error) => {
-    console.log('error creating database tables 5', error);
+    console.log('error creating database tables attributes', error);
   })
   .then(()=>{
     return db.query('CREATE TABLE IF NOT EXISTS messages (\
@@ -72,32 +82,32 @@ module.exports = function createSchemas (db) {
       sender_id BIGINT REFERENCES users(id),\
       receiver_id BIGINT REFERENCES users(id),\
       message_date TIMESTAMP NOT NULL\
-    )')
+    )');
   })
   .catch((error) => {
-    console.log('error creating database tables 6', error);
+    console.log('error creating database tables messages', error);
   })
   .then(()=>{
     return db.query('CREATE TABLE IF NOT EXISTS artwork_attributes (\
       id SERIAL PRIMARY KEY NOT NULL,\
       attribute_id BIGINT NOT NULL REFERENCES attributes(id),\
       artwork_id BIGINT NOT NULL REFERENCES artworks(id)\
-    )')
+    )');
   })
   .catch((error) => {
-    console.log('error creating database tables 7', error);
+    console.log('error creating database tables artwork_attributes', error);
   })
   .then(()=>{
-    return db.query('CREATE TABLE IF NOT EXISTS artwork_attributes (\
+    return db.query('CREATE TABLE IF NOT EXISTS followers (\
       id SERIAL PRIMARY KEY NOT NULL,\
       follower_id BIGINT NOT NULL REFERENCES users(id),\
       followee_id BIGINT NOT NULL REFERENCES users(id)\
-    )')
-  })
-  .then(()=> {
-    console.log('database tables created succesfully');
+    )');
   })
   .catch((error) => {
-    console.log('error creating database tables', error);
+    console.log('error creating database tables followers', error);
+  })
+  .then(()=> {
+    console.log('database tables created');
   })
 };

@@ -18,6 +18,7 @@ import Events from './components/Events.jsx';
 import SignUp from './components/SignUp.jsx';
 import LogIn from './components/LogIn.jsx'
 
+
 const store = createStore(reducer);
 // nest children Routes into NavBar component can solve the rendering of the child components
 const Index = () => {
