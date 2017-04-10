@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 
 //presentational component:
 const MainArts = () => {
+  console.log('haha"');
+
   return (
     <div>
       <img src="./assets/temp.png" />
@@ -34,7 +36,9 @@ const HomeArtists = () => {
 }
 
 const mapStateToProps = (state) => {
-
+  return {
+    hey: "hello"
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -44,7 +48,6 @@ const mapDispatchToProps = (dispatch) => {
 //need to pass down the arts from the database to MainArts component
 //where to put fetch?
 
-// @connect()(Home);
 
 class Home extends Component {
 
@@ -73,6 +76,7 @@ class Home extends Component {
   // }
 
   render() {
+    // console.log('store: ', store);
     return (
       <div>
         <MainArts />
@@ -87,4 +91,8 @@ class Home extends Component {
     )
   }
 }
+//connect's second function call takes presentational component
+// as argument
+connect(mapStateToProps)(MainArts);
+
 export default Home;

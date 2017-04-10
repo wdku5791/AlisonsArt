@@ -9,7 +9,10 @@ import {
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { Container, Divider } from 'semantic-ui-react';
-import { createStore } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
+import { createLogger } from 'redux-logger';
+import thunkMiddleware from 'redux-thunk';
+
 import NavBar from './components/NavBar.jsx';
 import Home from './components/Home.js';
 import reducer from './reducers/index.jsx';
@@ -20,10 +23,11 @@ import SignUp from './components/SignUp.jsx';
 import LogIn from './components/LogIn.jsx';
 import CreateAuction from './components/CreateAuction.jsx';
 
-
-const store = createStore(reducer);
+const middleware = applyMiddleware(thunkMiddleware, createLogger());
+const store = createStore(reducer, middleware);
 // nest children Routes into NavBar component can solve the rendering of the child components
 const Index = () => {
+  console.log('store states: ', store.getState());
   return (
     <Router history={hashHistory}>
       <NavBar>
