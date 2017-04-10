@@ -13,8 +13,8 @@ export function itemIsLoading(bool){
 }
 
 export function itemsFetchDataSuccess(items) {
-    return {
-    	type: 'ITEMS_FETCH_DATA_SUCCESS',
-    	items
-    };
+  return {
+  	type: 'ITEMS_FETCH_DATA_SUCCESS',
+  	items
+  };
 }
