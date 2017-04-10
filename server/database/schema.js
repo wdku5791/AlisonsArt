@@ -18,7 +18,7 @@ module.exports = function createSchemas (db) {
       last_name VARCHAR(30) NOT NULL,\
       type VARCHAR(30) NOT NULL,\
       address VARCHAR(50)\
-    )')
+    )');
   })
   .catch((error) => {
     console.log('error creating database tables users', error);
@@ -33,7 +33,7 @@ module.exports = function createSchemas (db) {
       description TEXT,\
       dimensions TEXT,\
       image_url TEXT\
-    )')
+    )');
   })
   .catch((error) => {
     console.log('error creating database tables artworks', error);
@@ -49,7 +49,7 @@ module.exports = function createSchemas (db) {
       buyout_price BIGINT NOT NULL,\
       current_bid BIGINT,\
       bid_counter BIGINT\
-    )')
+    )');
   })
   .catch((error) => {
     console.log('error creating database tables auctions', error);
@@ -61,7 +61,7 @@ module.exports = function createSchemas (db) {
       auction_id BIGINT REFERENCES auctions(id),\
       bid_date TIMESTAMP NOT NULL,\
       bid_price BIGINT NOT NULL\
-    )')
+    )');
   })
   .catch((error) => {
     console.log('error creating database tables bids', error);
@@ -70,7 +70,7 @@ module.exports = function createSchemas (db) {
     return db.query('CREATE TABLE IF NOT EXISTS attributes (\
       id SERIAL PRIMARY KEY NOT NULL,\
       attribute VARCHAR(50) NOT NULL\
-    )')
+    )');
   })
   .catch((error) => {
     console.log('error creating database tables attributes', error);
@@ -82,7 +82,7 @@ module.exports = function createSchemas (db) {
       sender_id BIGINT REFERENCES users(id),\
       receiver_id BIGINT REFERENCES users(id),\
       message_date TIMESTAMP NOT NULL\
-    )')
+    )');
   })
   .catch((error) => {
     console.log('error creating database tables messages', error);
@@ -92,7 +92,7 @@ module.exports = function createSchemas (db) {
       id SERIAL PRIMARY KEY NOT NULL,\
       attribute_id BIGINT NOT NULL REFERENCES attributes(id),\
       artwork_id BIGINT NOT NULL REFERENCES artworks(id)\
-    )')
+    )');
   })
   .catch((error) => {
     console.log('error creating database tables artwork_attributes', error);
@@ -102,7 +102,7 @@ module.exports = function createSchemas (db) {
       id SERIAL PRIMARY KEY NOT NULL,\
       follower_id BIGINT NOT NULL REFERENCES users(id),\
       followee_id BIGINT NOT NULL REFERENCES users(id)\
-    )')
+    )');
   })
   .catch((error) => {
     console.log('error creating database tables followers', error);

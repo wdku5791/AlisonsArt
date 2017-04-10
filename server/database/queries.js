@@ -1,8 +1,8 @@
-const pgp = require('pg-promise')();
+let db = require('./config');
 
 module.exports = {
   getUser: function (userId) {
-    return db.query('select * from users');
+    return db.query('select * from users where id=$1', [userId]);
   },
   getUsers: function () {
     return db.query('select * from users');
@@ -27,7 +27,7 @@ module.exports = {
     return db.query('select * from bids where bidder_id=$1 and auction_id=$2', [user_id, auction_id]);
   },
   getUserMessages: function (userId) {
-    
+    return db.query('select * from messages where sender_id=$1 or receiver_id=$1', [userId]);
   },
   getAuctions: function () {
     return db.query('select * from auctions');
@@ -109,7 +109,7 @@ module.exports = {
       (${bidder_id}, ${auction_id}, ${bid_date}, ${bid_price})\
       returning id', bidObj);
   },
-  createFollow: function (followerObj) {
+  createFollower: function (followerObj) {
     /*
     {
       follower_id:
@@ -117,7 +117,7 @@ module.exports = {
     }
     insert into followers (follower_id, followee_id) values ('1', '1')
     */
-    return db.query('insert into bids \
+    return db.query('insert into followers \
       (follower_id, followee_id)\
       values \
       (${follower_id}, ${followee_id})\
