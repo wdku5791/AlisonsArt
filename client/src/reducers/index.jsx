@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
  //change these two reducers to ours
  import auctionReducer from './auctionReducer.jsx';
- const artApp = combineReducers({auctionReducer});
+ const rootReducer = combineReducers({auctionReducer});
  
- export default artApp;
+ export default rootReducer;
