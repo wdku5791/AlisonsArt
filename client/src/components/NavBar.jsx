@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import LoggedOutNav from './LoggedOutNav.jsx';
 import { NavLink } from 'react-router-dom';
 import { Image } from 'semantic-ui-react';
 

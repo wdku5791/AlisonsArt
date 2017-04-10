@@ -5,10 +5,6 @@ const Auctions = () => {
 	return (
 		<div>
 		<p>this is Auctions</p>
-		<p>this is Auctions</p>
-		<p>this is Auctions</p>
-		<p>this is Auctions</p>
-
 		</div>
 	)
 }
