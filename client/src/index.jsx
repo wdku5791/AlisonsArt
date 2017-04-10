@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import {
   BrowserRouter as Router,
   Route,
+  IndexRoute,
   Link,
   hashHistory
 } from 'react-router-dom';
@@ -26,7 +27,8 @@ const Index = () => {
   return (
     <Router history={hashHistory}>
       <NavBar>
-        <Route path="/home" component={Home} />
+        <Route exact path="/" component={Home} />
+        <Route exact path="/home" component={Home} />
         <Route path="/auctions" component={Auctions} />
         <Route path="/artists" component={Artists} />
         <Route path="/events" component={Events} />
