@@ -10,16 +10,19 @@ const CreateAuction = (props) => (
       <input type='text' placeholder='ex:starry night' />
       <br />
       Year:
-      <input type='text' placeholder='ex: 1911' />
+      <input type='number' placeholder='ex: 1911' />
+      <br />
+      Description:
+      <input type='text' />
       <br />
       Dimensions (inches):
       <br />
         length:
-        <input type='text' />
+        <input type='number' />
         height:
-        <input type='text' />
+        <input type='number' />
         width:
-        <input type='text' />
+        <input type='number' />
       <br />
       Categories:
       <br />
@@ -27,10 +30,11 @@ const CreateAuction = (props) => (
       <input type='checkbox' /> Photography <br />
       <input type='checkbox' /> Sculpture <br />
       Estimated Value:
-      <input type='text' />
+      <input type='number' />
       <br />
       Buyout Price: 
-      <input type='text' />
+      <input type='number' />
+      <input type='submit' value='Submit' />
     </form>
   </div>
 )

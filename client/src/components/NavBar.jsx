@@ -18,6 +18,8 @@ class NavBar extends Component {
           {'  '}
           <NavLink to="/artists" activeStyle={{color: 'red'}}>Artists</NavLink>
           {'  '}
+          <NavLink to="/createAuction" activeStyle={{color: 'red'}}>Create an auction</NavLink>
+          {'  '}
           <NavLink to="/events" activeStyle={{color: 'red'}}>Events</NavLink>
           {'  '}
           <NavLink to="/contactus" activeStyle={{color: 'red'}}>Contact us</NavLink>
