@@ -15,12 +15,17 @@ class Auction extends Component {
 
     // })
   }
-  // add button onClick={}
+
+  //when user clicks submit, check if user is logged in
+    //if not re-direct
+    //if logged in, grab all info and redirect to payment page.
+
   render(){
   console.log('id: ', this.props.match.params.auctionId);
   let auction = this.props.auction.auction;
-  // console.log('auction: ', this.props.auction.auction);
   //need to get the buyout price of this piece and the current bidding price of the piece, then generate values for the dropbox.
+
+  //submit button onClick will grab the dropbox value, userId and auctionId, direct to payment page.
     return (
       <div>
        hellolooloo
