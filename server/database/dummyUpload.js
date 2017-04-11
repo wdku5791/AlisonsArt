@@ -2,16 +2,40 @@
 
 const dotenv = require('dotenv');
 dotenv.config();
-const db = require('./config.js');
+// const db = require('./config.js');
 const data = require('./dummyData.js');
 const pgp = require('pg-promise')();
+pgp.pg.defaults.ssl = true;
+const createSchema = require ('./schema.js')
+
+let url = null;
+
+const whichDb = function() {
+  console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
+  if (process.env.NODE_ENV === 'TEST') {
+    url = process.env.TESTING_DATABASE_URL;
+  } else if (process.env.NODE_ENV === 'DEV') {
+    url = process.env.DATABASE_URL;
+  } else if (process.env.NODE_ENV === 'CONNECTION') {
+    url = process.env.PRODUCTION_DATABASE_URL;
+  }
+}
+
+whichDb()
+let db = pgp(url);
+
+createSchema(db)
+.then(() => {
+  insertDummyData(db);
+});
+
 
 const users = data.users;
 const artworks = data.artworks;
 const auctions = data.auctions;
 const bids = data.bids;
 
-module.exports = function insertDummyData (db) {
+const insertDummyData = function (db) {
   db.task((t) => {
     return t.batch(users.map(user => t.query('INSERT INTO users \
         (username, first_name, last_name, email, address, type, password)\
