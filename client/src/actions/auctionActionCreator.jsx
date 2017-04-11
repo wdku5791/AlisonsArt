@@ -6,24 +6,31 @@ export function fetchAuctionErrored (bool, error) {
   };
 }
 
-export function fetchingAuction(bool){
+export function fetchingAuctions(bool){
   return {
     type: 'FETCHING_AUCTION',
     isFetching: bool
   };
 }
 
-export function ongoingAuctionFetchedSuccess(ongoingAuctions) {
+export function ongoingAuctionsFetchedSuccess(ongoingAuctions) {
   return {
     type: 'ONGOING_AUCTIONS_FETCHED',
     ongoingAuctions
   };
 }
 
-export function passedAuctionFetchedSuccess(passedAuctions) {
+export function passedAuctionsFetchedSuccess(passedAuctions) {
   return {
     type: 'PASSED_AUCTIONS_FETCHED',
     passedAuctions
+  };
+}
+
+export function fetchAnAuction(id) {
+  return {
+    type: 'FETCH_AN_AUCTION',
+    id
   };
 }
 //currently not in use:

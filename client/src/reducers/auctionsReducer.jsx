@@ -6,7 +6,7 @@ const initialState = {
   fetchAuctionsError: null
 };
 
-const auctionReducer = (state = initialState, action) => {
+const auctionsReducer = (state = initialState, action) => {
   switch(action.type) {
     case 'FETCH_AUCTION_ERROR':
       return {
@@ -37,4 +37,4 @@ const auctionReducer = (state = initialState, action) => {
   }
  };
  
- export default auctionReducer; 
+ export default auctionsReducer; 

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as Auctions from '../actions/auctionActionCreator.jsx';
 import * as Artists from '../actions/artistActionCreator.jsx';
 
-let MainArts = ({mainArts}) => {
+let MainArts = ({mainArts, history}) => {
   // console.log('main arts: ', mainArts[0]);
   if (!mainArts[0]) {
     return <p>loading~~</p>
@@ -37,11 +37,16 @@ let HomeAuctions = ({homeAuctions, history}) => {
     return (
       <div>
         <img src="./assets/logo.jpeg" onClick={() => {
+          
           //fetch info from backend for population
+          // fetch('/??')
+          // .then(response => {
+
+          // })
+
           //redirect to another page (specific to this auction by id)
           // console.log('onclick props: ', this.props);
           history.push('/auction/' + id);
-
 
 
           // dispatch()
@@ -56,7 +61,7 @@ let HomeAuctions = ({homeAuctions, history}) => {
   }
 }
 
-let HomeArtists = ({homeArtists}) => {
+let HomeArtists = ({homeArtists, history}) => {
   return (
     <div>
       <img src="./assets/logo.jpeg" />
@@ -77,7 +82,7 @@ class Home extends Component {
   componentWillMount() {
     const {dispatch} = this.props;
     // Auctions.fetchAuctionData('/auctions');
-      dispatch(Auctions.fetchingAuction(true));
+      dispatch(Auctions.fetchingAuctions(true));
       //backend url for getting passed auctions?
       //will change the url to /home when the endpoint is ready
       fetch('/auctions')
@@ -85,15 +90,16 @@ class Home extends Component {
         if(!response.ok) {
           throw Error(response.statusText);
         }
-        dispatch(Auctions.fetchingAuction(false));
+        dispatch(Auctions.fetchingAuctions(false));
         console.log('hererererere');
         return response.json();
       })
       .then(data => {
         //destructure the data here:
         //{} = data;
-        dispatch(Auctions.passedAuctionFetchedSuccess(data));
-        dispatch(Auctions.ongoingAuctionFetchedSuccess(data));
+        console.log('im data: ', data[0].auction);
+        dispatch(Auctions.passedAuctionsFetchedSuccess(data));
+        dispatch(Auctions.ongoingAuctionsFetchedSuccess(data));
         // dispatch(Artists.fetchArtistSuccess());
 
         //go fetch on going auctions and then go fetch artists.
@@ -112,18 +118,19 @@ class Home extends Component {
 
     render() {
       console.log('this props: ', this.props);
+      console.log('auctions:', this.props.homeAuctions);
 
 
       return (
         <div>
-          <MainArts mainArts={this.props.mainArts} />
+          <MainArts mainArts={this.props.mainArts} history={this.props.history} />
         <Divider />
         <p>---------------------------</p>
         <p>Auctions</p>
         <HomeAuctions homeAuctions={this.props.homeAuctions} history={this.props.history}/>
         <p>Artists</p>
         <Divider />
-        <HomeArtists homeArtists={this.props.homeArtists} />
+        <HomeArtists homeArtists={this.props.homeArtists} history={this.props.history} />
         </div>
       )
     }
