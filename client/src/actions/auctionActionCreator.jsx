@@ -5,30 +5,37 @@ export function fetchAuctionErrored (bool) {
   };
 }
 
-export function fecthingAuction(bool){
+export function fetchingAuction(bool){
   return {
     type: 'FETCHING_AUCTION',
     isLoading: bool
   };
 }
 
-export function auctionFetchedSuccess(auctions) {
+export function ongoingAuctionFetchedSuccess(auctions) {
   return {
-    type: 'AUCTIONS_FETCHED',
-    auctions
+    type: 'ONGOING_AUCTIONS_FETCHED',
+    ongoingAuctions
+  };
+}
+
+export function passedAuctionFetchedSuccess(auctions) {
+  return {
+    type: 'PASSED_AUCTIONS_FETCHED',
+    passedAuctions
   };
 }
 
 export function fetchAuctionData(url) {
   return (dispatch) => {
-    dispatch(fecthingAuction(true));
+    dispatch(fetchingAuction(true));
 
     fetch(url)
     .then((response) => {
       if(!reponse.ok) {
         throw Error(reponse.statusText);
       }
-      dispatch(fecthingAuction(false));
+      dispatch(fetchingAuction(false));
 
       return response;
     })

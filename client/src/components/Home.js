@@ -1,21 +1,42 @@
 import React, { Component } from 'react';
 import { Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-
+import * as Auctions from '../actions/auctionActionCreator.jsx';
 
 //presentational component:
-const MainArts = () => {
-  console.log('haha"');
-
+let MainArts = ({auctions}) => {
+  console.log('mainart props: ', auctions);
+  // let {dispatch} = this.props
+  // dispatch(Auctions.fetchingAuction(true));
   return (
     <div>
       <img src="./assets/temp.png" />
       <span> art description</span>
+      auctions
+      {auctions.map(auction => (
+        <div>
+          <img />
+        </div>
+        ))
+      }
     </div>
   )
 }
 
-const HomeAuctions = () => {
+let HomeAuctions = ({auctions}) => {
+  return (
+    <div>
+      <img src="./assets/logo.jpeg" />
+      <img src="./assets/logo.jpeg" />
+      <img src="./assets/logo.jpeg" />
+      {auctions.map(auction => {
+        <img />
+      })}
+    </div>
+  )
+}
+
+let HomeArtists = () => {
   return (
     <div>
       <img src="./assets/logo.jpeg" />
@@ -25,24 +46,29 @@ const HomeAuctions = () => {
   )
 }
 
-const HomeArtists = () => {
-  return (
-    <div>
-      <img src="./assets/logo.jpeg" />
-      <img src="./assets/logo.jpeg" />
-      <img src="./assets/logo.jpeg" />
-    </div>
-  )
-}
-
-const mapStateToProps = (state) => {
+const mapStateToMainArtsProps = (state) => {
   return {
-    hey: "hello"
+    auctions: state.auctions.fetchedPassedAuctions
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToMainArtsProps = (dispatch) => {
 
+}
+//how to fetch new auctions while the mainarts fetch past auctions?
+const mapStateToHomeAuctions = (state) => {
+  console.log("state.auctions.fetchedOngoingAuctions: ", state.auctions.fetchedOngoingAuctions)
+  return {
+    auctions: state.auctions.fetchedOngoingAuctions
+
+  }
+}
+
+const mapStateToHomeArtists = (state) => {
+  console.log(state);
+  return {
+    artists: state
+  }
 }
 
 //need to pass down the arts from the database to MainArts component
@@ -71,28 +97,31 @@ class Home extends Component {
   //   })
   // }
 
-  // componentWillMount() {
-  //   this.fetchData('/auctions');//which url at the backend?
-  // }
-
-  render() {
-    // console.log('store: ', store);
-    return (
-      <div>
-        <MainArts />
-      <Divider />
-      <p>---------------------------</p>
-      <p>Auctions</p>
-      <HomeAuctions />
-      <p>Artists</p>
-      <Divider />
-      <HomeArtists />
-      </div>
-    )
+  componentWillMount() {
+    console.log('this.props: ', this.props);
+    // this.fetchData('/auctions');//which url at the backend?
   }
+
+    // console.log('store: ', store);
+    render() {
+      return (
+        <div>
+          <MainArts />
+        <Divider />
+        <p>---------------------------</p>
+        <p>Auctions</p>
+        <HomeAuctions />
+        <p>Artists</p>
+        <Divider />
+        <HomeArtists />
+        </div>
+      )
+    }
 }
 //connect's second function call takes presentational component
 // as argument
-connect(mapStateToProps)(MainArts);
+MainArts = connect(mapStateToMainArtsProps, null)(MainArts);
+HomeAuctions = connect(mapStateToHomeAuctions, null)(HomeAuctions);
+HomeArtists = connect(mapStateToHomeArtists, null)(HomeArtists);
 
 export default Home;

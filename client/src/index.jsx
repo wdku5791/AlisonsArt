@@ -10,7 +10,7 @@ import {
 import { Provider } from 'react-redux';
 import { Container, Divider } from 'semantic-ui-react';
 import { applyMiddleware, createStore } from 'redux';
-import { createLogger } from 'redux-logger';
+import { logger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 
 import NavBar from './components/NavBar.jsx';
@@ -23,8 +23,9 @@ import SignUp from './components/SignUp.jsx';
 import LogIn from './components/LogIn.jsx';
 import CreateAuction from './components/CreateAuction.jsx';
 
-const middleware = applyMiddleware(thunkMiddleware, createLogger());
-const store = createStore(reducer, middleware);
+const middleware = applyMiddleware(thunkMiddleware, logger);
+//probalby need to add preloadedState between reducer and middleware
+const store = createStore(reducer, undefined, middleware);
 // nest children Routes into NavBar component can solve the rendering of the child components
 const Index = () => {
   console.log('store states: ', store.getState());
@@ -46,7 +47,7 @@ const Index = () => {
 
 render(
   <Provider store={store}>
-    <Index/>
+    <Index />
   </Provider>, 
   document.getElementById('root')
 );
