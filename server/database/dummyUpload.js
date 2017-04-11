@@ -1,8 +1,7 @@
-//COMMENT OUT CONFIG.JS IN SERVER.JS WHEN YOU'RE DONE
+// SET ENV VARIABLES (follow example.env)
 
 const dotenv = require('dotenv');
 dotenv.config();
-// const db = require('./config.js');
 const data = require('./dummyData.js');
 const pgp = require('pg-promise')();
 pgp.pg.defaults.ssl = true;

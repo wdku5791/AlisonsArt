@@ -5,7 +5,6 @@ dotenv.config();
 
 const express = require('express');
 const auctionHandler = require('./controllers/auctions');
-const db = require('./database/config.js');
 const app = express();
 const bodyParser = require('body-parser');
 
