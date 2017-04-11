@@ -16,7 +16,8 @@ import Auctions from './components/Auctions.jsx';
 import Artists from './components/Artists.jsx';
 import Events from './components/Events.jsx';
 import SignUp from './components/SignUp.jsx';
-import LogIn from './components/LogIn.jsx'
+import LogIn from './components/LogIn.jsx';
+import CreateAuction from './components/CreateAuction.jsx';
 
 
 const store = createStore(reducer);
@@ -31,6 +32,7 @@ const Index = () => {
         <Route path="/events" component={Events} />
         <Route path="/login" component={LogIn} />
         <Route path="/signup" component={SignUp} />
+        <Route path="/createAuction" component={CreateAuction} />
       </NavBar>
     </Router>
   )
