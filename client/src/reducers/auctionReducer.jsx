@@ -2,6 +2,7 @@ const initialState = {
   isFetching: false,
   fetchedOngoingAuctions: [],
   fetchedPassedAuctions: [],
+  hasErrored: false,
   fetchAuctionsError: null
 };
 
@@ -11,7 +12,8 @@ const auctionReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        fetchAuctionsError: 'fetching auction error!'
+        fetchAuctionsError: 'fetching auction error!',
+        hasErrored: true
       };
     case 'FETCHING_AUCTION':
       return {
