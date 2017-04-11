@@ -19,6 +19,7 @@ import reducer from './reducers/index.jsx';
 import Auctions from './components/Auctions.jsx';
 import Auction from './components/Auction.jsx';
 import Artists from './components/Artists.jsx';
+import Artist from './components/Artist.jsx';
 import Events from './components/Events.jsx';
 import SignUp from './components/SignUp.jsx';
 import LogIn from './components/LogIn.jsx';
@@ -38,6 +39,7 @@ const Index = () => {
         <Route path="/auctions" component={Auctions} />
         <Route path="/auction/:auctionId" component={Auction} />
         <Route path="/artists" component={Artists} />
+        <Route path="artist/:artistId" component={Artist} />
         <Route path="/events" component={Events} />
         <Route path="/login" component={LogIn} />
         <Route path="/signup" component={SignUp} />

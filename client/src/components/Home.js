@@ -72,10 +72,33 @@ let HomeAuctions = ({homeAuctions, history, dispatch}) => {
   }
 }
 
-let HomeArtists = ({homeArtists, history}) => {
+let gotoArtist = (id, history, dispatch) => {
+  dispatch(Artists.fetchingArtist(true));
+  // fetch('/??')
+  // .then(response => {
+  //   //got all the info for this auction
+  dispatch(Artists.fetchArtistSuccess(artworks[0]));
+  console.log(artworks[0]);
+  // })
+  history.push('/artist/' + id);
+  
+  //fetch info from backend for population
+  // fetch('/??')
+  // .then(response => {
+  // })
+
+  //redirect to another page (specific to this auction by id)
+  // console.log('onclick props: ', this.props);
+
+  // dispatch()
+}
+
+let HomeArtists = ({homeArtists, history, dispatch}) => {
   return (
     <div>
-      <img src="./assets/logo.jpeg" />
+      <img src="./assets/logo.jpeg" onClick={() => {
+        gotoArtist(homeArtists, history, dispatch);
+      }}/>
       <img src="./assets/logo.jpeg" />
       <img src="./assets/logo.jpeg" />
     </div>
@@ -139,7 +162,7 @@ class Home extends Component {
         <HomeAuctions homeAuctions={this.props.homeAuctions} history={this.props.history} dispatch={this.props.dispatch}/>
         <p>Artists</p>
         <Divider />
-        <HomeArtists homeArtists={this.props.homeArtists} history={this.props.history} />
+        <HomeArtists homeArtists={this.props.homeArtists} history={this.props.history} dispatch={this.props.dispatch} />
         </div>
       )
     }

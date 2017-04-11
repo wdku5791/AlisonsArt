@@ -5,17 +5,7 @@ import { connect } from 'react-redux';
 
 class Auction extends Component {
 
-  componentWillMount() {
-    //fetch data here
-    //dispatch fetch data by Id
-    //id of this auction is saved at: this.props.match.params.auctionId
-    // dispatch(Auctions.fetchingAnAuction(true));
-    // fetch('/withId')
-    // .then(response => {
-
-    // })
-  }
-
+  
   //when user clicks submit, check if user is logged in
     //if not re-direct
     //if logged in, grab all info and redirect to payment page.
