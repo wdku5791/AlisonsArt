@@ -1,5 +1,8 @@
 const path = require('path');
-const dotenv = require('dotenv').config();
+const dotenv = require('dotenv');
+
+dotenv.config();
+
 const express = require('express');
 const auctionHandler = require('./controllers/auctions');
 // const db = require('./database/config.js');
