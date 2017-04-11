@@ -84,7 +84,7 @@ class Home extends Component {
     // Auctions.fetchAuctionData('/auctions');
       dispatch(Auctions.fetchingAuctions(true));
       //backend url for getting passed auctions?
-      //will change the url to /home when the endpoint is ready
+      //will change the url to '/home' when the endpoint is ready
       fetch('/auctions')
       .then(response => {
         if(!response.ok) {
@@ -95,8 +95,6 @@ class Home extends Component {
         return response.json();
       })
       .then(data => {
-        //destructure the data here:
-        //{} = data;
         console.log('im data: ', data[0].auction);
         dispatch(Auctions.passedAuctionsFetchedSuccess(data));
         dispatch(Auctions.ongoingAuctionsFetchedSuccess(data));

@@ -27,12 +27,20 @@ export function passedAuctionsFetchedSuccess(passedAuctions) {
   };
 }
 
-export function fetchAnAuction(id) {
+export function fetchingAnAuction(bool) {
   return {
-    type: 'FETCH_AN_AUCTION',
-    id
+    type: 'FETCHING_AN_AUCTION',
+    isFetchingAuction: true
   };
 }
+
+export function fetchedAnAuction(auction) {
+  return {
+    type: 'FETCHED_AN_AUCTION',
+    auction
+  };
+}
+
 //currently not in use:
 export function fetchAuctionData(url) {
   return (dispatch) => {
@@ -52,24 +60,3 @@ export function fetchAuctionData(url) {
     .catch((err) => dispatch(fetchAuctionErrored(true, err)));
   };
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
