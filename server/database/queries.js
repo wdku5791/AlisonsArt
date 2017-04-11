@@ -13,9 +13,8 @@ module.exports = {
   getUserBiddingAuctions() {
     //TODO
   },
-  getUserBids(user_id, limit) {
-    limit = limit || 'all';
-    return db.query('select * from bids where bidder_id=$1', [user_id, limit]);
+  getUserBids(userId) {
+    return db.query('select * from bids where bidder_id=$1', [userId]);
   },
   getUserBidsPerAuction({ user_id, auction_id, limit }) {
     /*
@@ -25,20 +24,48 @@ module.exports = {
     }
     select * from bids where bidder_id=1 and auction_id=1
     */
-    limit = limit || 'all';
-    return db.query('select * from bids where bidder_id=$1 and auction_id=$2 limit $3', [user_id, auction_id, limit]);
+    return db.query('select * from bids where bidder_id=$1 and auction_id=$2 LIMIT $3^', [user_id, auction_id, limit]);
+  },
+  getUserMaxBidPerAuction({ user_id, auction_id }) {
+    /*
+    {
+      user_id:
+      auction_id:
+    }
+    select * from bids where bidder_id=1 and auction_id=1
+    */
+    return db.one('select * from bids where bidder_id=$1 and auction_id=$2 ORDER BY bid_price DESC LIMIT 1', [user_id, auction_id]);
   },
   getUserMessages(userId) {
     return db.query('select * from messages where sender_id=$1 or receiver_id=$1', [userId]);
   },
-  getAuctions({ limit, end_date }) {
+  getAuctions({ limit, end_date, status }) {
     /*
     {
       limit:
       end_date:
     }
     */
-    return db.query('select * from auctions where end_date > $2 ORDER BY end_date ASC LIMIT $1', [limit, end_date]);
+    let queryString;
+    if (status === '<') {
+      queryString = 'select * from auctions where end_date < $1 ORDER BY end_date ASC LIMIT $2^'
+    } else {
+      queryString = 'select * from auctions where end_date > $1 ORDER BY end_date ASC LIMIT $2^'
+    }
+    return db.query(queryString, [end_date, limit]);
+  },
+
+  getAuction(auctionId) {
+    return db.query('select * from auctions where id = $1', [auctionId]);
+  },
+  getUserFollowers(userId) {
+    return db.query('select * from followers where follower_id = $1', [userId]);
+  },
+  getArtworks() {
+    return db.query('select * from artworks');
+  },
+  getUserArtworks(userId) {
+    return db.query('select * from artworks where artist_id = $1', [userId]);
   },
 
   createUser(userObj) {
@@ -158,8 +185,16 @@ module.exports = {
   updateUser() {
     //TODO
   },
-  updateAuction() {
-    //TODO
+  updateAuction(auctionObj) {
+    /*
+    {
+      auction_id:
+      bid_id:
+    }
+    */
+    return db.query('update Auctions SET current_bid = ${bid_id}\
+      , bid_counter = bid_counter + 1\
+      where id = ${auction_id}',auctionObj)
   },
 
 
