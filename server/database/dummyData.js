@@ -231,6 +231,7 @@ const bids = [
 		bid_date: '2017-04-10 11:27:07',
 		bid_price: 17000,
 	}
+
 ];
 
 module.exports = {

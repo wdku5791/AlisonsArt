@@ -26,11 +26,10 @@ import LogIn from './components/LogIn.jsx';
 import CreateAuction from './components/CreateAuction.jsx';
 
 const middleware = applyMiddleware(thunkMiddleware, logger);
-//probalby need to add preloadedState between reducer and middleware
+// probalby need to add preloadedState between reducer and middleware
 const store = createStore(reducer, undefined, middleware);
 // nest children Routes into NavBar component can solve the rendering of the child components
 const Index = () => {
-  // console.log('store states: ', store.getState());
   return (
     <Router>
       <NavBar>
@@ -46,12 +45,12 @@ const Index = () => {
         <Route path="/createAuction" component={CreateAuction} />
       </NavBar>
     </Router>
-  )
-}
+  );
+};
 
 render(
   <Provider store={store}>
     <Index />
-  </Provider>, 
+  </Provider>,
   document.getElementById('root')
 );

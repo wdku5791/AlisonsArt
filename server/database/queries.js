@@ -27,6 +27,7 @@ module.exports = {
     */
     return db.query('select * from bids where bidder_id=$1 and auction_id=$2 LIMIT $3^', [user_id, auction_id, limit]);
   },
+
   getUserMaxBidPerAuction({ user_id, auction_id }) {
     /*
     {
@@ -37,6 +38,7 @@ module.exports = {
     */
     return db.one('select * from bids where bidder_id=$1 and auction_id=$2 ORDER BY bid_price DESC LIMIT 1', [user_id, auction_id]);
   },
+
   getUserMessages(userId) {
     return db.query('select * from messages where sender_id=$1 or receiver_id=$1', [userId]);
   },
