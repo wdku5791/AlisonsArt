@@ -1,3 +1,5 @@
+//COMMENT OUT CONFIG.JS IN SERVER.JS WHEN YOU'RE DONE
+
 const dotenv = require('dotenv');
 dotenv.config();
 const db = require('./config.js');
