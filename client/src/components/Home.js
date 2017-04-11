@@ -3,7 +3,10 @@ import { Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import * as Auctions from '../actions/auctionActionCreator.jsx';
 import * as Artists from '../actions/artistActionCreator.jsx';
+//only before frontend connects with backend
+import { artworks } from '../../../server/database/dummyData.js';
 
+console.log('artworks', artworks);
 let MainArts = ({mainArts, history}) => {
   // console.log('main arts: ', mainArts[0]);
   if (!mainArts[0]) {
@@ -26,30 +29,38 @@ let MainArts = ({mainArts, history}) => {
   }
 }
 //the images, when onClick, will lead to bidding page(filled with info for just this artwork).
-let HomeAuctions = ({homeAuctions, history}) => {
+
+let gotoAuction = (history, id, dispatch) => {
+  dispatch(Auctions.fetchingAnAuction(true));
+  // fetch('/??')
+  // .then(response => {
+  //   //got all the info for this auction
+  dispatch(Auctions.fetchedAnAuction(artworks[0]));
+  console.log(artworks[0]);
+  // })
+  history.push('/auction/' + id);
+  
+  //fetch info from backend for population
+  // fetch('/??')
+  // .then(response => {
+  // })
+
+  //redirect to another page (specific to this auction by id)
+  // console.log('onclick props: ', this.props);
+
+  // dispatch()
+}
+let HomeAuctions = ({homeAuctions, history, dispatch}) => {
   console.log('homeAuctions: ', homeAuctions);
   if (!homeAuctions[0]) {
     return <p>loading~~~</p>
   } else {
     let id = homeAuctions[0].auction.id;
-    console.log('iddd: ', homeAuctions[0].auction.id);
-    console.log('homeAuctions props: ', history);
+    //do the mapping of img later:
     return (
       <div>
         <img src="./assets/logo.jpeg" onClick={() => {
-          
-          //fetch info from backend for population
-          // fetch('/??')
-          // .then(response => {
-
-          // })
-
-          //redirect to another page (specific to this auction by id)
-          // console.log('onclick props: ', this.props);
-          history.push('/auction/' + id);
-
-
-          // dispatch()
+          gotoAuction(history, id, dispatch);
         }}/>
         <img src="./assets/logo.jpeg" />
         <img src="./assets/logo.jpeg" />
@@ -125,7 +136,7 @@ class Home extends Component {
         <Divider />
         <p>---------------------------</p>
         <p>Auctions</p>
-        <HomeAuctions homeAuctions={this.props.homeAuctions} history={this.props.history}/>
+        <HomeAuctions homeAuctions={this.props.homeAuctions} history={this.props.history} dispatch={this.props.dispatch}/>
         <p>Artists</p>
         <Divider />
         <HomeArtists homeArtists={this.props.homeArtists} history={this.props.history} />
@@ -135,11 +146,13 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state) => {
+  //for production:
   return {
     mainArts: state.auctions.fetchedPassedAuctions,
     homeAuctions: state.auctions.fetchedOngoingAuctions,
     homeArtists: state.artists
   }
+
 };
 
 export default connect(mapStateToProps)(Home);
