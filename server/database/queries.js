@@ -13,10 +13,11 @@ module.exports = {
   getUserBiddingAuctions() {
     //TODO
   },
-  getUserBids(userId) {
-    return db.query('select * from bids where bidder_id=$1', [userId]);
+  getUserBids(user_id, limit) {
+    limit = limit || 'all';
+    return db.query('select * from bids where bidder_id=$1', [user_id, limit]);
   },
-  getUserBidsPerAuction({ user_id, auction_id }) {
+  getUserBidsPerAuction({ user_id, auction_id, limit }) {
     /*
     {
       user_id:
@@ -24,7 +25,8 @@ module.exports = {
     }
     select * from bids where bidder_id=1 and auction_id=1
     */
-    return db.query('select * from bids where bidder_id=$1 and auction_id=$2', [user_id, auction_id]);
+    limit = limit || 'all';
+    return db.query('select * from bids where bidder_id=$1 and auction_id=$2 limit $3', [user_id, auction_id, limit]);
   },
   getUserMessages(userId) {
     return db.query('select * from messages where sender_id=$1 or receiver_id=$1', [userId]);
@@ -70,7 +72,7 @@ module.exports = {
       current_bid:
       bid_counter:
     }
-    insert into auctions (owner_id, artwork_id, start_date, end_date, start_price, buyout_price, bid_counter) values ('1', '1', '2017-01-07 04:05:06 -8:00', '2017-01-08 0:05:06 -8:00', '100', '500', '0')
+    insert into auctions (owner_id, artwork_id, start_date, end_date, start_price, buyout_price, bid_counter) values ('1', '1', '2017-01-07 04:05:06 -8:00', '2017-01-08 09:05:06 -8:00', '100', '500', '0')
     */
 
     return db.query('insert into auctions \
@@ -98,6 +100,13 @@ module.exports = {
       values \
       (${artist_id}, ${age}, ${estimated_price}, ${art_name}, ${description}, ${dimensions}, ${image_url})\
       returning id', artworkObj);
+  },
+  createAuctionWithArtwork(auctionObj) {
+    return createArtwork(auctionObj.artwork)
+    .then((result) => {
+      auctionObj.auction_id = result[0].id;
+      return createAuction(auctionObj);
+    })
   },
   createBid(bidObj) {
     /*
