@@ -53,7 +53,6 @@ module.exports = {
     return db.task((t) => {
       return t.map(query, [limit, endDate], (auction) => {
         const query = 'select * from artworks where id=$1';
-        console.log(auction);
         return t.one(query, [auction.artwork_id])
         .then((artwork) => {
           auction.artwork = artwork;
@@ -129,13 +128,9 @@ module.exports = {
     insert into auctions (owner_id, artwork_id, start_date, end_date, start_price, buyout_price, bid_counter) values ('1', '1', '2017-01-07 04:05:06 -8:00', '2017-01-08 09:05:06 -8:00', '100', '500', '0')
     */
 
-<<<<<<< 1b091c07dd64c7345b29d535c2877db42944a21d
-    return db.query('insert into auctions \
-      (owner_id, artwork_id, start_date, end_date, start_price, buyout_price)\
-=======
+
     return db.one('insert into auctions \
       (owner_id, artwork_id, start_date, end_date, start_price, buyout_price, bid_counter)\
->>>>>>> find auctions based on inputs and select featured artworks
       values \
       (${owner_id}, ${artwork_id}, ${start_date}, ${end_date}, ${start_price}, ${buyout_price})\
       returning id', auctionObj);
