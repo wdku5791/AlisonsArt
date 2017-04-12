@@ -10,8 +10,9 @@ module.exports = {
   getUserOwnedAuctions(userId) {
     return db.query('select * from auctions where owner_id=$1', [userId]);
   },
-  getUserBiddingAuctions() {
-    //TODO
+  getUserBiddingAuctions(userId) {
+    return db.query('select * from auctions inner join\
+    bids on bids.auction_id = auctions.id where bids.bidder_id = $1', [userId]);
   },
   getUserBids(userId) {
     return db.query('select * from bids where bidder_id=$1', [userId]);
@@ -56,10 +57,16 @@ module.exports = {
   },
 
   getAuction(auctionId) {
-    return db.query('select * from auctions where id = $1', [auctionId]);
+    return db.query('select * from auctions inner join artworks\
+    on artworks.id = auctions.artwork_id where auctions.id = $1', [auctionId]);
   },
   getUserFollowers(userId) {
-    return db.query('select * from followers where follower_id = $1', [userId]);
+    return db.query('select * from users inner join followers\
+     on users.id = followers.follower_id where followers.followee_id = $1', [userId]);
+  },
+  getUserFollows(userId) {
+    return db.query('select * from users inner join followers\
+     on users.id = followers.follower_id where followers.follower_id = $1', [userId]);
   },
   getArtworks() {
     return db.query('select * from artworks');

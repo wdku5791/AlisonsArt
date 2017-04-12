@@ -24,7 +24,7 @@ module.exports = function createSchemas(db) {
   .then(() => {
     return db.query('CREATE TABLE IF NOT EXISTS artworks (\
       id SERIAL PRIMARY KEY NOT NULL,\
-      artist_id BIGINT REFERENCES users(id),\
+      artist_id BIGINT NOT NULL REFERENCES users(id),\
       age VARCHAR(50) NOT NULL,\
       estimated_price BIGINT NOT NULL,\
       art_name VARCHAR(50) NOT NULL,\
@@ -39,8 +39,8 @@ module.exports = function createSchemas(db) {
   .then(() => {
     return db.query('CREATE TABLE IF NOT EXISTS auctions (\
       id SERIAL PRIMARY KEY NOT NULL,\
-      owner_id BIGINT REFERENCES users(id),\
-      artwork_id BIGINT REFERENCES artworks(id),\
+      owner_id BIGINT NOT NULL REFERENCES users(id),\
+      artwork_id BIGINT NOT NULL REFERENCES artworks(id),\
       start_date TIMESTAMP NOT NULL,\
       end_date TIMESTAMP NOT NULL,\
       start_price BIGINT NOT NULL,\
@@ -55,8 +55,8 @@ module.exports = function createSchemas(db) {
   .then(() => {
     return db.query('CREATE TABLE IF NOT EXISTS bids (\
       id SERIAL PRIMARY KEY NOT NULL,\
-      bidder_id BIGINT REFERENCES users(id),\
-      auction_id BIGINT REFERENCES auctions(id),\
+      bidder_id BIGINT NOT NULL REFERENCES users(id),\
+      auction_id BIGINT NOT NULL REFERENCES auctions(id),\
       bid_date TIMESTAMP NOT NULL,\
       bid_price BIGINT NOT NULL\
     )');
@@ -77,8 +77,8 @@ module.exports = function createSchemas(db) {
     return db.query('CREATE TABLE IF NOT EXISTS messages (\
       id SERIAL PRIMARY KEY NOT NULL,\
       text text NOT NULL,\
-      sender_id BIGINT REFERENCES users(id),\
-      receiver_id BIGINT REFERENCES users(id),\
+      sender_id BIGINT NOT NULL REFERENCES users(id),\
+      receiver_id BIGINT NOT NULL REFERENCES users(id),\
       message_date TIMESTAMP NOT NULL\
     )');
   })

@@ -13,4 +13,3 @@ test('it should fail without a body', () => {
   .post('/auctions', {})
   .expect(500);
 });
-
