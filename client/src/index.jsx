@@ -28,9 +28,11 @@ import Notification from './components/Notification.jsx';
 
 const middleware = applyMiddleware(thunkMiddleware, logger);
 
-//probalby need to add preloadedState between reducer and middleware
-const store = createStore(reducer, middleware);
-// nest children Routes into NavBar component can solve the rendering of the child components
+//preloadedState in between reducer and middleware is optional
+const store = createStore(reducer, middleware,
+  //the following line is for redux devtools
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+
 const Index = () => {
     return (
       <Router>
