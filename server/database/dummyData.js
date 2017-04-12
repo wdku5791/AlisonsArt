@@ -41,7 +41,7 @@ const users = [
 		type: 'user',
 		address: '666 Bluejay Way',
 	}
-]
+];
 
 // ARTWORKS
 // *****************************
@@ -126,7 +126,7 @@ const artworks = [
 		dimensions: '399 x 480',
 		image_url: 'https://s-media-cache-ak0.pinimg.com/736x/95/d5/3b/95d53b6122ca5d4cfaaf1854e5092e87.jpg',
 	}
-]
+];
 
 // AUCTIONS
 // **********************************
@@ -198,7 +198,7 @@ const auctions = [
 		current_bid: null,
 		bid_counter: 0,
 	}
-]
+];
 
 // BIDS
 // ******************************
@@ -231,19 +231,11 @@ const bids = [
 		bid_date: '2017-04-10 11:27:07',
 		bid_price: 17000,
 	}
-]
+];
 
 module.exports = {
 	users,
 	artworks,
 	auctions,
 	bids
-}
-
-
-
-
-
-
-
-
+};
