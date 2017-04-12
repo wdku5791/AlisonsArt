@@ -183,10 +183,10 @@ module.exports = {
   createBid(bidObj) {
     /*
     {
-      bidderId:
-      auctionId:
-      bidDate:
-      bidPrice:
+      bidder_id:
+      auction_id:
+      bid_date:
+      bid_price:
     }
     insert into bids (bidder_id, auction_id, bid_date, bid_price) values ('1', '1', '2017-01-08 04:05:06 -8:00', '250')
     */
