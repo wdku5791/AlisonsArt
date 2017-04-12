@@ -7,12 +7,14 @@ import * as Artists from '../actions/artistActionCreator.jsx';
 
 const clickMainArt = (artId, history) => {
   history.push('/auction/' + artId);
-}
+};
 
+//render the description ... as floating right of the image
+//closed auctions should be rendered differently from the ongoing ones
 let MainArt = ({art, history}) => {
   return (
     <span>
-    <Image src={art.artwork.image_url} onClick={() => {
+    <Image className="ui image" src={art.artwork.image_url} onClick={() => {
       clickMainArt(art.artwork.id, history);
     }} />
     <span>Artist: {art.first_name} {art.last_name}</span>
@@ -28,9 +30,9 @@ let MainArts = ({mainArts, history}) => {
   if (!mainArts[0]) {
     return <p>loading~~</p>
   } else {
-    // the className in div is not working
+    // this className in div is not working:
     return (
-      <div className="ui tiny images">
+      <div className="ui small images">
        {mainArts.map(mainArt => <MainArt key={mainArt.id} art={mainArt} history={history}/>)}
       </div>
     )
@@ -58,23 +60,24 @@ let gotoAuction = (history, id, dispatch) => {
 
   // dispatch()
 }
+
+let HomeAuction = ({homeAuction, history}) => {
+  console.log('homeAuctions: ', homeAuction);
+  return (
+    <div>
+      <Image src={homeAuction.artwork.image_url} />
+      <span>Name: {homeAuction.artwork.art_name}</span>
+    </div>
+  );
+}
+//not using dispatch for the moment
 let HomeAuctions = ({homeAuctions, history, dispatch}) => {
-  console.log('homeAuctions: ', homeAuctions);
   if (!homeAuctions[0]) {
     return <p>loading~~~</p>
   } else {
-    // let id = homeAuctions[0].auction.id;
-    //do the mapping of img later:
     return (
-      <div>
-        <img src="./assets/logo.jpeg" onClick={() => {
-          gotoAuction(history, id, dispatch);
-        }}/>
-        <img src="./assets/logo.jpeg" />
-        <img src="./assets/logo.jpeg" />
-        {homeAuctions.map(auction => {
-          <img />
-        })}
+      <div className="ui tiny images">
+       {homeAuctions.map(homeAuction => <HomeAuction key={homeAuction.artwork.id} homeAuction={homeAuction} history={history} />)}
       </div>
     )
   }
@@ -144,7 +147,7 @@ class Home extends Component {
       })
       .catch(() => dispatch(Auctions.fetchAuctionErrored(true)));
   }
- // <HomeAuctions homeAuctions={this.props.homeAuctions} history={this.props.history} dispatch={this.props.dispatch}/>
+ 
     render() {
       console.log('this props: ', this.props);
       console.log('main arts::', this.props.mainArts);
@@ -155,7 +158,7 @@ class Home extends Component {
         <Divider />
         <p>---------------------------</p>
         <p>Auctions</p>
-       
+        <HomeAuctions homeAuctions={this.props.homeAuctions} history={this.props.history} dispatch={this.props.dispatch}/>
         <p>Artists</p>
         <Divider />
         <HomeArtists homeArtists={this.props.homeArtists} history={this.props.history} dispatch={this.props.dispatch} />

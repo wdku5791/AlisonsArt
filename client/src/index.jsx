@@ -38,7 +38,7 @@ const store = createStore(reducer, middleware
 const Index = () => {
     return (
       <Router>
-        <div>
+        <Container>
           <NavBar />
           <Route exact path="/" component={Home} />
           <Route exact path="/home" component={Home} />
@@ -51,7 +51,7 @@ const Index = () => {
           <Route path="/signup" component={SignUp} />
           <Route path="/notification" component={Notification} />
           <Route path="/createAuction" component={CreateAuction} />
-        </div>
+        </Container>
       </Router>
     )
 }
