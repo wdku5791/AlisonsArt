@@ -29,10 +29,12 @@ import Notification from './components/Notification.jsx';
 const middleware = applyMiddleware(thunkMiddleware, logger);
 
 //preloadedState in between reducer and middleware is optional
-const store = createStore(reducer, middleware,
-  //the following line is for redux devtools
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const store = createStore(reducer, middleware
+  //the following line is for redux devtools, but adding it leads to logger malfunction
+  // , window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  );
 
+//need to have a route for finished auctions that can't be bid
 const Index = () => {
     return (
       <Router>

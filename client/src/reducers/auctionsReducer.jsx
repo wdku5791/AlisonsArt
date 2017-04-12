@@ -2,6 +2,7 @@ const initialState = {
   isFetching: false,
   fetchedOngoingAuctions: [],
   fetchedPassedAuctions: [],
+  fetchedFeaturedArts: [],
   hasErrored: false,
   fetchAuctionsError: null
 };
@@ -23,15 +24,18 @@ const auctionsReducer = (state = initialState, action) => {
     case 'ONGOING_AUCTIONS_FETCHED':
       return {
         ...state,
-        isFetching: false,
         fetchedOngoingAuctions: action.ongoingAuctions
       };
     case 'PASSED_AUCTIONS_FETCHED':
       return {
         ...state,
-        isFetching: false,
         fetchedPassedAuctions: action.passedAuctions
-    };
+      };
+    case 'FEATURED_ARTS_FETCHED':
+      return {
+        ...state,
+        fetchedFeaturedArts: action.featuredArts
+      };
     default:
       return state;
   }

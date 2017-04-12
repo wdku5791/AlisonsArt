@@ -27,6 +27,13 @@ export function passedAuctionsFetchedSuccess(passedAuctions) {
   };
 }
 
+export function featuredArtsFetchedSuccess(featuredArts) {
+  return {
+    type: 'FEATURED_ARTS_FETCHED',
+    featuredArts
+  };
+}
+
 export function fetchingAnAuction(bool) {
   return {
     type: 'FETCHING_AN_AUCTION',
