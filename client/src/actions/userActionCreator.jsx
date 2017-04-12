@@ -47,4 +47,3 @@ export function fetchedFollows(follows) {
     fetchedFollows: follows
   };
 }
-
