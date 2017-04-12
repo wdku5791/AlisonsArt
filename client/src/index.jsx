@@ -45,7 +45,7 @@ const Index = () => {
           <Route path="/auctions" component={Auctions} />
           <Route path="/auction/:auctionId" component={Auction} />
           <Route path="/artists" component={Artists} />
-          <Route path="artist/:artistId" component={Artist} />
+          <Route path="/artist/:artistId" component={Artist} />
           <Route path="/events" component={Events} />
           <Route path="/login" component={LogIn} />
           <Route path="/signup" component={SignUp} />
