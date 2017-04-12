@@ -116,7 +116,7 @@ describe('should modify or get data from the auctions table', () => {
     })
   });
   test('should be able to update auctions current bid and bid counter', () => {
-    return model.updateAuction({auction_id: 5, bid_id: 1})
+    return model.updateAuction({ auction_id: 5, bid: { id: 1, bid_price: 12000 } })
     .then(() => {
       return model.getAuction(5);
     })
