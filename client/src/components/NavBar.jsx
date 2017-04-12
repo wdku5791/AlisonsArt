@@ -7,6 +7,23 @@ import { connect } from 'react-redux';
 class NavBar extends Component {
   render() {
     console.log('childrenrenrenre: ', this.props.children);
+    console.log('he');
+    let LoggedOutNav = (
+        <span>
+          {'  '}
+          <NavLink to="/login" activeStyle={{color: 'red'}}>Log In</NavLink>
+          {'  '}
+          <NavLink to="/signup" activeStyle={{color: 'red'}}>Sign Up</NavLink>
+        </span>
+      );
+    let LoggedInNav = (
+      <span>
+        {'  '}
+        <NavLink to="/logout" activeStyle={{color: 'red'}}>Log out</NavLink>
+        {'  '}
+        <NavLink to="/notification" activeStyle={{color: 'red'}}>Noties</NavLink>
+      </span>
+    );
     return (
       <div>
         <Image avatar src="./assets/logo.jpeg" alt="homepage pic" />
@@ -25,16 +42,24 @@ class NavBar extends Component {
           <NavLink to="/events" activeStyle={{color: 'red'}}>Events</NavLink>
           {'  '}
           <NavLink to="/contactus" activeStyle={{color: 'red'}}>Contact us</NavLink>
-          {'  '}
-          <NavLink to="/login" activeStyle={{color: 'red'}}>Log In</NavLink>
-          {'  '}
-          <NavLink to="/signup" activeStyle={{color: 'red'}}>Sign Up</NavLink>
+          {LoggedOutNav}
+          {LoggedInNav}
           {this.props.children}
         </div>
       </div>
     );
   }
 }
-export default NavBar;
+// export default NavBar;
 
-// export default connect(null)(NavBar);
+//
+const mapStateToProps = (state) => {
+  return {
+    state
+  }
+}
+
+export default connect(mapStateToProps)(NavBar);
+
+
+
