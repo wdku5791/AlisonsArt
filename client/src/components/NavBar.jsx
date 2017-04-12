@@ -17,7 +17,6 @@ class NavBar extends Component {
 
   render() {
     let {username, userId} = this.props;
-
     let LoggedOutNav = (
         <span>
           <NavLink className='navLinks' to="/login" >Log In</NavLink>
