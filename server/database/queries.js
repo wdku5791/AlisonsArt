@@ -130,7 +130,7 @@ module.exports = {
 
 
     return db.one('insert into auctions \
-      (owner_id, artwork_id, start_date, end_date, start_price, buyout_price, bid_counter)\
+      (owner_id, artwork_id, start_date, end_date, start_price, buyout_price)\
       values \
       (${owner_id}, ${artwork_id}, ${start_date}, ${end_date}, ${start_price}, ${buyout_price})\
       returning id', auctionObj);
