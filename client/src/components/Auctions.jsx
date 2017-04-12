@@ -5,12 +5,10 @@ import { connect } from 'react-redux';
 class Auctions extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
   };
 
   render() {
     const { auctions } = this.props;
-    console.log(auctions);
     return (
       <div>
         {auctions.map(auction => (
