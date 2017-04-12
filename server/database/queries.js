@@ -27,6 +27,7 @@ module.exports = {
     */
     return db.query('select * from bids where bidder_id=$1 and auction_id=$2 LIMIT $3^', [user_id, auction_id, limit]);
   },
+
   getUserMaxBidPerAuction({ user_id, auction_id }) {
     /*
     {
@@ -37,23 +38,40 @@ module.exports = {
     */
     return db.one('select * from bids where bidder_id=$1 and auction_id=$2 ORDER BY bid_price DESC LIMIT 1', [user_id, auction_id]);
   },
+
   getUserMessages(userId) {
     return db.query('select * from messages where sender_id=$1 or receiver_id=$1', [userId]);
   },
-  getAuctions({ limit, end_date, status }) {
-    /*
-    {
-      limit:
-      end_date:
-    }
-    */
-    let queryString;
+
+  getAuctions(limit, endDate, status) {
+    let query;
     if (status === '<') {
-      queryString = 'select * from auctions where end_date < $1 ORDER BY end_date ASC LIMIT $2^'
+      query = 'select * from auctions where end_date < $2 ORDER BY end_date ASC LIMIT $1';
     } else {
-      queryString = 'select * from auctions where end_date > $1 ORDER BY end_date ASC LIMIT $2^'
+      query = 'select * from auctions where end_date > $2 ORDER BY end_date ASC LIMIT $1';
     }
-    return db.query(queryString, [end_date, limit]);
+    return db.task((t) => {
+      return t.map(query, [limit, endDate], (auction) => {
+        const query = 'select * from artworks where id=$1';
+        return t.one(query, [auction.artwork_id])
+        .then((artwork) => {
+          auction.artwork = artwork;
+          return auction;
+        });
+      })
+      .then(t.batch);
+    });
+
+
+  },
+
+  featuredArt() {
+    const query = 'SELECT DISTINCT ON (artworks.artist_id) artworks.artist_id, artworks.id, artworks.image_url, \
+    artworks.age, artworks.art_name, artworks.estimated_price, artworks.description, artworks.dimensions, \
+    users.first_name, users.last_name from artworks INNER JOIN \
+    users ON artworks.artist_id=users.id LIMIT 3';
+
+    return db.query(query);
   },
 
   getAuction(auctionId) {
@@ -76,6 +94,7 @@ module.exports = {
   },
 
   createUser(userObj) {
+
     /*
     {
       password:
@@ -109,7 +128,8 @@ module.exports = {
     insert into auctions (owner_id, artwork_id, start_date, end_date, start_price, buyout_price, bid_counter) values ('1', '1', '2017-01-07 04:05:06 -8:00', '2017-01-08 09:05:06 -8:00', '100', '500', '0')
     */
 
-    return db.query('insert into auctions \
+
+    return db.one('insert into auctions \
       (owner_id, artwork_id, start_date, end_date, start_price, buyout_price)\
       values \
       (${owner_id}, ${artwork_id}, ${start_date}, ${end_date}, ${start_price}, ${buyout_price})\
@@ -129,7 +149,7 @@ module.exports = {
     insert into artworks (artist_id, age, estimated_price, art_name, description, dimensions, image_url) values ('1', '520', '200', 'Alisons Masterpiece', 'Emaculately crafted by a master sculptor', '10 x 20 x 15', 'image_urlsuperlongstring')
     */
 
-    return db.query('insert into artworks \
+    return db.one('insert into artworks \
       (artist_id, age, estimated_price, art_name, description, dimensions, image_url)\
       values \
       (${artist_id}, ${age}, ${estimated_price}, ${art_name}, ${description}, ${dimensions}, ${image_url})\

@@ -5,7 +5,7 @@ const app = require('../server/server.js');
 test('it should be handled by the auctions controller', () => {
   return supertest(app)
   .get('/auctions')
-  .expect(200, 'you found the auctions path');
+  .expect(200);
 });
 
 test('it should fail without a body', () => {

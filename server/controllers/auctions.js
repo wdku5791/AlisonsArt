@@ -1,12 +1,19 @@
 const router = require('express').Router();
 const model = require('../database/queries');
+const Moment = require('moment');
 
 router.get('/', (req, res) => {
-  res.status(200).send('you found the auctions path');
-  //new:
-  // let s = JSON.stringify([{auction: {id: 1,name: "hey", year: 1987, painter: "Yo"}}]);
-  // console.log("s: ", s);
-  // res.status(200).send(s);
+  const limit = req.query.limit || 20;
+  const status = req.query.status || '>';
+  const time = new Moment().format('YYYY-MM-DD HH:mm:mm');
+
+  model.getAuctions(limit, time, status)
+  .then((auctions) => {
+    res.status(200).json(auctions);
+  })
+  .catch((err) => {
+    res.status(500).send(err);
+  });
 });
 
 router.post('/', (req, res) => {

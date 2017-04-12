@@ -97,20 +97,20 @@ describe('should modify or get data from the auctions table', () => {
       buyout_price: 500
     };
     return model.createAuction(test).then(() => {
-      return model.getAuctions({limit: 'all', end_date: '2012-06-09 14:27:07', status: '>'})
+      return model.getAuctions(20, '2012-06-09 14:27:07', '>');
     })
     .then((data) => {
       expect(data.length).toEqual(7);
     })
   });
   test('should retrieve from the auctions table with a limit', () => {
-    return model.getAuctions({limit: 3, end_date: '2012-06-09 14:27:07', status: '>'})
+    return model.getAuctions(3, '2012-06-09 14:27:07', '>')
     .then((data) => {
       expect(data.length).toEqual(3);
     })
   });
   test('should retrieve from the auctions table with ongoing auctions sorted by end date', () => {
-    return model.getAuctions({limit: 'all', end_date: '2012-06-09 14:27:07', status: '>'})
+    return model.getAuctions(20, '2012-06-09 14:27:07', '>')
     .then((data) => {
       expect(data[0].end_date.getTime()).toBeLessThan(data[6].end_date.getTime());
     })
