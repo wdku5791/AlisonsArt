@@ -11,13 +11,12 @@
     "start": "npm run build && node server/server.js",
     "dev": "webpack -d --watch & nodemon server/server.js",
     "test": "jest ./test",
-    "build": "webpack -p",
+    "build": "webpack -d",
     "lint": "eslint client server",
     "lint-fix": "eslint client server",
     "test-server-wipe": "NODE_ENV='TEST' node server/database/dummyUpload.js",
     "dev-server-wipe": "NODE_ENV='DEV' node server/database/dummyUpload.js",
     "connection-server-wipe": "NODE_ENV='CONNECTION' node server/database/dummyUpload.js"
-
   },
   "dependencies": {
     "babel-core": "^6.24.0",
@@ -39,6 +38,7 @@
     "react-test-renderer": "^15.4.2",
     "redux": "^3.6.0",
     "redux-logger": "^3.0.1",
+    "redux-promise-middleware": "^4.2.0",
     "redux-thunk": "^2.2.0",
     "regenerator": "^0.9.7",
     "runtime": "^0.14.1",
@@ -54,7 +54,8 @@
     "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-react": "^6.10.3"
+    "eslint-plugin-react": "^6.10.3",
+    "webpack-logger-plugin": "^1.2.0"
   },
   "babel": {
     "presets": [

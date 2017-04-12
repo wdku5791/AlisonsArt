@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-class LogIn extends React.Component {
+class LogIn extends Component {
   render(){
     return(
       <form>

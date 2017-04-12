@@ -1,6 +1,15 @@
 import { combineReducers } from 'redux';
  //change these two reducers to ours
+ import auctionsReducer from './auctionsReducer.jsx';
  import auctionReducer from './auctionReducer.jsx';
- const artApp = combineReducers({auctionReducer});
+ import artistReducer from './artistReducer.jsx';
+ import userReducer from './userReducer.jsx';
  
- export default artApp;
+ const rootReducer = combineReducers({
+  auctions: auctionsReducer,
+  auction: auctionReducer,
+  artists: artistReducer,
+  users: userReducer
+});
+ 
+ export default rootReducer;
