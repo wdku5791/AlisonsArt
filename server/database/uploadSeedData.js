@@ -45,6 +45,6 @@ module.exports = function insertDummyData (db) {
   })
   .catch((err) => {
     console.error(err);
-    process.exit;
+    process.exit(1);
   });
 }

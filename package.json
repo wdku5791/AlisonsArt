@@ -14,9 +14,9 @@
     "build": "webpack -d",
     "lint": "eslint client server",
     "lint-fix": "eslint client server",
-    "test-server-wipe": "NODE_ENV='TEST' node server/database/dummyUpload.js",
-    "dev-server-wipe": "NODE_ENV='DEV' node server/database/dummyUpload.js",
-    "connection-server-wipe": "NODE_ENV='CONNECTION' node server/database/dummyUpload.js"
+    "test-db-wipe": "NODE_ENV='TESTING' node server/database/dummyUpload.js",
+    "dev-db-wipe": "NODE_ENV='DEV' node server/database/dummyUpload.js",
+    "prod-db-wipe": "NODE_ENV='PROD' node server/database/dummyUpload.js"
   },
   "dependencies": {
     "babel-core": "^6.24.0",
