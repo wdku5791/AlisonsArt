@@ -6,9 +6,8 @@ import { connect } from 'react-redux';
 
 class NavBar extends Component {
   render() {
-    console.log('childrenrenrenre: ', this.props.children);
-    console.log('state: ', this.props.username);
-    console.log('he');
+    let {username} = this.props;
+    console.log('userneme:::: ', username);
     let LoggedOutNav = (
         <span>
           {'  '}
@@ -17,14 +16,16 @@ class NavBar extends Component {
           <NavLink to="/signup" activeStyle={{color: 'red'}}>Sign Up</NavLink>
         </span>
       );
+
     let LoggedInNav = (
       <span>
         {'  '}
-        <NavLink to="/logout" activeStyle={{color: 'red'}}>Log out</NavLink>
+        <NavLink to="/logout" activeStyle={{color: 'red'}}>{username} Log out</NavLink>
         {'  '}
         <NavLink to="/notification" activeStyle={{color: 'red'}}>Noties</NavLink>
       </span>
     );
+
     return (
       <div>
         <Image avatar src="./assets/logo.jpeg" alt="homepage pic" />
@@ -43,20 +44,20 @@ class NavBar extends Component {
           <NavLink to="/events" activeStyle={{color: 'red'}}>Events</NavLink>
           {'  '}
           <NavLink to="/contactus" activeStyle={{color: 'red'}}>Contact us</NavLink>
-          {LoggedOutNav}
-          {LoggedInNav}
+          {username !== '' ? LoggedOutNav : LoggedInNav}
           {this.props.children}
         </div>
       </div>
     );
   }
 }
+// {LoggedInNav}
 // export default NavBar;
 
 const mapStateToProps = (state) => {
   console.log('statesssss:', state);
   return {
-    username: state.user
+    username: state.user.username
   }
 }
 
