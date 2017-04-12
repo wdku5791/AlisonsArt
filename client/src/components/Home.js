@@ -159,25 +159,3 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(Home);
-
-
-// let gotoAuction = (history, id, dispatch) => {
-//   dispatch(Auctions.fetchingAnAuction(true));
-//   // fetch('/home')
-//   // .then(response => {
-//   //   //got all the info for this auction
-//   dispatch(Auctions.fetchedAnAuction(artworks[0]));
-//   console.log(artworks[0]);
-//   // })
-//   history.push('/auction/' + id);
-  
-//   //fetch info from backend for population
-//   // fetch('/??')
-//   // .then(response => {
-//   // })
-
-//   //redirect to another page (specific to this auction by id)
-//   // console.log('onClick props: ', this.props);
-
-//   // dispatch()
-// }
