@@ -3,6 +3,22 @@ import { Container, Image } from 'semantic-ui-react';
 import * as Auctions from '../actions/auctionActionCreator.jsx';
 import { connect } from 'react-redux';
 
+let BiddingRange = ({start, end}) => {
+  const interval = 1000;
+  start = start || 0;
+  let range = [];
+
+  for(let i = start + interval; i <= end; i += interval) {
+    range.push(i);
+  }
+  console.log('range here: ', range);
+  return (
+    <select name="Bid now">
+      <option defaultValue="Bid now">Bid now</option>
+      {range.map(r => <option key={r}>{r}</option>)}
+    </select>
+  )
+}
 
 class Auction extends Component {
 
@@ -53,10 +69,7 @@ class Auction extends Component {
             <p>Description: {auction.artwork.description}</p>
             <p>Year: {auction.artwork.age}</p>
             <p>Estimated value ($USD): {auction.buyout_price}</p>
-            <select name="Bid now">
-              <option defaultValue="Bid now">Bid now</option>
-              <option>10000</option>
-            </select>
+            <BiddingRange start={auction.current_bid} end={auction.buyout_price}/>
             <button>Submit</button>
           </Container>
         </Container>
