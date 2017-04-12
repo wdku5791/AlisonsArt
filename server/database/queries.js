@@ -46,9 +46,11 @@ module.exports = {
   getAuctions(limit, endDate, status) {
     let query;
     if (status === '<') {
-      query = 'select * from auctions where end_date < $2 ORDER BY end_date ASC LIMIT $1';
+      query = 'select auctions.*, users.first_name, users.last_name FROM auctions INNER JOIN users ON \
+      auctions.owner_id=users.id AND auctions.end_date < $2 ORDER BY auctions.end_date ASC LIMIT $1';
     } else {
-      query = 'select * from auctions where end_date > $2 ORDER BY end_date ASC LIMIT $1';
+      query = 'select auctions.*, users.first_name, users.last_name FROM auctions INNER JOIN users ON \
+      auctions.owner_id=users.id AND auctions.end_date > $2 ORDER BY auctions.end_date ASC LIMIT $1';
     }
     return db.task((t) => {
       return t.map(query, [limit, endDate], (auction) => {
@@ -75,6 +77,19 @@ module.exports = {
   },
 
   getAuction(auctionId) {
+    const query = 'select auctions.*, users.first_name, users.last_name FROM auctions \
+    INNER JOIN users ON auctions.owner_id=users.id AND auctions.id=$1';
+    return db.task((t) => {
+      return t.map(query, [auctionId], (auction) => {
+        const query = 'select * from artworks where id=$1';
+        return t.one(query, [auction.artwork_id])
+        .then((artwork) => {
+          auction.artwork = artwork;
+          return auction;
+        });
+      })
+      .then(t.batch);
+    });
     return db.query('select * from auctions inner join artworks\
     on artworks.id = auctions.artwork_id where auctions.id = $1', [auctionId]);
   },
