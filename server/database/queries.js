@@ -17,6 +17,9 @@ module.exports = {
   getUserBids(userId) {
     return db.query('select * from bids where bidder_id=$1', [userId]);
   },
+  getAuctionBids(auctionId) {
+    return db.query('select * from bids where auction_id=$1', [auctionId]);
+  },
   getUserBidsPerAuction({ user_id, auction_id, limit }) {
     /*
     {
@@ -180,18 +183,18 @@ module.exports = {
   createBid(bidObj) {
     /*
     {
-      bidder_id:
-      auction_id:
-      bid_date:
-      bid_price:
+      bidderId:
+      auctionId:
+      bidDate:
+      bidPrice:
     }
     insert into bids (bidder_id, auction_id, bid_date, bid_price) values ('1', '1', '2017-01-08 04:05:06 -8:00', '250')
     */
-    return db.query('insert into bids \
+    return db.one('insert into bids \
       (bidder_id, auction_id, bid_date, bid_price)\
       values \
       (${bidder_id}, ${auction_id}, ${bid_date}, ${bid_price})\
-      returning id', bidObj);
+      returning *', bidObj);
   },
   createFollower(followerObj) {
     /*
@@ -234,10 +237,21 @@ module.exports = {
       bid_id:
     }
     */
-    return db.query('update Auctions SET current_bid = ${bid_id}\
-      , bid_counter = bid_counter + 1\
-      where id = ${auction_id}',auctionObj)
-  },
+    return db.task((t) => {
+      return t.one('SELECT bid_price FROM bids INNER JOIN auctions ON \
+        auctions.id=$1 AND bids.id=auctions.current_bid', [auctionObj.auction_id])
+      .then((current_bid) => {
+        console.log(typeof current_bid.bid_price, typeof auctionObj.bid.bid_price);
+        if (parseInt(current_bid.bid_price) < parseInt(auctionObj.bid.bid_price)) {
+          return t.one('update auctions SET current_bid = $1, \
+            bid_counter = bid_counter + 1\
+            where id = $2 returning current_bid', [auctionObj.bid.id, auctionObj.auction_id]);
+        } else {
+          return current_bid;
+        }
+      });
+    });
+  }
 
 
 };
