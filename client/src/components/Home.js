@@ -32,7 +32,6 @@ let MainArt = ({art, history}) => {
 }
 
 let MainArts = ({mainArts, history}) => {
-  console.log('mainarts: ', mainArts);
   if (!mainArts[0]) {
     return <p>loading~~</p>
   } else {
@@ -131,9 +130,7 @@ class Home extends Component {
   }
  
     render() {
-      console.log('this props: ', this.props);
-      console.log('main arts::', this.props.mainArts);
-
+      
       return (
         <div>
           <MainArts mainArts={this.props.mainArts} history={this.props.history} />
