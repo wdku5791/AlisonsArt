@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 class NavBar extends Component {
   render() {
     let {username, userId} = this.props;
+
     let LoggedOutNav = (
         <span>
           {'  '}
