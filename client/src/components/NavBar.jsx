@@ -43,7 +43,7 @@ class NavBar extends Component {
           <NavLink to="/events" activeStyle={{color: 'red'}}>Events</NavLink>
           {'  '}
           <NavLink to="/contactus" activeStyle={{color: 'red'}}>Contact us</NavLink>
-          {username !== '' ? LoggedOutNav : LoggedInNav}
+          {username === '' ? LoggedOutNav : LoggedInNav}
           {this.props.children}
         </div>
       </div>
