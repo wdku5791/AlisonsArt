@@ -241,8 +241,9 @@ module.exports = {
       return t.one('SELECT bid_price FROM bids INNER JOIN auctions ON \
         auctions.id=$1 AND bids.id=auctions.current_bid', [auctionObj.auction_id])
       .then((current_bid) => {
-        console.log(typeof current_bid.bid_price, typeof auctionObj.bid.bid_price);
+        // if the new bid is higher than the current champion
         if (parseInt(current_bid.bid_price) < parseInt(auctionObj.bid.bid_price)) {
+          // set it to be the current_bid
           return t.one('update auctions SET current_bid = $1, \
             bid_counter = bid_counter + 1\
             where id = $2 returning current_bid', [auctionObj.bid.id, auctionObj.auction_id]);
