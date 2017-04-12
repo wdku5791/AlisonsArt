@@ -27,27 +27,33 @@ import CreateAuction from './components/CreateAuction.jsx';
 import Notification from './components/Notification.jsx';
 
 const middleware = applyMiddleware(thunkMiddleware, logger);
-// probalby need to add preloadedState between reducer and middleware
-const store = createStore(reducer, undefined, middleware);
+
+//probalby need to add preloadedState between reducer and middleware
+const store = createStore(reducer, middleware);
 // nest children Routes into NavBar component can solve the rendering of the child components
 const Index = () => {
-  return (
-    <Router>
-      <NavBar>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/home" component={Home} />
-        <Route path="/auctions" component={Auctions} />
-        <Route path="/auction/:auctionId" component={Auction} />
-        <Route path="/artists" component={Artists} />
-        <Route path="artist/:artistId" component={Artist} />
-        <Route path="/events" component={Events} />
-        <Route path="/login" component={LogIn} />
-        <Route path="/signup" component={SignUp} />
-        <Route path="/createAuction" component={CreateAuction} />
-      </NavBar>
-    </Router>
-  );
-};
+  // console.log('store states: ', store.getState());
+  console.log('store states: ', store.getState());
+  console.log('username: ', store.getState().user.username);
+    return (
+      <Router>
+        <div>
+          <NavBar />
+          <Route exact path="/" component={Home} />
+          <Route exact path="/home" component={Home} />
+          <Route path="/auctions" component={Auctions} />
+          <Route path="/auction/:auctionId" component={Auction} />
+          <Route path="/artists" component={Artists} />
+          <Route path="artist/:artistId" component={Artist} />
+          <Route path="/events" component={Events} />
+          <Route path="/login" component={LogIn} />
+          <Route path="/signup" component={SignUp} />
+          <Route path="/notification" component={Notification} />
+          <Route path="/createAuction" component={CreateAuction} />
+        </div>
+      </Router>
+    )
+}
 
 render(
   <Provider store={store}>
