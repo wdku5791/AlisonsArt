@@ -8,7 +8,7 @@ import { artworks } from '../../../server/database/dummyData.js';
 
 console.log('artworks', artworks);
 let MainArts = ({mainArts, history}) => {
-  // console.log('main arts: ', mainArts[0]);
+  console.log('main arts: ', mainArts[0]);
   if (!mainArts[0]) {
     return <p>loading~~</p>
   } else {
@@ -150,7 +150,7 @@ class Home extends Component {
 
     render() {
       console.log('this props: ', this.props);
-      console.log('auctions:', this.props.homeAuctions);
+      console.log('main arts::', this.props.mainArts);
 
 
       return (

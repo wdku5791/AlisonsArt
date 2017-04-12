@@ -32,9 +32,6 @@ const middleware = applyMiddleware(thunkMiddleware, logger);
 const store = createStore(reducer, middleware);
 // nest children Routes into NavBar component can solve the rendering of the child components
 const Index = () => {
-  // console.log('store states: ', store.getState());
-  console.log('store states: ', store.getState());
-  console.log('username: ', store.getState().user.username);
     return (
       <Router>
         <div>
