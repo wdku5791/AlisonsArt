@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 class NavBar extends Component {
   render() {
     let {username, userId} = this.props;
-    console.log('userid is: ', userId);
     let LoggedOutNav = (
         <span>
           {'  '}
@@ -62,3 +61,4 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps)(NavBar);
+
