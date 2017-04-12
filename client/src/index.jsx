@@ -24,6 +24,7 @@ import Events from './components/Events.jsx';
 import SignUp from './components/SignUp.jsx';
 import LogIn from './components/LogIn.jsx';
 import CreateAuction from './components/CreateAuction.jsx';
+import Notification from './components/Notification.jsx';
 
 const middleware = applyMiddleware(thunkMiddleware, logger);
 // probalby need to add preloadedState between reducer and middleware

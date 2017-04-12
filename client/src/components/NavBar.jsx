@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Image } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
 
 class NavBar extends Component {
   render() {
+    console.log('childrenrenrenre: ', this.props.children);
     return (
       <div>
         <Image avatar src="./assets/logo.jpeg" alt="homepage pic" />
@@ -33,5 +35,6 @@ class NavBar extends Component {
     );
   }
 }
-
 export default NavBar;
+
+// export default connect(null)(NavBar);
