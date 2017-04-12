@@ -1,5 +1,5 @@
 const dotenv = require('dotenv').config();
-// process.env.NODE_ENV = 'TESTING';
+process.env.NODE_ENV = 'TESTING';
 const db = require('./../server/database/config.js');
 const createSchema = require('./../server/database/schema.js');
 const model = require('./../server/database/queries.js');
