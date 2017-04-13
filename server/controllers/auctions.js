@@ -13,7 +13,8 @@ router.get('/', (req, res) => {
   .then((auctions) => {
     res.status(200).json(auctions);
   })
-  .catch(() => {
+  .catch((err) => {
+    console.log(err);
     res.status(500).send(serverErr);
   });
 });
