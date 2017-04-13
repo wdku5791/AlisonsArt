@@ -5,7 +5,6 @@ const Moment = require('moment');
 const serverErr = { ERR: { status: 500, message: 'Something went wrong. So Sorry!' } };
 
 router.post('/login', (req, res) => {
-  console.log('req body: ', req.body);
   let { username, password } = req.body;
   //check if user exists
   model.getUserByName(username)
@@ -16,16 +15,16 @@ router.post('/login', (req, res) => {
     } else {
     //check if password matches the ones in database, consider HASH
       if (response[0].password === password) {
-        console.log('password matches!');
-        res.status(201).send('login success!');
+        res.status(201).send(JSON.stringify({
+          username: username,
+           userId: response[0].id
+         }));
       } else {
-        console.log('nope!');
         throw Error('Wrong password');
       }
     }
   })
   .catch(err => {
-    console.log('error out');
     res.status(400).send('Log in error: ' + err);
   });
 });

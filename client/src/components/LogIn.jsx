@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container } from 'semantic-ui-react';
+import * as UserAction from './../actions/userActionCreator.jsx';
 
 
 //when login success, needs to save info in userReducer
@@ -12,8 +13,8 @@ class LogIn extends Component {
     let password = this.passwordNode.value;
     this.usernameNode.value = '';
     this.passwordNode.value = '';
-  //login request:
-   
+    let { dispatch } = this.props;
+
     fetch('/auth/login', {
       //don't forget the headers, otherwise it won't work
       headers: {
@@ -26,18 +27,21 @@ class LogIn extends Component {
         password: password
       })
     }).then(response => {
-        console.log('response:', response);
-        if(response.status === 201) {
-          console.log('yeah');
-          //dispatch an action to write to users. and make NavBar re-rendre:
-          console.log('dispatch: ', this.props.dispatch);
-          this.props.dispatch()
-        } else {
-          console.log('no~~');
-        }
-      }).catch(err => {
-        console.log('err: ', err);
-      });
+      dispatch(UserAction.checkingInfo(true));
+      if(!response.ok) {
+        throw Error('Log in post not ok!');
+      }
+      return response.json();
+    }).then(data => {
+      console.log('rrerereresponse: ',data);
+      dispatch(UserAction.checkingInfo(false));
+      dispatch(UserAction.logInSuccess(data.username, data.userId));
+      //push user to Homepage:
+      this.props.history.push('/home');
+    }).catch(err => {
+      dispatch(UserAction.checkingInfo(false));
+      dispatch(UserAction.loginError(err));
+    });
   }  
 
   render(){
