@@ -162,7 +162,7 @@ module.exports = {
     return db.one('insert into auctions \
       (owner_id, artwork_id, start_date, end_date, start_price, buyout_price)\
       values \
-      (${owner_id}, ${artwork_id}, ${start_date}, ${end_date}, ${start_price}, ${buyout_price})\
+      ((SELECT id FROM users WHERE id = ${owner_id}), (SELECT id FROM artworks WHERE id = ${artwork_id}), ${start_date}, ${end_date}, ${start_price}, ${buyout_price})\
       returning id', auctionObj);
   },
   createArtwork(artworkObj) {
@@ -178,11 +178,11 @@ module.exports = {
     }
     insert into artworks (artist_id, age, estimated_price, art_name, description, dimensions, image_url) values ('1', '520', '200', 'Alisons Masterpiece', 'Emaculately crafted by a master sculptor', '10 x 20 x 15', 'image_urlsuperlongstring')
     */
-
+    console.log('creating artwork in db....')
     return db.one('insert into artworks \
       (artist_id, age, estimated_price, art_name, description, dimensions, image_url)\
       values \
-      (${artist_id}, ${age}, ${estimated_price}, ${art_name}, ${description}, ${dimensions}, ${image_url})\
+      ((SELECT id FROM users WHERE id = ${artist_id}), ${age}, ${estimated_price}, ${art_name}, ${description}, ${dimensions}, ${image_url})\
       returning id', artworkObj);
   },
   createAuctionWithArtwork(auctionObj) {

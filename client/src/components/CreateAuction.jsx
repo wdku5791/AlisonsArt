@@ -65,20 +65,22 @@ class CreateAuction extends React.Component {
       end_date: this.state.end_date,
       start_price: Number(this.state.estimated_price),
       buyout_price: Number(this.state.buyout_price),
-      bid_counter: 0,
       current_bid: null,
       artwork: artwork,
     }
-    console.log(`attempting to create auction...\nauction: ${JSON.stringify(auction)}`);
-    fetch('/auctions/', {
+    console.log('attempting to create auction...\nauction: ', auction);
+    fetch('/auctions', {
         method: 'post',
+        headers: new Headers ({
+          'Content-Type': 'application/json',
+        }),
         body: JSON.stringify(auction)
       })
       .then((data) => {
-        console.log(`posting Auction and Artwork SUCCESS! data: ${data}`);
+        console.log('posting Auction and Artwork SUCCESS! data:  ', data);
       })
       .catch((error) => {
-        console.log(`posting Auction and Artwork FAILED! error: ${error}`);
+        console.log('posting Auction and Artwork FAILED! error: ', error);
       })
   }
 
@@ -131,9 +133,10 @@ class CreateAuction extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  // console.log(`mapStateToProps state: ${JSON.stringify(state)}`);
   return {
-    username: state.users.username,
-    userId: state.users.userId,
+    username: state.user.username,
+    userId: state.user.userId,
   }
 }
 
