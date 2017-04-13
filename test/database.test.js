@@ -116,13 +116,14 @@ describe('should modify or get data from the auctions table', () => {
     })
   });
   test('should be able to update auctions current bid and bid counter', () => {
-    return model.updateAuction({auction_id: 5, bid_id: 1})
+    return model.updateAuction({auction_id: 5, bid_id: 1, current_bid: 500})
     .then(() => {
       return model.getAuction(5);
     })
     .then((data) => {
-      expect(data[0].current_bid).toEqual('1');
-      expect(data[0].bid_counter).toEqual('1');
+      expect(data.current_bid_id).toEqual('1');
+      expect(data.bid_counter).toEqual('1');
+      expect(data.current_bid).toEqual('500');
     });
   });
 });

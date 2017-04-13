@@ -57,7 +57,7 @@ module.exports = {
   },
 
   getAuction(auctionId) {
-    return db.query('select * from auctions inner join artworks\
+    return db.one('select * from auctions inner join artworks\
     on artworks.id = auctions.artwork_id where auctions.id = $1', [auctionId]);
   },
   getUserFollowers(userId) {
@@ -103,7 +103,7 @@ module.exports = {
       end_date:
       start_price:
       buyout_price:
-      current_bid:
+      current_bid_id:
       bid_counter:
     }
     insert into auctions (owner_id, artwork_id, start_date, end_date, start_price, buyout_price, bid_counter) values ('1', '1', '2017-01-07 04:05:06 -8:00', '2017-01-08 09:05:06 -8:00', '100', '500', '0')
@@ -197,10 +197,11 @@ module.exports = {
     {
       auction_id:
       bid_id:
+      current: bid
     }
     */
-    return db.query('update Auctions SET current_bid = ${bid_id}\
-      , bid_counter = bid_counter + 1\
+    return db.query('update Auctions SET current_bid_id = ${bid_id}\
+      , bid_counter = bid_counter + 1, current_bid = ${current_bid}\
       where id = ${auction_id}',auctionObj)
   },
 

@@ -25,9 +25,9 @@ module.exports = function insertDummyData (db) {
   .then(() => {
     return db.tx((t) => {
       return t.batch(auctions.map(auction => (t.query('INSERT INTO auctions \
-                (owner_id, artwork_id, start_date, end_date, start_price, buyout_price, current_bid, bid_counter)\
+                (owner_id, artwork_id, start_date, end_date, start_price, buyout_price, current_bid_id, bid_counter, current_bid)\
                 VALUES \
-                ((SELECT id FROM users WHERE id = ${owner_id}), (SELECT id FROM artworks WHERE id = ${artwork_id}), ${start_date}, ${end_date}, ${start_price}, ${buyout_price}, ${current_bid}, ${bid_counter})\
+                ((SELECT id FROM users WHERE id = ${owner_id}), (SELECT id FROM artworks WHERE id = ${artwork_id}), ${start_date}, ${end_date}, ${start_price}, ${buyout_price}, ${current_bid_id}, ${bid_counter}, ${current_bid})\
                 returning id', auction))));
     })
   })
