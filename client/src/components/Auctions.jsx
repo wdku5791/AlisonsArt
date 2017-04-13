@@ -1,5 +1,6 @@
 import React from 'react';
 import * as actions from '../actions/auctionActionCreator.jsx';
+import { Container } from 'semantic-ui-react';
 
 import { connect } from 'react-redux';
 
@@ -34,9 +35,9 @@ class Auctions extends React.Component {
     return (
       <div>
         {auctions.map(auction => (
-          <div>
-            <p>{auction.artwork_id}</p>
-          </div>
+          <Container>
+            <Image src={auction.artwork.image_url}></Image>
+          </Container>
           )
         )}
       </div>
