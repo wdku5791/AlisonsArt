@@ -3,6 +3,7 @@ import { Container, Image } from 'semantic-ui-react';
 import * as Auctions from '../actions/auctionActionCreator.jsx';
 import { connect } from 'react-redux';
 
+let bidValue = 0;
 let BiddingRange = ({start, end}) => {
   const interval = 1000;
   start = start || 0;
@@ -11,9 +12,9 @@ let BiddingRange = ({start, end}) => {
   for(let i = start + interval; i <= end; i += interval) {
     range.push(i);
   }
-  console.log('range here: ', range);
+
   return (
-    <select name="Bid now">
+    <select name="Bid now" onChange={(e) => {bidValue = +e.target.value}}>
       <option defaultValue="Bid now">Bid now</option>
       {range.map(r => <option key={r}>{r}</option>)}
     </select>
@@ -45,15 +46,32 @@ class Auction extends Component {
     .catch((err) => dispatch(Auctions.fetchAuctionErrored(true, err)));
   }
 
-  render(){
-  //need to get the buyout price of this piece and the current bidding price of the piece, then generate values for the dropbox.
+  handleClick(user, history) {
+    if (bidValue === 0) {
+      alert('Please select a value');
+    } else {
+      console.log('bid value is a number');
+      console.log('useris: ', user);
+      //if user not logged in, redirect
+      if(!user.username) {
+        alert('you are not logged in, please sign up or log in');
+        history.push('/signup')
+      } else {
+      //grab userid, artwork_id and value
 
-  //submit button onClick will grab the dropbox value, userId and auctionId, direct to payment page.
-    // <img src={auction.image_url} />
-    console.log('after fetch complete: ', this.props.auction);
+        // fetch('/url?????', {
+        //   method: 'POST',
+        //   body: ???stringified JSON
+        // });
+      }
+    }
+  }
+
+  render(){
+
+    console.log('history????', this.props.history);
     let {auction} = this.props.auction;
-    console.log('auction: ', auction);
-    console.log('key length: ', Object.keys(auction).length);
+    // console.log('key length: ', Object.keys(auction).length);
     if (Object.keys(auction).length === 0) {
       return (
         <p>loading~~~</p>
@@ -70,7 +88,7 @@ class Auction extends Component {
             <p>Year: {auction.artwork.age}</p>
             <p>Estimated value ($USD): {auction.buyout_price}</p>
             <BiddingRange start={auction.current_bid} end={auction.buyout_price}/>
-            <button>Submit</button>
+            <button onClick={() => {this.handleClick(this.props.user, this.props.history)}}>Submit</button>
           </Container>
         </Container>
       )
@@ -80,7 +98,8 @@ class Auction extends Component {
 //connect to the store to get the artwork to render:
 const mapStateToProps = (state) => {
   return {
-    auction: state.auction
+    auction: state.auction,
+    user: state.user
   }
 }
 export default connect(mapStateToProps)(Auction);

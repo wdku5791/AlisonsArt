@@ -97,9 +97,6 @@ let HomeArtists = ({homeArtists, history, dispatch}) => {
   }
 }
 
-//need to pass down the arts from the database to MainArts component
-//where to put fetch?
-
 class Home extends Component {
   constructor(props) {
     super(props);
