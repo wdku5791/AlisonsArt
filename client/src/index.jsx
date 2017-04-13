@@ -26,6 +26,8 @@ import LogIn from './components/LogIn.jsx';
 import User from './components/User.jsx';
 import CreateAuction from './components/CreateAuction.jsx';
 import Notification from './components/Notification.jsx';
+import SaveFollow from './components/SaveFollow.jsx';
+import UserAuctions from './components/UserAuctions.jsx';
 
 const middleware = applyMiddleware(thunkMiddleware, logger);
 
@@ -48,6 +50,8 @@ const Index = () => {
           <Route path="/artists" component={Artists} />
           <Route path="/artist/:artistId" component={Artist} />
           <Route path="/user/:userId" component={User} />
+          <Route path="/user/:userId/savesFollows" component={SaveFollow} />
+          <Route path="/user/:userId/auctions" component={UserAuctions} />
           <Route path="/events" component={Events} />
           <Route path="/login" component={LogIn} />
           <Route path="/signup" component={SignUp} />
