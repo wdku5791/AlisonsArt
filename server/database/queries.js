@@ -4,6 +4,9 @@ module.exports = {
   getUser(userId) {
     return db.query('select * from users where id=$1', [userId]);
   },
+  getUserByName(username) {
+    return db.query('select * from users where username=$1', [username]);
+  },
   getUsers() {
     return db.query('select * from users');
   },
@@ -69,6 +72,7 @@ module.exports = {
             auction.current_bid_id = auction.start_price;
             return auction;
           }
+
           return t.one(query, [auction.current_bid_id])
           .then((bid) => {
             auction.current_bid_id = bid.bid_price;

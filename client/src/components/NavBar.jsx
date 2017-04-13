@@ -52,7 +52,6 @@ class NavBar extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log('statesssss:', state);
   return {
     username: state.user.username
   }

@@ -2,28 +2,28 @@ const initialState = {
   username: '',
   userId: null,
   checkingInfo: false,
-  error: null
+  error: null,
+  loggedOut: true
 };
 
 const userReducer = (state = initialState, action) => {
   switch(action.type) {
-    case 'CHECK_SIGN_IN':
+    case 'CHECKING_LOG_IN':
       return {
         ...state,
-        checkingInfo: true
+        checkingInfo: action.checking
       };
-    case 'SIGN_IN_COMPLETE':
+    case 'LOG_IN_COMPLETE':
       return {
         ...state,
         username: action.username,
         userId: action.userId,
-        checkingInfo: false
+        loggedOut: false
       };
-    case 'SIGN_IN_ERROR':
+    case 'LOG_IN_ERROR':
       return {
         ...state,
         error: action.error,
-        checkingInfo: false
       };
     case 'LOG_OUT_COMPLETE':
       return {
