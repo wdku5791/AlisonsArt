@@ -1,6 +1,6 @@
 import React from 'react';
 import * as actions from '../actions/auctionActionCreator.jsx';
-import { Container } from 'semantic-ui-react';
+import { Container, Image, Label, Button, Card, Grid } from 'semantic-ui-react';
 
 import { connect } from 'react-redux';
 
@@ -30,16 +30,41 @@ class Auctions extends React.Component {
     });
   }
 
+  goToAuction(id) {
+    const { history } = this.props;
+    history.push(`/auction/${id}`);
+  }
+
   render() {
     const { auctions } = this.props;
     return (
       <div>
-        {auctions.map(auction => (
-          <Container>
-            <Image src={auction.artwork.image_url}></Image>
-          </Container>
-          )
-        )}
+        <Grid divided="true">
+          <Grid.Row columns={2}>
+            {auctions.map(auction => (
+              <Grid.Column>
+                <Container className="center">
+                  <Card onClick={() => this.goToAuction(auction.id)}>
+                  <Image className="medium" src={auction.artwork.image_url} />
+                    <Card.Content>
+                      <Card.Header>
+                        {auction.artwork.art_name}
+                      </Card.Header>
+                      <Card.Meta>
+                        Bid Now: {auction.current_bid}
+                      </Card.Meta>
+                      <Card.Description>
+                        {auction.artwork.description}
+                      </Card.Description>
+
+                    </Card.Content>
+                  </Card>
+                </Container>
+              </Grid.Column>
+              )
+            )}
+          </Grid.Row>
+        </Grid>
       </div>
     );
   }
