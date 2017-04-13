@@ -177,7 +177,7 @@ describe('should modify or get data from the bids table', () => {
     return flushDatabase()
     .then(() => {
       return seedDatabase();
-    });
+    })
   });
 
   test('should create a users bid', () => {
