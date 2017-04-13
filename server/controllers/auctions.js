@@ -22,6 +22,7 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   model.createArtwork(req.body.artwork)
   .then((data) => {
+    console.log(`createArtwork success! ${data}`);
     req.body.artwork_id = data.id;
     model.createAuction(req.body)
     .then((auctionId) => {

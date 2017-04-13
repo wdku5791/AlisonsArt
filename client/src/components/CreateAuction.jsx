@@ -49,32 +49,37 @@ class CreateAuction extends React.Component {
 
   handleSubmit() {
     let artwork = {
-      artist_id: this.state.artist_id,
+      artist_id: Number(this.state.userId),
       age: this.state.age,
-      estimated_price: this.state.estimated_price,
+      estimated_price: Number(this.state.estimated_price),
       art_name: this.state.art_name,
       description: this.state.description,
       dimensions: `${this.state.length} x ${this.state.height} x ${this.state.width}`,
       image_url: this.state.image_url,  
     }
     let auction = {
-      owner_id: this.state.userId,
-      artwork_id: '',
-      estimated_price: this.state.estimated_price,
+      owner_id: Number(this.state.userId),
+      // artwork_id: '',
+      estimated_price: Number(this.state.estimated_price),
       start_date: this.state.start_date,
       end_date: this.state.end_date,
-      start_price: this.state.estimated_price,
-      buyout_price: this.state.buyout_price,
+      start_price: Number(this.state.estimated_price),
+      buyout_price: Number(this.state.buyout_price),
+      bid_counter: 0,
+      current_bid: null,
       artwork: artwork,
     }
     console.log(`attempting to create auction...\nauction: ${JSON.stringify(auction)}`);
-    // fetch('/', {
-    //     method: 'post',
-    //     body: {
-    //       auction
-    //     }
-    //   })
-    //   .then()
+    fetch('/auctions/', {
+        method: 'post',
+        body: JSON.stringify(auction)
+      })
+      .then((data) => {
+        console.log(`posting Auction and Artwork SUCCESS! data: ${data}`);
+      })
+      .catch((error) => {
+        console.log(`posting Auction and Artwork FAILED! error: ${error}`);
+      })
   }
 
   render() {
