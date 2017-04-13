@@ -4,15 +4,19 @@ import * as Auctions from '../actions/auctionActionCreator.jsx';
 import { connect } from 'react-redux';
 
 let bidValue = 0;
-let BiddingRange = ({start, end}) => {
+let BiddingRange = ({current, start, end}) => {
   const interval = 1000;
-  start = start || 0;
-  let range = [];
+  current = +current;
+  start = +start;
+  end = +end;
 
-  for(let i = start + interval; i <= end; i += interval) {
+  start = start < current ? current : start;
+
+  let range = [];
+  
+  for(let i = start; i <= end; i += interval) {
     range.push(i);
   }
-
   return (
     <select name="Bid now" onChange={(e) => {bidValue = +e.target.value}}>
       <option defaultValue="Bid now">Bid now</option>
@@ -69,7 +73,6 @@ class Auction extends Component {
 
   render(){
 
-    console.log('history????', this.props.history);
     let {auction} = this.props.auction;
     // console.log('key length: ', Object.keys(auction).length);
     if (Object.keys(auction).length === 0) {
@@ -87,7 +90,7 @@ class Auction extends Component {
             <p>Description: {auction.artwork.description}</p>
             <p>Year: {auction.artwork.age}</p>
             <p>Estimated value ($USD): {auction.buyout_price}</p>
-            <BiddingRange start={auction.current_bid} end={auction.buyout_price}/>
+            <BiddingRange current={auction.current_bid} start={auction.start_price} end={auction.buyout_price}/>
             <button onClick={() => {this.handleClick(this.props.user, this.props.history)}}>Submit</button>
           </Container>
         </Container>

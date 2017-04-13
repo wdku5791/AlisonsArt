@@ -78,14 +78,14 @@ let clickArtist = (id, history, dispatch) => {
 
 let HomeArtist = ({artist, history}) => {
   return (
-    <div>
+    <span>
       <Image className="ui image" src={artist.image_url} onClick={() => clickArtist(artist.id, history)} />
       <span className="ui label">
         <span>artistid: {artist.id}</span>
         <br />
         <span>description {artist.description}</span>
       </span>
-    </div>
+    </span>
   )
 }
 
