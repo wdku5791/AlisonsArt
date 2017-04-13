@@ -68,7 +68,6 @@ class CreateAuction extends React.Component {
       current_bid: null,
       artwork: artwork,
     }
-    console.log('attempting to create auction...\nauction: ', auction);
     fetch('/auctions', {
         method: 'post',
         headers: new Headers ({
