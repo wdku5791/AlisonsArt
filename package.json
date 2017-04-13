@@ -10,7 +10,7 @@
   "scripts": {
     "start": "npm run build && node server/server.js",
     "dev": "webpack -d --watch & nodemon server/server.js",
-    "test": "jest ./test",
+    "test": "jest ./test --runInBand --forceExit",
     "build": "webpack -d",
     "lint": "eslint client server",
     "lint-fix": "eslint client server",

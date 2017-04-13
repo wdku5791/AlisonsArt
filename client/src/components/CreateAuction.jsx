@@ -66,6 +66,7 @@ class CreateAuction extends React.Component {
       start_price: Number(this.state.estimated_price),
       buyout_price: Number(this.state.buyout_price),
       current_bid: null,
+      current_bid_id: null,
       artwork: artwork,
     }
     fetch('/auctions', {
@@ -140,11 +141,3 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps)(CreateAuction);
-
-
-
-
-
-
-
-
