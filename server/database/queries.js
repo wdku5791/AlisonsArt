@@ -178,7 +178,6 @@ module.exports = {
     }
     insert into artworks (artist_id, age, estimated_price, art_name, description, dimensions, image_url) values ('1', '520', '200', 'Alisons Masterpiece', 'Emaculately crafted by a master sculptor', '10 x 20 x 15', 'image_urlsuperlongstring')
     */
-
     return db.one('insert into artworks \
       (artist_id, age, estimated_price, art_name, description, dimensions, image_url)\
       values \

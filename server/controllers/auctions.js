@@ -20,6 +20,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
+  console.log(req.body);
   model.createArtwork(req.body.artwork)
   .then((data) => {
     req.body.artwork_id = data.id;
@@ -28,7 +29,8 @@ router.post('/', (req, res) => {
       res.status(201).json(auctionId);
     });
   })
-  .catch(() => {
+  .catch((serverErr) => {
+    console.log(serverErr);
     res.status(500).send(serverErr);
   });
 });
