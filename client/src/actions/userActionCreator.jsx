@@ -1,5 +1,6 @@
-export function logInTrial(username, password) {
+export function logInSuccess(username) {
   return {
-    type: 
-  }
+    type: 'LOGIN_SUCCESS',
+    username: username
+  };
 }

@@ -4,6 +4,9 @@ module.exports = {
   getUser(userId) {
     return db.query('select * from users where id=$1', [userId]);
   },
+  getUserByName(username) {
+    return db.query('select * from users where username=$1', [username]);
+  },
   getUsers() {
     return db.query('select * from users');
   },
@@ -69,8 +72,12 @@ module.exports = {
             auction.current_bid = auction.start_price;
             return auction;
           }
+          // console.log('auction.current_bid is the price now, not the id anymore');
+          // console.log('query: ', query);
+          // console.log('auction current_bid: ', auction.current_bid);
           return t.one(query, [auction.current_bid])
           .then((bid) => {
+            // console.log('to here went wrong');
             auction.current_bid = bid.bid_price;
             return auction;
           });
