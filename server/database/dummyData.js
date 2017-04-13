@@ -140,7 +140,8 @@ const auctions = [
 		end_date: '2017-05-05 14:27:07',
 		start_price: 10000,
 		buyout_price: 30000,
-		current_bid: 2,
+		current_bid_id: 2,
+		current_bid: 12500,
 		bid_counter: 2,
 	}, 
 	{
@@ -151,7 +152,8 @@ const auctions = [
 		end_date: '2017-05-08 11:45:07',
 		start_price: 10000,
 		buyout_price: 30000,
-		current_bid: 3,
+		current_bid_id: 3,
+		current_bid: 15000,
 		bid_counter: 1,
 	}, 
 	{
@@ -162,7 +164,8 @@ const auctions = [
 		end_date: '2017-05-11 10:27:07',
 		start_price: 12500,
 		buyout_price: 35000,
-		current_bid: 4,
+		current_bid_id: 4,
+		current_bid: 17000,
 		bid_counter: 1,
 	}, 
 	{
@@ -173,6 +176,7 @@ const auctions = [
 		end_date: '2017-05-05 14:27:07',
 		start_price: 9000,
 		buyout_price: 27000,
+		current_bid_id: null,
 		current_bid: null,
 		bid_counter: 0,
 	}, 
@@ -184,6 +188,7 @@ const auctions = [
 		end_date: '2017-05-05 14:27:07',
 		start_price: 17000,
 		buyout_price: 35000,
+		current_bid_id: null,
 		current_bid: null,
 		bid_counter: 0,
 	}, 
@@ -195,6 +200,7 @@ const auctions = [
 		end_date: '2017-05-05 14:27:07',
 		start_price: 13000,
 		buyout_price: 20000,
+		current_bid_id: null,
 		current_bid: null,
 		bid_counter: 0,
 	}
