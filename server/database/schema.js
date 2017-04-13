@@ -46,6 +46,7 @@ module.exports = function createSchemas(db) {
       start_price BIGINT NOT NULL,\
       buyout_price BIGINT NOT NULL,\
       current_bid BIGINT,\
+      current_bid_id BIGINT,\
       bid_counter BIGINT DEFAULT 0\
     )');
   })

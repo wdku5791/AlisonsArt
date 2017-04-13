@@ -10,7 +10,7 @@
   "scripts": {
     "start": "npm run build && node server/server.js",
     "dev": "webpack -d --watch & nodemon server/server.js",
-    "test": "jest ./test",
+    "test": "jest ./test --runInBand --forceExit",
     "build": "webpack -d",
     "lint": "eslint client server",
     "lint-fix": "eslint client server",
@@ -26,6 +26,7 @@
     "babel-preset-react": "^6.23.0",
     "babel-preset-stage-2": "^6.24.1",
     "body-parser": "^1.17.1",
+    "cloudinary": "^1.8.0",
     "dotenv": "^4.0.0",
     "express": "^4.15.2",
     "jest": "^19.0.2",

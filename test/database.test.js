@@ -1,9 +1,11 @@
 const dotenv = require('dotenv').config();
 process.env.NODE_ENV = 'TESTING';
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 const db = require('./../server/database/config.js');
 const createSchema = require('./../server/database/schema.js');
 const model = require('./../server/database/queries.js');
 const uploadData = require ('./../server/database/uploadSeedData.js');
+
 
 const dummy1 = [{
     password: 'hash',
@@ -121,7 +123,8 @@ describe('should modify or get data from the auctions table', () => {
       return model.getAuction(5);
     })
     .then((data) => {
-      expect(data[0].current_bid).toEqual('1');
+      expect(data[0].current_bid_id).toEqual('1');
+      expect(data[0].current_bid).toEqual('12000');
       expect(data[0].bid_counter).toEqual('1');
     });
   });
@@ -177,7 +180,7 @@ describe('should modify or get data from the bids table', () => {
     return flushDatabase()
     .then(() => {
       return seedDatabase();
-    });
+    })
   });
 
   test('should create a users bid', () => {

@@ -68,17 +68,14 @@ module.exports = {
         })
         .then((auction) => {
           const query = 'SELECT bid_price FROM bids where id=$1';
-          if (auction.current_bid === null) {
-            auction.current_bid = auction.start_price;
+          if (auction.current_bid_id === null) {
+            auction.current_bid_id = auction.start_price;
             return auction;
           }
-          // console.log('auction.current_bid is the price now, not the id anymore');
-          // console.log('query: ', query);
-          // console.log('auction current_bid: ', auction.current_bid);
-          return t.one(query, [auction.current_bid])
+
+          return t.one(query, [auction.current_bid_id])
           .then((bid) => {
-            // console.log('to here went wrong');
-            auction.current_bid = bid.bid_price;
+            auction.current_bid_id = bid.bid_price;
             return auction;
           });
         });
@@ -159,7 +156,7 @@ module.exports = {
       end_date:
       start_price:
       buyout_price:
-      current_bid:
+      current_bid_id:
       bid_counter:
     }
     insert into auctions (owner_id, artwork_id, start_date, end_date, start_price, buyout_price, bid_counter) values ('1', '1', '2017-01-07 04:05:06 -8:00', '2017-01-08 09:05:06 -8:00', '100', '500', '0')
@@ -185,7 +182,6 @@ module.exports = {
     }
     insert into artworks (artist_id, age, estimated_price, art_name, description, dimensions, image_url) values ('1', '520', '200', 'Alisons Masterpiece', 'Emaculately crafted by a master sculptor', '10 x 20 x 15', 'image_urlsuperlongstring')
     */
-
     return db.one('insert into artworks \
       (artist_id, age, estimated_price, art_name, description, dimensions, image_url)\
       values \
@@ -257,24 +253,24 @@ module.exports = {
     }
     */
     return db.task((t) => {
-      return t.one('SELECT current_bid FROM auctions where id=$1', [auctionObj.auction_id])
+      return t.one('SELECT current_bid_id FROM auctions where id=$1', [auctionObj.auction_id])
       .then((result) => {
-        if (result.current_bid === null) {
-          return t.one('update auctions SET current_bid = $1, \
-            bid_counter = bid_counter + 1\
-            where id = $2 returning current_bid', [auctionObj.bid.id, auctionObj.auction_id]);
+        if (result.current_bid_id === null) {
+          return t.one('update auctions SET current_bid_id = $1, \
+            bid_counter = bid_counter + 1, current_bid = $3\
+            where id = $2 returning current_bid_id', [auctionObj.bid.id, auctionObj.auction_id,auctionObj.bid.bid_price]);
         } else {
           return t.one('SELECT bid_price FROM bids INNER JOIN auctions ON \
-            auctions.id=$1 AND bids.id=auctions.current_bid', [auctionObj.auction_id])
-          .then((current_bid) => {
+            auctions.id=$1 AND bids.id=auctions.current_bid_id', [auctionObj.auction_id])
+          .then((current_bid_id) => {
             // if the new bid is higher than the current champion
-            if (parseInt(current_bid.bid_price) < parseInt(auctionObj.bid.bid_price)) {
-              // set it to be the current_bid
-              return t.one('update auctions SET current_bid = $1, \
-                bid_counter = bid_counter + 1\
-                where id = $2 returning current_bid', [auctionObj.bid.id, auctionObj.auction_id]);
+            if (parseInt(current_bid_id.bid_price) < parseInt(auctionObj.bid.bid_price)) {
+              // set it to be the current_bid_id
+              return t.one('update auctions SET current_bid_id = $1, \
+                bid_counter = bid_counter + 1, current_bid = $3\
+                where id = $2 returning current_bid_id', [auctionObj.bid.id, auctionObj.auction_id, auctionObj.bid.bid_price]);
             } else {
-              return current_bid;
+              return current_bid_id;
             }
           });
         }
