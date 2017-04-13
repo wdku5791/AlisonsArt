@@ -62,6 +62,18 @@ module.exports = {
         .then((artwork) => {
           auction.artwork = artwork;
           return auction;
+        })
+        .then((auction) => {
+          const query = 'SELECT bid_price FROM bids where id=$1';
+          if (auction.current_bid === null) {
+            auction.current_bid = auction.start_price;
+            return auction;
+          }
+          return t.one(query, [auction.current_bid])
+          .then((bid) => {
+            auction.current_bid = bid.bid_price;
+            return auction;
+          });
         });
       })
       .then(t.batch);
