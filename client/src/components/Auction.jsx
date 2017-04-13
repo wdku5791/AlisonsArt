@@ -14,8 +14,11 @@ let BiddingRange = ({current, start, end}) => {
 
   let range = [];
   
-  for(let i = start; i <= end; i += interval) {
+  for(let i = start + interval; i <= end; i += interval) {
     range.push(i);
+  }
+  if(range[range.length - 1] < end) {
+    range.push(end);
   }
   return (
     <select name="Bid now" onChange={(e) => {bidValue = +e.target.value}}>
@@ -81,7 +84,6 @@ class Auction extends Component {
       )
     } else {
       return (
-        //the current_bid_id in BiddingRange needs to be replaced by the highest bid_price from backend
         <Container>
           <Container className="ui medium images">
             <Image className="ui image" src={auction.artwork.image_url}/>
@@ -90,7 +92,7 @@ class Auction extends Component {
             <p>Description: {auction.artwork.description}</p>
             <p>Year: {auction.artwork.age}</p>
             <p>Estimated value ($USD): {auction.buyout_price}</p>
-            <BiddingRange current={auction.current_bid_id} start={auction.start_price} end={auction.buyout_price}/>
+            <BiddingRange current={auction.current_bid} start={auction.start_price} end={auction.buyout_price}/>
             <button onClick={() => {this.handleClick(this.props.user, this.props.history)}}>Submit</button>
           </Container>
         </Container>

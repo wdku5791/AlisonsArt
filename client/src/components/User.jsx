@@ -7,7 +7,7 @@ const Navigation = () => {
   return (
     <Container>
       <NavLink to="#">Saves & Follows</NavLink>
-      <span>{'     '}</span>
+      {'  '}
       <NavLink to="#">Auctions</NavLink>
       {'  '}
       <NavLink to="#">Settings</NavLink>
@@ -16,6 +16,8 @@ const Navigation = () => {
     </Container>
   );
 }
+      // {this.props.}
+
 
 const User = (props) => {
   console.log('props: ', props);

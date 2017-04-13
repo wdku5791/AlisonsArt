@@ -69,13 +69,13 @@ module.exports = {
         .then((auction) => {
           const query = 'SELECT bid_price FROM bids where id=$1';
           if (auction.current_bid_id === null) {
-            auction.current_bid_id = auction.start_price;
+            auction.current_bid = auction.start_price;
             return auction;
           }
 
           return t.one(query, [auction.current_bid_id])
           .then((bid) => {
-            auction.current_bid_id = bid.bid_price;
+            auction.current_bid = bid.bid_price;
             return auction;
           });
         });
