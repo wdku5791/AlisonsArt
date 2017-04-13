@@ -1,7 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Image, Divider, Container } from 'semantic-ui-react';
-import { NavLink } from 'react-router-dom';
+import {
+  HashRouter as Router,
+  Route,
+  IndexRoute,
+  hashHistory,
+  NavLink
+} from 'react-router-dom';
+
+import SaveFollow from './SaveFollow.jsx';
+import UserAuctions from './UserAuctions.jsx';
+import UserSettings from './UserSettings.jsx';
+import Payments from './Payments.jsx';
 
 const Navigation = (props) => {
   return (
@@ -29,7 +40,15 @@ const User = (props) => {
           {props.user.username[0].toUpperCase().concat(props.user.username.slice(1))}
         </Container>
       <Divider />
-      <Navigation userId={props.user.userId} />
+      <Router>
+        <Container>
+          <Navigation userId={props.user.userId} />
+          <Route path="/user/:userId/savesFollows" component={SaveFollow} />
+          <Route path="/user/:userId/auctions" component={UserAuctions} />
+          <Route path="/user/:userId/settings" component={UserSettings} />
+          <Route path="/user/:userId/payments" component={Payments} />
+        </Container>
+      </Router>
       
       </Container>
     );
