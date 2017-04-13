@@ -81,7 +81,7 @@ class Auction extends Component {
       )
     } else {
       return (
-        //loading:
+        //the current_bid in BiddingRange needs to be replaced by the highest bid_price from backend
         <Container>
           <Container className="ui medium images">
             <Image className="ui image" src={auction.artwork.image_url}/>
