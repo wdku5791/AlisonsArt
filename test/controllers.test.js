@@ -3,7 +3,6 @@ const supertest = require('supertest');
 const app = require('../server/server.js');
 const db = require('./../server/database/config.js');
 const createSchema = require('./../server/database/schema.js');
-const model = require('./../server/database/queries.js');
 const uploadData = require ('./../server/database/uploadSeedData.js')
 
 describe('iii', () => {
