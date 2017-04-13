@@ -24,29 +24,37 @@ import Events from './components/Events.jsx';
 import SignUp from './components/SignUp.jsx';
 import LogIn from './components/LogIn.jsx';
 import CreateAuction from './components/CreateAuction.jsx';
+import Notification from './components/Notification.jsx';
 
 const middleware = applyMiddleware(thunkMiddleware, logger);
-// probalby need to add preloadedState between reducer and middleware
-const store = createStore(reducer, undefined, middleware);
-// nest children Routes into NavBar component can solve the rendering of the child components
-const Index = () => {
-  return (
-    <Router>
-      <NavBar>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/home" component={Home} />
-        <Route path="/auctions" component={Auctions} />
-        <Route path="/auction/:auctionId" component={Auction} />
-        <Route path="/artists" component={Artists} />
-        <Route path="artist/:artistId" component={Artist} />
-        <Route path="/events" component={Events} />
-        <Route path="/login" component={LogIn} />
-        <Route path="/signup" component={SignUp} />
-        <Route path="/createAuction" component={CreateAuction} />
-      </NavBar>
-    </Router>
+
+//preloadedState in between reducer and middleware is optional
+const store = createStore(reducer, middleware
+  //the following line is for redux devtools, but adding it leads to logger malfunction
+  // , window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   );
-};
+
+//need to have a route for finished auctions that can't be bid
+const Index = () => {
+    return (
+      <Router>
+        <Container>
+          <NavBar />
+          <Route exact path="/" component={Home} />
+          <Route exact path="/home" component={Home} />
+          <Route path="/auctions" component={Auctions} />
+          <Route path="/auction/:auctionId" component={Auction} />
+          <Route path="/artists" component={Artists} />
+          <Route path="/artist/:artistId" component={Artist} />
+          <Route path="/events" component={Events} />
+          <Route path="/login" component={LogIn} />
+          <Route path="/signup" component={SignUp} />
+          <Route path="/notification" component={Notification} />
+          <Route path="/createAuction" component={CreateAuction} />
+        </Container>
+      </Router>
+    )
+}
 
 render(
   <Provider store={store}>

@@ -1,10 +1,30 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Image } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
 
 class NavBar extends Component {
   render() {
+    let {username} = this.props;
+    let LoggedOutNav = (
+        <span>
+          {'  '}
+          <NavLink to="/login" >Log In</NavLink>
+          {'  '}
+          <NavLink to="/signup" >Sign Up</NavLink>
+        </span>
+      );
+
+    let LoggedInNav = (
+      <span>
+        {'  '}
+        <NavLink to="/logout" >{username} Log out</NavLink>
+        {'  '}
+        <NavLink to="/notification" >Noties</NavLink>
+      </span>
+    );
+
     return (
       <div>
         <Image avatar src="./assets/logo.jpeg" alt="homepage pic" />
@@ -12,21 +32,18 @@ class NavBar extends Component {
         <div>
           <input type="text" placeholder="search" />
           {'  '}
-          <NavLink to="/home" activeStyle={{color: 'red'}}>Home</NavLink>
+          <NavLink to="/home">Home</NavLink>
           {'  '}
-          <NavLink to="/auctions" activeStyle={{color: 'red'}}>Auctions</NavLink>
+          <NavLink to="/auctions">Auctions</NavLink>
           {'  '}
-          <NavLink to="/artists" activeStyle={{color: 'red'}}>Artists</NavLink>
+          <NavLink to="/artists" >Artists</NavLink>
           {'  '}
-          <NavLink to="/createAuction" activeStyle={{color: 'red'}}>Create an auction</NavLink>
+          <NavLink to="/createAuction" >Create an auction</NavLink>
           {'  '}
-          <NavLink to="/events" activeStyle={{color: 'red'}}>Events</NavLink>
+          <NavLink to="/events" >Events</NavLink>
           {'  '}
-          <NavLink to="/contactus" activeStyle={{color: 'red'}}>Contact us</NavLink>
-          {'  '}
-          <NavLink to="/login" activeStyle={{color: 'red'}}>Log In</NavLink>
-          {'  '}
-          <NavLink to="/signup" activeStyle={{color: 'red'}}>Sign Up</NavLink>
+          <NavLink to="/contactus" >Contact us</NavLink>
+          {username === '' ? LoggedOutNav : LoggedInNav}
           {this.props.children}
         </div>
       </div>
@@ -34,4 +51,11 @@ class NavBar extends Component {
   }
 }
 
-export default NavBar;
+const mapStateToProps = (state) => {
+  console.log('statesssss:', state);
+  return {
+    username: state.user.username
+  }
+}
+
+export default connect(mapStateToProps)(NavBar);

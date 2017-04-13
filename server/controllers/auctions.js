@@ -82,4 +82,17 @@ router.post('/:auctionId/bids', (req, res) => {
   });
 });
 
+router.get('/:auctionId', (req, res) => {
+  model.getAuction(req.params.auctionId)
+  .then((auctions) => {
+    if (auctions.length === 0) {
+      res.status(404).json({ ERR: { Status: 404, message: 'this auction does not exist' } });
+    }
+    res.status(200).json(auctions);
+  })
+  .catch((err) => {
+    res.status(500).send(err);
+  });
+});
+
 module.exports = router;

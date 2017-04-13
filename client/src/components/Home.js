@@ -1,112 +1,105 @@
 import React, { Component } from 'react';
-import { Divider } from 'semantic-ui-react';
+import { Image, Divider, Container } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import * as Auctions from '../actions/auctionActionCreator.jsx';
 import * as Artists from '../actions/artistActionCreator.jsx';
-//only before frontend connects with backend
-import { artworks } from '../../../server/database/dummyData.js';
 
-console.log('artworks', artworks);
+
+const clickArt = (artId, history) => {
+  history.push('/auction/' + artId);
+};
+
+//render the description ... as floating right of the image
+//closed auctions should be rendered differently from the ongoing ones
+let MainArt = ({art, history}) => {
+  console.log('heyhey:' , art.first_name);
+  return (
+    <span>
+      <Image className="ui image" src={art.artwork.image_url} onClick={() => {
+        clickArt(art.artwork.id, history);
+      }} />
+      <span className="ui label">
+        <span>Artist: {art.first_name} {art.last_name}</span>
+        <br />
+        <span> Description: {art.artwork.description}</span>
+        <br />
+        <span> Year: {art.artwork.age}</span>
+        <br />
+        <span> Closing price: missing!!!!</span>
+      </span>
+    </span>
+  );
+}
+
 let MainArts = ({mainArts, history}) => {
-  // console.log('main arts: ', mainArts[0]);
+  console.log('mainarts: ', mainArts);
   if (!mainArts[0]) {
     return <p>loading~~</p>
   } else {
-    // console.log('id: ', mainArts[0].auction.id);
+    // this className in div is not working:
     return (
-      <div>
-        <img src="./assets/temp.png" />
-        <span>art description</span>
-        auctions
-        {mainArts.map(mainArt => (
-          <div key={mainArt.auction.id}>
-            <img />
-          </div>
-          ))
-        }
-      </div>
+      <Container className="ui small images">
+       {mainArts.map(mainArt => <MainArt key={mainArt.id} art={mainArt} history={history}/>)}
+      </Container>
     )
   }
 }
 //the images, when onClick, will lead to bidding page(filled with info for just this artwork).
 
-let gotoAuction = (history, id, dispatch) => {
-  dispatch(Auctions.fetchingAnAuction(true));
-  // fetch('/??')
-  // .then(response => {
-  //   //got all the info for this auction
-  dispatch(Auctions.fetchedAnAuction(artworks[0]));
-  console.log(artworks[0]);
-  // })
-  history.push('/auction/' + id);
-  
-  //fetch info from backend for population
-  // fetch('/??')
-  // .then(response => {
-  // })
-
-  //redirect to another page (specific to this auction by id)
-  // console.log('onclick props: ', this.props);
-
-  // dispatch()
+let HomeAuction = ({homeAuction, history}) => {
+  return (
+    <span>
+      <Image src={homeAuction.artwork.image_url} onClick={() => {
+        clickArt(homeAuction.artwork.id, history);
+      }} />
+      <span className="ui label">
+        <span>Name: {homeAuction.artwork.art_name}</span>
+        <span> Id: {homeAuction.id}</span>
+      </span>
+    </span>
+  );
 }
-let HomeAuctions = ({homeAuctions, history, dispatch}) => {
-  console.log('homeAuctions: ', homeAuctions);
+//not using dispatch for the moment
+let HomeAuctions = ({homeAuctions, history}) => {
   if (!homeAuctions[0]) {
     return <p>loading~~~</p>
   } else {
-    let id = homeAuctions[0].auction.id;
-    //do the mapping of img later:
     return (
-      <div>
-        <img src="./assets/logo.jpeg" onClick={() => {
-          gotoAuction(history, id, dispatch);
-        }}/>
-        <img src="./assets/logo.jpeg" />
-        <img src="./assets/logo.jpeg" />
-        {homeAuctions.map(auction => {
-          <img />
-        })}
-      </div>
+      <Container className="ui tiny images">
+       {homeAuctions.map(homeAuction => <HomeAuction key={homeAuction.artwork.id} homeAuction={homeAuction} history={history} />)}
+      </Container>
     )
   }
 }
-
-let gotoArtist = (id, history, dispatch) => {
-  dispatch(Artists.fetchingArtist(true));
-  // fetch('/??')
-  // .then(response => {
-  //   //got all the info for this auction
-  dispatch(Artists.fetchArtistSuccess(artworks[0]));
-  console.log(artworks[0]);
-  // })
+//dispatch is not in use: 
+let clickArtist = (id, history, dispatch) => {
   history.push('/artist/' + id);
-  
-  //fetch info from backend for population
-  // fetch('/??')
-  // .then(response => {
-  // })
-
-  //redirect to another page (specific to this auction by id)
-  // console.log('onclick props: ', this.props);
-
-  // dispatch()
 }
 
-let HomeArtists = ({homeArtists, history, dispatch}) => {
+let HomeArtist = ({artist, history}) => {
   return (
-    <div>
-      <img src="./assets/logo.jpeg" onClick={() => {
-        gotoArtist(homeArtists, history, dispatch);
-      }}/>
-      <img src="./assets/logo.jpeg" />
-      <img src="./assets/logo.jpeg" />
-    </div>
+    <span>
+      <Image className="ui image" src={artist.image_url} onClick={() => clickArtist(artist.id, history)} />
+      <span className="ui label">
+        <span>artistid: {artist.id}</span>
+        <br />
+        <span>description {artist.description}</span>
+      </span>
+    </span>
   )
 }
 
-//need to pass down the arts from the database to MainArts component
-//where to put fetch?
+let HomeArtists = ({homeArtists, history}) => {
+  if(!homeArtists[0]) {
+    return <div>loading~~~~</div>
+  } else {
+    return (
+      <Container className="ui small images">
+        {homeArtists.map(homeArtist => <HomeArtist key={homeArtist.id} artist={homeArtist} history={history} />)}
+      </Container>
+    )
+  }
+}
 
 class Home extends Component {
   constructor(props) {
@@ -117,9 +110,8 @@ class Home extends Component {
     const {dispatch} = this.props;
     // Auctions.fetchAuctionData('/auctions');
       dispatch(Auctions.fetchingAuctions(true));
-      //backend url for getting passed auctions?
-      //will change the url to '/home' when the endpoint is ready
-      fetch('/auctions')
+
+      fetch('/home')
       .then(response => {
         if(!response.ok) {
           throw Error(response.statusText);
@@ -129,29 +121,18 @@ class Home extends Component {
         return response.json();
       })
       .then(data => {
-        console.log('im data: ', data[0].auction);
-        dispatch(Auctions.passedAuctionsFetchedSuccess(data));
-        dispatch(Auctions.ongoingAuctionsFetchedSuccess(data));
-        // dispatch(Artists.fetchArtistSuccess());
-
-        //go fetch on going auctions and then go fetch artists.
-        
-      }
-      ).catch(() => dispatch(Auctions.fetchAuctionErrored(true)));
-
-
-
-    //want to dispatch fetchingAuctions(true)
-    //and dispatch fetchAuctionData(url) to get passed
-    //dispatch fecthAuctionData(url) to get ongoing
-    //and dispatch fetchArtists()
-    // this.fetchData('/auctions');//which url at the backend?
+        console.log('im data: ', data);
+        let {current, expired, featuredArt} = data;
+        dispatch(Auctions.passedAuctionsFetchedSuccess(expired));
+        dispatch(Auctions.ongoingAuctionsFetchedSuccess(current));
+        dispatch(Auctions.featuredArtsFetchedSuccess(featuredArt));
+      })
+      .catch(() => dispatch(Auctions.fetchAuctionErrored(true)));
   }
-
+ 
     render() {
       console.log('this props: ', this.props);
-      console.log('auctions:', this.props.homeAuctions);
-
+      console.log('main arts::', this.props.mainArts);
 
       return (
         <div>
@@ -159,23 +140,23 @@ class Home extends Component {
         <Divider />
         <p>---------------------------</p>
         <p>Auctions</p>
-        <HomeAuctions homeAuctions={this.props.homeAuctions} history={this.props.history} dispatch={this.props.dispatch}/>
+        <HomeAuctions homeAuctions={this.props.homeAuctions} history={this.props.history} />
         <p>Artists</p>
         <Divider />
-        <HomeArtists homeArtists={this.props.homeArtists} history={this.props.history} dispatch={this.props.dispatch} />
+        <HomeArtists homeArtists={this.props.homeArtists} history={this.props.history} />
         </div>
       )
     }
 }
 
 const mapStateToProps = (state) => {
-  //for production:
+  //currently because there are no passed auctions, replaced
+  // mainArts: state.auctions.fetchedPassedAuctions in here. but change it back should make things work fine later.
   return {
-    mainArts: state.auctions.fetchedPassedAuctions,
+    mainArts: state.auctions.fetchedOngoingAuctions,
     homeAuctions: state.auctions.fetchedOngoingAuctions,
-    homeArtists: state.artists
+    homeArtists: state.auctions.fetchedFeaturedArts
   }
-
 };
 
 export default connect(mapStateToProps)(Home);

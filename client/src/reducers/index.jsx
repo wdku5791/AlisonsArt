@@ -9,7 +9,7 @@ const rootReducer = combineReducers({
   auctions: auctionsReducer,
   auction: auctionReducer,
   artists: artistReducer,
-  users: userReducer
+  user: userReducer
 });
  
 export default rootReducer;
