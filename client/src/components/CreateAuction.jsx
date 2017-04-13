@@ -1,18 +1,24 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 class CreateAuction extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pieceName: '',
-      year: '',
+      image_url: 'http://i.imgur.com/co4ArKg.jpg',
+      art_name: '',
+      age: '',
       description: '',
       length: '',
       height: '',
       width: '',
       categories: [],
-      estimatedValue: '',
-      buyoutPrice: '',
+      estimated_price: '',
+      buyout_price: '',
+      start_date: '',
+      end_date: '',
+      username: this.props.username,
+      userId: this.props.userId,
     }
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
@@ -36,14 +42,39 @@ class CreateAuction extends React.Component {
     } else {
       clone.splice(clone.indexOf(name), 1);
     }
-    console.log(`clone: ${clone}`);
     this.setState({
       categories: clone
     })
   }
 
   handleSubmit() {
-    console.log(`attempting to create auction...`);
+    let artwork = {
+      artist_id: this.state.artist_id,
+      age: this.state.age,
+      estimated_price: this.state.estimated_price,
+      art_name: this.state.art_name,
+      description: this.state.description,
+      dimensions: `${this.state.length} x ${this.state.height} x ${this.state.width}`,
+      image_url: this.state.image_url,  
+    }
+    let auction = {
+      owner_id: this.state.userId,
+      artwork_id: '',
+      estimated_price: this.state.estimated_price,
+      start_date: this.state.start_date,
+      end_date: this.state.end_date,
+      start_price: this.state.estimated_price,
+      buyout_price: this.state.buyout_price,
+      artwork: artwork,
+    }
+    console.log(`attempting to create auction...\nauction: ${JSON.stringify(auction)}`);
+    // fetch('/', {
+    //     method: 'post',
+    //     body: {
+    //       auction
+    //     }
+    //   })
+    //   .then()
   }
 
   render() {
@@ -54,10 +85,10 @@ class CreateAuction extends React.Component {
           <img src='./assets/temp.png' />
           <br />
           Piece Name:
-          <input type='text' name='pieceName' onChange={this.handleInputChange} value={this.state.pieceName} placeholder='ex:starry night' />
+          <input type='text' name='art_name' onChange={this.handleInputChange} value={this.state.art_name} placeholder='ex:starry night' />
           <br />
           Year:
-          <input type='number' name='year' onChange={this.handleInputChange} value={this.state.year} placeholder='ex: 1911' />
+          <input type='number' name='age' onChange={this.handleInputChange} value={this.state.age} placeholder='ex: 1911' />
           <br />
           Description:
           <input type='text' name='description' onChange={this.handleInputChange} value={this.state.description} />
@@ -77,10 +108,16 @@ class CreateAuction extends React.Component {
           <input type='checkbox' value='photography' onChange={this.handleCategoryChange}/> Photography <br />
           <input type='checkbox' value='sculpture' onChange={this.handleCategoryChange}/> Sculpture <br />
           Estimated Value:
-          <input type='number' name='estimatedValue' onChange={this.handleInputChange} value={this.state.estimatedValue}/>
+          <input type='number' name='estimated_price' onChange={this.handleInputChange} value={this.state.estimated_price}/>
           <br />
           Buyout Price: 
-          <input type='number' name='buyoutPrice' onChange={this.handleInputChange} value={this.state.buyoutPrice}/>
+          <input type='number' name='buyout_price' onChange={this.handleInputChange} value={this.state.buyout_price}/>
+          <br />
+          Start Date:
+          <input type='text' name='start_date' onChange={this.handleInputChange} value={this.state.start_date} placeholder='YYYY-MM-DD HH:MM:SS'/>
+          End Date:
+          <input type='text' name='end_date' onChange={this.handleInputChange} value={this.state.end_date} placeholder='YYYY-MM-DD HH:MM:SS'/>
+          <br/>
           <input type='button' value='Submit' onClick={this.handleSubmit}/>
         </form>
     </div>
@@ -88,4 +125,19 @@ class CreateAuction extends React.Component {
   }
 }
 
-export default CreateAuction;
+const mapStateToProps = (state) => {
+  return {
+    username: state.users.username,
+    userId: state.users.userId,
+  }
+}
+
+export default connect(mapStateToProps)(CreateAuction);
+
+
+
+
+
+
+
+
