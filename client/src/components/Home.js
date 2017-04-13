@@ -60,7 +60,7 @@ let HomeAuction = ({homeAuction, history}) => {
   );
 }
 //not using dispatch for the moment
-let HomeAuctions = ({homeAuctions, history, dispatch}) => {
+let HomeAuctions = ({homeAuctions, history}) => {
   if (!homeAuctions[0]) {
     return <p>loading~~~</p>
   } else {
@@ -78,21 +78,25 @@ let clickArtist = (id, history, dispatch) => {
 
 let HomeArtist = ({artist, history}) => {
   return (
-    <span>
+    <div>
       <Image className="ui image" src={artist.image_url} onClick={() => clickArtist(artist.id, history)} />
-      description {artist.description}
-    </span>
+      <span className="ui label">
+        <span>artistid: {artist.id}</span>
+        <br />
+        <span>description {artist.description}</span>
+      </span>
+    </div>
   )
 }
 
-let HomeArtists = ({homeArtists, history, dispatch}) => {
+let HomeArtists = ({homeArtists, history}) => {
   if(!homeArtists[0]) {
     return <div>loading~~~~</div>
   } else {
     return (
-      <div className="ui small images">
+      <Container className="ui small images">
         {homeArtists.map(homeArtist => <HomeArtist key={homeArtist.id} artist={homeArtist} history={history} />)}
-      </div>
+      </Container>
     )
   }
 }
@@ -136,10 +140,10 @@ class Home extends Component {
         <Divider />
         <p>---------------------------</p>
         <p>Auctions</p>
-        <HomeAuctions homeAuctions={this.props.homeAuctions} history={this.props.history} dispatch={this.props.dispatch}/>
+        <HomeAuctions homeAuctions={this.props.homeAuctions} history={this.props.history} />
         <p>Artists</p>
         <Divider />
-        <HomeArtists homeArtists={this.props.homeArtists} history={this.props.history} dispatch={this.props.dispatch} />
+        <HomeArtists homeArtists={this.props.homeArtists} history={this.props.history} />
         </div>
       )
     }

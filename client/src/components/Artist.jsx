@@ -4,18 +4,11 @@ import { connect } from 'react-redux';
 
 class Artist extends Component {
 
-  
-  //when user clicks submit, check if user is logged in
-    //if not re-direct
-    //if logged in, grab all info and redirect to payment page.
-
-
-
-  fetchArtist(artistId) {
-
-    //fetch data and return here
-
+  componentWillMount() {
+    //fetch all data about this artist
   }
+
+  
   render(){
     console.log('heello?');
     console.log('artist id: ', this.props.match.params.artistId);
