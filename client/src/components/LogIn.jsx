@@ -33,7 +33,6 @@ class LogIn extends Component {
       }
       return response.json();
     }).then(data => {
-      console.log('rrerereresponse: ',data);
       dispatch(UserAction.checkingInfo(false));
       dispatch(UserAction.logInSuccess(data.username, data.userId));
       //push user to Homepage:
