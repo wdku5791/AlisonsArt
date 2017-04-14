@@ -22,7 +22,7 @@ class NavBar extends Component {
         {'  '}
         <NavLink to={"/user/"+userId} >{username}</NavLink>
         {'  '}
-        <NavLink to="/logout" >Log out</NavLink>
+        <NavLink to="/logout">Log out</NavLink>
         {'  '}
         <NavLink to="/notification" >Noties</NavLink>
       </span>

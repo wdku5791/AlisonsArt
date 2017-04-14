@@ -25,6 +25,7 @@ import LogIn from './components/LogIn.jsx';
 import User from './components/User.jsx';
 import CreateAuction from './components/CreateAuction.jsx';
 import Notification from './components/Notification.jsx';
+import ContactUs from './components/ContactUs.jsx';
 
 const middleware = applyMiddleware(thunkMiddleware, logger);
 
@@ -48,6 +49,7 @@ const Index = () => {
           <Route path="/artist/:artistId" component={Artist} />
           <Route path="/user/:userId" component={User} />
           <Route path="/events" component={Events} />
+          <Route path="/contactus" component={ContactUs} />
           <Route path="/login" component={LogIn} />
           <Route path="/signup" component={SignUp} />
           <Route path="/notification" component={Notification} />

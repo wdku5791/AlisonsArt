@@ -3,7 +3,9 @@ import React, { Component } from 'react';
 const Payments = () => {
   return(
     <div>
-    payments page
+      <form>
+        <input type="number" placeholder="Card Number" />
+      </form>
     </div>
   );
 }
