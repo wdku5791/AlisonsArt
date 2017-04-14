@@ -9,7 +9,7 @@ class SignUp extends Component {
     e.preventDefault();
     let username = this.usernameNode.value;
     let password = this.passwordNode.value;
-    let cPassword = this.passwordNode.value;
+    let cPassword = this.cPasswordNode.value;
     let email = this.emailNode.value;
     let lastName = this.emailNode.value;
     let firstName = this.emailNode.value;
@@ -59,6 +59,8 @@ class SignUp extends Component {
         dispatch(UserAction.checkingInfo(false));
         dispatch(UserAction.loginError(err));
       });
+    } else {
+      alert('please enter matching passwords!');
     }
 
   }
