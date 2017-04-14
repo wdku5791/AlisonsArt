@@ -10,7 +10,6 @@ const loginSignupHandler = require('./controllers/loginSignup');
 const userHandler = require('./controllers/user');
 const artistHandler = require('./controllers/artist');
 const imageHandler = require('./controllers/imageUpload');
-
 const app = express();
 busboy.extend(app, {
   upload: true,

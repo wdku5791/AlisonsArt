@@ -75,6 +75,7 @@ module.exports = function createSchemas(db) {
     );
 
     return t.batch([drop, users, artworks, auctions, bids, attributes, messages, artworkAttributes, followers, profiles]);
+    
   })
   .then(() => {
     console.log('database tables created');
