@@ -242,6 +242,10 @@ module.exports = {
       returning id', messageObj);
   },
 
+  changeUserPassword(userId, password) {
+    return db.oneOrNone('UPDATE users SET password=$1 WHERE id=$2', [password, userId]);
+  },
+
   updateUser() {
     //TODO
   },

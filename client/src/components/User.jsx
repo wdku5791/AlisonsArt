@@ -27,8 +27,6 @@ const Navigation = (props) => {
     </Container>
   );
 }
-      // {this.props.}
-
 
 const User = (props) => {
   console.log('props: ', props);
