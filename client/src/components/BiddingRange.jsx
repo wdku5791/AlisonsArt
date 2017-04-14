@@ -1,6 +1,6 @@
 import React from 'react';
 
-let BiddingRange = ({current, start, end}) => {
+let BiddingRange = ({current, start, end, setBid}) => {
   const interval = 1000;
   current = +current;
   start = +start;
@@ -14,9 +14,11 @@ let BiddingRange = ({current, start, end}) => {
     range.push(i);
   }
   return (
-    <select name="Bid now" onChange={(e) => { bidValue = +e.target.value }}>
+    <select name="Bid now" onChange={(e) => { setBid(e.target.value) }}>
       <option defaultValue="Bid now">Bid now</option>
       {range.map(r => <option key={r}>{r}</option>)}
     </select>
   );
 };
+
+export default BiddingRange;

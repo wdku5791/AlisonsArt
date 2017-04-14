@@ -2,31 +2,11 @@ import React, { Component } from 'react';
 import { Container, Image } from 'semantic-ui-react';
 import * as Auctions from '../actions/auctionActionCreator.jsx';
 import { connect } from 'react-redux';
+import AuctionDetail from './AuctionDetail.jsx';
+import ClosedAuction from './ClosedAuction.jsx';
+import { setBid } from '../actions/bidActionCreator';
+import Moment from 'moment';
 
-let bidValue = 0;
-let BiddingRange = ({current, start, end}) => {
-  const interval = 1000;
-  current = +current;
-  start = +start;
-  end = +end;
-
-  start = start < current ? current : start;
-
-  let range = [];
-  
-  for(let i = start + interval; i <= end; i += interval) {
-    range.push(i);
-  }
-  if(range[range.length - 1] < end) {
-    range.push(end);
-  }
-  return (
-    <select name="Bid now" onChange={(e) => {bidValue = +e.target.value}}>
-      <option defaultValue="Bid now">Bid now</option>
-      {range.map(r => <option key={r}>{r}</option>)}
-    </select>
-  )
-}
 
 class Auction extends Component {
 
@@ -53,16 +33,21 @@ class Auction extends Component {
     .catch((err) => dispatch(Auctions.fetchAuctionErrored(true, err)));
   }
 
-  handleClick(user, history) {
+  setBid(bid) {
+    const { dispatch } = this.props;
+    dispatch(setBid(bid));
+  }
+
+  handleClick() {
     if (bidValue === 0) {
       alert('Please select a value');
     } else {
       console.log('bid value is a number');
-      console.log('useris: ', user);
+      console.log('useris: ', this.props.user);
       //if user not logged in, redirect
-      if(!user.username) {
+      if(!this.props.user.username) {
         alert('you are not logged in, please sign up or log in');
-        history.push('/signup')
+        this.props.history.push('/signup')
       } else {
       //grab userid, artwork_id and value
 
@@ -83,20 +68,17 @@ class Auction extends Component {
         <p>loading~~~</p>
       )
     } else {
-      return (
-        <Container>
-          <Container className="ui medium images">
-            <Image className="ui image" src={auction.artwork.image_url}/>
-          </Container>
-          <Container>
-            <p>Description: {auction.artwork.description}</p>
-            <p>Year: {auction.artwork.age}</p>
-            <p>Estimated value ($USD): {auction.buyout_price}</p>
-            <BiddingRange current={auction.current_bid} start={auction.start_price} end={auction.buyout_price}/>
-            <button onClick={() => {this.handleClick(this.props.user, this.props.history)}}>Submit</button>
-          </Container>
-        </Container>
-      )
+      const end = new Moment(auction.end_date);
+      const now = new Moment();
+      if (end.isBefore(now)) {
+        return (
+          <ClosedAuction auction={auction}/>
+        );
+      } else {
+        return (
+          <AuctionDetail handleClick={this.handleClick.bind(this)} auction={auction} setBid={this.setBid.bind(this)}/>
+        );
+      }
     }
   }
 }
@@ -104,7 +86,8 @@ class Auction extends Component {
 const mapStateToProps = (state) => {
   return {
     auction: state.auction,
-    user: state.user
+    user: state.user,
+    bid: state.bid,
   }
 }
 export default connect(mapStateToProps)(Auction);
