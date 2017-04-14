@@ -41,7 +41,7 @@ module.exports = function insertDummyData (db) {
     })
   })
   .then(() => {
-    console.log('success');
+    console.log('success seeding data');
   })
   .catch((err) => {
     console.error(err);

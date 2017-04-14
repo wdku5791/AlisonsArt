@@ -7,6 +7,9 @@ module.exports = {
   getUserByName(username) {
     return db.query('select * from users where username=$1', [username]);
   },
+  getUserByEmail(email) {
+    return db.query('select * from users where email=$1', [email]);
+  },
   getUsers() {
     return db.query('select * from users');
   },
@@ -109,8 +112,6 @@ module.exports = {
       })
       .then(t.batch);
     });
-    return db.query('select * from auctions inner join artworks\
-    on artworks.id = auctions.artwork_id where auctions.id = $1', [auctionId]);
   },
   getUserFollowers(userId) {
     return db.query('select * from users inner join followers\
