@@ -65,7 +65,7 @@ class SignUp extends Component {
 
   render() {
     return (
-      <container>
+      <Container>
         <form onSubmit={e => {this._handleSubmit(e)}}>
         	Username:
         	<input type="text" placeholder="username" 
@@ -98,7 +98,7 @@ class SignUp extends Component {
           ref={node => this.stateNode = node} />
         	<input type="submit" />
         </form>
-      </container>
+      </Container>
     );
   }
 }
