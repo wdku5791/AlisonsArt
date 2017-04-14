@@ -25,7 +25,7 @@ router.post('/login', (req, res) => {
     }
   })
   .catch(err => {
-    res.status(400).send('Log in error: ' + err);
+    res.status(400).send('Wrong username or password!');
   });
 });
 

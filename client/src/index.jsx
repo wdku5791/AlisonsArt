@@ -4,7 +4,6 @@ import {
   HashRouter as Router,
   Route,
   IndexRoute,
-  Link,
   hashHistory
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -23,8 +22,10 @@ import Artist from './components/Artist.jsx';
 import Events from './components/Events.jsx';
 import SignUp from './components/SignUp.jsx';
 import LogIn from './components/LogIn.jsx';
+import User from './components/User.jsx';
 import CreateAuction from './components/CreateAuction.jsx';
 import Notification from './components/Notification.jsx';
+import ContactUs from './components/ContactUs.jsx';
 
 const middleware = applyMiddleware(thunkMiddleware, logger);
 
@@ -46,7 +47,9 @@ const Index = () => {
           <Route path="/auction/:auctionId" component={Auction} />
           <Route path="/artists" component={Artists} />
           <Route path="/artist/:artistId" component={Artist} />
+          <Route path="/user/:userId" component={User} />
           <Route path="/events" component={Events} />
+          <Route path="/contactus" component={ContactUs} />
           <Route path="/login" component={LogIn} />
           <Route path="/signup" component={SignUp} />
           <Route path="/notification" component={Notification} />
