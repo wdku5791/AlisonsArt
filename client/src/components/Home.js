@@ -45,14 +45,16 @@ const MainArts = ({ mainArts, history }) => {
       images.push(imageObj);
     })
     return (
-      <ImageGallery
-        items={images}
-        slideInterval={7000}
-        autoPlay={true}
-        showThumbnails={false}
-        showFullscreenButton={false}
-        onClick={(e) => {onImageClick(e, history)}}
-      />
+      <div>
+        <ImageGallery
+          items={images}
+          slideInterval={7000}
+          autoPlay={true}
+          showThumbnails={false}
+          showFullscreenButton={false}
+          onClick={(e) => {onImageClick(e, history)}}
+        />
+      </div>
     )
   }
 }
@@ -157,6 +159,7 @@ class Home extends Component {
     render() {
       return (
         <div>
+        <h3>ArtPoint is an online auction place to connect aspiring artists with art lovers</h3>
         <Divider />
           <MainArts mainArts={this.props.mainArts} history={this.props.history} />
         <Divider />

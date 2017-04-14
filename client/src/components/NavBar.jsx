@@ -9,10 +9,9 @@ class NavBar extends Component {
     let {username, userId} = this.props;
 
     let LoggedOutNav = (
-        <span>
-          {'  '}
+        <span style={{'float': 'right'}}>
           <NavLink to="/login" >Log In</NavLink>
-          {'  '}
+          {' | '}
           <NavLink to="/signup" >Sign Up</NavLink>
         </span>
       );
@@ -34,17 +33,17 @@ class NavBar extends Component {
         <h1>ArtPoint</h1>
         <div>
           <input type="text" placeholder="search" />
-          {'  '}
+          {' | '}
           <NavLink to="/home">Home</NavLink>
-          {'  '}
+          {' | '}
           <NavLink to="/auctions">Auctions</NavLink>
-          {'  '}
+          {' | '}
           <NavLink to="/artists" >Artists</NavLink>
-          {'  '}
+          {' | '}
           <NavLink to="/createAuction" >Create an auction</NavLink>
-          {'  '}
+          {' | '}
           <NavLink to="/events" >Events</NavLink>
-          {'  '}
+          {' | '}
           <NavLink to="/contactus" >Contact us</NavLink>
           {username === '' ? LoggedOutNav : LoggedInNav}
           {this.props.children}
