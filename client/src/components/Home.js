@@ -12,7 +12,6 @@ const clickArt = (artId, history) => {
 //render the description ... as floating right of the image
 //closed auctions should be rendered differently from the ongoing ones
 const MainArt = ({ art, history }) => {
-  console.log('heyhey:' , art.first_name);
   return (
     <span>
       <Image className="ui image" src={art.artwork.image_url} onClick={() => {
@@ -116,7 +115,6 @@ class Home extends Component {
           throw Error(response.statusText);
         }
         dispatch(Auctions.fetchingAuctions(false));
-        console.log('hererererere');
         return response.json();
       })
       .then(data => {
@@ -126,7 +124,10 @@ class Home extends Component {
         dispatch(Auctions.ongoingAuctionsFetchedSuccess(current));
         dispatch(Auctions.featuredArtsFetchedSuccess(featuredArt));
       })
-      .catch(() => dispatch(Auctions.fetchAuctionErrored(true)));
+      .catch(() => {
+        dispatch(Auctions.fetchingAuctions(false));
+        dispatch(Auctions.fetchAuctionErrored(true));
+      });
   }
  
     render() {
@@ -150,7 +151,7 @@ const mapStateToProps = (state) => {
   //currently because there are no passed auctions, replaced
   // mainArts: state.auctions.fetchedPassedAuctions in here. but change it back should make things work fine later.
   return {
-    mainArts: state.auctions.fetchedOngoingAuctions,
+    mainArts: state.auctions.fetchedPassedAuctions,
     homeAuctions: state.auctions.fetchedOngoingAuctions,
     homeArtists: state.auctions.fetchedFeaturedArts
   }

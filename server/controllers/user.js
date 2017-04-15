@@ -10,7 +10,6 @@ router.get('/:userId', (req, res) => {
     res.status(200).send(response[0]);
   })
   .catch(err => {
-    console.log('errrrr: ', err);
     res.satus(400).send('Wrong password');
   });
 });

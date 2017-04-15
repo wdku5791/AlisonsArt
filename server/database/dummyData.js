@@ -42,6 +42,27 @@ const users = [
 		address: '666 Bluejay Way',
 	}
 ];
+//profiles:
+//******************************
+const profiles = [
+	{
+		id: 1,
+		user_id: 1,
+		profile: 'im no.1 talented!',
+		fb_link: 'https://www.facebook.com/xueying.zhang.509',
+		twitter_link: 'https://twitter.com/Alison_XYZ?lang=en',
+		inst_link: 'https://www.instagram.com/alisonzthu/'
+	},
+	{
+		id: 2,
+		user_id: 4,
+		profile: 'im no.4 talented!',
+		fb_link: 'https://www.facebook.com/xueying.zhang.509',
+		twitter_link: 'https://twitter.com/Alison_XYZ?lang=en',
+		inst_link: 'https://www.instagram.com/alisonzthu/'
+	}
+];
+
 
 // ARTWORKS
 // *****************************
@@ -149,7 +170,7 @@ const auctions = [
 		owner_id: 1,
 		artwork_id: 2,
 		start_date: '2017-04-09 14:27:07',
-		end_date: '2017-05-08 11:45:07',
+		end_date: '2017-04-13 11:45:07',
 		start_price: 10000,
 		buyout_price: 30000,
 		current_bid_id: 3,
@@ -161,7 +182,7 @@ const auctions = [
 		owner_id: 1,
 		artwork_id: 3,
 		start_date: '2017-04-09 14:27:07',
-		end_date: '2017-05-11 10:27:07',
+		end_date: '2017-04-12 10:27:07',
 		start_price: 12500,
 		buyout_price: 35000,
 		current_bid_id: 4,
@@ -173,7 +194,7 @@ const auctions = [
 		owner_id: 1,
 		artwork_id: 4,
 		start_date: '2017-04-09 14:27:07',
-		end_date: '2017-02-05 14:27:07',
+		end_date: '2017-04-13 14:27:07',
 		start_price: 9000,
 		buyout_price: 27000,
 		current_bid_id: null,
@@ -244,5 +265,6 @@ module.exports = {
 	users,
 	artworks,
 	auctions,
-	bids
+	bids,
+	profiles
 };

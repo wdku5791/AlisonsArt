@@ -6,6 +6,7 @@ const auctionHandler = require('./controllers/auctions');
 const homeHandler = require('./controllers/home');
 const loginSignupHandler = require('./controllers/loginSignup');
 const userHandler = require('./controllers/user');
+const artistHandler = require('./controllers/artist');
 
 const app = express();
 const bodyParser = require('body-parser');
@@ -19,6 +20,7 @@ app.use('/auctions', auctionHandler);
 app.use('/home', homeHandler);
 app.use('/auth', loginSignupHandler);
 app.use('/user', userHandler);
+app.use('/artist', artistHandler);
 
 const server = app.listen(port, function() {
   console.log('Listening on port ', port);
