@@ -24,7 +24,7 @@ class Artist extends Component {
   componentWillMount() {
     //fetch all data about this artist
     //should have a detailed, user customized profile
-    fetch('')
+    // fetch('')
   }
   
   render(){

@@ -2,7 +2,7 @@ module.exports = function createSchemas(db) {
   return db.tx (t => {
     let drop = t.query('DROP TABLE IF EXISTS\
       followers, artwork_attributes, attributes, messages,\
-      bids, auctions, artworks, users cascade \
+      bids, auctions, artworks, users, profiles cascade \
     ');
 
     let users = t.query('CREATE TABLE IF NOT EXISTS users (\
@@ -65,8 +65,16 @@ module.exports = function createSchemas(db) {
       follower_id BIGINT NOT NULL REFERENCES users(id),\
       followee_id BIGINT NOT NULL REFERENCES users(id)\
     )');
+    let profiles = t.query('CREATE TABLE IF NOT EXISTS profiles(\
+      id SERIAL PRIMARY KEY NOT NULL,\
+      user_id BIGINT NOT NULL REFERENCES users(id),\
+      profile TEXT NOT NULL,\
+      fb_link VARCHAR,\
+      twitter_link VARCHAR,\
+      inst_link VARCHAR)'
+    );
 
-    return t.batch([drop, users, artworks, auctions, bids, attributes, messages, artworkAttributes, followers]);
+    return t.batch([drop, users, artworks, auctions, bids, attributes, messages, artworkAttributes, followers, profiles]);
   })
   .then(() => {
     console.log('database tables created');

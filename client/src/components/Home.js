@@ -116,7 +116,6 @@ class Home extends Component {
           throw Error(response.statusText);
         }
         dispatch(Auctions.fetchingAuctions(false));
-        console.log('hererererere');
         return response.json();
       })
       .then(data => {
@@ -150,7 +149,7 @@ const mapStateToProps = (state) => {
   //currently because there are no passed auctions, replaced
   // mainArts: state.auctions.fetchedPassedAuctions in here. but change it back should make things work fine later.
   return {
-    mainArts: state.auctions.fetchedOngoingAuctions,
+    mainArts: state.auctions.fetchedPassedAuctions,
     homeAuctions: state.auctions.fetchedOngoingAuctions,
     homeArtists: state.auctions.fetchedFeaturedArts
   }
