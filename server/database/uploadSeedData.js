@@ -19,7 +19,7 @@ module.exports = function insertDummyData(db) {
         var auctionInserts = auctions.map(auction => t.none('INSERT INTO auctions \
                 (owner_id, artwork_id, start_date, end_date, start_price, buyout_price, current_bid_id, current_bid, bid_counter)\
                 VALUES \
-                ((SELECT id FROM users WHERE id = ${owner_id}), (SELECT id FROM artworks WHERE id = ${artwork_id}), ${start_date}, ${end_date}, ${start_price}, ${buyout_price}, ${current_bid_id}, ${current_bid}, ${bid_counter})', action));
+                ((SELECT id FROM users WHERE id = ${owner_id}), (SELECT id FROM artworks WHERE id = ${artwork_id}), ${start_date}, ${end_date}, ${start_price}, ${buyout_price}, ${current_bid_id}, ${current_bid}, ${bid_counter})', auction));
 
         var bidInserts = bids.map(bid => t.none('INSERT INTO bids \
                 (bidder_id, auction_id, bid_date, bid_price)\
