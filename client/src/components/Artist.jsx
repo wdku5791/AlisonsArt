@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Image, Grid } from 'semantic-ui-react';
+import { Container, Image, Divider, Grid, Button, Segment } from 'semantic-ui-react';
 
 
 const CurrentAuctions = () => {
   return (
-    <div>
+    <Container>
     im current auctions
-    </div>
+    </Container>
   );
 }
 
 const PreviousAuctions = () => {
   return (
-    <div>
+    <Container>
     im previous auctions
-    </div>
+    </Container>
   );
 }
 
@@ -23,6 +23,8 @@ class Artist extends Component {
 
   componentWillMount() {
     //fetch all data about this artist
+    //should have a detailed, user customized profile
+    fetch('')
   }
   
   render(){
@@ -36,26 +38,40 @@ class Artist extends Component {
     return (
       <Container>
         <Container>
-          <div>
+          <Container>
             <span>artist name</span>
             {' '}
             <button>Direct message</button>
-            <button>fb</button>
-            <button>twitter</button>
-            <button>instagram</button>
-          </div>
-          <div>
-            <button>prev</button>
-            <img src="./assets/temp.png" />
-            <button>next</button>
-            <textarea rows="4" cols="20" />
-          </div>
+            {' '}
+            <Button circular color='facebook' icon='facebook' />
+            {' '}
+            <Button circular color='twitter' icon='twitter'/>
+          </Container>
+          <Grid verticalAlign='middle'>
+            <Grid.Row>
+              <Grid.Column width={2} >
+                <button>prev</button>
+              </Grid.Column>
+              <Grid.Column width={6} >
+                <Image src="./assets/temp.png" centered />
+              </Grid.Column>
+              <Grid.Column width={2} >
+                <button>next</button>
+              </Grid.Column>
+              <Grid.Column width={6}>
+                <Container fluid textAlign="justified">
+                  Im the artist, I rock!
+                </Container>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
         </Container>
         <Grid columns={2}>
           <Grid.Row>
             <Grid.Column>
               Ongoing auctions:
               <CurrentAuctions />
+            <Divider vertical />
             </Grid.Column>
             <Grid.Column>
               Previous auctions:
