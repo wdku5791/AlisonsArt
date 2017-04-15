@@ -5,7 +5,7 @@ class CreateAuction extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      image_url: 'http://i.imgur.com/co4ArKg.jpg',
+      image_url: 'https://images.genius.com/5815d7f7ae232dd64ace634964f52448.650x430x1.jpg',
       art_name: '',
       age: '',
       description: '',
@@ -23,12 +23,13 @@ class CreateAuction extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleImageInput = this.handleImageInput.bind(this);
+    this.handleImageCreate = this.handleImageCreate.bind(this);
   }
 
   handleInputChange(e) {
     const name = e.target.name;
     const value = e.target.value;
-    // console.log(`target name: ${name}\ntarget value ${value}`);
     this.setState({
       [name]: value
     })
@@ -84,12 +85,35 @@ class CreateAuction extends React.Component {
       })
   }
 
+  handleImageInput(e) {
+    this.setState({
+      image_url: e.target.value
+    })
+  }
+
+  handleImageCreate() {
+    fetch('/images', {
+        method: 'post',
+        headers: new Headers ({
+          'Content-Type': 'application/json'
+        }),
+        body: JSON.stringify({image_file: this.state.image_url})
+    })
+    .then((data) => {
+      console.log('posting image to Cloudinary SUCCESS! data: ', data);
+    })
+    .catch((error) => {
+      console.log('posting image to Cloudinary FAILED! error: ', error);
+    })
+  }
+
   render() {
     return (
       <div>
         <form>
-          <button type='button'>Upload Image...</button>
-          <img src='./assets/temp.png' />
+          <input type='file' name='image' accept='image/*' onChange={this.handleImageInput}/>
+          <button type='button' onClick={this.handleImageCreate}>Upload Image...</button>
+          <img src={this.state.image_url} />
           <br />
           Piece Name:
           <input type='text' name='art_name' onChange={this.handleInputChange} value={this.state.art_name} placeholder='ex:starry night' />
