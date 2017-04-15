@@ -3,6 +3,10 @@ import { NavLink } from 'react-router-dom';
 import { Image } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
+let linkStyling = {
+  'font-size': '18',
+  'color': '#474a4f'
+}
 
 class NavBar extends Component {
   render() {
@@ -10,43 +14,42 @@ class NavBar extends Component {
 
     let LoggedOutNav = (
         <span style={{'float': 'right'}}>
-          <NavLink to="/login" >Log In</NavLink>
+          <NavLink style={linkStyling} to="/login" >Log In</NavLink>
           {' | '}
-          <NavLink to="/signup" >Sign Up</NavLink>
+          <NavLink style={linkStyling} to="/signup" >Sign Up</NavLink>
         </span>
       );
 
     let LoggedInNav = (
-      <span>
+      <span style={{'float': 'right'}}>
         {'  '}
-        <NavLink to={"/user/"+userId} >{username}</NavLink>
-        {'  '}
-        <NavLink to="/logout">Log out</NavLink>
-        {'  '}
-        <NavLink to="/notification" >Noties</NavLink>
+        <NavLink style={linkStyling} to={"/user/"+userId} >{username}</NavLink>
+        {' | '}
+        <NavLink style={linkStyling} to="/logout">Log out</NavLink>
+        {' | '}
+        <NavLink style={linkStyling} to="/notification" >Noties</NavLink>
       </span>
     );
 
     return (
       <div>
-        <Image avatar src="./assets/logo.jpeg" alt="homepage pic" />
-        <h1>ArtPoint</h1>
+        <h1> <Image avatar src='./assets/logo.jpeg' />ArtPoint</h1>
         <div>
-          <input type="text" placeholder="search" />
+          {'  '}
+          <NavLink style={linkStyling} to="/home">Home</NavLink>
           {' | '}
-          <NavLink to="/home">Home</NavLink>
+          <NavLink style={linkStyling} to="/auctions">Auctions</NavLink>
           {' | '}
-          <NavLink to="/auctions">Auctions</NavLink>
+          <NavLink style={linkStyling} to="/artists" >Artists</NavLink>
           {' | '}
-          <NavLink to="/artists" >Artists</NavLink>
+          <NavLink style={linkStyling} to="/createAuction" >Create an auction</NavLink>
           {' | '}
-          <NavLink to="/createAuction" >Create an auction</NavLink>
+          <NavLink style={linkStyling} to="/events" >Events</NavLink>
           {' | '}
-          <NavLink to="/events" >Events</NavLink>
-          {' | '}
-          <NavLink to="/contactus" >Contact us</NavLink>
+          <NavLink style={linkStyling} to="/contactus" >Contact us</NavLink>
           {username === '' ? LoggedOutNav : LoggedInNav}
           {this.props.children}
+          <input style={{'height': '26px', 'font-size': 18, 'margin-left': '20px'}}type="text" placeholder="search" />
         </div>
       </div>
     );

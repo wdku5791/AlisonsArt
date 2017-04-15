@@ -45,7 +45,12 @@ const MainArts = ({ mainArts, history }) => {
       images.push(imageObj);
     })
     return (
-      <div>
+      <div style={{'max-height': '400px', 
+        'width': '100%', 
+        'overflow': 'hidden',
+        'display': 'inline-block',
+        'cursor': 'pointer'
+      }}>
         <ImageGallery
           items={images}
           slideInterval={7000}
@@ -63,16 +68,18 @@ const MainArts = ({ mainArts, history }) => {
 const HomeAuction = ({ homeAuction, history }) => {
   return (
     <Grid.Column>
-      <Card>
-        <Image src={homeAuction.artwork.image_url} onClick={() => {
-          clickArt(homeAuction.artwork.id, history);
-        }} />
-        <Card.Content>
-          <Card.Header>{homeAuction.artwork.art_name}</Card.Header>
-          <Card.Meta>Buyout: ${homeAuction.buyout_price}</Card.Meta>
-          <Card.Description>{homeAuction.first_name} {homeAuction.last_name} ({homeAuction.artwork.age})</Card.Description>
-        </Card.Content>
-      </Card>
+
+        <Image 
+          style={{'cursor': 'pointer'}} src={homeAuction.artwork.image_url} 
+          onClick={() => {clickArt(homeAuction.artwork.id, history);}}
+          label={{ as: 'a', color: 'black', content: '$' + homeAuction.buyout_price, ribbon: true }} 
+        />
+        <Container>
+          <h4 style={{'margin-top': '7px', 'margin-bottom': '5px'}}>
+          {homeAuction.artwork.art_name}
+          </h4>
+          <p>{homeAuction.first_name} {homeAuction.last_name} ({homeAuction.artwork.age})</p>
+        </Container>
     </Grid.Column>
   );
 }
@@ -82,7 +89,7 @@ const HomeAuctions = ({homeAuctions, history}) => {
     return <p>loading~~~</p>
   } else {
     return (
-      <Grid>
+      <Grid columns='equal'>
         <Grid.Row columns={3}>
           {homeAuctions.map(homeAuction => <HomeAuction key={homeAuction.artwork.id} homeAuction={homeAuction} history={history} />)}
         </Grid.Row>
@@ -98,15 +105,15 @@ const clickArtist = (id, history, dispatch) => {
 const HomeArtist = ({ artist, history }) => {
   return (
     <Grid.Column>
-      <Card>
-        <Image className="ui image" src={artist.image_url} onClick={() => 
+        <Image style={{'cursor': 'pointer'}} className="ui image" src={artist.image_url} onClick={() => 
           clickArtist(artist.id, history
         )} />
-        <Card.Content>
-          <Card.Header>{artist.first_name} {artist.last_name}</Card.Header>
-          <Card.Description>CATEGORY TAGS GO HERE</Card.Description>
-        </Card.Content>
-      </Card>
+        <Container>
+          <h4 style={{'margin-top': '7px', 'margin-bottom': '5px'}}>
+            {artist.first_name} {artist.last_name}
+          </h4>
+          <p>CATEGORY TAGS GO HERE</p>
+        </Container>
     </Grid.Column>
   )
 }
@@ -159,7 +166,6 @@ class Home extends Component {
     render() {
       return (
         <div>
-        <h3>ArtPoint is an online auction place to connect aspiring artists with art lovers</h3>
         <Divider />
           <MainArts mainArts={this.props.mainArts} history={this.props.history} />
         <Divider />

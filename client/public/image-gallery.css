@@ -95,7 +95,7 @@
   .image-gallery-play-button:hover::before,
   .image-gallery-left-nav:hover::before,
   .image-gallery-right-nav:hover::before {
-    color: #337ab7; }
+    color: #000000; }
     @media (max-width: 768px) {
       .image-gallery-fullscreen-button:hover::before,
       .image-gallery-play-button:hover::before,
@@ -149,7 +149,7 @@
   color: #fff;
   font-size: 5em;
   padding: 50px 15px;
-  top: 50%;
+  top: 200px;
   transform: translateY(-50%); }
   .image-gallery-left-nav[disabled],
   .image-gallery-right-nav[disabled] {
@@ -193,7 +193,7 @@
     width: 100%; }
   .image-gallery-slide .image-gallery-description {
     background: rgba(0, 0, 0, 0.4);
-    bottom: 70px;
+    top: 350px;
     color: #fff;
     left: 0;
     line-height: 1;
