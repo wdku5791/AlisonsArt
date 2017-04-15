@@ -10,34 +10,21 @@ var helpers = db.$config.pgp.helpers;
 
 var csUsers = new helpers.ColumnSet(['username', 'first_name', 'last_name', 'email', 'address', 'type', 'password'], {table: 'users'});
 var csArtWorks = new helpers.ColumnSet(['artist_id', 'age', 'estimated_price', 'art_name', 'description', 'dimensions', 'image_url'], {table: 'artworks'});
+var csAuctions = new helpers.ColumnSet(['owner_id', 'artwork_id', 'start_date','end_date', 'start_price', 'buyout_price', 'current_bid_id', 'current_bid', 'bid_counter'], {table: 'auctions'});
+var csBids = new helpers.ColumnSet(['bidder_id', 'auction_id', 'bid_date', 'bid_price'], {table: 'bids'});
+var csProfiles = new helpers.ColumnSet(['user_id', 'profile', 'fb_link', 'twitter_link', 'inst_link'], {table: 'profiles'});
 
 module.exports = function insertDummyData(db) {
    return db.tx((t) => {
 
         var userInserts = t.none(helpers.insert(users, csUsers));
         var artWorkInserts = t.none(helpers.insert(artworks, csArtWorks));
+        var auctionInserts = t.none(helpers.insert(auctions, csAuctions));
+        var bidInserts = t.none(helpers.insert(bids, csBids));
+        var profileInserts = t.none(helpers.insert(profiles, csProfiles));
 
-        var auctionInserts = auctions.map(auction => t.none('INSERT INTO auctions \
-                (owner_id, artwork_id, start_date, end_date, start_price, buyout_price, current_bid_id, current_bid, bid_counter)\
-                VALUES \
-                ((SELECT id FROM users WHERE id = ${owner_id}), (SELECT id FROM artworks WHERE id = ${artwork_id}), ${start_date}, ${end_date}, ${start_price}, ${buyout_price}, ${current_bid_id}, ${current_bid}, ${bid_counter})', auction));
-
-        var bidInserts = bids.map(bid => t.none('INSERT INTO bids \
-                (bidder_id, auction_id, bid_date, bid_price)\
-                VALUES \
-                ((SELECT id FROM users WHERE id = ${bidder_id}), (SELECT id FROM auctions WHERE id = ${auction_id}), ${bid_date}, ${bid_price})', bid));
-
-        return t.batch([].concat(userInserts, artWorkInserts, auctionInserts, bidInserts));
+        return t.batch([].concat(userInserts, artWorkInserts, auctionInserts, bidInserts, profileInserts));
     })
-  .then(() => {
-    return db.tx((t) => {
-      return t.batch(profiles.map(profile => (t.query('INSERT INTO profiles \
-        (user_id, profile, fb_link, twitter_link, inst_link)\
-        VALUES \
-        ((SELECT id FROM users WHERE id = ${user_id}), ${profile}, ${fb_link}, ${twitter_link}, ${inst_link})\
-        returning id', profile))));
-    })
-  })
   .then(() => {
     console.log('success seeding data');
   })
