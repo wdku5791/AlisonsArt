@@ -10,11 +10,18 @@ const loginSignupHandler = require('./controllers/loginSignup');
 const userHandler = require('./controllers/user');
 const artistHandler = require('./controllers/artist');
 const imageHandler = require('./controllers/imageUpload');
+const notificationHandler = require('./controllers/notification');
 const app = express();
 busboy.extend(app, {
   upload: true,
 });
 const port = process.env.PORT || 3000;
+const io = require('./sockets.js');
+
+const server = app.listen(port, function() {
+  console.log('Listening on port ', port);
+});
+io(server);
 
 // app.use(bodyParser.urlencoded({extended: true}));
 // app.use(bodyParser.json());
@@ -26,9 +33,6 @@ app.use('/auth', loginSignupHandler);
 app.use('/user', userHandler);
 app.use('/artist', artistHandler);
 app.use('/images', imageHandler)
-
-const server = app.listen(port, function() {
-  console.log('Listening on port ', port);
-});
+app.use('/notifications', notificationHandler);
 
 module.exports = server;

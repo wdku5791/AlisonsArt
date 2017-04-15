@@ -15,21 +15,21 @@ var csBids = new helpers.ColumnSet(['bidder_id', 'auction_id', 'bid_date', 'bid_
 var csProfiles = new helpers.ColumnSet(['user_id', 'profile', 'fb_link', 'twitter_link', 'inst_link'], {table: 'profiles'});
 
 module.exports = function insertDummyData(db) {
-   return db.tx((t) => {
+  return db.tx((t) => {
 
-        var userInserts = t.none(helpers.insert(users, csUsers));
-        var artWorkInserts = t.none(helpers.insert(artworks, csArtWorks));
-        var auctionInserts = t.none(helpers.insert(auctions, csAuctions));
-        var bidInserts = t.none(helpers.insert(bids, csBids));
-        var profileInserts = t.none(helpers.insert(profiles, csProfiles));
+    var userInserts = t.none(helpers.insert(users, csUsers));
+    var artWorkInserts = t.none(helpers.insert(artworks, csArtWorks));
+    var auctionInserts = t.none(helpers.insert(auctions, csAuctions));
+    var bidInserts = t.none(helpers.insert(bids, csBids));
+    var profileInserts = t.none(helpers.insert(profiles, csProfiles));
 
-        return t.batch([].concat(userInserts, artWorkInserts, auctionInserts, bidInserts, profileInserts));
-    })
+    return t.batch([].concat(userInserts, artWorkInserts, auctionInserts, bidInserts, profileInserts));
+  })
   .then(() => {
-    console.log('success seeding data');
+      console.log('success seeding data');
   })
   .catch((err) => {
-    console.error(err);
-    process.exit(1);
+      console.error(err);
+      process.exit(1);
   });
-}
+};
