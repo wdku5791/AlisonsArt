@@ -125,7 +125,7 @@ module.exports = {
     return db.query('select * from artworks');
   },
   getArtworksOfArtist(artist_id) {
-    return db.any('SELECT artworks.image_url FROM artworks INNER JOIN users ON artworks.artist_id=users.id AND artworks.artist_id=$1', [artist_id]);
+    return db.query('SELECT artworks.image_url FROM artworks INNER JOIN users ON artworks.artist_id=users.id AND artworks.artist_id=$1', [artist_id]);
   },
   getAuctionsOfArtist(artist_id) {
     return db.any('SELECT profiles.profile FROM profiles, users WHERE profiles.user_id=users.id AND users.id=$1', [artist_id]);
