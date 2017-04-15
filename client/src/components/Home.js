@@ -11,7 +11,7 @@ const clickArt = (artId, history) => {
 
 //render the description ... as floating right of the image
 //closed auctions should be rendered differently from the ongoing ones
-let MainArt = ({art, history}) => {
+const MainArt = ({ art, history }) => {
   console.log('heyhey:' , art.first_name);
   return (
     <span>
@@ -31,8 +31,7 @@ let MainArt = ({art, history}) => {
   );
 }
 
-let MainArts = ({mainArts, history}) => {
-  console.log('mainarts: ', mainArts);
+const MainArts = ({ mainArts, history }) => {
   if (!mainArts[0]) {
     return <p>loading~~</p>
   } else {
@@ -46,7 +45,7 @@ let MainArts = ({mainArts, history}) => {
 }
 //the images, when onClick, will lead to bidding page(filled with info for just this artwork).
 
-let HomeAuction = ({homeAuction, history}) => {
+const HomeAuction = ({ homeAuction, history }) => {
   return (
     <span>
       <Image src={homeAuction.artwork.image_url} onClick={() => {
@@ -60,7 +59,7 @@ let HomeAuction = ({homeAuction, history}) => {
   );
 }
 //not using dispatch for the moment
-let HomeAuctions = ({homeAuctions, history}) => {
+const HomeAuctions = ({homeAuctions, history}) => {
   if (!homeAuctions[0]) {
     return <p>loading~~~</p>
   } else {
@@ -72,11 +71,11 @@ let HomeAuctions = ({homeAuctions, history}) => {
   }
 }
 //dispatch is not in use: 
-let clickArtist = (id, history, dispatch) => {
+const clickArtist = (id, history, dispatch) => {
   history.push('/artist/' + id);
 }
 
-let HomeArtist = ({artist, history}) => {
+const HomeArtist = ({ artist, history }) => {
   return (
     <span>
       <Image className="ui image" src={artist.image_url} onClick={() => clickArtist(artist.id, history)} />
@@ -89,7 +88,7 @@ let HomeArtist = ({artist, history}) => {
   )
 }
 
-let HomeArtists = ({homeArtists, history}) => {
+const HomeArtists = ({ homeArtists, history }) => {
   if(!homeArtists[0]) {
     return <div>loading~~~~</div>
   } else {
@@ -107,13 +106,13 @@ class Home extends Component {
   }
 
   componentWillMount() {
-    const {dispatch} = this.props;
+    const { dispatch } = this.props;
     // Auctions.fetchAuctionData('/auctions');
       dispatch(Auctions.fetchingAuctions(true));
 
       fetch('/home')
       .then(response => {
-        if(!response.ok) {
+        if (!response.ok) {
           throw Error(response.statusText);
         }
         dispatch(Auctions.fetchingAuctions(false));
@@ -122,7 +121,7 @@ class Home extends Component {
       })
       .then(data => {
         console.log('im data: ', data);
-        let {current, expired, featuredArt} = data;
+        let { current, expired, featuredArt } = data;
         dispatch(Auctions.passedAuctionsFetchedSuccess(expired));
         dispatch(Auctions.ongoingAuctionsFetchedSuccess(current));
         dispatch(Auctions.featuredArtsFetchedSuccess(featuredArt));
@@ -131,9 +130,7 @@ class Home extends Component {
   }
  
     render() {
-      console.log('this props: ', this.props);
-      console.log('main arts::', this.props.mainArts);
-
+      
       return (
         <div>
           <MainArts mainArts={this.props.mainArts} history={this.props.history} />

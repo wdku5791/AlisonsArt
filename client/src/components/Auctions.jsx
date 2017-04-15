@@ -37,36 +37,40 @@ class Auctions extends React.Component {
 
   render() {
     const { auctions } = this.props;
-    return (
-      <div>
-        <Grid divided="true">
-          <Grid.Row columns={2}>
-            {auctions.map(auction => (
-              <Grid.Column>
-                <Container className="center">
-                  <Card onClick={() => this.goToAuction(auction.id)}>
-                  <Image className="medium" src={auction.artwork.image_url} />
-                    <Card.Content>
-                      <Card.Header>
-                        {auction.artwork.art_name}
-                      </Card.Header>
-                      <Card.Meta>
-                        Bid Now: {auction.current_bid}
-                      </Card.Meta>
-                      <Card.Description>
-                        {auction.artwork.description}
-                      </Card.Description>
+    if(auctions.length === 0) {
+      return <div>loading~~</div>
+    } else {
+      return (
+        <Container>
+          <Grid divided={true}>
+            <Grid.Row columns={2}>
+              {auctions.map(auction => (
+                <Grid.Column key={auction.id}>
+                  <Container className="center">
+                    <Card onClick={() => this.goToAuction(auction.id)}>
+                    <Image className="medium" src={auction.artwork.image_url} />
+                      <Card.Content>
+                        <Card.Header>
+                          {auction.artwork.art_name}
+                        </Card.Header>
+                        <Card.Meta>
+                          Bid Now: {auction.current_bid}
+                        </Card.Meta>
+                        <Card.Description>
+                          {auction.artwork.description}
+                        </Card.Description>
 
-                    </Card.Content>
-                  </Card>
-                </Container>
-              </Grid.Column>
-              )
-            )}
-          </Grid.Row>
-        </Grid>
-      </div>
-    );
+                      </Card.Content>
+                    </Card>
+                  </Container>
+                </Grid.Column>
+                )
+              )}
+            </Grid.Row>
+          </Grid>
+        </Container>
+      );
+    }
   }
 }
 
