@@ -26,13 +26,7 @@ class Artist extends Component {
     //fetch all data about this artist
     //should have a detailed, user customized profile
     let artistId = this.props.match.params.artistId;
-    fetch('/artist/' + this.props.match.params.artistId, {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      method: 'GET'
-    })
+    fetch('/artist/' + this.props.match.params.artistId)
     .then(response => {
       if(!response.ok) {
         throw Error(response.statusText);
