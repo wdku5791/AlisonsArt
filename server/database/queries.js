@@ -258,19 +258,19 @@ module.exports = {
         if (result.current_bid_id === null) {
           return t.one('update auctions SET current_bid_id = $1, \
             bid_counter = bid_counter + 1, current_bid = $3\
-            where id = $2 returning current_bid_id', [auctionObj.bid.id, auctionObj.auction_id,auctionObj.bid.bid_price]);
+            where id = $2 returning current_bid_id', [auctionObj.bid.id, auctionObj.auction_id, auctionObj.bid.bid_price]);
         } else {
-          return t.one('SELECT bid_price FROM bids INNER JOIN auctions ON \
+          return t.one('SELECT bids.bid_price, bids.id FROM bids INNER JOIN auctions ON \
             auctions.id=$1 AND bids.id=auctions.current_bid_id', [auctionObj.auction_id])
-          .then((current_bid_id) => {
+          .then((currentBid) => {
             // if the new bid is higher than the current champion
-            if (parseInt(current_bid_id.bid_price) < parseInt(auctionObj.bid.bid_price)) {
+            if (parseInt(currentBid.bid_price) < parseInt(auctionObj.bid.bid_price)) {
               // set it to be the current_bid_id
               return t.one('update auctions SET current_bid_id = $1, \
                 bid_counter = bid_counter + 1, current_bid = $3\
-                where id = $2 returning current_bid_id', [auctionObj.bid.id, auctionObj.auction_id, auctionObj.bid.bid_price]);
+                where id = $2 returning current_bid, current_bid_id', [auctionObj.bid.id, auctionObj.auction_id, auctionObj.bid.bid_price]);
             } else {
-              return current_bid_id;
+              return currentBid;
             }
           });
         }

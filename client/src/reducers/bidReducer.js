@@ -13,6 +13,18 @@ const bidReducer = (state = initialState, action) => {
         ...state,
         bid: action.bid
       };
+    case 'SENDING_BID_TOGGLE':
+      return {
+        ...state,
+        sendingBid: !state.sendingBid
+      };
+    case 'BID_ERRORED':
+      return {
+        ...state,
+        sendingBid: false,
+        error: action.error,
+        bidErrored: true
+      };
     default:
       return state;
   }

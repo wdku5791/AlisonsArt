@@ -122,7 +122,7 @@ class Home extends Component {
       })
       .then(data => {
         console.log('im data: ', data);
-        let {current, expired, featuredArt} = data;
+        let { current, expired, featuredArt } = data;
         dispatch(Auctions.passedAuctionsFetchedSuccess(expired));
         dispatch(Auctions.ongoingAuctionsFetchedSuccess(current));
         dispatch(Auctions.featuredArtsFetchedSuccess(featuredArt));

@@ -4,7 +4,7 @@ import * as Auctions from '../actions/auctionActionCreator.jsx';
 import { connect } from 'react-redux';
 import AuctionDetail from './AuctionDetail.jsx';
 import ClosedAuction from './ClosedAuction.jsx';
-import { setBid } from '../actions/bidActionCreator';
+import * as bids from '../actions/bidActionCreator';
 import Moment from 'moment';
 
 
@@ -15,10 +15,10 @@ class Auction extends Component {
     //if logged in, grab all info and redirect to payment page.
   componentWillMount() {
     let auctionId = this.props.match.params.auctionId;
-    let {dispatch} = this.props;
+    let { dispatch, user } = this.props;
     dispatch(Auctions.fetchingAnAuction(true));
 
-    fetch('/auctions/' + auctionId)
+    fetch(`/auctions/${auctionId}`)
     .then(response => {
       if(!response.ok) {
         throw Error(response.statusText);
@@ -35,48 +35,70 @@ class Auction extends Component {
 
   setBid(bid) {
     const { dispatch } = this.props;
-    dispatch(setBid(bid));
+    dispatch(bids.setBid(bid));
   }
 
-  handleClick() {
-    if (bidValue === 0) {
+  handleClick(id) {
+    const { bid, user, history, dispatch } = this.props;
+    if (bid.bid === 0) {
       alert('Please select a value');
     } else {
       console.log('bid value is a number');
-      console.log('useris: ', this.props.user);
+      console.log('useris: ', user);
       //if user not logged in, redirect
-      if(!this.props.user.username) {
+      if(!user.username) {
         alert('you are not logged in, please sign up or log in');
-        this.props.history.push('/signup')
+        history.push('/signup')
       } else {
       //grab userid, artwork_id and value
-
-        // fetch('/url?????', {
-        //   method: 'POST',
-        //   body: ???stringified JSON
-        // });
+        dispatch(bids.toggleSend());
+        fetch(`/auctions/${id}/bids`, {
+          method: 'POST',
+          headers: new Headers({
+            'Content-Type': 'application/json'
+          }),
+          body: JSON.stringify({ bidPrice: bid.bid, user: user.userId })
+        })
+        .then((answer) => {
+          if (!answer.ok) {
+            throw Error(answer.json());
+          } else {
+            answer.json()
+            .then((bid) => {
+              console.log(bid);
+              //dispatch(bids.toggleSend());
+              return dispatch(Auctions.updateBid(bid));
+            });
+          }
+        })
+        .catch((err) => {
+          dispatch(bids.error(err));
+        });
       }
     }
   }
 
-  render(){
+  render() {
 
-    let {auction} = this.props.auction;
+    const { auction } = this.props.auction;
+    const { bid } = this.props;
     // console.log('key length: ', Object.keys(auction).length);
     if (Object.keys(auction).length === 0) {
       return (
         <p>loading~~~</p>
-      )
+      );
     } else {
       const end = new Moment(auction.end_date);
       const now = new Moment();
       if (end.isBefore(now)) {
         return (
-          <ClosedAuction auction={auction}/>
+          <ClosedAuction auction={auction} />
         );
       } else {
         return (
-          <AuctionDetail handleClick={this.handleClick.bind(this)} auction={auction} setBid={this.setBid.bind(this)}/>
+          <div>
+            <AuctionDetail handleClick={this.handleClick.bind(this, auction.id)} auction={auction} setBid={this.setBid.bind(this)} /> 
+          </div>
         );
       }
     }

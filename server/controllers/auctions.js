@@ -62,13 +62,13 @@ router.get('/:auctionId/bids', (req, res) => {
 router.post('/:auctionId/bids', (req, res) => {
   const bid = {};
   bid.auction_id = req.params.auctionId;
-  bid.bidder_id = req.user || 1;
+  bid.bidder_id = req.body.user;
   bid.bid_price = req.body.bidPrice;
   bid.bid_date = new Moment().format('YYYY-MM-DD HH:mm:mm');
+  console.log(bid);
 
   model.createBid(bid)
   .then((bid) => {
-    console.log(bid);
     const update = {};
     update.auction_id = req.params.auctionId;
     update.bid = bid;
@@ -76,7 +76,9 @@ router.post('/:auctionId/bids', (req, res) => {
     model.updateAuction(update)
     .then((bid) => {
       console.log(bid);
-      res.status(201).json({ response: { status: 201, id: bid } });
+      res.status(201).json({
+        current_bid: bid.bid_price || bid.current_bid,
+        current_bid_id: bid.id || bid.current_bid_id });
     });
   })
   .catch((err) => {
