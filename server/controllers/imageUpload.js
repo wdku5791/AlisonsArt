@@ -10,9 +10,8 @@ cloudinary.config({
 
 
 router.post('/', (req, res) => {
-  console.log('req.body', req.body.image_file);
-  console.log("you're uploading an image to cloudinary!!! TURN UP");
-  cloudinary.uploader.upload(req.body.image_url, function(result) {
+  console.log('req.body',  req.body.image_file);
+  cloudinary.uploader.upload(req.body.image_file, function(result) {
     console.log('result from cloudinary: ', result);
   })
 })

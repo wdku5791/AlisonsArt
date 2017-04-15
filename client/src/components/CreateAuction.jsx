@@ -86,6 +86,7 @@ class CreateAuction extends React.Component {
   }
 
   handleImageInput(e) {
+    console.log(e.target);
     this.setState({
       image_url: e.target.value
     })
