@@ -48,6 +48,14 @@ export function fetchedAnAuction(auction) {
   };
 }
 
+export function updateBid(bid) {
+  return {
+    type: 'UPDATE_CURRENT_BID',
+    current_bid: bid.current_bid,
+    current_bid_id: bid.current_bid_id
+  };
+}
+
 //currently not in use:
 export function fetchAuctionData(url) {
   return (dispatch) => {

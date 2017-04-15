@@ -2,31 +2,11 @@ import React, { Component } from 'react';
 import { Container, Image } from 'semantic-ui-react';
 import * as Auctions from '../actions/auctionActionCreator.jsx';
 import { connect } from 'react-redux';
+import AuctionDetail from './AuctionDetail.jsx';
+import ClosedAuction from './ClosedAuction.jsx';
+import * as bids from '../actions/bidActionCreator';
+import Moment from 'moment';
 
-let bidValue = 0;
-let BiddingRange = ({current, start, end}) => {
-  const interval = 1000;
-  current = +current;
-  start = +start;
-  end = +end;
-
-  start = start < current ? current : start;
-
-  let range = [];
-  
-  for(let i = start + interval; i <= end; i += interval) {
-    range.push(i);
-  }
-  if(range[range.length - 1] < end) {
-    range.push(end);
-  }
-  return (
-    <select name="Bid now" onChange={(e) => {bidValue = +e.target.value}}>
-      <option defaultValue="Bid now">Bid now</option>
-      {range.map(r => <option key={r}>{r}</option>)}
-    </select>
-  )
-}
 
 class Auction extends Component {
 
@@ -35,10 +15,10 @@ class Auction extends Component {
     //if logged in, grab all info and redirect to payment page.
   componentWillMount() {
     let auctionId = this.props.match.params.auctionId;
-    let {dispatch} = this.props;
+    let { dispatch, user } = this.props;
     dispatch(Auctions.fetchingAnAuction(true));
 
-    fetch('/auctions/' + auctionId)
+    fetch(`/auctions/${auctionId}`)
     .then(response => {
       if(!response.ok) {
         throw Error(response.statusText);
@@ -53,8 +33,14 @@ class Auction extends Component {
     .catch((err) => dispatch(Auctions.fetchAuctionErrored(true, err)));
   }
 
-  handleClick(user, history) {
-    if (bidValue === 0) {
+  setBid(bid) {
+    const { dispatch } = this.props;
+    dispatch(bids.setBid(bid));
+  }
+
+  handleClick(id) {
+    const { bid, user, history, dispatch } = this.props;
+    if (bid.bid === 0) {
       alert('Please select a value');
     } else {
       console.log('bid value is a number');
@@ -65,38 +51,56 @@ class Auction extends Component {
         history.push('/signup')
       } else {
       //grab userid, artwork_id and value
-
-        // fetch('/url?????', {
-        //   method: 'POST',
-        //   body: ???stringified JSON
-        // });
+        dispatch(bids.toggleSend());
+        fetch(`/auctions/${id}/bids`, {
+          method: 'POST',
+          headers: new Headers({
+            'Content-Type': 'application/json'
+          }),
+          body: JSON.stringify({ bidPrice: bid.bid, user: user.userId })
+        })
+        .then((answer) => {
+          if (!answer.ok) {
+            throw Error(answer.json());
+          } else {
+            answer.json()
+            .then((bid) => {
+              console.log(bid);
+              //dispatch(bids.toggleSend());
+              return dispatch(Auctions.updateBid(bid));
+            });
+          }
+        })
+        .catch((err) => {
+          dispatch(bids.error(err));
+        });
       }
     }
   }
 
-  render(){
+  render() {
 
-    let {auction} = this.props.auction;
+    const { auction } = this.props.auction;
+    const { bid } = this.props;
     // console.log('key length: ', Object.keys(auction).length);
     if (Object.keys(auction).length === 0) {
       return (
         <p>loading~~~</p>
-      )
+      );
     } else {
-      return (
-        <Container>
-          <Container className="ui medium images">
-            <Image className="ui image" src={auction.artwork.image_url}/>
-          </Container>
-          <Container>
-            <p>Description: {auction.artwork.description}</p>
-            <p>Year: {auction.artwork.age}</p>
-            <p>Estimated value ($USD): {auction.buyout_price}</p>
-            <BiddingRange current={auction.current_bid} start={auction.start_price} end={auction.buyout_price}/>
-            <button onClick={() => {this.handleClick(this.props.user, this.props.history)}}>Submit</button>
-          </Container>
-        </Container>
-      )
+      const end = new Moment(auction.end_date);
+      const now = new Moment();
+      if (end.isBefore(now)) {
+        return (
+          <ClosedAuction auction={auction} />
+        );
+      } else {
+        return (
+          <div>
+            <AuctionDetail handleClick={this.handleClick.bind(this, auction.id)} auction={auction} setBid={this.setBid.bind(this)} /> 
+          </div>
+        );
+      }
     }
   }
 }
@@ -104,7 +108,8 @@ class Auction extends Component {
 const mapStateToProps = (state) => {
   return {
     auction: state.auction,
-    user: state.user
+    user: state.user,
+    bid: state.bid,
   }
 }
 export default connect(mapStateToProps)(Auction);
