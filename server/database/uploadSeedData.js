@@ -4,6 +4,7 @@ const users = data.users;
 const artworks = data.artworks;
 const auctions = data.auctions;
 const bids = data.bids;
+const profiles = data.profiles;
 
 var helpers = db.$config.pgp.helpers;
 
@@ -28,11 +29,20 @@ module.exports = function insertDummyData(db) {
 
         return t.batch([].concat(userInserts, artWorkInserts, auctionInserts, bidInserts));
     })
-        .then(() => {
-            console.log('success seeding data');
-        })
-        .catch((err) => {
-            console.error(err);
-            process.exit(1);
-        });
-};
+  .then(() => {
+    return db.tx((t) => {
+      return t.batch(profiles.map(profile => (t.query('INSERT INTO profiles \
+        (user_id, profile, fb_link, twitter_link, inst_link)\
+        VALUES \
+        ((SELECT id FROM users WHERE id = ${user_id}), ${profile}, ${fb_link}, ${twitter_link}, ${inst_link})\
+        returning id', profile))));
+    })
+  })
+  .then(() => {
+    console.log('success seeding data');
+  })
+  .catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}

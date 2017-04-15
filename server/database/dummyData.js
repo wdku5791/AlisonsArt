@@ -48,15 +48,15 @@ const profiles = [
 	{
 		id: 1,
 		user_id: 1,
-		profile: 'im so talented!',
+		profile: 'im no.1 talented!',
 		fb_link: 'https://www.facebook.com/xueying.zhang.509',
 		twitter_link: 'https://twitter.com/Alison_XYZ?lang=en',
 		inst_link: 'https://www.instagram.com/alisonzthu/'
 	},
 	{
 		id: 2,
-		user_id: 5,
-		profile: 'im so talented!',
+		user_id: 4,
+		profile: 'im no.4 talented!',
 		fb_link: 'https://www.facebook.com/xueying.zhang.509',
 		twitter_link: 'https://twitter.com/Alison_XYZ?lang=en',
 		inst_link: 'https://www.instagram.com/alisonzthu/'
@@ -265,5 +265,6 @@ module.exports = {
 	users,
 	artworks,
 	auctions,
-	bids
+	bids,
+	profiles
 };

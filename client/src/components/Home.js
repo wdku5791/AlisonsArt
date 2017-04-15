@@ -12,7 +12,6 @@ const clickArt = (artId, history) => {
 //render the description ... as floating right of the image
 //closed auctions should be rendered differently from the ongoing ones
 const MainArt = ({ art, history }) => {
-  console.log('heyhey:' , art.first_name);
   return (
     <span>
       <Image className="ui image" src={art.artwork.image_url} onClick={() => {
@@ -125,7 +124,10 @@ class Home extends Component {
         dispatch(Auctions.ongoingAuctionsFetchedSuccess(current));
         dispatch(Auctions.featuredArtsFetchedSuccess(featuredArt));
       })
-      .catch(() => dispatch(Auctions.fetchAuctionErrored(true)));
+      .catch(() => {
+        dispatch(Auctions.fetchingAuctions(false));
+        dispatch(Auctions.fetchAuctionErrored(true));
+      });
   }
  
     render() {

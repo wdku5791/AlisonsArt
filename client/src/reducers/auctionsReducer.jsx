@@ -12,14 +12,13 @@ const auctionsReducer = (state = initialState, action) => {
     case 'FETCH_AUCTION_ERROR':
       return {
         ...state,
-        isFetching: false,
         fetchAuctionsError: 'fetching auction error!',
         hasErrored: true
       };
     case 'FETCHING_AUCTION':
       return {
         ...state,
-        isFetching: true
+        isFetching: action.isFetching
       };
     case 'ONGOING_AUCTIONS_FETCHED':
       return {
