@@ -5,7 +5,8 @@ class CreateAuction extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      image_url: 'https://images.genius.com/5815d7f7ae232dd64ace634964f52448.650x430x1.jpg',
+      image_url: '',
+      preview_image: 'https://www.mountaineers.org/images/placeholder-images/placeholder-400-x-400/image_preview',
       art_name: '',
       age: '',
       description: '',
@@ -70,6 +71,7 @@ class CreateAuction extends React.Component {
       current_bid_id: null,
       artwork: artwork,
     }
+    console.log('submitting auction... auction: ', auction);
     fetch('/auctions', {
         method: 'post',
         headers: new Headers ({
@@ -86,22 +88,32 @@ class CreateAuction extends React.Component {
   }
 
   handleImageInput(e) {
-    console.log(e.target);
     this.setState({
       image_url: e.target.value
     })
   }
 
   handleImageCreate() {
+    var formData = new FormData();
+    formData.append('image_file', document.getElementById('imageToSend').files[0]);
     fetch('/images', {
         method: 'post',
-        headers: new Headers ({
-          'Content-Type': 'application/json'
-        }),
-        body: JSON.stringify({image_file: this.state.image_url})
+        body: formData
     })
     .then((data) => {
       console.log('posting image to Cloudinary SUCCESS! data: ', data);
+      if (!data.ok) {
+        throw Error(data.responseText);
+      } else {
+        return data.json();
+      }
+    })
+    .then((response) => {
+      console.log('response: ', response);
+      this.setState({
+        image_url: response.url,
+        preview_image: response.url
+      })
     })
     .catch((error) => {
       console.log('posting image to Cloudinary FAILED! error: ', error);
@@ -112,9 +124,10 @@ class CreateAuction extends React.Component {
     return (
       <div>
         <form>
-          <input type='file' name='image' accept='image/*' onChange={this.handleImageInput}/>
+          <input type='file' name='image' accept='image/*' id='imageToSend' onChange={this.handleImageCreate}/>
           <button type='button' onClick={this.handleImageCreate}>Upload Image...</button>
-          <img src={this.state.image_url} />
+          <br />
+          <img src={this.state.preview_image} />
           <br />
           Piece Name:
           <input type='text' name='art_name' onChange={this.handleInputChange} value={this.state.art_name} placeholder='ex:starry night' />
