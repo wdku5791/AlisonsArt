@@ -11,7 +11,7 @@ var csUsers = new helpers.ColumnSet(['username', 'first_name', 'last_name', 'ema
 var csArtWorks = new helpers.ColumnSet(['artist_id', 'age', 'estimated_price', 'art_name', 'description', 'dimensions', 'image_url'], {table: 'artworks'});
 
 module.exports = function insertDummyData(db) {
-    db.tx((t) => {
+   return db.tx((t) => {
 
         var userInserts = t.none(helpers.insert(users, csUsers));
         var artWorkInserts = t.none(helpers.insert(artworks, csArtWorks));
