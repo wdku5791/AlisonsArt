@@ -58,6 +58,7 @@ const profiles = [
 		user_id: 2,
 		profile: 'im no.2 talented!',
 		fb_link: 'https://www.facebook.com/xueying.zhang.509',
+		twitter_link: null,
 		inst_link: 'https://www.instagram.com/alisonzthu/'
 	}
 ];
