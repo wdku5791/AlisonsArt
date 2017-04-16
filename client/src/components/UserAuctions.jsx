@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 
-const UserAuctions = () => {
-  return(
-    <div>
-    UserAuctions
-    </div>
-  );
+class UserAuctions extends Component {
+
+  componentWillMount() {
+
+  }
+
+  render() {
+    return(
+      <div>
+      UserAuctions
+      </div>
+    );
+  }
 }
 
 export default UserAuctions;
