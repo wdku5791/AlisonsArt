@@ -63,20 +63,18 @@ const MainArts = ({ mainArts, history }) => {
 const HomeAuction = ({ homeAuction, history }) => {
   return (
     <Grid.Column>
-
-        <Image 
-          className='imageLink'
-          src={homeAuction.artwork.image_url} 
-          onClick={() => {clickArt(homeAuction.artwork.id, history);}}
-          label={{ as: 'a', color: 'black', content: '$' + homeAuction.buyout_price, ribbon: true }} 
-        />
-        <Container>
-          <h4 className='imageHeader'>
-            {homeAuction.artwork.art_name}
-          </h4>
-          <Divider />
-          <p>{homeAuction.first_name} {homeAuction.last_name} ({homeAuction.artwork.age})</p>
-        </Container>
+      <Image 
+        className='imageLink'
+        src={homeAuction.artwork.image_url} 
+        onClick={() => {clickArt(homeAuction.artwork.id, history);}}
+        label={{ as: 'a', color: 'black', content: '$' + homeAuction.buyout_price, ribbon: true }} 
+      />
+      <Container>
+        <h4 className='imageHeader'>
+          {homeAuction.artwork.art_name}
+        </h4>
+        <p>{homeAuction.first_name} {homeAuction.last_name} ({homeAuction.artwork.age})</p>
+      </Container>
     </Grid.Column>
   );
 }

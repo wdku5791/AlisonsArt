@@ -1,6 +1,6 @@
 import React from 'react';
 import * as actions from '../actions/auctionActionCreator.jsx';
-import { Container, Image, Label, Button, Card, Grid } from 'semantic-ui-react';
+import { Container, Image, Label, Button, Card, Grid, Divider } from 'semantic-ui-react';
 
 import { connect } from 'react-redux';
 
@@ -43,25 +43,21 @@ class Auctions extends React.Component {
       return (
         <Container>
           <Grid divided={true}>
-            <Grid.Row columns={2}>
+            <Grid.Row columns={3}>
               {auctions.map(auction => (
                 <Grid.Column key={auction.id}>
-                  <Container className="center">
-                    <Card onClick={() => this.goToAuction(auction.id)}>
-                    <Image className="medium" src={auction.artwork.image_url} />
-                      <Card.Content>
-                        <Card.Header>
-                          {auction.artwork.art_name}
-                        </Card.Header>
-                        <Card.Meta>
-                          Bid Now: {auction.current_bid}
-                        </Card.Meta>
-                        <Card.Description>
-                          {auction.artwork.description}
-                        </Card.Description>
-
-                      </Card.Content>
-                    </Card>
+                  <Image 
+                    className='imageLink'
+                    src={auction.artwork.image_url} 
+                    onClick={() => this.goToAuction(auction.id)}
+                    label={{ as: 'a', color: 'black', content: '$' + auction.current_bid, ribbon: true }} 
+                  />
+                  <Container>
+                    <h4 className='imageHeader'>
+                      {auction.artwork.art_name}
+                    </h4>
+                    <Divider />
+                    <p className='artworkDescription'>{auction.artwork.description}</p>
                   </Container>
                 </Grid.Column>
                 )

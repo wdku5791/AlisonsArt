@@ -1,4 +1,5 @@
 import React from 'react';
+import { Form, Select } from 'semantic-ui-react';
 
 let BiddingRange = ({current, start, end, setBid}) => {
   const interval = 1000;
@@ -11,13 +12,16 @@ let BiddingRange = ({current, start, end, setBid}) => {
   let range = [];
 
   for(let i = start; i <= end; i += interval) {
-    range.push(i);
+    range.push({key: i, text: i, value: i});
   }
+
   return (
-    <select name="Bid now" onChange={(e) => { setBid(e.target.value) }}>
-      <option defaultValue="Bid now">Bid now</option>
-      {range.map(r => <option key={r}>{r}</option>)}
-    </select>
+    <Form.Field 
+      control={Select} 
+      options={range}
+      onChange={(e) => { setBid(e.target.value) }} 
+      placeholder='Bid now'
+    />
   );
 };
 
