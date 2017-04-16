@@ -63,6 +63,46 @@ const profiles = [
 	}
 ];
 
+//notifications:
+//******************************
+const notifications= [
+	{
+		id: 1,
+		owner_id: 2,
+		trigger_id: 2,
+		type: 'auction',
+		text: 'woohoo you won an auction',
+		read: false,
+		date: '2017-04-14 14:27:07',
+	},
+	{
+		id: 2,
+		owner_id: 2,
+		trigger_id: null,
+		type: 'fun',
+		text: 'woohoo we messaged you for fun',
+		read: false,
+		date: '2017-03-14 14:27:07',
+	},
+	{
+		id: 3,
+		owner_id: 2,
+		trigger_id: null,
+		type: 'fun',
+		text: 'woohoo we messaged you for fun twice',
+		read: false,
+		date: '2017-03-14 15:27:07',
+	},
+	{
+		id: 4,
+		owner_id: 2,
+		trigger_id: null,
+		type: 'fun',
+		text: 'woohoo we messaged you for fun third times the charm',
+		read: false,
+		date: '2017-03-14 16:27:07',
+	}
+];
 
 // ARTWORKS
 // *****************************
@@ -266,5 +306,6 @@ module.exports = {
 	artworks,
 	auctions,
 	bids,
-	profiles
+	profiles,
+	notifications
 };

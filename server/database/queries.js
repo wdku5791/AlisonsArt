@@ -180,6 +180,22 @@ module.exports = {
       (${owner_id}, ${artwork_id}, ${start_date}, ${end_date}, ${start_price}, ${buyout_price})\
       returning id', auctionObj);
   },
+  createNotification(notificationObj) {
+  /*{
+      id 
+      owner_id
+      trigger_id
+      type
+      read
+      date
+      text
+    } */
+    return db.one('insert into notifications \
+      (owner_id, trigger_id, type, read, date, text)\
+      values \
+      (${owner_id}, ${trigger_id}, ${type}, ${read}, ${date}, ${text})\
+      returning id', notificationObj);
+  },
   createArtwork(artworkObj) {
     /*
     {
@@ -259,6 +275,18 @@ module.exports = {
 
   updateUser() {
     //TODO
+  },
+  updateUserNotification({id, owner_id}) {
+  /*{
+      id 
+      owner_id
+      trigger_id
+      type
+      read
+      date
+      text
+    } */
+    return db.one('UPDATE notifications SET read=true where id=$1 and owner_id=$2 returning read', [id, owner_id]);
   },
   updateAuction(auctionObj) {
     /*

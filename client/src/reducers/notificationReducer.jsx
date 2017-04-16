@@ -21,6 +21,11 @@ const notificationReducer = (state = initialState, action) => {
         ...state,
         notifications: action.notifications
       };
+    case 'UPDATE':
+      return {
+        ...state,
+        notifications: action.notifications
+      };
     default:
       return state;
   }

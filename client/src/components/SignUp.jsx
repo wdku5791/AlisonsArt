@@ -59,11 +59,8 @@ class SignUp extends Component {
         dispatch(UserAction.checkingInfo(false));
         dispatch(UserAction.loginError(err));
       });
-<<<<<<< HEAD
     } else {
       alert('please enter matching passwords!');
-=======
->>>>>>> added a signup feature and end point to database completion
     }
 
   }

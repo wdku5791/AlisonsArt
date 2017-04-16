@@ -13,7 +13,7 @@ const rootReducer = combineReducers({
   auction: auctionReducer,
   artists: artistReducer,
   user: userReducer,
-  bid: bidReducer
+  bid: bidReducer,
   socket: socketReducer,
   notifications: notificationReducer,
 });
