@@ -45,12 +45,7 @@ const MainArts = ({ mainArts, history }) => {
       images.push(imageObj);
     })
     return (
-      <div style={{'max-height': '400px', 
-        'width': '100%', 
-        'overflow': 'hidden',
-        'display': 'inline-block',
-        'cursor': 'pointer'
-      }}>
+      <div className='carousel'>
         <ImageGallery
           items={images}
           slideInterval={7000}
@@ -70,14 +65,16 @@ const HomeAuction = ({ homeAuction, history }) => {
     <Grid.Column>
 
         <Image 
-          style={{'cursor': 'pointer'}} src={homeAuction.artwork.image_url} 
+          className='imageLink'
+          src={homeAuction.artwork.image_url} 
           onClick={() => {clickArt(homeAuction.artwork.id, history);}}
           label={{ as: 'a', color: 'black', content: '$' + homeAuction.buyout_price, ribbon: true }} 
         />
         <Container>
-          <h4 style={{'margin-top': '7px', 'margin-bottom': '5px'}}>
-          {homeAuction.artwork.art_name}
+          <h4 className='imageHeader'>
+            {homeAuction.artwork.art_name}
           </h4>
+          <Divider />
           <p>{homeAuction.first_name} {homeAuction.last_name} ({homeAuction.artwork.age})</p>
         </Container>
     </Grid.Column>
@@ -105,13 +102,16 @@ const clickArtist = (id, history, dispatch) => {
 const HomeArtist = ({ artist, history }) => {
   return (
     <Grid.Column>
-        <Image style={{'cursor': 'pointer'}} className="ui image" src={artist.image_url} onClick={() => 
-          clickArtist(artist.id, history
-        )} />
+        <Image 
+          className='imageLink'
+          src={artist.image_url} 
+          onClick={() => clickArtist(artist.id, history)} 
+        />
         <Container>
-          <h4 style={{'margin-top': '7px', 'margin-bottom': '5px'}}>
+          <h4 className='imageHeader'>
             {artist.first_name} {artist.last_name}
           </h4>
+          <Divider />
           <p>CATEGORY TAGS GO HERE</p>
         </Container>
     </Grid.Column>

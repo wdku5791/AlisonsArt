@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Form, Image, Container, Divider, Grid, Button } from 'semantic-ui-react';
 
 class CreateAuction extends React.Component {
   constructor(props) {
@@ -122,50 +123,128 @@ class CreateAuction extends React.Component {
 
   render() {
     return (
-      <div>
-        <form>
-          <input type='file' name='image' accept='image/*' id='imageToSend' onChange={this.handleImageCreate}/>
-          <button type='button' onClick={this.handleImageCreate}>Upload Image...</button>
-          <br />
-          <img src={this.state.preview_image} />
-          <br />
-          Piece Name:
-          <input type='text' name='art_name' onChange={this.handleInputChange} value={this.state.art_name} placeholder='ex:starry night' />
-          <br />
-          Year:
-          <input type='number' name='age' onChange={this.handleInputChange} value={this.state.age} placeholder='ex: 1911' />
-          <br />
-          Description:
-          <input type='text' name='description' onChange={this.handleInputChange} value={this.state.description} />
-          <br />
-          Dimensions (inches):
-          <br />
-            length:
-            <input type='number' name='length' onChange={this.handleInputChange} value={this.state.length}/>
-            height:
-            <input type='number' name='height' onChange={this.handleInputChange} value={this.state.height}/>
-            width:
-            <input type='number' name='width' onChange={this.handleInputChange} value={this.state.width}/>
-          <br />
-          Categories:
-          <br />
-          <input type='checkbox' value='painting' onChange={this.handleCategoryChange}/> Painting <br />
-          <input type='checkbox' value='photography' onChange={this.handleCategoryChange}/> Photography <br />
-          <input type='checkbox' value='sculpture' onChange={this.handleCategoryChange}/> Sculpture <br />
-          Estimated Value:
-          <input type='number' name='estimated_price' onChange={this.handleInputChange} value={this.state.estimated_price}/>
-          <br />
-          Buyout Price: 
-          <input type='number' name='buyout_price' onChange={this.handleInputChange} value={this.state.buyout_price}/>
-          <br />
-          Start Date:
-          <input type='text' name='start_date' onChange={this.handleInputChange} value={this.state.start_date} placeholder='YYYY-MM-DD HH:MM:SS'/>
-          End Date:
-          <input type='text' name='end_date' onChange={this.handleInputChange} value={this.state.end_date} placeholder='YYYY-MM-DD HH:MM:SS'/>
-          <br/>
-          <input type='button' value='Submit' onClick={this.handleSubmit}/>
-        </form>
-    </div>
+      <Container>
+        <Form>
+          <Form.Group widths='equal'>
+            <Form.Input 
+              label='Piece name'
+              name='art_name' 
+              placeholder='ex: Starry Night'  
+              onChange={this.handleInputChange} 
+              value={this.state.art_name}
+            />
+            <Form.Input
+              label='Year'
+              name='age' 
+              placeholder='ex: 1911'
+              onChange={this.handleInputChange} 
+              value={this.state.age} 
+            />
+          </Form.Group>
+          <Grid>
+            <Grid.Row columns={2}>
+              <Grid.Column>
+                <Image src={this.state.preview_image} size='large'/>
+              </Grid.Column>
+              <Grid.Column width={8}>
+                <input 
+                  type='file' 
+                  name='image' 
+                  accept='image/*' 
+                  id='imageToSend'
+                  onChange={this.handleImageCreate}
+                />
+                <Form.TextArea 
+                  label='Description'
+                  name='description'
+                  placeholder='Tell us about your piece...'
+                  onChange={this.handleInputChange}
+                  value={this.state.description}
+                />
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+          <Form.Group widths='equal'>
+            <Form.Input 
+              label='Length'
+              name='length'
+              placeholder='inches'
+              onChange={this.handleInputChange}
+              value={this.state.length}
+            />
+            <Form.Input 
+              label='Height'
+              name='height'
+              placeholder='inches'
+              onChange={this.handleInputChange}
+              value={this.state.height}
+            />
+            <Form.Input 
+              label='Width'
+              name='width'
+              placeholder='inches'
+              onChange={this.handleInputChange}
+              value={this.state.width}
+            />
+          </Form.Group>
+          <Form.Group>
+            <label>Categories</label>
+            <Form.Field 
+              label='Painting'
+              control='input' 
+              type='checkbox' 
+              value='painting' 
+              onChange={this.handleCategoryChange}
+            />
+            <Form.Field 
+              label='Photography'
+              control='input' 
+              type='checkbox' 
+              value='photography' 
+              onChange={this.handleCategoryChange}
+            />
+            <Form.Field 
+              label='Sculpture'
+              control='input' 
+              type='checkbox' 
+              value='sculpture' 
+              onChange={this.handleCategoryChange}
+            />
+          </Form.Group>
+          <Form.Group widths='equal'>
+            <Form.Input 
+              label='Estimated value'
+              name='estimated_price' 
+              onChange={this.handleInputChange} 
+              value={this.state.estimated_price}
+            />
+            <Form.Input 
+              label='Buyout price'
+              name='buyout_price' 
+              onChange={this.handleInputChange} 
+              value={this.state.buyout_price}
+            />
+          </Form.Group>
+          <Form.Group widths='equal'>
+            <Form.Input 
+              label='Start date'
+              name='start_date'
+              placeholder='YYYY-MM-DD HH:MM:SS' 
+              onChange={this.handleInputChange} 
+              value={this.state.start_date}
+            />
+            <Form.Input 
+              label='End date'
+              name='end_date'
+              placeholder='YYYY-MM-DD HH:MM:SS' 
+              onChange={this.handleInputChange} 
+              value={this.state.end_date}
+            />
+          </Form.Group>
+          <Button onClick={this.handleSubmit}>Submit Auction</Button>
+        </Form>
+        <Divider />
+      </Container>
     )
   }
 }

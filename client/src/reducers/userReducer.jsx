@@ -1,7 +1,6 @@
 const initialState = {
   username: '',
-  // REVERT TO NULL
-  userId: 1,
+  userId: null,
   checkingInfo: false,
   error: null,
   loggedOut: true

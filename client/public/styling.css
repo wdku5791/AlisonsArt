@@ -1,0 +1,16 @@
+.carousel {
+  max-height: 400px;
+  width: 100%;
+  overflow: hidden;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.imageLink {
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.imageHeader {
+  margin-bottom: 5px;
+}

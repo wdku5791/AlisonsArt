@@ -17,8 +17,8 @@ busboy.extend(app, {
 });
 const port = process.env.PORT || 3000;
 
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({extended: true}));
+// app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/../client/public')));
 
 app.use('/auctions', auctionHandler);
@@ -27,7 +27,6 @@ app.use('/auth', loginSignupHandler);
 app.use('/user', userHandler);
 app.use('/artist', artistHandler);
 app.use('/images', imageHandler)
-
 
 const server = app.listen(port, function() {
   console.log('Listening on port ', port);
