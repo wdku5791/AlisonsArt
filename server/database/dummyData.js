@@ -186,6 +186,16 @@ const artworks = [
 		description: 'Those flowers are really in that vase. What\'s next? ' ,
 		dimensions: '399 x 480',
 		image_url: 'https://s-media-cache-ak0.pinimg.com/736x/95/d5/3b/95d53b6122ca5d4cfaaf1854e5092e87.jpg',
+	},
+	{
+		id: 9,
+		artist_id: 3,
+		age: '2017',
+		estimated_price: 50,
+		art_name: 'Nerd Rainbow',
+		description: 'Look at all those geeks with their computers. I love \'em!',
+		dimensions: '4 x 5',
+		image_url: 'http://res.cloudinary.com/hirir4ytq/image/upload/v1492292172/s74mypzmr39qaz9uhzx8.jpg'
 	}
 ];
 
@@ -237,9 +247,9 @@ const auctions = [
 		end_date: '2017-04-13 14:27:07',
 		start_price: 9000,
 		buyout_price: 27000,
-		current_bid_id: null,
-		current_bid: null,
-		bid_counter: 0,
+		current_bid_id: 5,
+		current_bid: 10000,
+		bid_counter: 1,
 	}, 
 	{
 		id: 5,
@@ -264,6 +274,18 @@ const auctions = [
 		current_bid_id: null,
 		current_bid: null,
 		bid_counter: 0,
+	},
+	{
+		id: 7,
+		owner_id: 3,
+		artwork_id: 9,
+		start_date: '2017-04-12 12:00:00',
+		end_date: '2017-05-12 12:00:00',
+		start_price: 20,
+		buyout_price: 75,
+		current_bid_id: 6,
+		current_bid: 5,
+		bid_counter: 1,
 	}
 ];
 
@@ -303,7 +325,14 @@ const bids = [
 		bidder_id: 1,
 		auction_id: 4,
 		bid_date: '2017-01-01 11:30:00',
-		bid_price: 10000
+		bid_price: 10000,
+	},
+	{
+		id: 6,
+		bidder_id: 1,
+		auction_id: 7,
+		bid_date: '2017-04-13 12:00:00',
+		bid_price: 5,
 	}
 
 ];
