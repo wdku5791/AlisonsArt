@@ -2,8 +2,13 @@ import React from 'react';
 import { Container, Image } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
+const _handleImageClick = (auction_id, history) => {
+  console.log('auction_id: ', auction_id);
+  console.log('history: ', history);
+  history.push('/auction/' + auction_id);
+};
 
-const _helper =(auctions) => {
+const _helper =(auctions, history) => {
   if(auctions) {
     if(auctions.length === 0){
       return (
@@ -12,12 +17,20 @@ const _helper =(auctions) => {
         </div>
       );
     } else {
+      //want to add onClick for Images.
+      //find the styling first.
       return (
         <Container>
           {auctions.map(auction => {
             return (
               <div key={auction.artwork_id}>
-                <Image src={auction.image_url} />
+                <Image 
+                  className='imageLink'
+                  src={auction.image_url}
+                  onClick={() => {
+                    _handleImageClick(auction.auction_id, history);
+                  }} 
+                />
                 <br />
                 <span>Name: {auction.art_name}</span>
                 <br />
@@ -41,12 +54,12 @@ const _helper =(auctions) => {
 }
 
 const ArtistAuctions = (props) => {
-  let { flag, ongoingAuctions, passedAuctions } = props;
+  let { flag, ongoingAuctions, passedAuctions, dispatch, history } = props;
   if(flag === 'current') {
-    return _helper(ongoingAuctions);
+    return _helper(ongoingAuctions, history);
   } 
   else if(flag === 'previous'){
-    return _helper(passedAuctions);
+    return _helper(passedAuctions, history);
   } 
   else {
     return (

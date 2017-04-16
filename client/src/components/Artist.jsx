@@ -70,6 +70,7 @@ class Artist extends Component {
           );
         }
         let { fb_link, twitter_link, inst_link, profile, username} = fetchedArtist.profile;
+        let { history } = this.props;
         return (
           <Container>
             <Container>
@@ -107,11 +108,11 @@ class Artist extends Component {
               <Grid.Row>
                 <Grid.Column>
                   <h3>Ongoing auctions:</h3>
-                  <ArtistAuctions flag="current" />
+                  <ArtistAuctions flag="current" history={history}/>
                 </Grid.Column>
                 <Grid.Column>
                   <h3>Previous auctions:</h3>
-                  <ArtistAuctions flag="previous" />
+                  <ArtistAuctions flag="previous" history={history} />
                 </Grid.Column>
               </Grid.Row>
             </Grid>

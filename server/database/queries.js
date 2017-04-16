@@ -128,7 +128,7 @@ module.exports = {
     return db.query('SELECT artworks.image_url FROM artworks INNER JOIN users ON artworks.artist_id=users.id AND artworks.artist_id=$1', [artist_id]);
   },
   getAuctionsOfArtist(artist_id) {
-    return db.any('SELECT auctions.artwork_id, auctions.end_date, auctions.current_bid, Table1.image_url, Table1.art_name, Table1.estimated_price FROM auctions INNER JOIN (SELECT artworks.* FROM artworks INNER JOIN users ON (users.id=artworks.artist_id AND users.id=$1)) as Table1 ON auctions.artwork_id=Table1.id', [artist_id]);
+    return db.any('SELECT auctions.id as auction_id, auctions.artwork_id, auctions.end_date, auctions.current_bid, Table1.image_url, Table1.art_name, Table1.estimated_price FROM auctions INNER JOIN (SELECT artworks.* FROM artworks INNER JOIN users ON (users.id=artworks.artist_id AND users.id=$1)) as Table1 ON auctions.artwork_id=Table1.id', [artist_id]);
   },
   getArtistProfile(artist_id) {
     return db.oneOrNone('SELECT profiles.profile, profiles.fb_link, profiles.twitter_link, profiles.inst_link, users.username FROM profiles INNER JOIN users ON profiles.user_id=users.id AND user_id=$1', [artist_id]);
