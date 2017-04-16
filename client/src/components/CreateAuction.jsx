@@ -62,7 +62,6 @@ class CreateAuction extends React.Component {
     }
     let auction = {
       owner_id: Number(this.state.userId),
-      // artwork_id: '',
       estimated_price: Number(this.state.estimated_price),
       start_date: this.state.start_date,
       end_date: this.state.end_date,
@@ -72,7 +71,6 @@ class CreateAuction extends React.Component {
       current_bid_id: null,
       artwork: artwork,
     }
-    console.log('submitting auction... auction: ', auction);
     fetch('/auctions', {
         method: 'post',
         headers: new Headers ({
@@ -102,7 +100,6 @@ class CreateAuction extends React.Component {
         body: formData
     })
     .then((data) => {
-      console.log('posting image to Cloudinary SUCCESS! data: ', data);
       if (!data.ok) {
         throw Error(data.responseText);
       } else {
@@ -110,14 +107,12 @@ class CreateAuction extends React.Component {
       }
     })
     .then((response) => {
-      console.log('response: ', response);
       this.setState({
         image_url: response.url,
         preview_image: response.url
       })
     })
     .catch((error) => {
-      console.log('posting image to Cloudinary FAILED! error: ', error);
     })
   }
 
@@ -250,7 +245,6 @@ class CreateAuction extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  // console.log(`mapStateToProps state: ${JSON.stringify(state)}`);
   return {
     username: state.user.username,
     userId: state.user.userId,

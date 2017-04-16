@@ -166,14 +166,13 @@ class Home extends Component {
     render() {
       return (
         <div>
-        <Divider />
           <MainArts mainArts={this.props.mainArts} history={this.props.history} />
-        <Divider />
-        <h3>Auctions</h3>
-        <HomeAuctions homeAuctions={this.props.homeAuctions} history={this.props.history} />
-        <h3>Artists</h3>
-        <Divider />
-        <HomeArtists homeArtists={this.props.homeArtists} history={this.props.history} />
+          <Divider />
+          <h3>Auctions</h3>
+          <HomeAuctions homeAuctions={this.props.homeAuctions} history={this.props.history} />
+          <h3>Artists</h3>
+          <Divider />
+          <HomeArtists homeArtists={this.props.homeArtists} history={this.props.history} />
         </div>
       )
     }

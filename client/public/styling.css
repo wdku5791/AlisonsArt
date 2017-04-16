@@ -14,3 +14,26 @@
 .imageHeader {
   margin-bottom: 5px;
 }
+
+.navBar {
+  float: left;
+  text-align: left;
+  display: inline-block;
+}
+
+.authLink {
+  float: right;
+  text-align: right;
+  display: inline-block;
+}
+
+.navLinks {
+  font-size: 18px;
+  color: #474a4f;
+}
+
+.navSearch {
+  height: 26px;
+  font-size: 18px;
+  margin-left: 20px;
+}
