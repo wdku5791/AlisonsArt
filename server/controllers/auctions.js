@@ -20,7 +20,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  console.log(req.body);
+  console.log('posting to auctions... req.body: ', req.body);
   model.createArtwork(req.body.artwork)
   .then((data) => {
     req.body.artwork_id = data.id;

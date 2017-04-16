@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Image, Divider, Container } from 'semantic-ui-react';
+import { Grid, Card, Image, Divider, Container } from 'semantic-ui-react';
+import ImageGallery from 'react-image-gallery';
 import { connect } from 'react-redux';
 import * as Auctions from '../actions/auctionActionCreator.jsx';
 import * as Artists from '../actions/artistActionCreator.jsx';
@@ -9,24 +10,25 @@ const clickArt = (artId, history) => {
   history.push('/auction/' + artId);
 };
 
+const onImageClick = (event, history) => {
+  var split = event.target.src.split('?');
+  var lastIndex = split.length - 1;
+  var lastCharacter = Number(split[lastIndex]);
+  clickArt(lastCharacter, history);
+}
+
 //render the description ... as floating right of the image
 //closed auctions should be rendered differently from the ongoing ones
 const MainArt = ({ art, history }) => {
   return (
-    <span>
-      <Image className="ui image" src={art.artwork.image_url} onClick={() => {
-        clickArt(art.artwork.id, history);
-      }} />
-      <span className="ui label">
-        <span>Artist: {art.first_name} {art.last_name}</span>
-        <br />
-        <span> Description: {art.artwork.description}</span>
-        <br />
-        <span> Year: {art.artwork.age}</span>
-        <br />
-        <span> Closing price: missing!!!!</span>
-      </span>
-    </span>
+    <Grid.Column>
+      <Image src={art.artwork.image_url}/>
+      <Card.Content>
+        <Card.Header>{art.first_name} {art.last_name} </Card.Header>
+        <Card.Meta>{art.artwork.age}</Card.Meta>
+        <Card.Description>{art.artwork.description}</Card.Description>
+      </Card.Content>
+    </Grid.Column>
   );
 }
 
@@ -34,11 +36,25 @@ const MainArts = ({ mainArts, history }) => {
   if (!mainArts[0]) {
     return <p>loading~~</p>
   } else {
-    // this className in div is not working:
+    let images = []
+    mainArts.forEach((item) => {
+      let imageObj = {
+        original: `${item.artwork.image_url}?${item.artwork.id}`,
+        description: `${item.first_name} ${item.last_name} Closing Price: $${item.buyout_price}`, 
+      }
+      images.push(imageObj);
+    })
     return (
-      <Container className="ui small images">
-       {mainArts.map(mainArt => <MainArt key={mainArt.id} art={mainArt} history={history}/>)}
-      </Container>
+      <div className='carousel'>
+        <ImageGallery
+          items={images}
+          slideInterval={7000}
+          autoPlay={true}
+          showThumbnails={false}
+          showFullscreenButton={false}
+          onClick={(e) => {onImageClick(e, history)}}
+        />
+      </div>
     )
   }
 }
@@ -46,15 +62,22 @@ const MainArts = ({ mainArts, history }) => {
 
 const HomeAuction = ({ homeAuction, history }) => {
   return (
-    <span>
-      <Image src={homeAuction.artwork.image_url} onClick={() => {
-        clickArt(homeAuction.artwork.id, history);
-      }} />
-      <span className="ui label">
-        <span>Name: {homeAuction.artwork.art_name}</span>
-        <span> Id: {homeAuction.id}</span>
-      </span>
-    </span>
+    <Grid.Column>
+
+        <Image 
+          className='imageLink'
+          src={homeAuction.artwork.image_url} 
+          onClick={() => {clickArt(homeAuction.artwork.id, history);}}
+          label={{ as: 'a', color: 'black', content: '$' + homeAuction.buyout_price, ribbon: true }} 
+        />
+        <Container>
+          <h4 className='imageHeader'>
+            {homeAuction.artwork.art_name}
+          </h4>
+          <Divider />
+          <p>{homeAuction.first_name} {homeAuction.last_name} ({homeAuction.artwork.age})</p>
+        </Container>
+    </Grid.Column>
   );
 }
 //not using dispatch for the moment
@@ -63,9 +86,11 @@ const HomeAuctions = ({homeAuctions, history}) => {
     return <p>loading~~~</p>
   } else {
     return (
-      <Container className="ui tiny images">
-       {homeAuctions.map(homeAuction => <HomeAuction key={homeAuction.artwork.id} homeAuction={homeAuction} history={history} />)}
-      </Container>
+      <Grid columns='equal'>
+        <Grid.Row columns={3}>
+          {homeAuctions.map(homeAuction => <HomeAuction key={homeAuction.artwork.id} homeAuction={homeAuction} history={history} />)}
+        </Grid.Row>
+      </Grid>
     )
   }
 }
@@ -76,14 +101,20 @@ const clickArtist = (id, history, dispatch) => {
 
 const HomeArtist = ({ artist, history }) => {
   return (
-    <span>
-      <Image className="ui image" src={artist.image_url} onClick={() => clickArtist(artist.id, history)} />
-      <span className="ui label">
-        <span>artistid: {artist.id}</span>
-        <br />
-        <span>description {artist.description}</span>
-      </span>
-    </span>
+    <Grid.Column>
+        <Image 
+          className='imageLink'
+          src={artist.image_url} 
+          onClick={() => clickArtist(artist.id, history)} 
+        />
+        <Container>
+          <h4 className='imageHeader'>
+            {artist.first_name} {artist.last_name}
+          </h4>
+          <Divider />
+          <p>CATEGORY TAGS GO HERE</p>
+        </Container>
+    </Grid.Column>
   )
 }
 
@@ -92,9 +123,11 @@ const HomeArtists = ({ homeArtists, history }) => {
     return <div>loading~~~~</div>
   } else {
     return (
-      <Container className="ui small images">
-        {homeArtists.map(homeArtist => <HomeArtist key={homeArtist.id} artist={homeArtist} history={history} />)}
-      </Container>
+      <Grid>
+        <Grid.Row columns={3}>
+          {homeArtists.map(homeArtist => <HomeArtist key={homeArtist.id} artist={homeArtist} history={history} />)}
+        </Grid.Row>
+      </Grid>
     )
   }
 }
@@ -118,8 +151,8 @@ class Home extends Component {
         return response.json();
       })
       .then(data => {
-        console.log('im data: ', data);
-        let { current, expired, featuredArt } = data;
+
+        let {current, expired, featuredArt} = data;
         dispatch(Auctions.passedAuctionsFetchedSuccess(expired));
         dispatch(Auctions.ongoingAuctionsFetchedSuccess(current));
         dispatch(Auctions.featuredArtsFetchedSuccess(featuredArt));
@@ -131,17 +164,15 @@ class Home extends Component {
   }
  
     render() {
-      
       return (
         <div>
           <MainArts mainArts={this.props.mainArts} history={this.props.history} />
-        <Divider />
-        <p>---------------------------</p>
-        <p>Auctions</p>
-        <HomeAuctions homeAuctions={this.props.homeAuctions} history={this.props.history} />
-        <p>Artists</p>
-        <Divider />
-        <HomeArtists homeArtists={this.props.homeArtists} history={this.props.history} />
+          <Divider />
+          <h3>Auctions</h3>
+          <HomeAuctions homeAuctions={this.props.homeAuctions} history={this.props.history} />
+          <h3>Artists</h3>
+          <Divider />
+          <HomeArtists homeArtists={this.props.homeArtists} history={this.props.history} />
         </div>
       )
     }

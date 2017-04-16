@@ -1,54 +1,55 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Image } from 'semantic-ui-react';
+import { Image, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-
 
 class NavBar extends Component {
   render() {
     let {username, userId} = this.props;
 
     let LoggedOutNav = (
-        <span>
-          {'  '}
-          <NavLink to="/login" >Log In</NavLink>
-          {'  '}
-          <NavLink to="/signup" >Sign Up</NavLink>
-        </span>
+        <div>
+          <NavLink className='navLinks' to="/login" >Log In</NavLink>
+          {' | '}
+          <NavLink className='navLinks' to="/signup" >Sign Up</NavLink>
+        </div>
       );
 
     let LoggedInNav = (
-      <span>
+      <div>
         {'  '}
-        <NavLink to={"/user/"+userId} >{username}</NavLink>
-        {'  '}
-        <NavLink to="/logout">Log out</NavLink>
-        {'  '}
-        <NavLink to="/notification" >Noties</NavLink>
-      </span>
+        <NavLink className='navLinks' to={"/user/"+userId} >{username}</NavLink>
+        {' | '}
+        <NavLink className='navLinks' to="/logout">Log out</NavLink>
+        {' | '}
+        <NavLink className='navLinks' to="/notification" >Noties</NavLink>
+      </div>
     );
 
     return (
       <div>
-        <Image avatar src="./assets/logo.jpeg" alt="homepage pic" />
-        <h1>ArtPoint</h1>
-        <div>
-          <input type="text" placeholder="search" />
+        <h1> <Image avatar src='./assets/logo.jpeg' />ArtPoint</h1>
+        <div className='navBar'>
           {'  '}
-          <NavLink to="/home">Home</NavLink>
-          {'  '}
-          <NavLink to="/auctions">Auctions</NavLink>
-          {'  '}
-          <NavLink to="/artists" >Artists</NavLink>
-          {'  '}
-          <NavLink to="/createAuction" >Create an auction</NavLink>
-          {'  '}
-          <NavLink to="/events" >Events</NavLink>
-          {'  '}
-          <NavLink to="/contactus" >Contact us</NavLink>
+          <NavLink className='navLinks' to="/home">Home</NavLink>
+          {' | '}
+          <NavLink className='navLinks' to="/auctions">Auctions</NavLink>
+          {' | '}
+          <NavLink className='navLinks' to="/artists" >Artists</NavLink>
+          {' | '}
+          <NavLink className='navLinks' to="/createAuction" >Create an auction</NavLink>
+          {' | '}
+          <NavLink className='navLinks' to="/events" >Events</NavLink>
+          {' | '}
+          <NavLink className='navLinks' to="/contactus" >Contact us</NavLink>
+          <input className='navSearch' type="text" placeholder="search" />
+        </div>
+        <div className='authLink'>
           {username === '' ? LoggedOutNav : LoggedInNav}
           {this.props.children}
         </div>
+        <br />
+        <Divider />
       </div>
     );
   }
