@@ -4,8 +4,7 @@ import { Container, Image, Divider, Grid, Button, Segment } from 'semantic-ui-re
 //this imageGallery is causing a warning on React.createClass will be removed in v16
 import ImageGallery from 'react-image-gallery';
 import * as ArtistAction from '../actions/artistActionCreator.jsx';
-import CurrentAuctions from './ArtistProfile/CurrentAuctions.jsx';
-import PreviousAuctions from './ArtistProfile/PreviousAuctions.jsx';
+import ArtistAuctions from './ArtistProfile/ArtistAuctions.jsx';
 
 class Artist extends Component {
 
@@ -27,9 +26,10 @@ class Artist extends Component {
       dispatch(ArtistAction.fetchArtistErrored(false, null));
     })
     .catch(err => {
+      console.log('salkdfjalsdkfjasd');
       dispatch(ArtistAction.fetchingArtist(false));
       dispatch(ArtistAction.fetchArtistErrored(true, err));
-    })
+    });
   }
   
   render(){
@@ -71,12 +71,11 @@ class Artist extends Component {
             <Grid.Row>
               <Grid.Column>
                 Ongoing auctions:
-                <CurrentAuctions />
-              <Divider vertical />
+                <ArtistAuctions flag="current" />
               </Grid.Column>
               <Grid.Column>
                 Previous auctions:
-                <PreviousAuctions />
+                <ArtistAuctions flag="previous" />
               </Grid.Column>
             </Grid.Row>
           </Grid>
