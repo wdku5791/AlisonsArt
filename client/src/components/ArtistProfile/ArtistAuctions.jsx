@@ -53,7 +53,7 @@ const ArtistAuctions = (props) => {
   else {
     return (
       <div>
-        Wrong flag~ nothing renders~
+        Wrong flag. Nothing should render~
       </div>
     );
   }
