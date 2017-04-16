@@ -9,7 +9,7 @@ const _helper =(auctions) => {
     if(auctions.length === 0){
       return (
         <div>
-          nothing to render for this artist here
+          No auctions
         </div>
       );
     } else {

@@ -63,25 +63,26 @@ class Artist extends Component {
           </div>
         );
       } else {
-        let { fb_link, inst_link, twitter_link, profile } = fetchedArtist.profile;
-        console.log('im links: ', fb_link);
-        console.log('im inst: ', inst_link);
-        console.log('im twitter: ', twitter_link);
+        let { fb_link, twitter_link, inst_link, profile, username} = fetchedArtist.profile;
         return (
           <Container>
             <Container>
               <Container>
-                <span>artist name</span>
+                <span>{username}</span>
                 {' '}
                 <button>Direct message</button>
                 {' '}
-                <Button circular color='facebook' icon='facebook' onClick={() => {
+                {fb_link ? <Button circular color='facebook' icon='facebook' onClick={() => {
                   this._socialMedia(fb_link);
-                }}/>
+                }}/> : null}
                 {' '}
-                <Button circular color='twitter' icon='twitter'/>
+                {twitter_link ? <Button circular color='twitter' icon='twitter' onClick={() => {
+                  this._socialMedia(twitter_link);
+                }}/> : null}
                 {' '}
-                <Button circular color='instagram' icon='instagram'/>
+                {inst_link ? <Button circular color='instagram' icon='instagram' onClick={() => {
+                  this._socialMedia(inst_link);
+                }}/> : null}
               </Container>
               <Grid verticalAlign='middle'>
                 <Grid.Row>
@@ -90,7 +91,7 @@ class Artist extends Component {
                   </Grid.Column>
                   <Grid.Column width={8}>
                     <Container fluid textAlign="justified">
-                      Im the artist, I rock!
+                    {profile}
                     </Container>
                   </Grid.Column>
                 </Grid.Row>
