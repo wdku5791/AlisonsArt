@@ -55,10 +55,10 @@ const profiles = [
 	},
 	{
 		id: 2,
-		user_id: 4,
-		profile: 'im no.4 talented!',
+		user_id: 2,
+		profile: 'im no.2 talented!',
 		fb_link: 'https://www.facebook.com/xueying.zhang.509',
-		twitter_link: 'https://twitter.com/Alison_XYZ?lang=en',
+		twitter_link: null,
 		inst_link: 'https://www.instagram.com/alisonzthu/'
 	}
 ];
