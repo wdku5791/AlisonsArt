@@ -87,7 +87,7 @@ module.exports = {
     });
   },
   getUserNotifications(userId) {
-    return db.query('select * from notifications where owner_id =$1', [userId]);
+    return db.query('select * from notifications where owner_id =$1 ORDER BY date DESC', [userId]);
   },
 
   featuredArt() {

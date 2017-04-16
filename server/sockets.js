@@ -6,7 +6,7 @@ module.exports = function (server) {
   io.attach(server);
 
   io.on('connection', function(socket){
-
+    console.log('ioengine', io);
     console.log("Socket connected: " + socket.id);
     // socket.join('room 237', function(){
     //   console.log(socket.rooms); // [ <socket.id>, 'room 237' ]

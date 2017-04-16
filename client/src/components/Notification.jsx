@@ -6,36 +6,34 @@ import Note from './NotificationEntry.jsx';
 class Notification extends React.Component {
   constructor(props) {
     super(props);
+    this.clickHandler =this.clickHandler.bind(this);
   };
-
 
   componentWillMount() {
     const {dispatch, userId} = this.props;
-    console.log('myprops for notifications', this.props);
-    dispatch(notifications.fetchNotifications(true));
-
-    fetch(`/notifications/${userId}`)
-    .then(response => {
-      if(!response.ok) {
-        throw Error(response.statusText);
-      }
-      dispatch(notifications.fetchNotifications(false));
-      dispatch(notifications.fetchError(false));
-      return response.json();
-    })
-    .then(data => {
-      dispatch(notifications.fetchSuccess(data));
-    })
-    .catch(() => dispatch(notifications.fetchError(true)));
+    if (userId) {
+      dispatch(notifications.fetchNotifications(true));
+      fetch(`/notifications/${userId}`)
+      .then(response => {
+        if(!response.ok) {
+          throw Error(response.statusText);
+        }
+        dispatch(notifications.fetchNotifications(false));
+        dispatch(notifications.fetchError(false));
+        return response.json();
+      })
+      .then(data => {
+        dispatch(notifications.fetchSuccess(data));
+      })
+      .catch(() => dispatch(notifications.fetchError(true)));
+    }
   };
 
   clickHandler(notificationId, index) {
     const {dispatch, userId, notification} = this.props;
     let notes = notification.notifications;
-    console.log(notes[index]);
-    let temp = {...notes[index], 'read': true}
 
-    let newNotification = notes.slice(0, index).concat([temp]).concat(notes.slice(index + 1));
+    let newNotification = notes.slice(0, index).concat([{...notes[index], 'read': true}]).concat(notes.slice(index + 1));
     console.log('notifications', notes, newNotification);
     dispatch(notifications.updater(newNotification));
 
@@ -65,7 +63,7 @@ class Notification extends React.Component {
           {notification.notifications.map((notification, index) => (
             <Note key={notification.id}
             index={index}
-            clickHandler={this.clickHandler.bind(this)}
+            clickHandler={this.clickHandler}
             notification={notification} />)
           )}
         </div>
