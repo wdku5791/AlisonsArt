@@ -9,7 +9,7 @@ import bidReducer from './bidReducer';
 const rootReducer = combineReducers({
   auctions: auctionsReducer,
   auction: auctionReducer,
-  artists: artistReducer,
+  artist: artistReducer,
   user: userReducer,
   bid: bidReducer
 });
