@@ -29,10 +29,10 @@ module.exports = function insertDummyData(db) {
     return t.batch([].concat(userInserts, artWorkInserts, auctionInserts, bidInserts, profileInserts, notificationInserts));
   })
   .then(() => {
-      console.log('success seeding data');
+    console.log('success seeding data');
   })
   .catch((err) => {
-      console.error(err);
-      process.exit(1);
+    console.error(err);
+    process.exit(1);
   });
 };
