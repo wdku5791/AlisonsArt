@@ -3,8 +3,6 @@ import { Container, Image } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 const _handleImageClick = (auction_id, history) => {
-  console.log('auction_id: ', auction_id);
-  console.log('history: ', history);
   history.push('/auction/' + auction_id);
 };
 
