@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 
 const _helper =(auctions) => {
-  console.log('auctionss: ', auctions);
   if(auctions) {
     if(auctions.length === 0){
       return (
@@ -33,7 +32,6 @@ const _helper =(auctions) => {
       );
     }
   } else {
-    console.log('hehe');
     return(
       <p>
       loading~~

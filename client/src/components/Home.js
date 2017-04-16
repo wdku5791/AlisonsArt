@@ -105,7 +105,7 @@ const HomeArtist = ({ artist, history }) => {
         <Image 
           className='imageLink'
           src={artist.image_url} 
-          onClick={() => clickArtist(artist.id, history)} 
+          onClick={() => clickArtist(artist.artist_id, history)} 
         />
         <Container>
           <h4 className='imageHeader'>

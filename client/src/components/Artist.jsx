@@ -41,7 +41,6 @@ class Artist extends Component {
   }
   
   render(){
-    console.log('artistsssssst: ', this.props.artist);
     let { isFetching, fetchArtistErrored, fetchedArtist } = this.props.artist;
     if (fetchArtistErrored) {
       return (
@@ -63,6 +62,13 @@ class Artist extends Component {
           </div>
         );
       } else {
+        if (!fetchedArtist.profile) {
+          return (
+            <div>
+              Sorry, we don't have a profile page for this artist!
+            </div>
+          );
+        }
         let { fb_link, twitter_link, inst_link, profile, username} = fetchedArtist.profile;
         return (
           <Container>
