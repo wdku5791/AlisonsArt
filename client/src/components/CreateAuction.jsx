@@ -156,56 +156,56 @@ class CreateAuction extends React.Component {
                   onChange={this.handleInputChange}
                   value={this.state.description}
                 />
+                <Form.Group>
+                  <label>Categories</label>
+                  <Form.Field 
+                    label='Painting'
+                    control='input' 
+                    type='checkbox' 
+                    value='painting' 
+                    onChange={this.handleCategoryChange}
+                  />
+                  <Form.Field 
+                    label='Photography'
+                    control='input' 
+                    type='checkbox' 
+                    value='photography' 
+                    onChange={this.handleCategoryChange}
+                  />
+                  <Form.Field 
+                    label='Sculpture'
+                    control='input' 
+                    type='checkbox' 
+                    value='sculpture' 
+                    onChange={this.handleCategoryChange}
+                  />
+                </Form.Group>
+                <Form.Group widths='equal'>
+                  <Form.Input 
+                    label='Length'
+                    name='length'
+                    placeholder='inches'
+                    onChange={this.handleInputChange}
+                    value={this.state.length}
+                  />
+                  <Form.Input 
+                    label='Height'
+                    name='height'
+                    placeholder='inches'
+                    onChange={this.handleInputChange}
+                    value={this.state.height}
+                  />
+                  <Form.Input 
+                    label='Width'
+                    name='width'
+                    placeholder='inches'
+                    onChange={this.handleInputChange}
+                    value={this.state.width}
+                  />
+                </Form.Group>
               </Grid.Column>
             </Grid.Row>
           </Grid>
-          <Form.Group widths='equal'>
-            <Form.Input 
-              label='Length'
-              name='length'
-              placeholder='inches'
-              onChange={this.handleInputChange}
-              value={this.state.length}
-            />
-            <Form.Input 
-              label='Height'
-              name='height'
-              placeholder='inches'
-              onChange={this.handleInputChange}
-              value={this.state.height}
-            />
-            <Form.Input 
-              label='Width'
-              name='width'
-              placeholder='inches'
-              onChange={this.handleInputChange}
-              value={this.state.width}
-            />
-          </Form.Group>
-          <Form.Group>
-            <label>Categories</label>
-            <Form.Field 
-              label='Painting'
-              control='input' 
-              type='checkbox' 
-              value='painting' 
-              onChange={this.handleCategoryChange}
-            />
-            <Form.Field 
-              label='Photography'
-              control='input' 
-              type='checkbox' 
-              value='photography' 
-              onChange={this.handleCategoryChange}
-            />
-            <Form.Field 
-              label='Sculpture'
-              control='input' 
-              type='checkbox' 
-              value='sculpture' 
-              onChange={this.handleCategoryChange}
-            />
-          </Form.Group>
           <Form.Group widths='equal'>
             <Form.Input 
               label='Estimated value'
