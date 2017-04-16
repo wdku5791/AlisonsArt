@@ -38,7 +38,7 @@ module.exports = {
         // see if the user is the highest bidder
         .catch(() => {
           auction.closed = false;
-          return t.one('SELECT bidder_id FROM bids where auction_id = $1', [auction.current_bid_id])
+          return t.one('SELECT bidder_id FROM bids where id = $1', [auction.current_bid_id])
           .then((bid) => {
             auction.isHighestBidder = bid.id === userId.toString();
             return auction;
