@@ -24,7 +24,7 @@ router.post('/', (req, res) => {
   model.createArtwork(req.body.artwork)
   .then((data) => {
     req.body.artwork_id = data.id;
-    model.createAuction(req.body)
+    return model.createAuction(req.body)
     .then((auctionId) => {
       res.status(201).json(auctionId);
     });
