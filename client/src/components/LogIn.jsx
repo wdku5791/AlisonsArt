@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container } from 'semantic-ui-react';
+import { Form, Button } from 'semantic-ui-react';
 import * as UserAction from './../actions/userActionCreator.jsx';
 
 
@@ -8,6 +8,7 @@ import * as UserAction from './../actions/userActionCreator.jsx';
 class LogIn extends Component {
 
   _handleSubmit(e) {
+    console.log('_handleSubmit is running!');
     e.preventDefault();
     let username = this.usernameNode.value;
     let password = this.passwordNode.value;
@@ -45,16 +46,20 @@ class LogIn extends Component {
 
   render(){
     return(
-      <Container>
-        <form onSubmit={e => {this._handleSubmit(e)}}>
-          Username:
-          <input type="text" placeholder="username" ref={node => this.usernameNode = node} />
-          <br />
-          Password:
-          <input type="password" placeholder="password" ref={node => this.passwordNode = node}/>
-          <input type="submit"/>
-        </form>
-      </Container>
+      <div className='authForm'>
+        <h3>Login</h3>
+        <Form>
+          <Form.Field>
+            <label>Username</label>
+            <input placeholder='username' ref={node => this.usernameNode = node} />
+          </Form.Field>
+          <Form.Field>
+            <label>Password</label>
+            <input type='password' placeholder='password' ref={node => this.passwordNode = node}/>
+          </Form.Field>
+          <Button type='submit' onClick={e => {this._handleSubmit(e)}}>Submit</Button>
+        </Form>
+      </div>
     )
   }
 }

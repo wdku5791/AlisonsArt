@@ -45,3 +45,11 @@
 .closedListing {
   color: red;
 }
+
+.authForm {
+  width: 40%;
+  margin-top: 75px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
