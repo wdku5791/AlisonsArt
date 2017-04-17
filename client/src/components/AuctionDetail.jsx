@@ -13,7 +13,7 @@ const AuctionDetail = ({ auction, setBid, handleClick }) => {
           <h2>{auction.artwork.art_name}</h2>
           <h3>{auction.first_name} {auction.last_name} ({auction.artwork.age})</h3>
           <p><strong>Description:</strong> {auction.artwork.description}</p>
-          <p><strong>Current Price (USD):</strong> ${auction.current_bid}</p>
+          <p><strong>Current Price (USD):</strong> ${auction.current_bid || auction.start_price}</p>
           <p><strong>Buyout Price (USD):</strong> ${auction.buyout_price}</p>
           <Form.Group widths='equal'>
             <BiddingRange setBid={setBid} current={auction.current_bid} start={auction.start_price} end={auction.buyout_price} />
