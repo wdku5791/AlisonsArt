@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Image, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import * as UserAction from './../actions/userActionCreator.jsx';
 
 class NavBar extends Component {
   render() {
-    let {username, userId} = this.props;
+    let {username, userId, dispatch} = this.props;
 
     let LoggedOutNav = (
         <div>
@@ -20,7 +21,7 @@ class NavBar extends Component {
         {'  '}
         <NavLink className='navLinks' to={"/user/"+userId} >{username}</NavLink>
         {' | '}
-        <NavLink className='navLinks' to="/logout">Log out</NavLink>
+        <NavLink className='navLinks' to="/home" onClick={() => dispatch(UserAction.logOut())}>Log out</NavLink>
         {' | '}
         <NavLink className='navLinks' to="/notification" >Noties</NavLink>
       </div>
