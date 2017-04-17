@@ -1,14 +1,14 @@
 export function fetchNotifications(bool) {
   return {
-    type: 'FETCHING',
-    bool
+    type: 'FETCHING_NOTIFICATIONS',
+    fetchingNoties: bool
   };
 }
 
 export function fetchError(bool) {
   return {
     type: 'FETCH_ERROR',
-    bool
+    error: bool
   };
 }
 
