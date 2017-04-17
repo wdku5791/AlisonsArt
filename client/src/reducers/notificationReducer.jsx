@@ -6,15 +6,15 @@ const initialState = {
 
 const notificationReducer = (state = initialState, action) => {
   switch(action.type) {
-    case 'FETCHING':
+    case 'FETCHING_NOTIFICATIONS':
       return {
         ...state,
-        fetchingNoties: action.bool
+        fetchingNoties: action.fetchingNoties
       };
     case 'FETCH_ERROR':
       return {
         ...state,
-        error: action.bool
+        error: action.error
       };
     case 'FETCH_COMPLETE':
       return {
