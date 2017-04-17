@@ -5,9 +5,8 @@ import { connect } from 'react-redux';
 import * as Auctions from '../actions/auctionActionCreator.jsx';
 import * as Artists from '../actions/artistActionCreator.jsx';
 
-
-const clickArt = (artId, history) => {
-  history.push('/auction/' + artId);
+const clickArt = (auctionId, history) => {
+  history.push('/auction/' + auctionId);
 };
 
 const onImageClick = (event, history) => {
@@ -39,11 +38,12 @@ const MainArts = ({ mainArts, history }) => {
     let images = []
     mainArts.forEach((item) => {
       let imageObj = {
-        original: `${item.artwork.image_url}?${item.artwork.id}`,
+        original: `${item.artwork.image_url}?${item.id}`,
         description: `${item.first_name} ${item.last_name} Closing Price: $${item.buyout_price}`, 
       }
       images.push(imageObj);
     })
+    //shoud add acution id to onImage click
     return (
       <div className='carousel'>
         <ImageGallery
