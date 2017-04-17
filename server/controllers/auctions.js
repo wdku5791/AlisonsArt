@@ -11,6 +11,7 @@ router.get('/', (req, res) => {
 
   model.getAuctions(limit, time, status)
   .then((auctions) => {
+    console.log('hmm');
     res.status(200).json(auctions);
   })
   .catch((err) => {
