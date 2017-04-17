@@ -4,6 +4,8 @@ dotenv.config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const busboy = require('express-busboy');
+const expressJWT = require('express-jwt');
+
 const auctionHandler = require('./controllers/auctions');
 const homeHandler = require('./controllers/home');
 const loginSignupHandler = require('./controllers/loginSignup');
