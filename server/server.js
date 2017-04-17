@@ -16,12 +16,10 @@ busboy.extend(app, {
   upload: true,
 });
 const port = process.env.PORT || 3000;
-const io = require('./sockets.js');
-
 const server = app.listen(port, function() {
   console.log('Listening on port ', port);
 });
-io(server);
+const io = require('./sockets.js').init(server);
 
 // app.use(bodyParser.urlencoded({extended: true}));
 // app.use(bodyParser.json());
