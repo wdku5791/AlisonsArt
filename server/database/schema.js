@@ -2,11 +2,7 @@ module.exports = function createSchemas(db) {
   return db.tx (t => {
     let drop = t.query('DROP TABLE IF EXISTS\
       followers, artwork_attributes, attributes, messages,\
-<<<<<<< HEAD
       bids, auctions, artworks, users, profiles cascade \
-=======
-      bids, auctions, artworks, users cascade \
->>>>>>> added a signup feature and end point to database completion
     ');
 
     let users = t.query('CREATE TABLE IF NOT EXISTS users (\
