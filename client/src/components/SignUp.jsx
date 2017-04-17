@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container } from 'semantic-ui-react';
+import { Form, Button } from 'semantic-ui-react';
 import * as UserAction from './../actions/userActionCreator.jsx';
 
 class SignUp extends Component {
@@ -67,40 +67,86 @@ class SignUp extends Component {
 
   render() {
     return (
-      <Container>
-        <form onSubmit={e => {this._handleSubmit(e)}}>
-        	Username:
-        	<input type="text" placeholder="username" 
-          ref={node => this.usernameNode = node} />
-        	<br />
-        	Password:
-        	<input type="password" placeholder="password" 
-          ref={node => this.passwordNode = node} />
-        	<br />
-        	Confirm password:
-        	<input type="password" placeholder="password" 
-          ref={node => this.cPasswordNode = node} />
-          <br />
-          Name:
-          <input type="text" placeholder="first name" 
-          ref={node => this.firstNameNode = node} />
-          <input type="text" placeholder="last name" 
-          ref={node => this.lastNameNode = node} />
-          <br />
-          Email:
-          <input type="text" placeholder="email@example.com" 
-          ref={node => this.emailNode = node} />
-          <br />
-          Address:
-          <input type="text" placeholder="street" 
-          ref={node => this.streetNode = node} />
-          <input type="text" placeholder="city" 
-          ref={node => this.cityNode = node} />
-          <input type="text" placeholder="state" 
-          ref={node => this.stateNode = node} />
-        	<input type="submit" />
-        </form>
-      </Container>
+      <div className='authForm'>
+        <h3>Sign Up</h3>
+        <Form>
+          <Form.Field>
+            <label>Username</label>
+            <input 
+              placeholder='username' 
+              ref={node => this.usernameNode = node} 
+            />
+          </Form.Field>
+          <Form.Field>
+            <label>Password</label>
+            <input 
+              type='password' 
+              placeholder='password' 
+              ref={node => this.passwordNode = node}
+            />
+          </Form.Field>
+          <Form.Field>
+            <label>Confirm Password</label>
+            <input 
+              type='password' 
+              placeholder='password' 
+              ref={node => this.cPasswordNode = node}
+            />
+          </Form.Field>
+          <Form.Group widths='equal'>
+            <Form.Field>
+              <label>First Name</label>
+              <input 
+                placeholder='first' 
+                ref={node => this.firstNameNode = node} 
+              />
+            </Form.Field>
+            <Form.Field>
+              <label>Last Name</label>
+              <input 
+                placeholder='last' 
+                ref={node => this.lastNameNode = node} 
+              />
+            </Form.Field>
+          </Form.Group>
+          <Form.Field>
+            <label>Email</label>
+            <input 
+              placeholder='example@example.com' 
+              ref={node => this.emailNode = node} 
+            />
+          </Form.Field>
+          <Form.Field>
+            <label>Address</label>
+            <input 
+              placeholder='address' 
+              ref={node => this.streetNode = node} 
+            />
+          </Form.Field>
+          <Form.Group widths='equal'>
+            <Form.Field>
+              <label>City</label>
+              <input 
+                placeholder='city' 
+                ref={node => this.cityNode = node} 
+              />
+            </Form.Field>
+            <Form.Field>
+              <label>State</label>
+              <input 
+                placeholder='state'
+                ref={node => this.stateNode = node} 
+              />
+            </Form.Field>
+          </Form.Group>
+          <Button 
+            type='submit' 
+            onClick={e => {this._handleSubmit(e)}}
+          >
+            Submit
+          </Button>
+        </Form>
+      </div>
     );
   }
 }

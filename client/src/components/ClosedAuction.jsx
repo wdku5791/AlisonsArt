@@ -1,18 +1,23 @@
 import React from 'react';
-import { Container, Image } from 'semantic-ui-react';
+import { Container, Image, Grid } from 'semantic-ui-react';
 
 const ClosedAuction = ({ auction }) => {
+
   return (
-    <Container>
-      <Container className="ui medium images">
-        <Image className="ui image" src={auction.artwork.image_url} />
-      </Container>
-      <Container>
-        <p>Description: {auction.artwork.description}</p>
-        <p>Year: {auction.artwork.age}</p>
-        <p>Closing Price ($USD): {auction.current_bid}</p>
-      </Container>
-    </Container>
+    <Grid>
+      <Grid.Column width={12}>
+        <Image fluid src={auction.artwork.image_url} />
+      </Grid.Column>
+      <Grid.Column width={4}>
+        <Container>
+          <h2 className='closedListing'>This auction has closed</h2>
+          <h2>{auction.artwork.art_name}</h2>
+          <h3>{auction.first_name} {auction.last_name} ({auction.artwork.age})</h3>
+          <p><strong>Description:</strong> {auction.artwork.description}</p>
+          <p><strong>Estimated Value (USD):</strong> ${auction.buyout_price}</p>
+        </Container>
+      </Grid.Column>
+    </Grid>
   );
 };
 

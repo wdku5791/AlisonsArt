@@ -37,3 +37,19 @@
   font-size: 18px;
   margin-left: 20px;
 }
+
+.artworkDescription {
+  margin-bottom: 10px;
+}
+
+.closedListing {
+  color: red;
+}
+
+.authForm {
+  width: 40%;
+  margin-top: 75px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
