@@ -73,8 +73,18 @@ module.exports = function createSchemas(db) {
       twitter_link VARCHAR,\
       inst_link VARCHAR)'
     );
+    let notifications = t.query('CREATE TABLE IF NOT EXISTS notifications (\
+      id SERIAL PRIMARY KEY NOT NULL,\
+      owner_id BIGINT NOT NULL REFERENCES users(id),\
+      trigger_id BIGINT, \
+      type VARCHAR(30), \
+      read BOOLEAN DEFAULT false, \
+      date TIMESTAMP, \
+      text text\
+    )');
 
-    return t.batch([drop, users, artworks, auctions, bids, attributes, messages, artworkAttributes, followers, profiles]);
+    return t.batch([drop, users, artworks, auctions, bids, attributes, messages, artworkAttributes, followers, profiles, notifications]);
+    
   })
   .then(() => {
     console.log('database tables created');
