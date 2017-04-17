@@ -11,7 +11,8 @@ const userReducer = (state = initialState, action) => {
     case 'CHECKING_LOG_IN':
       return {
         ...state,
-        checkingInfo: action.checking
+        checkingInfo: action.checking,
+        error: null
       };
     case 'LOG_IN_COMPLETE':
       return {

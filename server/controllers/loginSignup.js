@@ -57,7 +57,13 @@ router.post('/signup', (req, res) => {
     }));
   })
   .catch(err => {
-    res.status(400).send('sign-in error: ' + err);
+    console.log(err.code);
+    if (err.code === '23505') {
+      const message = 'username or email already exists';
+      res.status(400).send(message);
+    } else {
+      res.status(500).send(err);
+    }
   });
 });
 

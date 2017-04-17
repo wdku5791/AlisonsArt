@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Form, Button } from 'semantic-ui-react';
+import { Form, Button, Message } from 'semantic-ui-react';
 import * as UserAction from './../actions/userActionCreator.jsx';
 
 class SignUp extends Component {
 
   _handleSubmit(e) {
     e.preventDefault();
+    let { dispatch } = this.props;
+
     let username = this.usernameNode.value;
     let password = this.passwordNode.value;
     let cPassword = this.cPasswordNode.value;
@@ -14,13 +16,16 @@ class SignUp extends Component {
     let lastName = this.emailNode.value;
     let firstName = this.emailNode.value;
     let address = this.streetNode.value + ', ' + this.cityNode.value + ', ' + this.stateNode.value;
+    
+    if (!username || !password || !email || !lastName || !firstName || !address) {
+      return dispatch(UserAction.loginError('all fields are required'));
+    }
 
     this.usernameNode.value = '';
     this.passwordNode.value = '';
     this.cPasswordNode.value = '';
     this.emailNode.value = '';
     
-    let { dispatch } = this.props;
 
     if (password === cPassword) {
       fetch('/auth/signup', {
@@ -41,8 +46,11 @@ class SignUp extends Component {
         })
       }).then(response => {
         dispatch(UserAction.checkingInfo(true));
-        if(!response.ok) {
-          throw Error('sign in post not ok!');
+        if (!response.ok) {
+          return response.text()
+          .then((message) => {
+            throw new Error(message);
+          });
         }
         return response.json();
       }).then(data => {
@@ -56,8 +64,9 @@ class SignUp extends Component {
         this.firstNameNode.value = '';
         this.lastNameNode.value = '';
       }).catch(err => {
+        console.log(err);
         dispatch(UserAction.checkingInfo(false));
-        dispatch(UserAction.loginError(err));
+        dispatch(UserAction.loginError(err.message));
       });
     } else {
       alert('please enter matching passwords!');
@@ -66,18 +75,21 @@ class SignUp extends Component {
   }
 
   render() {
+    const { error } = this.props.user;
+    console.log(error);
+
     return (
       <div className='authForm'>
         <h3>Sign Up</h3>
-        <Form>
-          <Form.Field>
+        <Form error={!!error}>
+          <Form.Field required>
             <label>Username</label>
             <input 
               placeholder='username' 
               ref={node => this.usernameNode = node} 
             />
           </Form.Field>
-          <Form.Field>
+          <Form.Field required>
             <label>Password</label>
             <input 
               type='password' 
@@ -85,7 +97,7 @@ class SignUp extends Component {
               ref={node => this.passwordNode = node}
             />
           </Form.Field>
-          <Form.Field>
+          <Form.Field required>
             <label>Confirm Password</label>
             <input 
               type='password' 
@@ -94,14 +106,14 @@ class SignUp extends Component {
             />
           </Form.Field>
           <Form.Group widths='equal'>
-            <Form.Field>
+            <Form.Field required>
               <label>First Name</label>
               <input 
                 placeholder='first' 
                 ref={node => this.firstNameNode = node} 
               />
             </Form.Field>
-            <Form.Field>
+            <Form.Field required>
               <label>Last Name</label>
               <input 
                 placeholder='last' 
@@ -109,14 +121,14 @@ class SignUp extends Component {
               />
             </Form.Field>
           </Form.Group>
-          <Form.Field>
+          <Form.Field required>
             <label>Email</label>
             <input 
               placeholder='example@example.com' 
               ref={node => this.emailNode = node} 
             />
           </Form.Field>
-          <Form.Field>
+          <Form.Field required>
             <label>Address</label>
             <input 
               placeholder='address' 
@@ -124,14 +136,14 @@ class SignUp extends Component {
             />
           </Form.Field>
           <Form.Group widths='equal'>
-            <Form.Field>
+            <Form.Field required>
               <label>City</label>
               <input 
                 placeholder='city' 
                 ref={node => this.cityNode = node} 
               />
             </Form.Field>
-            <Form.Field>
+            <Form.Field required>
               <label>State</label>
               <input 
                 placeholder='state'
@@ -139,6 +151,11 @@ class SignUp extends Component {
               />
             </Form.Field>
           </Form.Group>
+          <Message
+            error
+            header='Invalid Inputs'
+            content={error}
+          />
           <Button 
             type='submit' 
             onClick={e => {this._handleSubmit(e)}}
@@ -151,4 +168,10 @@ class SignUp extends Component {
   }
 }
 
-export default connect()(SignUp);
+const mapStateToProps = (state) => {
+  return {
+    user: state.user
+  };
+};
+
+export default connect(mapStateToProps)(SignUp);
