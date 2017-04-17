@@ -19,8 +19,11 @@ module.exports = {
   getUserBiddingAuctions(userId) {
     return db.tx((t) => {
       // map each auction
-      const auctionQ = 'select auctions.* from auctions inner join\
-      bids on auctions.id = bids.auction_id AND bids.bidder_id = $1';
+      const auctionQ = 'SELECT auctions.*, artworks.art_name, artworks.image_url, artworks.age, artworks.description, artworks.dimensions, \
+      users.first_name, users.last_name FROM auctions INNER JOIN\
+      bids ON auctions.id = bids.auction_id AND bids.bidder_id = $1 INNER JOIN\
+      artworks ON artworks.id = auctions.artwork_id INNER JOIN users\
+      ON users.id = auctions.owner_id';
       return t.map(auctionQ, [userId], (auction) => {
         // check if it is closed
         return t.one('SELECT * from closedAuctions where auction_id=$1', [auction.id])
