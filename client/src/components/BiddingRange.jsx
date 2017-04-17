@@ -19,7 +19,9 @@ let BiddingRange = ({current, start, end, setBid}) => {
     <Form.Field 
       control={Select} 
       options={range}
-      onChange={(e) => { setBid(e.target.value) }} 
+      onChange={(e, value) => { 
+        setBid(value.value) 
+      }} 
       placeholder='Bid now'
     />
   );
