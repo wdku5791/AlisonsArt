@@ -2,7 +2,6 @@ import React from 'react';
 import { Container, Image, Grid } from 'semantic-ui-react';
 
 const ClosedAuction = ({ auction }) => {
-
   return (
     <Grid>
       <Grid.Column width={12}>
@@ -14,7 +13,7 @@ const ClosedAuction = ({ auction }) => {
           <h2>{auction.artwork.art_name}</h2>
           <h3>{auction.first_name} {auction.last_name} ({auction.artwork.age})</h3>
           <p><strong>Description:</strong> {auction.artwork.description}</p>
-          <p><strong>Estimated Value (USD):</strong> ${auction.buyout_price}</p>
+          <p><strong>Closing Price (USD):</strong> ${auction.current_bid}</p>
         </Container>
       </Grid.Column>
     </Grid>

@@ -27,7 +27,6 @@ class Auction extends Component {
         return response.json();
     })
     .then(data => {
-      console.log('fetch an auction data: ', data[0]);
       dispatch(Auctions.fetchedAnAuction(data[0]));
     })
     .catch((err) => dispatch(Auctions.fetchAuctionErrored(true, err)));
