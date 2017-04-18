@@ -3,7 +3,7 @@ module.exports = function createSchemas(db) {
 
     let drop = t.query('DROP TABLE IF EXISTS\
       followers, artwork_attributes, attributes, messages,\
-      bids, auctions, artworks, users, profiles cascade \
+      bids, auctions, artworks, users, closed_auctions, ended_auctions, notifications, profiles cascade \
     ');
 
     let users = t.query('CREATE TABLE IF NOT EXISTS users (\

@@ -158,13 +158,13 @@ describe('should modify or get data from the artworks table', () => {
       return model.getArtworks();
     })
     .then((data) => {
-      expect(data.length).toEqual(9)
+      expect(data.length).toEqual(10)
     });
   });
   test('should retrieve a list of artworks', () => {
     return model.getArtworks()
     .then((data) => {
-      expect(data.length).toEqual(9)
+      expect(data.length).toEqual(10)
     });
   });
   test('should retrieve a list artist\'s of artworks', () => {
@@ -196,7 +196,7 @@ describe('should modify or get data from the bids table', () => {
       return model.getUserBids(1);
     })
     .then((data) => {
-      expect(data.length).toEqual(1);
+      expect(data.length).toEqual(3);
     });
   });
   test('should retrieve a list of users bids', () => {
