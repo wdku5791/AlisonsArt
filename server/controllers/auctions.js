@@ -7,7 +7,7 @@ const serverErr = { ERR: { status: 500, message: 'Something went wrong. So Sorry
 router.get('/', (req, res) => {
   const limit = req.query.limit || 20;
   const status = req.query.status || '>';
-  const time = new Moment().format('YYYY-MM-DD HH:mm:mm');
+  const time = new Moment().format('YYYY-MM-DD HH:mm:ss');
 
   model.getAuctions(limit, time, status)
   .then((auctions) => {
