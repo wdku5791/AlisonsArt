@@ -8,7 +8,6 @@ import * as UserAction from './../actions/userActionCreator.jsx';
 class LogIn extends Component {
 
   _handleSubmit(e) {
-    console.log('_handleSubmit is running!');
     e.preventDefault();
     let { dispatch } = this.props;
     let username = this.usernameNode.value;
@@ -51,7 +50,7 @@ class LogIn extends Component {
   render(){
     const { error } = this.props.user;
 
-    return(
+    return (
       <div className='authForm'>
         <h3>Login</h3>
         <Form error={!!error}>
@@ -71,7 +70,7 @@ class LogIn extends Component {
           <Button type='submit' onClick={e => {this._handleSubmit(e)}}>Submit</Button>
         </Form>
       </div>
-    )
+    );
   }
 }
 
@@ -82,3 +81,4 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(LogIn);
+
