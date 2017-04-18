@@ -46,7 +46,7 @@ class Auction extends Component {
       //if user not logged in, redirect
       if(!user.username) {
         alert('you are not logged in, please sign up or log in');
-        history.push('/signup')
+        history.push('/login');
       } else {
       //grab userid, artwork_id and value
         dispatch(bids.toggleSend());

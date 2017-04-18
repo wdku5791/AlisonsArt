@@ -30,6 +30,11 @@ class CreateAuction extends React.Component {
   }
 
   handleInputChange(e) {
+    const { history } = this.props; 
+    if (!this.state.userId) {
+      alert('you are not logged in, please sign up or log in');
+      history.push('/login');
+    }
     const name = e.target.name;
     const value = e.target.value;
     this.setState({
@@ -51,7 +56,7 @@ class CreateAuction extends React.Component {
   }
 
   handleSubmit(e) {
-    e.preventDefault();
+    const { history } = this.props;
     let artwork = {
       artist_id: Number(this.state.userId),
       age: this.state.age,
@@ -72,6 +77,11 @@ class CreateAuction extends React.Component {
       current_bid_id: null,
       artwork: artwork,
     }
+    if (!this.state.userId) {
+      alert('you are not logged in, please sign up or log in');
+      history.push('/login');
+    }
+
     fetch('/auctions', {
         method: 'post',
         headers: new Headers ({
@@ -81,9 +91,12 @@ class CreateAuction extends React.Component {
       })
       .then((data) => {
         console.log('posting Auction and Artwork SUCCESS! data:  ', data);
+        alert('your auction was created successfully!');
+        history.push('/auctions');
       })
       .catch((error) => {
         console.log('posting Auction and Artwork FAILED! error: ', error);
+        alert('your auction failed to create! Please try again.');
       })
   }
 
@@ -131,13 +144,15 @@ class CreateAuction extends React.Component {
               placeholder='ex: Starry Night'  
               onChange={this.handleInputChange} 
               value={this.state.art_name}
+              required
             />
             <Form.Input
               label='Year'
               name='age' 
               placeholder='ex: 1911'
               onChange={this.handleInputChange} 
-              value={this.state.age} 
+              value={this.state.age}
+              required
             />
           </Form.Group>
           <Grid>
@@ -214,14 +229,18 @@ class CreateAuction extends React.Component {
             <Form.Input 
               label='Estimated value'
               name='estimated_price' 
+              placeholder='USD'
               onChange={this.handleInputChange} 
               value={this.state.estimated_price}
+              required
             />
             <Form.Input 
               label='Buyout price'
-              name='buyout_price' 
+              name='buyout_price'
+              placeholder='USD' 
               onChange={this.handleInputChange} 
               value={this.state.buyout_price}
+              required
             />
           </Form.Group>
           <Form.Group widths='equal'>
@@ -231,6 +250,7 @@ class CreateAuction extends React.Component {
               placeholder='YYYY-MM-DD HH:MM:SS' 
               onChange={this.handleInputChange} 
               value={this.state.start_date}
+              required
             />
             <Form.Input 
               label='End date'
@@ -238,6 +258,7 @@ class CreateAuction extends React.Component {
               placeholder='YYYY-MM-DD HH:MM:SS' 
               onChange={this.handleInputChange} 
               value={this.state.end_date}
+              required
             />
           </Form.Group>
           <Button onClick={(e) => this.handleSubmit(e)}>Submit Auction</Button>
