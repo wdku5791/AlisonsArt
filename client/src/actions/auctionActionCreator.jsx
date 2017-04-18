@@ -67,7 +67,6 @@ export function fetchAuctionData(url) {
         throw Error(reponse.statusText);
       }
       dispatch(fetchingAuction(false));
-      console.log('yoyo')
       return response;
     })
     .then(response => response.json())

@@ -17,7 +17,6 @@ class Auction extends Component {
     let auctionId = this.props.match.params.auctionId;
     let { dispatch, user } = this.props;
     dispatch(Auctions.fetchingAnAuction(true));
-    console.log('this.props: ', this.props);
     fetch(`/auctions/${auctionId}`)
     .then(response => {
       if(!response.ok) {
