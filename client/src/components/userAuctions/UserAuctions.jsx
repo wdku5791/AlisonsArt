@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Container, Image } from 'semantic-ui-react';
-import * as userAuctions from '../actions/userAuctionsActionCreator';
-import AuctionDetail from './AuctionDetail.jsx';
+import * as userAuctions from '../../actions/userAuctionsActionCreator';
 import ClosedAuction from './ClosedAuction.jsx';
+import OpenAuction from './OpenAuction.jsx';
 import { connect } from 'react-redux';
 
 class UserAuctions extends Component {
@@ -22,7 +22,7 @@ class UserAuctions extends Component {
       body: JSON.stringify({user: user.userId})
     })
     .then(response => {
-      if(!response.ok) {
+      if (!response.ok) {
         throw Error(response.statusText);
       }
         dispatch(userAuctions.fetchingUserAuctions(false));
@@ -37,7 +37,8 @@ class UserAuctions extends Component {
 
   render() {
     const { openAuctions, closedAuctions, isFetching } = this.props.userAuctions;
-    const auction = closedAuctions[0];
+    const { history } = this.props;
+    let closedAuctionsDiv = null;
 
     if (isFetching) {
       return (
@@ -45,30 +46,26 @@ class UserAuctions extends Component {
       );
     }
 
-    if (auction) {
-      let message;
-      if (auction.won) {
-        message = <button>Send Payment</button>;
-      } else {
-        message = <button>More by this Artist</button>;
-      }
-      return (
-        <Container>
-          <Container className="ui medium images">
-            <Image className="ui image" src={auction.image_url} />
-          </Container>
-          <Container>
-            <p>Description: {auction.description}</p>
-            <p>Year: {auction.age}</p>
-            <p>Closing Price ($USD): {auction.current_bid}</p>
-            {message}
-          </Container>
-        </Container>
-      );
-    }
+    // if (closedAuctions.length > 0) {
+    //   closedAuctionsDiv = {closedAuctions.map(auction => (
+    //     <ClosedAuction auction={auction} />
+    //     )
+    //   )}
+    // }
 
     return (
-      <div></div>
+      <div>
+        <h3>Closed Auctions</h3>
+        {closedAuctions.length > 0 ? closedAuctions.map(auction => (
+          <ClosedAuction auction={auction} />
+          )
+        ) : ''}
+        <h3>Ongoing Auctions</h3>
+        {openAuctions.length > 0 ? openAuctions.map(auction => (
+          <OpenAuction history={history} auction={auction} />
+          )
+        ) : ''}
+      </div>
     );
   }
 }
