@@ -11,7 +11,7 @@ class UserAuctions extends Component {
   }
 
   componentWillMount() {
-    const { dispatch, user, } = this.props;
+    const { dispatch, user } = this.props;
 
     dispatch(userAuctions.fetchingUserAuctions(true));
     const headers = new Headers();
