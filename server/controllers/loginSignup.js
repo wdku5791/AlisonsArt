@@ -57,10 +57,14 @@ router.post('/signup', (req, res) => {
     }
   })
   .then((result) => {
-    res.status(201).send(JSON.stringify({
-      username: username,
-       userId: result[0].id
-    }));
+    let token = jwt.sign({
+          username: username,
+          userId: result[0].id,
+          isAuthenticated: true,
+          exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24)
+        }, config.jwtSecret);
+
+    res.status(201).send(JSON.stringify(token));
   })
   .catch(err => {
     console.log(err.code);
@@ -70,38 +74,6 @@ router.post('/signup', (req, res) => {
     } else {
       res.status(500).send(err);
     }
-  });
-});
-
-router.post('/signup', (req, res) => {
-  let { username, password, firstName, lastName, email, address } = req.body;
-  //check if user exists 
-  Promise.all([model.getUserByName(username), model.getUserByEmail(email)])
-  .then(response => {
-    //username taken or email taken.
-    if(response.length === 1) {
-      throw Error('username or email already exists!');
-    } else {
-      // const query = {
-      //   password: password
-      //   username: username
-      //   first_name: firstName
-      //   last_name: lastName
-      //   address:
-      //   email:
-      //   type:
-      // };
-      return model.createUser(req.body);
-    }
-  })
-  .then((result) => {
-    res.status(201).send(JSON.stringify({
-      username: username,
-       userId: result[0].id
-    }));
-  })
-  .catch(err => {
-    res.status(400).send('sign-in error: ' + err);
   });
 });
 

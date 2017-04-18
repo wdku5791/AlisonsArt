@@ -13,8 +13,8 @@ class SignUp extends Component {
     let password = this.passwordNode.value;
     let cPassword = this.cPasswordNode.value;
     let email = this.emailNode.value;
-    let lastName = this.emailNode.value;
-    let firstName = this.emailNode.value;
+    let lastName = this.firstNameNode.value;
+    let firstName = this.lastNameNode.value;
     let address = this.streetNode.value + ', ' + this.cityNode.value + ', ' + this.stateNode.value;
     
     if (!username || !password || !email || !lastName || !firstName || !address) {
