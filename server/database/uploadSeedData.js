@@ -16,7 +16,7 @@ var csAuctions = new helpers.ColumnSet(['owner_id', 'artwork_id', 'start_date','
 var csBids = new helpers.ColumnSet(['bidder_id', 'auction_id', 'bid_date', 'bid_price'], {table: 'bids'});
 var csProfiles = new helpers.ColumnSet(['user_id', 'profile', 'fb_link', 'twitter_link', 'inst_link'], {table: 'profiles'});
 var csNotifications = new helpers.ColumnSet(['owner_id', 'trigger_id', 'type', 'text', 'read', 'date'], {table: 'notifications'});
-var csClosedAuctions = new helpers.ColumnSet(['auction_id, winner, payment_status'], {table: 'closed_auctions'});
+var csClosedAuctions = new helpers.ColumnSet(['auction_id', 'winner', 'payment_status'], {table: 'closed_auctions'});
 
 module.exports = function insertDummyData(db) {
   return db.tx((t) => {
