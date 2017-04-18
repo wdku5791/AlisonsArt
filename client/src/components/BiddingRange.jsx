@@ -12,7 +12,7 @@ let BiddingRange = ({current, start, end, setBid}) => {
   let range = [];
 
   for(let i = start; i <= end; i += interval) {
-    range.push({key: i, text: i, value: i});
+    range.push({key: i, text: '$'+i, value: i});
   }
 
   return (
