@@ -67,7 +67,7 @@ const HomeAuction = ({ homeAuction, history }) => {
       <Image 
         className='imageLink'
         src={homeAuction.artwork.image_url} 
-        onClick={() => {clickArt(homeAuction.artwork.id, history);}}
+        onClick={() => {clickArt(homeAuction.id, history);}}
         label={{ as: 'a', color: 'black', content: '$' + homeAuction.current_bid, ribbon: true }} 
       />
       <Container>
