@@ -56,15 +56,19 @@ class UserAuctions extends Component {
     return (
       <div>
         <h3>Closed Auctions</h3>
-        {closedAuctions.length > 0 ? closedAuctions.map(auction => (
-          <ClosedAuction auction={auction} />
-          )
-        ) : ''}
+        <div className="user_auctions">
+          {closedAuctions.length > 0 ? closedAuctions.map(auction => (
+            <ClosedAuction auction={auction} />
+            )
+          ) : ''}
+        </div>
         <h3>Ongoing Auctions</h3>
-        {openAuctions.length > 0 ? openAuctions.map(auction => (
-          <OpenAuction history={history} auction={auction} />
-          )
-        ) : ''}
+        <div className="user_auctions">
+          {openAuctions.length > 0 ? openAuctions.map(auction => (
+            <OpenAuction history={history} auction={auction} />
+            )
+          ) : ''}
+        </div>
       </div>
     );
   }

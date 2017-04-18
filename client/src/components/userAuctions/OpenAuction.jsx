@@ -14,19 +14,17 @@ const OpenAuction = ({auction, history}) => {
     message = <button onClick={() => handleClick(auction.id)}>You've Been Outbid!</button>;
   }
   return (
-    <div className="user_auctions">
-      <Container>
-        <Container className="ui medium images">
-          <Image className="ui image" src={auction.image_url} />
-        </Container>
-        <Container>
-          <p>Description: {auction.description}</p>
-          <p>Year: {auction.age}</p>
-          <p>Current Bid ($USD): {auction.current_bid}</p>
-          {message}
-        </Container>
+    <Container>
+      <Container className="ui medium images">
+        <Image className="ui image" src={auction.image_url} />
       </Container>
-    </div>
+      <Container>
+        <p>Description: {auction.description}</p>
+        <p>Year: {auction.age}</p>
+        <p>Current Bid ($USD): {auction.current_bid}</p>
+        {message}
+      </Container>
+    </Container>
   );
 };
 
