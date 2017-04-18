@@ -17,6 +17,11 @@ const app = express();
 busboy.extend(app, {
   upload: true,
 });
+// app.use(expressJWT({
+//   secret: 'tenacious turtles',
+//   exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 30) //expires in 30 days
+// }).unless({path: ['/', '/assets/semantic/semantic.css', '/image-gallery.css', '/styling.css', '/bundle.js', '/home', '/auth']}));
+//unless is excluding which paths
 const port = process.env.PORT || 3000;
 const server = app.listen(port, function() {
   console.log('Listening on port ', port);
@@ -27,7 +32,12 @@ const io = require('./sockets.js').init(server);
 // app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/../client/public')));
 
-app.use('/auctions', auctionHandler);
+app.use('/auctions', 
+//   expressJWT({
+//   secret: 'tenacious turtles',
+//   iss: 'ArtPoint'
+// }), 
+auctionHandler);
 app.use('/home', homeHandler);
 app.use('/auth', loginSignupHandler);
 app.use('/user', userHandler);
