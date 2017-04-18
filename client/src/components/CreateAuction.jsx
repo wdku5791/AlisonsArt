@@ -94,6 +94,9 @@ class CreateAuction extends React.Component {
   }
 
   handleImageCreate() {
+    this.setState({
+      preview_image: 'http://www.theodo.fr/uploads/blog//2015/12/spinner.gif'
+    })
     var formData = new FormData();
     formData.append('image_file', document.getElementById('imageToSend').files[0]);
     fetch('/images', {

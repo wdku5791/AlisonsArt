@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Card, Image, Divider, Container } from 'semantic-ui-react';
+import { Grid, Card, Image, Divider, Container, Dimmer, Loader } from 'semantic-ui-react';
 import ImageGallery from 'react-image-gallery';
 import { connect } from 'react-redux';
 import * as Auctions from '../actions/auctionActionCreator.jsx';
@@ -33,7 +33,7 @@ const MainArt = ({ art, history }) => {
 
 const MainArts = ({ mainArts, history }) => {
   if (!mainArts[0]) {
-    return <p>loading~~</p>
+    return <p>loading...</p>
   } else {
     let images = []
     mainArts.forEach((item) => {
@@ -52,6 +52,7 @@ const MainArts = ({ mainArts, history }) => {
           autoPlay={true}
           showThumbnails={false}
           showFullscreenButton={false}
+          showPlayButton={false}
           onClick={(e) => {onImageClick(e, history)}}
         />
       </div>
@@ -67,7 +68,7 @@ const HomeAuction = ({ homeAuction, history }) => {
         className='imageLink'
         src={homeAuction.artwork.image_url} 
         onClick={() => {clickArt(homeAuction.artwork.id, history);}}
-        label={{ as: 'a', color: 'black', content: '$' + homeAuction.buyout_price, ribbon: true }} 
+        label={{ as: 'a', color: 'black', content: '$' + homeAuction.current_bid, ribbon: true }} 
       />
       <Container>
         <h4 className='imageHeader'>
