@@ -60,7 +60,8 @@ class UserSettings extends Component {
           fetch('/user/' + userId + '/changePassword', {
             headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.token}`
             },
             method: 'POST',
             body: JSON.stringify({

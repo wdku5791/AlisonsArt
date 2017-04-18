@@ -53,7 +53,8 @@ class Auction extends Component {
         fetch(`/auctions/${id}/bids`, {
           method: 'POST',
           headers: new Headers({
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.token}`
           }),
           body: JSON.stringify({ bidPrice: bid.bid, user: user.userId })
         })

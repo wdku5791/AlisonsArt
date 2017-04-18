@@ -42,6 +42,8 @@ class LogIn extends Component {
       dispatch(UserAction.checkingInfo(false));
       dispatch(UserAction.logInSuccess(decodedInfo.username, decodedInfo.userId));
       console.log('im local storage: ', localStorage);
+      localStorage.token = data;
+      console.log('local storage again: ', localStorage);
       //push user to Homepage:
       this.props.history.push('/home');
     }).catch(err => {

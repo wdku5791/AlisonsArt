@@ -8,13 +8,11 @@ const authenticate = (req, res, next) => {
   let token;
   if (authorizationHeader) {
     token = authorizationHeader.split(' ')[1];
-    console.log('has token');
   }
-  console.log('herhehrehehreehr');
 
   if(token) {
     //validate
-    console.log('have token');
+    console.log('have token: ', token);
     jwt.verify(token, config.jwtSecret, (err, decoded) => {
       if (err) {
         res.status(401).json({

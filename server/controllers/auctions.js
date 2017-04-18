@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const model = require('../database/queries');
 const Moment = require('moment');
+const authenticate = require('../middlewares/authenticate.js');
 
 const serverErr = { ERR: { status: 500, message: 'Something went wrong. So Sorry!' } };
 
@@ -70,7 +71,7 @@ router.get('/:auctionId/bids', (req, res) => {
   });
 });
 
-router.post('/:auctionId/bids', (req, res) => {
+router.post('/:auctionId/bids', authenticate, (req, res) => {
   const bid = {};
   bid.auction_id = req.params.auctionId;
   bid.bidder_id = req.body.user;
