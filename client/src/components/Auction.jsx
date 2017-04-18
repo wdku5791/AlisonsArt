@@ -15,7 +15,6 @@ class Auction extends Component {
     //if logged in, grab all info and redirect to payment page.
   componentWillMount() {
     let auctionId = this.props.match.params.auctionId;
-    console.log('this.props: ', this.props);
     let { dispatch, user } = this.props;
     dispatch(Auctions.fetchingAnAuction(true));
     fetch(`/auctions/${auctionId}`)
