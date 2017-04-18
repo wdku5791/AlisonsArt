@@ -18,18 +18,13 @@ router.post('/login', (req, res) => {
     //check if password matches the ones in database, consider HASH
       if (response[0].password === password) {
         //succeed! we can assign a token here!
-        console.log('do we have user: ', req.user);
         let token = jwt.sign({
           username: username,
           userId: response[0].id,
           isAuthenticated: true,
           exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24)
         }, config.jwtSecret);
-
-        res.status(201).send(JSON.stringify({
-          username: username,
-           userId: response[0].id
-        }));
+        res.status(201).send(JSON.stringify(token));
       } else {
         throw Error('Wrong password');
       }

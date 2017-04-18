@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Button, Message } from 'semantic-ui-react';
 import * as UserAction from './../actions/userActionCreator.jsx';
-
+import decode from 'jwt-decode';
 
 //when login success, needs to save info in userReducer
 class LogIn extends Component {
@@ -37,8 +37,11 @@ class LogIn extends Component {
       }
       return response.json();
     }).then(data => {
+      let decodedInfo = decode(data);
+      console.log('im decodedInfo: ', decodedInfo);
       dispatch(UserAction.checkingInfo(false));
-      dispatch(UserAction.logInSuccess(data.username, data.userId));
+      dispatch(UserAction.logInSuccess(decodedInfo.username, decodedInfo.userId));
+      console.log('im local storage: ', localStorage);
       //push user to Homepage:
       this.props.history.push('/home');
     }).catch(err => {

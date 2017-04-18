@@ -32,12 +32,7 @@ const io = require('./sockets.js').init(server);
 // app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/../client/public')));
 
-app.use('/auctions', 
-//   expressJWT({
-//   secret: 'tenacious turtles',
-//   iss: 'ArtPoint'
-// }), 
-auctionHandler);
+app.use('/auctions', auctionHandler);
 app.use('/home', homeHandler);
 app.use('/auth', loginSignupHandler);
 app.use('/user', userHandler);
