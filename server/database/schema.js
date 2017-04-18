@@ -85,9 +85,9 @@ module.exports = function createSchemas(db) {
     )');
     let closedAuctions = t.query('CREATE TABLE IF NOT EXISTS closed_auctions (\
       id SERIAL PRIMARY KEY NOT NULL,\
-      auction_id BIGINT NOT NULL REFERENCES auctions(id),\
-      winner BIGINT NOT NULL REFERENCES users(id),\
-      payment_status status\
+      auction_id BIGINT NOT NULL UNIQUE REFERENCES auctions(id),\
+      winner BIGINT REFERENCES users(id),\
+      payment_status status DEFAULT \'unpaid\'\
     )');
 
     return t.batch([drop, users, artworks, auctions, bids, attributes, messages, artworkAttributes, followers, profiles, closedAuctions, notifications]);

@@ -1,6 +1,6 @@
 const db = require('./config');
 const helpers = db.$config.pgp.helpers;
-const csAuctions = new helpers.ColumnSet(['auction_id', 'winner_id'], {table: 'closed_auctions'});
+const csAuctions = new helpers.ColumnSet(['auction_id', 'winner'], {table: 'closed_auctions'});
 
 module.exports = {
   getUser(userId) {
@@ -94,7 +94,7 @@ module.exports = {
     // INNER JOIN bids ON auctions.current_bid_id=bids.id\
     // where auctions.end_date <= $1 and auctions.end_date > $2)) as w ORDER by w.end_date', [endDate, prevJob]);
 
-    return db.query('select auctions.id as auction_id, bids.bidder_id as winner_id from auctions left outer join bids\
+    return db.query('select auctions.id as auction_id, bids.bidder_id as winner from auctions left outer join bids\
     on current_bid_id = bids.id where auctions.end_date <= $1 and auctions.end_date > $2\
     order by auctions.end_date', [endDate, prevJob]);
   },

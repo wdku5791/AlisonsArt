@@ -11,11 +11,12 @@ cron.schedule('*/10 * * * * *', function() {
   model.workerAuctions(prevJobTime, time)
   .then((results) => {
     console.log('every 10 seconds', results, time, prevJobTime);
-    results.forEach((auctionId) => {
-      if (results.length > 0) {
-        return model.workerInsertEnded(results);
-      }
-    });
+    if (results.length > 0) {
+      return model.workerInsertClosed(results);
+    }
+  })
+  .catch((error) => {
+    console.log('error in cron', error);
   });
   prevJobTime = time;
 });
