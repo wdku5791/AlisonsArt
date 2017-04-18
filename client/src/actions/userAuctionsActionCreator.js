@@ -1,4 +1,4 @@
-export function userAuctionsErrored (error) {
+export function userAuctionsErrored(error) {
   return {
     type: 'USER_AUCTION_ERROR',
     hasErrored: true,
@@ -6,7 +6,7 @@ export function userAuctionsErrored (error) {
   };
 }
 
-export function fetchingUserAuctions(bool){
+export function fetchingUserAuctions(bool) {
   return {
     type: 'FETCHING_USER_AUCTION',
     isFetching: bool
