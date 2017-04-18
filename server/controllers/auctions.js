@@ -43,7 +43,7 @@ router.post('/ongoing', (req, res) => {
     res.status(200).json(auctions);
   })
   .catch((err) => {
-    res.status(500).send(err);
+    res.status(404).send(err);
   });
 });
 
