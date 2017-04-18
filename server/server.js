@@ -15,7 +15,6 @@ const imageHandler = require('./controllers/imageUpload');
 const notificationHandler = require('./controllers/notification');
 const contactHandler = require('./controllers/contact');
 const app = express();
-const worker = require('./worker.js');
 busboy.extend(app, {
   upload: true,
 });

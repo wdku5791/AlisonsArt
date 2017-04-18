@@ -1,6 +1,6 @@
 const db = require('./config');
 const helpers = db.$config.pgp.helpers;
-const csAuctions = new helpers.ColumnSet(['auction_id'], {table: 'ended_auctions'});
+const csAuctions = new helpers.ColumnSet(['auction_id', 'winner_id'], {table: 'closed_auctions'});
 
 module.exports = {
   getUser(userId) {
@@ -85,9 +85,20 @@ module.exports = {
     return db.query('select * from messages where sender_id=$1 or receiver_id=$1', [userId]);
   },
   workerAuctions(prevJob, endDate) {
-    return db.query('select id as auction_id from auctions where end_date <= $1 and end_date > $2 order by end_date ASC', [endDate, prevJob]);
+
+    // return db.query('select w.auction_id, w.current_bid_id as winner_id from\
+    // (select id as auction_id, current_bid_id, end_date from auctions\
+    // where end_date <= $1 and end_date > $2\
+    // and current_bid_id IS NULL UNION\
+    // (select auctions.id as auction_id, bids.bidder_id, auctions.end_date from auctions\
+    // INNER JOIN bids ON auctions.current_bid_id=bids.id\
+    // where auctions.end_date <= $1 and auctions.end_date > $2)) as w ORDER by w.end_date', [endDate, prevJob]);
+
+    return db.query('select auctions.id as auction_id, bids.bidder_id as winner_id from auctions left outer join bids\
+    on current_bid_id = bids.id where auctions.end_date <= $1 and auctions.end_date > $2\
+    order by auctions.end_date', [endDate, prevJob]);
   },
-  workerInsertEnded(array) {
+  workerInsertClosed(array) {
     return db.none(helpers.insert(array, csAuctions));
   },
 

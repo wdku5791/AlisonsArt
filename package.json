@@ -12,6 +12,7 @@
     "dev": "nodemon server/server.js",
     "test": "jest ./test --runInBand --forceExit",
     "build": "webpack -d",
+    "worker": "node server/worker.js",
     "lint": "eslint client server",
     "lint-fix": "eslint client server",
     "test-db-wipe": "NODE_ENV='TESTING' node server/database/dummyUpload.js",

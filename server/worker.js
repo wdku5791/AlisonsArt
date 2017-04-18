@@ -1,3 +1,4 @@
+const dotenv = require('dotenv').config();
 const cron = require('node-cron');
 const model = require('./database/queries');
 const Moment = require('moment');
@@ -10,11 +11,11 @@ cron.schedule('*/10 * * * * *', function() {
   model.workerAuctions(prevJobTime, time)
   .then((results) => {
     console.log('every 10 seconds', results, time, prevJobTime);
-    // results.forEach((auctionId) => {
+    results.forEach((auctionId) => {
       if (results.length > 0) {
         return model.workerInsertEnded(results);
       }
-    // });
+    });
   });
   prevJobTime = time;
 });
