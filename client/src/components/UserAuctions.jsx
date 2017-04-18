@@ -12,13 +12,14 @@ class UserAuctions extends Component {
 
   componentWillMount() {
     const { dispatch, user, } = this.props;
-    const { userId } = this.props.match.params;
 
     dispatch(userAuctions.fetchingUserAuctions(true));
-
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
     fetch('/auctions/ongoing', {
       method: 'POST',
-      body: JSON.stringify({user: userId})
+      headers: headers,
+      body: JSON.stringify({user: user.userId})
     })
     .then(response => {
       if(!response.ok) {
@@ -28,40 +29,53 @@ class UserAuctions extends Component {
         return response.json();
     })
     .then(data => {
+      console.log(data);
       dispatch(userAuctions.userAuctionsFetched(data));
     })
     .catch((err) => dispatch(userAuctions.userAuctionsErrored(err)));
   }
 
   render() {
-    const auction = this.props.closedAuctions[0];
+    const { openAuctions, closedAuctions, isFetching } = this.props.userAuctions;
+    const auction = closedAuctions[0];
 
-
-    if (auction.won) {
-      let message = <button>Send Payment</button>;
-    } else {
-      let message = <button>More by this Artist</button>;
+    if (isFetching) {
+      return (
+        <div>Loading~~~~~</div>
+      );
     }
-    return (
-      <Container>
-        <Container className="ui medium images">
-          <Image className="ui image" src={auction.image_url} />
-        </Container>
+
+    if (auction) {
+      let message;
+      if (auction.won) {
+        message = <button>Send Payment</button>;
+      } else {
+        message = <button>More by this Artist</button>;
+      }
+      return (
         <Container>
-          <p>Description: {auction.description}</p>
-          <p>Year: {auction.artwork.age}</p>
-          <p>Closing Price ($USD): {auction.current_bid}</p>
-          {message}
+          <Container className="ui medium images">
+            <Image className="ui image" src={auction.image_url} />
+          </Container>
+          <Container>
+            <p>Description: {auction.description}</p>
+            <p>Year: {auction.age}</p>
+            <p>Closing Price ($USD): {auction.current_bid}</p>
+            {message}
+          </Container>
         </Container>
-      </Container>
+      );
+    }
+
+    return (
+      <div></div>
     );
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    openAuctions: state.userAuctions.openAuctions,
-    closedAuctions: state.userAuctions.closedAuctions,
+    userAuctions: state.userAuctions,
     user: state.user
   };
 };
