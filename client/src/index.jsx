@@ -11,7 +11,6 @@ import { Container, Divider } from 'semantic-ui-react';
 import { applyMiddleware, createStore } from 'redux';
 import { logger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
-import io from 'socket.io-client';
 import createSocketIoMiddleware from 'redux-socket.io';
 import NavBar from './components/NavBar.jsx';
 import Home from './components/Home.js';
@@ -27,6 +26,7 @@ import User from './components/User.jsx';
 import CreateAuction from './components/CreateAuction.jsx';
 import Notification from './components/Notification.jsx';
 import ContactUs from './components/ContactUs.jsx';
+import io from 'socket.io-client';
 
 let socket = io();
 let socketIoMiddleware = createSocketIoMiddleware(socket, "socket/");

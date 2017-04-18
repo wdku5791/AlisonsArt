@@ -37,7 +37,7 @@ export function featuredArtsFetchedSuccess(featuredArts) {
 export function fetchingAnAuction(bool) {
   return {
     type: 'FETCHING_AN_AUCTION',
-    isFetchingAuction: true
+    isFetchingAuction: bool
   };
 }
 

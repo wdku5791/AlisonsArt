@@ -1,8 +1,9 @@
 module.exports = function createSchemas(db) {
   return db.tx (t => {
+
     let drop = t.query('DROP TABLE IF EXISTS\
       followers, artwork_attributes, attributes, messages,\
-      bids, auctions, artworks, users, profiles cascade \
+      bids, auctions, artworks, users, closed_auctions, ended_auctions, notifications, profiles cascade \
     ');
 
     let users = t.query('CREATE TABLE IF NOT EXISTS users (\
@@ -33,8 +34,8 @@ module.exports = function createSchemas(db) {
       end_date TIMESTAMP NOT NULL,\
       start_price BIGINT NOT NULL,\
       buyout_price BIGINT NOT NULL,\
-      current_bid BIGINT,\
-      current_bid_id BIGINT,\
+      current_bid BIGINT DEFAULT NULL,\
+      current_bid_id BIGINT DEFAULT NULL,\
       bid_counter BIGINT DEFAULT 0\
     )');
     let bids = t.query('CREATE TABLE IF NOT EXISTS bids (\
@@ -83,8 +84,14 @@ module.exports = function createSchemas(db) {
       text text\
     )');
 
-    return t.batch([drop, users, artworks, auctions, bids, attributes, messages, artworkAttributes, followers, profiles, notifications]);
-    
+    let closedAuctions = t.query('CREATE TABLE IF NOT EXISTS closed_auctions (\
+      id SERIAL PRIMARY KEY NOT NULL,\
+      auction_id BIGINT NOT NULL REFERENCES auctions(id),\
+      winner BIGINT NOT NULL REFERENCES users(id),\
+      payment_status status\
+    )');
+
+    return t.batch([drop, users, artworks, auctions, bids, attributes, messages, artworkAttributes, followers, profiles, closedAuctions, notifications]);
   })
   .then(() => {
     console.log('database tables created');
