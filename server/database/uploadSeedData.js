@@ -8,7 +8,7 @@ const bids = data.bids;
 const profiles = data.profiles;
 const notifications = data.notifications;
 
-var helpers = db.$config.pgp.helpers;
+const helpers = db.$config.pgp.helpers;
 
 var csUsers = new helpers.ColumnSet(['username', 'first_name', 'last_name', 'email', 'address', 'type', 'password'], {table: 'users'});
 var csArtWorks = new helpers.ColumnSet(['artist_id', 'age', 'estimated_price', 'art_name', 'description', 'dimensions', 'image_url'], {table: 'artworks'});

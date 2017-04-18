@@ -1,4 +1,6 @@
 const db = require('./config');
+const helpers = db.$config.pgp.helpers;
+const csAuctions = new helpers.ColumnSet(['auction_id'], {table: 'ended_auctions'});
 
 module.exports = {
   getUser(userId) {
@@ -81,6 +83,12 @@ module.exports = {
 
   getUserMessages(userId) {
     return db.query('select * from messages where sender_id=$1 or receiver_id=$1', [userId]);
+  },
+  workerAuctions(prevJob, endDate) {
+    return db.query('select id as auction_id from auctions where end_date <= $1 and end_date > $2 order by end_date ASC', [endDate, prevJob]);
+  },
+  workerInsertEnded(array) {
+    return db.none(helpers.insert(array, csAuctions));
   },
 
   getAuctions(limit, endDate, status) {
