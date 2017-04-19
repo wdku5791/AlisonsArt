@@ -38,13 +38,14 @@ class Auction extends Component {
 
   handleClick(id) {
     const { bid, user, history, dispatch } = this.props;
+    console.log('this.props: ', this.props);
     if (bid.bid === 0) {
       alert('Please select a value');
     } else {
       //if user not logged in, redirect
       if(!user.username) {
         alert('you are not logged in, please sign up or log in');
-        history.push('/signup')
+        history.push('/login');
       } else {
       //grab userid, artwork_id and value
         dispatch(bids.toggleSend());
@@ -62,8 +63,9 @@ class Auction extends Component {
           } else {
             answer.json()
             .then((bid) => {
-              //dispatch(bids.toggleSend());
-              return dispatch(Auctions.updateBid(bid));
+              dispatch(Auctions.updateBid(bid));
+              alert(`you have successfully bid $${bid.current_bid}`);
+
             });
           }
         })

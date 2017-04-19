@@ -1,6 +1,6 @@
 const dotenv = require('dotenv').config();
 process.env.NODE_ENV = 'TESTING';
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 const db = require('./../server/database/config.js');
 const createSchema = require('./../server/database/schema.js');
 const model = require('./../server/database/queries.js');
@@ -102,7 +102,7 @@ describe('should modify or get data from the auctions table', () => {
       return model.getAuctions(20, '2012-06-09 14:27:07', '>');
     })
     .then((data) => {
-      expect(data.length).toEqual(8);
+      expect(data.length).toEqual(20);
     })
   });
   test('should retrieve from the auctions table with a limit', () => {
@@ -158,19 +158,19 @@ describe('should modify or get data from the artworks table', () => {
       return model.getArtworks();
     })
     .then((data) => {
-      expect(data.length).toEqual(10)
+      expect(data.length).toEqual(31)
     });
   });
   test('should retrieve a list of artworks', () => {
     return model.getArtworks()
     .then((data) => {
-      expect(data.length).toEqual(10)
+      expect(data.length).toEqual(31)
     });
   });
   test('should retrieve a list artist\'s of artworks', () => {
     return model.getUserArtworks(2)
     .then((data) => {
-      expect(data.length).toEqual(4);
+      expect(data.length).toEqual(6);
     });
   });
 });
@@ -196,13 +196,13 @@ describe('should modify or get data from the bids table', () => {
       return model.getUserBids(1);
     })
     .then((data) => {
-      expect(data.length).toEqual(3);
+      expect(data.length).toEqual(10);
     });
   });
   test('should retrieve a list of users bids', () => {
     return model.getUserBids(4)
     .then((data) => {
-      expect(data.length).toEqual(2);
+      expect(data.length).toEqual(5);
       expect(data[0].bidder_id).toEqual('4');
     });
   });
