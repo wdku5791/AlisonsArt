@@ -29,8 +29,6 @@ const Navigation = (props) => {
 }
 
 const User = (props) => {
-  console.log('props: ', props);
-  console.log(props.user.userId);
   if (!props.user.username) {
     return (<div>Please log in</div>);
   } else {

@@ -71,9 +71,9 @@ class CreateAuction extends React.Component {
       current_bid: null,
       current_bid_id: null,
       artwork: artwork,
-    }
-    console.log('localstorage right now is: ', localStorage);
-    fetch('/auctions', {
+    };
+
+    fetch('/auctions',{
         method: 'POST',
         headers: new Headers ({
           'Content-Type': 'application/json',
@@ -81,12 +81,18 @@ class CreateAuction extends React.Component {
         }),
         body: JSON.stringify(auction)
       })
-      .then((data) => {
-        console.log('posting Auction and Artwork SUCCESS! data:  ', data);
-      })
-      .catch((error) => {
-        console.log('posting Auction and Artwork FAILED! error: ', error);
-      })
+    .then(response => {
+      if (!response.ok) {
+        throw Error('Create auction error!');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('this is response data: ', data);
+    })
+    .catch(err => {
+      console.log('Posting auction and artwork failed!');
+    });
   }
 
   handleImageInput(e) {
