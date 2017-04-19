@@ -40,8 +40,7 @@ class LogIn extends Component {
       let decodedInfo = decode(data);
       dispatch(UserAction.checkingInfo(false));
       dispatch(UserAction.logInSuccess(decodedInfo.username, decodedInfo.userId));
-      localStorage.authToken = data;
-      //push user to Homepage:
+      localStorage.setItem('authToken', data);
       this.props.history.push('/home');
     }).catch(err => {
       dispatch(UserAction.checkingInfo(false));

@@ -42,7 +42,7 @@ class Notification extends React.Component {
       method: 'POST',
       headers: new Headers({
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.authToken}`
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
       }),
       body: JSON.stringify({ id: notificationId })
     })

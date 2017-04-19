@@ -47,7 +47,12 @@ class UserSettings extends Component {
   _submitHandler(e) {
     e.preventDefault();
     let { userId } = this.props.user;
-    fetch('/user/' + userId)
+    fetch('/user/' + userId, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+      },
+      method: 'GET'
+    })
     .then(response => {
       if (!response.ok) {
         throw Error(response.statusText);
@@ -61,7 +66,7 @@ class UserSettings extends Component {
             headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.authToken}`
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
             },
             method: 'POST',
             body: JSON.stringify({

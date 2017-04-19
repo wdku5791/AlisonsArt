@@ -77,7 +77,7 @@ class CreateAuction extends React.Component {
         method: 'POST',
         headers: new Headers ({
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.authToken}`
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         }),
         body: JSON.stringify(auction)
       })
@@ -111,7 +111,7 @@ class CreateAuction extends React.Component {
         method: 'POST',
         body: formData,
         headers: {
-          'Authorization': `Bearer ${localStorage.authToken}`
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         }
     })
     .then((data) => {
