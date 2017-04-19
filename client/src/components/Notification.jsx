@@ -34,7 +34,6 @@ class Notification extends React.Component {
     let notes = notification.notifications;
 
     let newNotification = notes.slice(0, index).concat([{...notes[index], 'read': true}]).concat(notes.slice(index + 1));
-    console.log('notifications', notes, newNotification);
     dispatch(notifications.updater(newNotification));
 
     dispatch(notifications.fetchNotifications(true));

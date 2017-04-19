@@ -20,7 +20,6 @@ router.get('/', (req, res) => {
 });
 //SOMETHING WRONG WITH THIS ROUTE NOT CAUSED BY AUTHENTICATION
 router.post('/', authenticate, (req, res) => {
-  console.log('posting to auctions... req.body: ', req.body);
   model.createArtwork(req.body.artwork)
   .then((data) => {
     req.body.artwork_id = data.id;

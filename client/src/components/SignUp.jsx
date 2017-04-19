@@ -78,7 +78,6 @@ class SignUp extends Component {
 
   render() {
     const { error } = this.props.user;
-    console.log(error);
 
     return (
       <div className='authForm'>

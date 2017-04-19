@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
-const config = require('../config.js'); //holds jwtSecret
 
 const authenticate = (req, res, next) => {
   const authorizationHeader = req.headers['authorization'];
@@ -11,7 +10,7 @@ const authenticate = (req, res, next) => {
 
   if(authToken) {
     //validate
-    jwt.verify(authToken, config.jwtSecret, (err, decoded) => {
+    jwt.verify(authToken, process.env.jwtSecret, (err, decoded) => {
       if (err) {
         res.status(401).json({
           error: 'Failed to authenticate.'

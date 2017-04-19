@@ -17,7 +17,6 @@ router.get('/:userId', authenticate, (req, res) => {
 });
 
 router.post('/:userId/changePassword', authenticate, (req, res) => {
-  console.log('request header: ', req.headers);
   model.changeUserPassword(req.body.userId, req.body.password)
   .then(response => {
     res.status(201).send('changed password');

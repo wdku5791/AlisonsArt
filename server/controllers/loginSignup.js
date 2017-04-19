@@ -2,7 +2,6 @@ const router = require('express').Router();
 const model = require('../database/queries');
 const Moment = require('moment');
 const jwt = require('jsonwebtoken');
-const config = require('../config.js'); //holds jwtSecret
 
 const serverErr = { ERR: { status: 500, message: 'Something went wrong. So Sorry!' } };
 
@@ -23,7 +22,7 @@ router.post('/login', (req, res) => {
           userId: response[0].id,
           isAuthenticated: true,
           exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24)
-        }, config.jwtSecret);
+        }, process.env.jwtSecret);
         res.status(201).send(JSON.stringify(authToken));
       } else {
         throw Error('Wrong password');
@@ -62,12 +61,11 @@ router.post('/signup', (req, res) => {
           userId: result[0].id,
           isAuthenticated: true,
           exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24)
-        }, config.jwtSecret);
+        }, process.env.jwtSecret);
 
     res.status(201).send(JSON.stringify(authToken));
   })
   .catch(err => {
-    console.log(err.code);
     if (err.code === '23505') {
       const message = 'username or email already exists';
       res.status(400).send(message);

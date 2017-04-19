@@ -62,7 +62,6 @@ class Auction extends Component {
           } else {
             answer.json()
             .then((bid) => {
-              console.log(bid);
               //dispatch(bids.toggleSend());
               return dispatch(Auctions.updateBid(bid));
             });
@@ -79,7 +78,6 @@ class Auction extends Component {
 
     const { auction } = this.props.auction;
     const { bid } = this.props;
-    // console.log('key length: ', Object.keys(auction).length);
     if (Object.keys(auction).length === 0) {
       return (
         <p>loading~~~</p>
