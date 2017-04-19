@@ -4,7 +4,7 @@ import StripeCheckout from 'react-stripe-checkout';
 
 const ClosedAuction = ({auction}) => {
   const onToken = (token) => {
-
+    console.log(token);
   };
 
   let message;
