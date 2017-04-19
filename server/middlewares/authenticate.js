@@ -4,7 +4,6 @@ const config = require('../config.js'); //holds jwtSecret
 
 const authenticate = (req, res, next) => {
   const authorizationHeader = req.headers['authorization'];
-  console.log('this is request header: ', req.headers);
   let token;
   if (authorizationHeader) {
     token = authorizationHeader.split(' ')[1];
@@ -12,7 +11,6 @@ const authenticate = (req, res, next) => {
 
   if(token) {
     //validate
-    console.log('have token: ', token);
     jwt.verify(token, config.jwtSecret, (err, decoded) => {
       if (err) {
         res.status(401).json({
@@ -20,7 +18,6 @@ const authenticate = (req, res, next) => {
         });
       } else {
         //do something here
-        console.log('yep');
         next();
       }
     });
