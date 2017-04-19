@@ -83,26 +83,23 @@ class CreateAuction extends React.Component {
       history.push('/login');
     } else {
       return fetch('/auctions', {
-        method: 'post',
+        method: 'POST',
         headers: new Headers ({
           'Content-Type': 'application/json',
         }),
         body: JSON.stringify(auction)
       })
       .then((response) => {
-        console.log('response: ', response);
         if (!response.ok) {
           throw Error('creating auction failed!');
         }
         return response.json();
       })
       .then((data) => {
-        console.log('posting Auction and Artwork SUCCESS! data:  ', data);
         alert('your auction was created successfully!');
-        history.push('/auctions/' + data.id);
+        history.push('/auctions/' + data.id); //THIS DOESNT WORK YET. PROBABLY NEEDS TO FETCH
       })
       .catch((error) => {
-        console.log('posting Auction and Artwork FAILED! error: ', error);
         alert('your auction failed to create! Please try again.');
       })
     }
