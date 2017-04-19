@@ -41,7 +41,8 @@ class Notification extends React.Component {
     fetch(`/notifications/${userId}`, {
       method: 'POST',
       headers: new Headers({
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.token}`
       }),
       body: JSON.stringify({ id: notificationId })
     })

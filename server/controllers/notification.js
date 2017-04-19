@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const model = require('../database/queries');
+const authenticate = require('../middlewares/authenticate.js');
 
 router.get('/:userId', (req, res) => {
   model.getUserNotifications(req.params.userId)
@@ -11,7 +12,7 @@ router.get('/:userId', (req, res) => {
   });
 });
 
-router.post('/:userId', (req, res) => {
+router.post('/:userId', authenticate, (req, res) => {
   const query = {
     owner_id: req.params.userId,
     id: req.body.id

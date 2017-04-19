@@ -33,7 +33,7 @@ router.post('/', authenticate, (req, res) => {
     res.status(500).send(serverErr);
   });
 });
-// =======================
+// SEEMS LIKE NO ONE IS POSTING TO THIS ENDPOINT
 router.post('/ongoing', (req, res) => {
   const { user } = req.body;
   model.getUserBiddingAuctions(user)
@@ -67,7 +67,7 @@ router.get('/:auctionId/bids', (req, res) => {
     res.status(500).json(serverErr);
   });
 });
-// ============
+
 router.post('/:auctionId/bids', authenticate, (req, res) => {
   const bid = {};
   bid.auction_id = req.params.auctionId;
