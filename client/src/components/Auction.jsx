@@ -42,8 +42,6 @@ class Auction extends Component {
     if (bid.bid === 0) {
       alert('Please select a value');
     } else {
-      console.log('bid value is a number');
-      console.log('useris: ', user);
       //if user not logged in, redirect
       if(!user.username) {
         alert('you are not logged in, please sign up or log in');
@@ -54,7 +52,8 @@ class Auction extends Component {
         fetch(`/auctions/${id}/bids`, {
           method: 'POST',
           headers: new Headers({
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
           }),
           body: JSON.stringify({ bidPrice: bid.bid, user: user.userId })
         })
@@ -66,6 +65,7 @@ class Auction extends Component {
             .then((bid) => {
               dispatch(Auctions.updateBid(bid));
               alert(`you have successfully bid $${bid.current_bid}`);
+
             });
           }
         })
@@ -80,7 +80,6 @@ class Auction extends Component {
 
     const { auction } = this.props.auction;
     const { bid } = this.props;
-    // console.log('key length: ', Object.keys(auction).length);
     if (Object.keys(auction).length === 0) {
       return (
         <p>loading~~~</p>

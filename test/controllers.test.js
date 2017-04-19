@@ -24,7 +24,7 @@ describe('iii', () => {
   test('it should fail without a body', () => {
     return supertest(app)
     .post('/auctions', {})
-    .expect(500);
+    .expect(403);
   });
 
 });

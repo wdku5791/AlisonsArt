@@ -3,8 +3,7 @@ import { render } from 'react-dom';
 import {
   HashRouter as Router,
   Route,
-  IndexRoute,
-  hashHistory
+  IndexRoute
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { Container, Divider } from 'semantic-ui-react';

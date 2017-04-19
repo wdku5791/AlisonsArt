@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Button, Message } from 'semantic-ui-react';
+import decode from 'jwt-decode';
 import * as UserAction from './../actions/userActionCreator.jsx';
 
 class SignUp extends Component {
@@ -13,8 +14,8 @@ class SignUp extends Component {
     let password = this.passwordNode.value;
     let cPassword = this.cPasswordNode.value;
     let email = this.emailNode.value;
-    let lastName = this.emailNode.value;
-    let firstName = this.emailNode.value;
+    let lastName = this.firstNameNode.value;
+    let firstName = this.lastNameNode.value;
     let address = this.streetNode.value + ', ' + this.cityNode.value + ', ' + this.stateNode.value;
     
     if (!username || !password || !email || !lastName || !firstName || !address) {
@@ -54,8 +55,10 @@ class SignUp extends Component {
         }
         return response.json();
       }).then(data => {
+        let decodedInfo = decode(data);
+        localStorage.setItem('authToken', data);
         dispatch(UserAction.checkingInfo(false));
-        dispatch(UserAction.logInSuccess(data.username, data.userId));
+        dispatch(UserAction.logInSuccess(decodedInfo.username, decodedInfo.userId));
         //push user to Homepage:
         this.props.history.push('/home');
         this.streetNode.value = '';
@@ -64,7 +67,6 @@ class SignUp extends Component {
         this.firstNameNode.value = '';
         this.lastNameNode.value = '';
       }).catch(err => {
-        console.log(err);
         dispatch(UserAction.checkingInfo(false));
         dispatch(UserAction.loginError(err.message));
       });
@@ -76,7 +78,6 @@ class SignUp extends Component {
 
   render() {
     const { error } = this.props.user;
-    console.log(error);
 
     return (
       <div className='authForm'>

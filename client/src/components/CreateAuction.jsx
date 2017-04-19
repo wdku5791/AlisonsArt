@@ -83,9 +83,11 @@ class CreateAuction extends React.Component {
       history.push('/login');
     } else {
       return fetch('/auctions', {
+
         method: 'POST',
         headers: new Headers ({
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         }),
         body: JSON.stringify(auction)
       })
@@ -103,6 +105,7 @@ class CreateAuction extends React.Component {
         alert('your auction failed to create! Please try again.');
       })
     }
+
   }
 
   handleImageInput(e) {
@@ -118,8 +121,11 @@ class CreateAuction extends React.Component {
     var formData = new FormData();
     formData.append('image_file', document.getElementById('imageToSend').files[0]);
     fetch('/images', {
-        method: 'post',
-        body: formData
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        }
     })
     .then((data) => {
       if (!data.ok) {
