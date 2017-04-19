@@ -55,8 +55,9 @@
 }
 
 .user_auctions {
+  display: flex;
   width: 80%;
-  height: max-content;
+  height: 40%;
   margin: 0 auto;
   overflow-x: scroll;
 }
