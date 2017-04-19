@@ -29,7 +29,7 @@ module.exports = function insertDummyData(db) {
     var notificationInserts = t.none(helpers.insert(notifications, csNotifications));
     var closedAuctionsInserts = t.none(helpers.insert(closedAuctions, csClosedAuctions));
     
-        return t.batch([userInserts, artWorkInserts, auctionInserts, bidInserts, profileInserts, closedAuctionInserts, notificationInserts]);
+        return t.batch([userInserts, artWorkInserts, auctionInserts, bidInserts, profileInserts, closedAuctionsInserts, notificationInserts]);
     })
   .then(() => {
     console.log('success seeding data');
