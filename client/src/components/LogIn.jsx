@@ -23,7 +23,8 @@ class LogIn extends Component {
       //don't forget the headers, otherwise it won't work
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
       },
       method: 'POST',
       body: JSON.stringify({

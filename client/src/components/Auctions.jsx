@@ -13,7 +13,12 @@ class Auctions extends React.Component {
     const { dispatch } = this.props;
     dispatch(actions.fetchingAuctions(true));
 
-    fetch('/auctions')
+    fetch('/auctions', {
+      method: 'GET',
+      headers: new Headers({
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+      })
+    })
     .then((response) => {
       if (!response.ok) {
         throw Error(response.json());

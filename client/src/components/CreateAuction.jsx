@@ -83,7 +83,6 @@ class CreateAuction extends React.Component {
       history.push('/login');
     } else {
       return fetch('/auctions', {
-
         method: 'POST',
         headers: new Headers ({
           'Content-Type': 'application/json',
@@ -123,9 +122,9 @@ class CreateAuction extends React.Component {
     fetch('/images', {
         method: 'POST',
         body: formData,
-        headers: {
+        headers:  new Headers({
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-        }
+        })
     })
     .then((data) => {
       if (!data.ok) {

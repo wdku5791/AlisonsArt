@@ -13,7 +13,12 @@ class Notification extends React.Component {
     const {dispatch, userId} = this.props;
     if (userId) {
       dispatch(notifications.fetchNotifications(true));
-      fetch(`/notifications/${userId}`)
+      fetch(`/notifications/${userId}`, {
+        method: 'GET',
+        headers: new Headers({
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        })
+      })
       .then(response => {
         if(!response.ok) {
           throw Error(response.statusText);

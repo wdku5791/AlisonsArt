@@ -4,8 +4,8 @@ dotenv.config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const busboy = require('express-busboy');
-const expressJWT = require('express-jwt');
 
+const recoverUserInfo = require('./middlewares/recoverUserInfo.js');
 const auctionHandler = require('./controllers/auctions');
 const homeHandler = require('./controllers/home');
 const loginSignupHandler = require('./controllers/loginSignup');
@@ -17,11 +17,7 @@ const app = express();
 busboy.extend(app, {
   upload: true,
 });
-// app.use(expressJWT({
-//   secret: 'tenacious turtles',
-//   exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 30) //expires in 30 days
-// }).unless({path: ['/', '/assets/semantic/semantic.css', '/image-gallery.css', '/styling.css', '/bundle.js', '/home', '/auth']}));
-//unless is excluding which paths
+
 const port = process.env.PORT || 3000;
 const server = app.listen(port, function() {
   console.log('Listening on port ', port);
@@ -32,6 +28,10 @@ const io = require('./sockets.js').init(server);
 // app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/../client/public')));
 
+app.get('/*', recoverUserInfo, (req, res, next) => {
+  console.log('getting~~~');
+  next();
+});
 app.use('/auctions', auctionHandler);
 app.use('/home', homeHandler);
 app.use('/auth', loginSignupHandler);
