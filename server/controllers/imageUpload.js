@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const dotenv = require('dotenv');
 const cloudinary = require('cloudinary');
+const authenticate = require('../middlewares/authenticate.js');
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME, 
@@ -9,7 +10,7 @@ cloudinary.config({
 })
 
 
-router.post('/', (req, res) => {
+router.post('/', authenticate, (req, res) => {
   cloudinary.uploader.upload(req.files.image_file.file, function(result) {
     res.json(result);
     res.status(202);

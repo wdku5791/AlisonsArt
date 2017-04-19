@@ -71,20 +71,28 @@ class CreateAuction extends React.Component {
       current_bid: null,
       current_bid_id: null,
       artwork: artwork,
-    }
-    fetch('/auctions', {
-        method: 'post',
+    };
+
+    fetch('/auctions',{
+        method: 'POST',
         headers: new Headers ({
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         }),
         body: JSON.stringify(auction)
       })
-      .then((data) => {
-        console.log('posting Auction and Artwork SUCCESS! data:  ', data);
-      })
-      .catch((error) => {
-        console.log('posting Auction and Artwork FAILED! error: ', error);
-      })
+    .then(response => {
+      if (!response.ok) {
+        throw Error('Create auction error!');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('this is response data: ', data);
+    })
+    .catch(err => {
+      console.log('Posting auction and artwork failed!');
+    });
   }
 
   handleImageInput(e) {
@@ -100,8 +108,11 @@ class CreateAuction extends React.Component {
     var formData = new FormData();
     formData.append('image_file', document.getElementById('imageToSend').files[0]);
     fetch('/images', {
-        method: 'post',
-        body: formData
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        }
     })
     .then((data) => {
       if (!data.ok) {

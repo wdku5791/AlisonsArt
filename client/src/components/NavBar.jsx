@@ -2,8 +2,14 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Image, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import * as UserActions from './../actions/userActionCreator.jsx';
 
 class NavBar extends Component {
+  handleLogout() {
+    let { dispatch } = this.props;
+    dispatch(UserActions.logOut());
+    localStorage.removeItem('authToken');
+  }
   render() {
     let {username, userId} = this.props;
 
@@ -20,7 +26,9 @@ class NavBar extends Component {
         {'  '}
         <NavLink className='navLinks' to={"/user/"+userId} >{username}</NavLink>
         {' | '}
-        <NavLink className='navLinks' to="/logout">Log out</NavLink>
+        <NavLink className='navLinks' to="/home" onClick={() => {
+          this.handleLogout();
+        }}>Log out</NavLink>
         {' | '}
         <NavLink className='navLinks' to="/notification" >Noties</NavLink>
       </div>

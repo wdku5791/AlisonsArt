@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const model = require('../database/queries');
 const Moment = require('moment');
+const authenticate = require('../middlewares/authenticate.js');
 
 const serverErr = { ERR: { status: 500, message: 'Something went wrong. So Sorry!' } };
 
@@ -11,17 +12,14 @@ router.get('/', (req, res) => {
 
   model.getAuctions(limit, time, status)
   .then((auctions) => {
-    console.log('hmm');
     res.status(200).json(auctions);
   })
   .catch((err) => {
-    console.log(err);
     res.status(500).send(serverErr);
   });
 });
-
-router.post('/', (req, res) => {
-  console.log('posting to auctions... req.body: ', req.body);
+//SOMETHING WRONG WITH THIS ROUTE NOT CAUSED BY AUTHENTICATION
+router.post('/', authenticate, (req, res) => {
   model.createArtwork(req.body.artwork)
   .then((data) => {
     req.body.artwork_id = data.id;
@@ -31,11 +29,10 @@ router.post('/', (req, res) => {
     });
   })
   .catch((serverErr) => {
-    console.log(serverErr);
     res.status(500).send(serverErr);
   });
 });
-
+// SEEMS LIKE NO ONE IS POSTING TO THIS ENDPOINT
 router.post('/ongoing', (req, res) => {
   const { user } = req.body;
   model.getUserBiddingAuctions(user)
@@ -70,7 +67,7 @@ router.get('/:auctionId/bids', (req, res) => {
   });
 });
 
-router.post('/:auctionId/bids', (req, res) => {
+router.post('/:auctionId/bids', authenticate, (req, res) => {
   const bid = {};
   bid.auction_id = req.params.auctionId;
   bid.bidder_id = req.body.user;
