@@ -63,8 +63,9 @@ class Auction extends Component {
           } else {
             answer.json()
             .then((bid) => {
-              console.log(bid);
+              console.log(bid.current_bid);
               //dispatch(bids.toggleSend());
+              alert('you\'re currently winning this auction! The price is now: $' + bid.current_bid);
               return dispatch(Auctions.updateBid(bid));
             });
           }
