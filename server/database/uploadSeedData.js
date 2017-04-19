@@ -18,7 +18,7 @@ var csNotifications = new helpers.ColumnSet(['owner_id', 'trigger_id', 'type', '
 
 module.exports = function insertDummyData(db) {
   return db.tx((t) => {
-
+    
     var userInserts = t.none(helpers.insert(users, csUsers));
     var artWorkInserts = t.none(helpers.insert(artworks, csArtWorks));
     var auctionInserts = t.none(helpers.insert(auctions, csAuctions));

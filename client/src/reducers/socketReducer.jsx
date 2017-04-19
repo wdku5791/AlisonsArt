@@ -8,7 +8,17 @@ const socketReducer = (state = initialState, action) => {
       return {
         ...state,
         message: action.data
-      }
+      };
+      case 'ERROR_SOCKET':
+      return {
+        ...state,
+        error: action.data
+      };
+    case 'socket/LOGIN':
+      return {
+        ...state,
+        id: action.data
+      };
     default:
       return state;
   }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Button, Message } from 'semantic-ui-react';
 import * as UserActions from './../actions/userActionCreator.jsx';
+import * as SocketActions from './../actions/socketActionCreator.jsx';
 
 //when login success, needs to save info in userReducer
 class LogIn extends Component {
@@ -41,6 +42,10 @@ class LogIn extends Component {
     }).then(data => {
       dispatch(UserActions.checkingInfo(false));
       localStorage.setItem('authToken', data);
+      let { userId } = this.props.user;
+      console.log('userId');
+      dispatch(SocketActions.loginSocket(userId));
+      //push user to Homepage:
       this.props.history.push('/home');
     }).catch(err => {
       dispatch(UserActions.checkingInfo(false));

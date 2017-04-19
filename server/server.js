@@ -4,7 +4,6 @@ dotenv.config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const busboy = require('express-busboy');
-
 const recoverUserInfo = require('./middlewares/recoverUserInfo.js');
 const auctionHandler = require('./controllers/auctions');
 const homeHandler = require('./controllers/home');
@@ -24,7 +23,14 @@ const server = app.listen(port, function() {
   console.log('Listening on port ', port);
 });
 const io = require('./sockets.js').init(server);
-
+module.exports = io;
+const auctionHandler = require('./controllers/auctions');
+const homeHandler = require('./controllers/home');
+const loginSignupHandler = require('./controllers/loginSignup');
+const userHandler = require('./controllers/user');
+const artistHandler = require('./controllers/artist');
+const imageHandler = require('./controllers/imageUpload');
+const notificationHandler = require('./controllers/notification');
 // app.use(bodyParser.urlencoded({extended: true}));
 // app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/../client/public')));

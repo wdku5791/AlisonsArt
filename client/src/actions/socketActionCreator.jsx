@@ -11,3 +11,10 @@ export function bidSurpassed(message) {
     data: message
   };
 }
+
+export function loginSocket(userId) {
+  return {
+    type: 'socket/LOGIN',
+    data: userId
+  };
+}

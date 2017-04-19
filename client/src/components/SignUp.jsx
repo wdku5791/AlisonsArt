@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Button, Message } from 'semantic-ui-react';
 import * as UserActions from './../actions/userActionCreator.jsx';
+import * as SocketActions from './../actions/socketActionCreator.jsx';
 
 class SignUp extends Component {
 
@@ -60,6 +61,10 @@ class SignUp extends Component {
       }).then(data => {
         localStorage.setItem('authToken', data);
         dispatch(UserActions.checkingInfo(false));
+        let { userId } = this.props.user;
+        console.log('userId');
+        dispatch(SocketActions.loginSocket(userId));
+
         //push user to Homepage:
         this.props.history.push('/home');
         this.streetNode.value = '';

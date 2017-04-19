@@ -1,4 +1,5 @@
 const sockets = require('socket.io');
+const model = require('./database/queries');
 let io;
 
 module.exports = {
@@ -9,7 +10,7 @@ module.exports = {
   init: function (server) {
     io = sockets();
     io.attach(server);
-
+    io._list = [];
     io.on('connection', function(socket){
       // console.log('ioengine', io);
       console.log("Socket connected: " + socket.id);
@@ -21,11 +22,34 @@ module.exports = {
       socket.on('action', (action) => {
 
         if (action.type === 'socket/hello'){
-          console.log('Got hello data!', action.data);
 
+          console.log('Got hello data!', action.data);
           socket.emit('action', {type:'MESSAGE', data:'good day!'});
+
         }
-        console.log(socket.rooms)
+        if (action.type === 'socket/LOGIN'){
+
+          console.log('Got login data!', action.data);
+          model.getUserAuctions(action.data)
+          .then((results) => {
+            var rooms = results.map(function(room) {
+              return 'room:' + room.id;
+            });
+            rooms.push('room:all');
+            rooms.forEach(function(room) {
+              socket.join(room, function() {
+                // room joining function
+                console.log(socket.id, ' joined room ', room)
+              });
+            })
+            console.log(socket)
+            socket.emit('action', {type:'MESSAGE', data: 'rooms joined'});
+          })
+          .catch((error) => {
+            console.log('error in room join', error)
+            // socket.emit('action', {type:'MESSAGE', data: error});
+          });
+        }
       });
 
     });
