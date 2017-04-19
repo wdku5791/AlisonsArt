@@ -25,7 +25,6 @@ router.post('/', authenticate, (req, res) => {
     req.body.artwork_id = data.id;
     return model.createAuction(req.body)
     .then((auctionId) => {
-      console.log('success', auctionId)
       res.status(201).json(auctionId);
     });
   })

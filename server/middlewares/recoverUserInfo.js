@@ -1,31 +1,33 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
+const decode = require('jwt-decode');
+const model = require('../database/queries');
 
 const recoverUserInfo = (req, res, next) => {
   const authorizationHeader = req.headers['authorization'];
-  //if there's no useful info in authorization header
+
   let authToken;
   if (authorizationHeader) {
     authToken = authorizationHeader.split(' ')[1];
   }
 
-  if(authToken) {
-    //validate
+  if(authToken !== 'null') {
     jwt.verify(authToken, process.env.jwtSecret, (err, decoded) => {
       if (err) {
-        res.status(401).json({
+        //if failed to authenticate, front end should delete the token
+        res.status(403).json({
           error: 'Failed to authenticate.'
         });
       } else {
-        //do something here
+        //attach decoded user info to res.body:
+        let decodedInfo = decode(authToken);
+        res.body = decodedInfo;
         next();
       }
     });
   } else {
-    //response with error:
-    res.status(403).json({
-      error: 'No jwt token provided'
-    });
+    //there's no auth token provided in the request headers
+    next();
   }
 };
 

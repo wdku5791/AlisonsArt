@@ -4,6 +4,7 @@ import ImageGallery from 'react-image-gallery';
 import { connect } from 'react-redux';
 import * as Auctions from '../actions/auctionActionCreator.jsx';
 import * as Artists from '../actions/artistActionCreator.jsx';
+import * as UserActions from '../actions/userActionCreator.jsx';
 
 const clickArt = (auctionId, history) => {
   history.push('/auction/' + auctionId);
@@ -155,8 +156,10 @@ class Home extends Component {
         return response.json();
       })
       .then(data => {
+        console.log('data in home get: ', data);
 
-        let {current, expired, featuredArt} = data;
+        let {current, expired, featuredArt, user} = data;
+        dispatch(UserActions.logInSuccess(user.username, user.userId));
         dispatch(Auctions.passedAuctionsFetchedSuccess(expired));
         dispatch(Auctions.ongoingAuctionsFetchedSuccess(current));
         dispatch(Auctions.featuredArtsFetchedSuccess(featuredArt));
