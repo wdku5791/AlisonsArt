@@ -16,7 +16,7 @@ const authenticate = (req, res, next) => {
     jwt.verify(token, config.jwtSecret, (err, decoded) => {
       if (err) {
         res.status(401).json({
-          error: 'Failed to authenticate'
+          error: 'Failed to authenticate.'
         });
       } else {
         //do something here

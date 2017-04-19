@@ -72,10 +72,12 @@ class CreateAuction extends React.Component {
       current_bid_id: null,
       artwork: artwork,
     }
+    console.log('localstorage right now is: ', localStorage);
     fetch('/auctions', {
-        method: 'post',
+        method: 'POST',
         headers: new Headers ({
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.token}`
         }),
         body: JSON.stringify(auction)
       })
@@ -100,8 +102,11 @@ class CreateAuction extends React.Component {
     var formData = new FormData();
     formData.append('image_file', document.getElementById('imageToSend').files[0]);
     fetch('/images', {
-        method: 'post',
-        body: formData
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Authorization': `Bearer ${localStorage.token}`
+        }
     })
     .then((data) => {
       if (!data.ok) {

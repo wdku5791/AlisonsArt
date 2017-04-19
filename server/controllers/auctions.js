@@ -12,16 +12,14 @@ router.get('/', (req, res) => {
 
   model.getAuctions(limit, time, status)
   .then((auctions) => {
-    console.log('hmm');
     res.status(200).json(auctions);
   })
   .catch((err) => {
-    console.log(err);
     res.status(500).send(serverErr);
   });
 });
-
-router.post('/', (req, res) => {
+//SOMETHING WRONG WITH THIS ROUTE NOT CAUSED BY AUTHENTICATION
+router.post('/', authenticate, (req, res) => {
   console.log('posting to auctions... req.body: ', req.body);
   model.createArtwork(req.body.artwork)
   .then((data) => {
@@ -32,11 +30,10 @@ router.post('/', (req, res) => {
     });
   })
   .catch((serverErr) => {
-    console.log(serverErr);
     res.status(500).send(serverErr);
   });
 });
-
+// =======================
 router.post('/ongoing', (req, res) => {
   const { user } = req.body;
   model.getUserBiddingAuctions(user)
@@ -70,7 +67,7 @@ router.get('/:auctionId/bids', (req, res) => {
     res.status(500).json(serverErr);
   });
 });
-
+// ============
 router.post('/:auctionId/bids', authenticate, (req, res) => {
   const bid = {};
   bid.auction_id = req.params.auctionId;
