@@ -8,7 +8,7 @@ class NavBar extends Component {
   handleLogout() {
     let { dispatch } = this.props;
     dispatch(UserActions.logOut());
-    delete localStorage.token;
+    delete localStorage.authToken;
     console.log('storage: ', localStorage);
   }
   render() {

@@ -54,7 +54,7 @@ class Auction extends Component {
           method: 'POST',
           headers: new Headers({
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.token}`
+            'Authorization': `Bearer ${localStorage.authToken}`
           }),
           body: JSON.stringify({ bidPrice: bid.bid, user: user.userId })
         })

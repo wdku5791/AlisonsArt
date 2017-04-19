@@ -4,14 +4,14 @@ const config = require('../config.js'); //holds jwtSecret
 
 const authenticate = (req, res, next) => {
   const authorizationHeader = req.headers['authorization'];
-  let token;
+  let authToken;
   if (authorizationHeader) {
-    token = authorizationHeader.split(' ')[1];
+    authToken = authorizationHeader.split(' ')[1];
   }
 
-  if(token) {
+  if(authToken) {
     //validate
-    jwt.verify(token, config.jwtSecret, (err, decoded) => {
+    jwt.verify(authToken, config.jwtSecret, (err, decoded) => {
       if (err) {
         res.status(401).json({
           error: 'Failed to authenticate.'
@@ -24,7 +24,7 @@ const authenticate = (req, res, next) => {
   } else {
     //response with error:
     res.status(403).json({
-      error: 'No token provided'
+      error: 'No jwt token provided'
     });
   }
 };

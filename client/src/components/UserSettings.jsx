@@ -61,7 +61,7 @@ class UserSettings extends Component {
             headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.token}`
+            'Authorization': `Bearer ${localStorage.authToken}`
             },
             method: 'POST',
             body: JSON.stringify({

@@ -56,7 +56,7 @@ class SignUp extends Component {
         return response.json();
       }).then(data => {
         let decodedInfo = decode(data);
-        localStorage.token = data;
+        localStorage.authToken = data;
         dispatch(UserAction.checkingInfo(false));
         dispatch(UserAction.logInSuccess(decodedInfo.username, decodedInfo.userId));
         //push user to Homepage:
