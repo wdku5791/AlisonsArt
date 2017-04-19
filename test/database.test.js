@@ -102,7 +102,7 @@ describe('should modify or get data from the auctions table', () => {
       return model.getAuctions(20, '2012-06-09 14:27:07', '>');
     })
     .then((data) => {
-      expect(data.length).toEqual(7);
+      expect(data.length).toEqual(8);
     })
   });
   test('should retrieve from the auctions table with a limit', () => {
@@ -158,13 +158,13 @@ describe('should modify or get data from the artworks table', () => {
       return model.getArtworks();
     })
     .then((data) => {
-      expect(data.length).toEqual(9)
+      expect(data.length).toEqual(10)
     });
   });
   test('should retrieve a list of artworks', () => {
     return model.getArtworks()
     .then((data) => {
-      expect(data.length).toEqual(9)
+      expect(data.length).toEqual(10)
     });
   });
   test('should retrieve a list artist\'s of artworks', () => {
@@ -196,7 +196,7 @@ describe('should modify or get data from the bids table', () => {
       return model.getUserBids(1);
     })
     .then((data) => {
-      expect(data.length).toEqual(1);
+      expect(data.length).toEqual(3);
     });
   });
   test('should retrieve a list of users bids', () => {

@@ -37,7 +37,7 @@ export function featuredArtsFetchedSuccess(featuredArts) {
 export function fetchingAnAuction(bool) {
   return {
     type: 'FETCHING_AN_AUCTION',
-    isFetchingAuction: true
+    isFetchingAuction: bool
   };
 }
 
@@ -67,7 +67,6 @@ export function fetchAuctionData(url) {
         throw Error(reponse.statusText);
       }
       dispatch(fetchingAuction(false));
-      console.log('yoyo')
       return response;
     })
     .then(response => response.json())

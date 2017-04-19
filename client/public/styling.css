@@ -1,0 +1,62 @@
+.carousel {
+  max-height: 400px;
+  width: 100%;
+  overflow: hidden;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.imageLink {
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.imageHeader {
+  margin-bottom: 5px;
+}
+
+.navBar {
+  float: left;
+  text-align: left;
+  display: inline-block;
+}
+
+.authLink {
+  float: right;
+  text-align: right;
+  display: inline-block;
+}
+
+.navLinks {
+  font-size: 18px;
+  color: #474a4f;
+}
+
+.navSearch {
+  height: 26px;
+  font-size: 18px;
+  margin-left: 20px;
+}
+
+.artworkDescription {
+  margin-bottom: 10px;
+}
+
+.closedListing {
+  color: red;
+}
+
+.authForm {
+  width: 40%;
+  margin-top: 75px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.user_auctions {
+  width: 80%;
+  height: max-content;
+  margin: 0 auto;
+  overflow-x: scroll;
+}

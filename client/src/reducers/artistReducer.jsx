@@ -1,27 +1,28 @@
 const initialState = {
   isFetching: false,
-  fetchedArtists: [],
-  fetchArtistError: null
+  fetchedArtist: {},
+  // fetchedArtists: [],
+  fetchArtistError: null,
+  fetchArtistErrored: false
 };
 
 const artistReducer = (state = initialState, action) => {
   switch(action.type) {
-    case 'FETCH_ARTISTS_ERROR':
+    case 'FETCH_ARTIST_ERROR':
       return {
         ...state,
-        isFetching: false,
-        fetchArtistError: 'fetching artists error!'
+        fetchArtistErrored: action.fetchArtistErrored,
+        fetchArtistError: action.fetchArtistError
       };
-    case 'FETCHING_ARTISTS':
+    case 'FETCHING_ARTIST':
       return {
         ...state,
-        isFetching: true
+        isFetching: action.isFetching
       };
-    case 'FETCHED_ARTISTS':
+    case 'FETCHED_ARTIST':
       return {
         ...state,
-        isFetching: false,
-        fetchedArtists: action.artists
+        fetchedArtist: action.fetchedArtist
       };
     default:
       return state;

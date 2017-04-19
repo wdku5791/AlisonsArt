@@ -17,7 +17,6 @@ class Auction extends Component {
     let auctionId = this.props.match.params.auctionId;
     let { dispatch, user } = this.props;
     dispatch(Auctions.fetchingAnAuction(true));
-
     fetch(`/auctions/${auctionId}`)
     .then(response => {
       if(!response.ok) {
@@ -27,7 +26,6 @@ class Auction extends Component {
         return response.json();
     })
     .then(data => {
-      console.log('fetch an auction data: ', data[0]);
       dispatch(Auctions.fetchedAnAuction(data[0]));
     })
     .catch((err) => dispatch(Auctions.fetchAuctionErrored(true, err)));

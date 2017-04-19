@@ -17,8 +17,39 @@ module.exports = {
     return db.query('select * from auctions where owner_id=$1', [userId]);
   },
   getUserBiddingAuctions(userId) {
-    return db.query('select * from auctions inner join\
-    bids on bids.auction_id = auctions.id where bids.bidder_id = $1', [userId]);
+    return db.tx((t) => {
+      // map each auction
+      const auctionQ = 'SELECT DISTINCT auctions.*, artworks.art_name, artworks.image_url, artworks.age, artworks.description, artworks.dimensions, \
+      users.first_name, users.last_name FROM auctions INNER JOIN\
+      bids ON auctions.id = bids.auction_id AND bids.bidder_id = $1 INNER JOIN\
+      artworks ON artworks.id = auctions.artwork_id INNER JOIN users\
+      ON users.id = auctions.owner_id';
+      return t.map(auctionQ, [userId], (auction) => {
+        // check if it is closed
+        return t.one('SELECT * from closed_auctions where auction_id=$1', [auction.id])
+        .then((closed) => {
+          auction.closed = true;
+          if (closed.winner === userId.toString()) {
+            auction.won = true;
+            auction.payment_status = closed.payment_status;
+          } else {
+            auction.won = false;
+          }
+
+          return auction;
+        })
+        // see if the user is the highest bidder
+        .catch(() => {
+          auction.closed = false;
+          return t.one('SELECT bidder_id FROM bids where id = $1', [auction.current_bid_id])
+          .then((bid) => {
+            auction.isHighestBidder = bid.id === userId.toString();
+            return auction;
+          });
+        });
+      })
+      .then(t.batch);
+    });
   },
   getUserBids(userId) {
     return db.query('select * from bids where bidder_id=$1', [userId]);
@@ -85,8 +116,9 @@ module.exports = {
       })
       .then(t.batch);
     });
-
-
+  },
+  getUserNotifications(userId) {
+    return db.query('select * from notifications where owner_id =$1 ORDER BY date DESC', [userId]);
   },
 
   featuredArt() {
@@ -125,13 +157,13 @@ module.exports = {
     return db.query('select * from artworks');
   },
   getArtworksOfArtist(artist_id) {
-    return db.any('SELECT artworks.image_url FROM artworks INNER JOIN users ON artworks.artist_id=users.id AND artworks.artist_id=$1', [artist_id]);
+    return db.query('SELECT artworks.image_url FROM artworks INNER JOIN users ON artworks.artist_id=users.id AND artworks.artist_id=$1', [artist_id]);
   },
   getAuctionsOfArtist(artist_id) {
-    return db.any('SELECT profiles.profile FROM profiles, users WHERE profiles.user_id=users.id AND users.id=$1', [artist_id]);
+    return db.any('SELECT auctions.id as auction_id, auctions.artwork_id, auctions.end_date, auctions.current_bid, Table1.image_url, Table1.art_name, Table1.estimated_price FROM auctions INNER JOIN (SELECT artworks.* FROM artworks INNER JOIN users ON (users.id=artworks.artist_id AND users.id=$1)) as Table1 ON auctions.artwork_id=Table1.id', [artist_id]);
   },
   getArtistProfile(artist_id) {
-    return db.oneOrNone('SELECT ');
+    return db.oneOrNone('SELECT profiles.profile, profiles.fb_link, profiles.twitter_link, profiles.inst_link, users.username FROM profiles INNER JOIN users ON profiles.user_id=users.id AND user_id=$1', [artist_id]);
   },
   getUserArtworks(userId) {
     return db.query('select * from artworks where artist_id = $1', [userId]);
@@ -178,6 +210,22 @@ module.exports = {
       values \
       (${owner_id}, ${artwork_id}, ${start_date}, ${end_date}, ${start_price}, ${buyout_price})\
       returning id', auctionObj);
+  },
+  createNotification(notificationObj) {
+  /*{
+      id 
+      owner_id
+      trigger_id
+      type
+      read
+      date
+      text
+    } */
+    return db.one('insert into notifications \
+      (owner_id, trigger_id, type, read, date, text)\
+      values \
+      (${owner_id}, ${trigger_id}, ${type}, ${read}, ${date}, ${text})\
+      returning id', notificationObj);
   },
   createArtwork(artworkObj) {
     /*
@@ -258,6 +306,18 @@ module.exports = {
 
   updateUser() {
     //TODO
+  },
+  updateUserNotification({id, owner_id}) {
+  /*{
+      id 
+      owner_id
+      trigger_id
+      type
+      read
+      date
+      text
+    } */
+    return db.one('UPDATE notifications SET read=true where id=$1 and owner_id=$2 returning read', [id, owner_id]);
   },
   updateAuction(auctionObj) {
     /*

@@ -1,21 +1,21 @@
 export function fetchArtistErrored (bool, error) {
   return {
     type: 'FETCH_ARTIST_ERROR',
-    fetchArtistError: bool,
+    fetchArtistErrored: bool,
     fetchArtistError: error
   };
 }
 
 export function fetchingArtist (bool) {
   return {
-    type: 'FETCHING_ARTISTS',
+    type: 'FETCHING_ARTIST',
     isFetching: bool
   };
 }
 
-export function fetchArtistSuccess(artists) {
+export function fetchArtistSuccess(artist) {
   return {
-    type: 'FETCHED_ARTISTS',
-    fetchedArtists: artists
+    type: 'FETCHED_ARTIST',
+    fetchedArtist: artist
   };
 }

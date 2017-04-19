@@ -1,111 +1,131 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Image, Divider, Grid, Button, Segment } from 'semantic-ui-react';
-//this imageGaller is causing a warning on React.createClass will be removed in v16
-import ImageGallery from 'react-image-gallery';
-
-const CurrentAuctions = () => {
-  return (
-    <Container>
-    im current auctions
-    </Container>
-  );
-}
-
-const PreviousAuctions = () => {
-  return (
-    <Container>
-    im previous auctions
-    </Container>
-  );
-}
+//this imageGallery is causing a warning on React.createClass will be removed in v16
+import * as ArtistAction from '../actions/artistActionCreator.jsx';
+import ArtistAuctions from './ArtistProfile/ArtistAuctions.jsx';
 
 class Artist extends Component {
+  constructor(props){
+    super(props);
+    this._socialMedia = this._socialMedia.bind(this);
+  }
 
   componentWillMount() {
-    //fetch all data about this artist
     //should have a detailed, user customized profile
+    let { dispatch } = this.props;
     let artistId = this.props.match.params.artistId;
-    fetch('/artist/' + this.props.match.params.artistId, {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      method: 'GET'
-    })
+    dispatch(ArtistAction.fetchingArtist(true));
+    fetch('/artist/' + this.props.match.params.artistId)
     .then(response => {
       if(!response.ok) {
         throw Error(response.statusText);
       }
-      console.log('so happy!');
-      console.log('response: ', response);
       return response.json();
     })
     .then(data => {
-      console.log('im data in artist: ', data);
+      dispatch(ArtistAction.fetchingArtist(false));
+      dispatch(ArtistAction.fetchArtistSuccess(data));
+      dispatch(ArtistAction.fetchArtistErrored(false, null));
     })
     .catch(err => {
-      console.log('not happy');
-    })
+      dispatch(ArtistAction.fetchingArtist(false));
+      dispatch(ArtistAction.fetchArtistErrored(true, err));
+    });
+  }
+
+  _socialMedia(link) {
+    if(link) {
+      window.open(link);
+    }
   }
   
   render(){
-    console.log('artist id: ', this.props.match.params.artistId);
-  // let auction = this.props.auction.auction;
-
-    //send a backend request to get the data for this page
-    return (
-      <Container>
-        <Container>
+    let { isFetching, fetchArtistErrored, fetchedArtist } = this.props.artist;
+    if (fetchArtistErrored) {
+      return (
+        <div>
+          Something's wrong and we can't get the info for this artist. Sorry!
+        </div>
+      );
+    } else if (isFetching) {
+      return (
+        <div>
+          loading~~
+        </div>
+      );
+    } else {
+      if (Object.keys(fetchedArtist).length === 0) {
+        return(
+          <div>
+            still loading~
+          </div>
+        );
+      } else {
+        if (!fetchedArtist.profile) {
+          return (
+            <div>
+              Sorry, we don't have a profile page for this artist!
+            </div>
+          );
+        }
+        let { fb_link, twitter_link, inst_link, profile, username} = fetchedArtist.profile;
+        let { history } = this.props;
+        return (
           <Container>
-            <span>artist name</span>
-            {' '}
-            <button>Direct message</button>
-            {' '}
-            <Button circular color='facebook' icon='facebook' />
-            {' '}
-            <Button circular color='twitter' icon='twitter'/>
+            <Container>
+              <Container>
+                <span>{username}</span>
+                {' '}
+                <button>Direct message</button>
+                {' '}
+                {fb_link ? <Button circular color='facebook' icon='facebook' onClick={() => {
+                  this._socialMedia(fb_link);
+                }}/> : null}
+                {' '}
+                {twitter_link ? <Button circular color='twitter' icon='twitter' onClick={() => {
+                  this._socialMedia(twitter_link);
+                }}/> : null}
+                {' '}
+                {inst_link ? <Button circular color='instagram' icon='instagram' onClick={() => {
+                  this._socialMedia(inst_link);
+                }}/> : null}
+              </Container>
+              <Grid verticalAlign='middle'>
+                <Grid.Row>
+                  <Grid.Column width={8} >
+                    <Image src="./assets/temp.png" centered />
+                  </Grid.Column>
+                  <Grid.Column width={8}>
+                    <Container fluid textAlign="justified">
+                    {profile}
+                    </Container>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+            </Container>
+            <Grid columns={2}>
+              <Grid.Row>
+                <Grid.Column>
+                  <h3>Ongoing auctions:</h3>
+                  <ArtistAuctions flag="current" history={history}/>
+                </Grid.Column>
+                <Grid.Column>
+                  <h3>Previous auctions:</h3>
+                  <ArtistAuctions flag="previous" history={history} />
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
           </Container>
-          <Grid verticalAlign='middle'>
-            <Grid.Row>
-              <Grid.Column width={2} >
-                <button>prev</button>
-              </Grid.Column>
-              <Grid.Column width={6} >
-                <Image src="./assets/temp.png" centered />
-              </Grid.Column>
-              <Grid.Column width={2} >
-                <button>next</button>
-              </Grid.Column>
-              <Grid.Column width={6}>
-                <Container fluid textAlign="justified">
-                  Im the artist, I rock!
-                </Container>
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-        </Container>
-        <Grid columns={2}>
-          <Grid.Row>
-            <Grid.Column>
-              Ongoing auctions:
-              <CurrentAuctions />
-            <Divider vertical />
-            </Grid.Column>
-            <Grid.Column>
-              Previous auctions:
-              <PreviousAuctions />
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </Container>
-    )
-  }
+        )
+      }
+    }
+  } 
 }
-//connect to the store to get the artwork to render:
+
 const mapStateToProps = (state) => {
   return {
-    artists: state.artists
+    artist: state.artist
   }
 }
 export default connect(mapStateToProps)(Artist);

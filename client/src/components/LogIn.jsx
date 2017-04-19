@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container } from 'semantic-ui-react';
+import { Form, Button, Message } from 'semantic-ui-react';
 import * as UserAction from './../actions/userActionCreator.jsx';
 
 
@@ -9,11 +9,15 @@ class LogIn extends Component {
 
   _handleSubmit(e) {
     e.preventDefault();
+    let { dispatch } = this.props;
     let username = this.usernameNode.value;
     let password = this.passwordNode.value;
+
+    if (!username || !password) {
+      return dispatch(UserAction.loginError('invalid inputs'));
+    }
     this.usernameNode.value = '';
     this.passwordNode.value = '';
-    let { dispatch } = this.props;
 
     fetch('/auth/login', {
       //don't forget the headers, otherwise it won't work
@@ -44,19 +48,37 @@ class LogIn extends Component {
   }  
 
   render(){
-    return(
-      <Container>
-        <form onSubmit={e => {this._handleSubmit(e)}}>
-          Username:
-          <input type="text" placeholder="username" ref={node => this.usernameNode = node} />
-          <br />
-          Password:
-          <input type="password" placeholder="password" ref={node => this.passwordNode = node}/>
-          <input type="submit"/>
-        </form>
-      </Container>
-    )
+    const { error } = this.props.user;
+
+    return (
+      <div className='authForm'>
+        <h3>Login</h3>
+        <Form error={!!error}>
+          <Form.Field required>
+            <label>Username</label>
+            <input placeholder='username' required ref={node => this.usernameNode = node} />
+          </Form.Field>
+          <Form.Field required>
+            <label>Password</label>
+            <input type='password' required placeholder='password' ref={node => this.passwordNode = node} />
+          </Form.Field>
+          <Message
+            error
+            header='Try Again'
+            content='Username and Password are not correct'
+          />
+          <Button type='submit' onClick={e => {this._handleSubmit(e)}}>Submit</Button>
+        </Form>
+      </div>
+    );
   }
 }
 
-export default connect()(LogIn);
+const mapStateToProps = (state) => {
+  return {
+    user: state.user
+  };
+};
+
+export default connect(mapStateToProps)(LogIn);
+

@@ -10,7 +10,7 @@ import {
 } from 'react-router-dom';
 
 import SaveFollow from './SaveFollow.jsx';
-import UserAuctions from './UserAuctions.jsx';
+import UserAuctions from './userAuctions/UserAuctions.jsx';
 import UserSettings from './UserSettings.jsx';
 import Payments from './Payments.jsx';
 
