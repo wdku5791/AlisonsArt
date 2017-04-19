@@ -38,6 +38,7 @@ class Auction extends Component {
 
   handleClick(id) {
     const { bid, user, history, dispatch } = this.props;
+    console.log('this.props: ', this.props);
     if (bid.bid === 0) {
       alert('Please select a value');
     } else {
@@ -63,10 +64,8 @@ class Auction extends Component {
           } else {
             answer.json()
             .then((bid) => {
-              console.log(bid.current_bid);
-              //dispatch(bids.toggleSend());
-              alert('you\'re currently winning this auction! The price is now: $' + bid.current_bid);
-              return dispatch(Auctions.updateBid(bid));
+              dispatch(Auctions.updateBid(bid));
+              alert(`you have successfully bid $${bid.current_bid}`);
             });
           }
         })
