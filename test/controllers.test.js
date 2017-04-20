@@ -14,7 +14,6 @@ describe('iii', () => {
     });
   });
 
-
   test('it should be handled by the auctions controller', () => {
     return supertest(app)
     .get('/auctions')
