@@ -27,13 +27,9 @@ class Notification extends React.Component {
       if (response.headers.get('x-username') && response.headers.get('x-userId')) {
         dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
       }
-    })
-    .catch(err => {
-      alert(err.message);
-    });
 
-    if (userId) {
       dispatch(notifications.fetchNotifications(true));
+      let userId = response.headers.get('x-userId');
       fetch(`/notifications/${userId}`, {
         method: 'GET',
         headers: new Headers({
@@ -56,8 +52,11 @@ class Notification extends React.Component {
         dispatch(notifications.fetchSuccess(data));
       })
       .catch(() => dispatch(notifications.fetchError(true)));
-    }
-  };
+    })
+    .catch(err => {
+      alert(err.message);
+    });
+  }
 
   clickHandler(notificationId, index) {
     const {dispatch, userId, notification} = this.props;
