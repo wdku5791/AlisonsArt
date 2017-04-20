@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Button, Message } from 'semantic-ui-react';
-import decode from 'jwt-decode';
 import * as UserAction from './../actions/userActionCreator.jsx';
 
 class SignUp extends Component {
@@ -54,12 +53,13 @@ class SignUp extends Component {
             throw new Error(message);
           });
         }
+
+        dispatch(UserAction.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
+        
         return response.json();
       }).then(data => {
-        let decodedInfo = decode(data);
         localStorage.setItem('authToken', data);
         dispatch(UserAction.checkingInfo(false));
-        dispatch(UserAction.logInSuccess(decodedInfo.username, decodedInfo.userId));
         //push user to Homepage:
         this.props.history.push('/home');
         this.streetNode.value = '';

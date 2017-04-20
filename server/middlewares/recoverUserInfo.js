@@ -19,10 +19,10 @@ const recoverUserInfo = (req, res, next) => {
           error: 'Failed to authenticate.'
         });
       } else {
-        //attach decoded user info to res.body:
+        //attach decoded user info to res.headers:
         let decodedInfo = decode(authToken);
-        res.headers = {'authToken' : decodedInfo};
-        res.body = decodedInfo;
+        res.setHeader('x-username', decodedInfo.username);
+        res.setHeader('x-userId', decodedInfo.userId);
         next();
       }
     });

@@ -152,12 +152,15 @@ class Home extends Component {
         if (!response.ok) {
           throw Error(response.statusText);
         }
+        
+        if (response.headers.get('x-username') && response.headers.get('x-userId')) {
+          dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
+        }
         dispatch(Auctions.fetchingAuctions(false));
         return response.json();
       })
       .then(data => {
-        let {current, expired, featuredArt, user} = data;
-        dispatch(UserActions.logInSuccess(user.username, user.userId));
+        let {current, expired, featuredArt} = data;
         dispatch(Auctions.passedAuctionsFetchedSuccess(expired));
         dispatch(Auctions.ongoingAuctionsFetchedSuccess(current));
         dispatch(Auctions.featuredArtsFetchedSuccess(featuredArt));

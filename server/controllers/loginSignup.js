@@ -23,6 +23,9 @@ router.post('/login', (req, res) => {
           isAuthenticated: true,
           exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24)
         }, process.env.jwtSecret);
+        
+        res.setHeader('x-username', username);
+        res.setHeader('x-userId', response[0].id);
         res.status(201).send(JSON.stringify(authToken));
       } else {
         throw Error('Wrong password');
@@ -63,6 +66,8 @@ router.post('/signup', (req, res) => {
           exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24)
         }, process.env.jwtSecret);
 
+    res.setHeader('x-username', username);
+    res.setHeader('x-userId', result[0].id);
     res.status(201).send(JSON.stringify(authToken));
   })
   .catch(err => {

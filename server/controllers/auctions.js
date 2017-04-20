@@ -13,6 +13,7 @@ router.get('/', (req, res) => {
 
   model.getAuctions(limit, time, status)
   .then((auctions) => {
+    console.log('response token: ', res.jwtToken);
     let rehydratedAuctions = rehydrateUser(res, auctions);
     res.status(200).json(rehydratedAuctions);
   })
