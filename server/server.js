@@ -28,10 +28,7 @@ const io = require('./sockets.js').init(server);
 // app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/../client/public')));
 
-app.get('/*', recoverUserInfo, (req, res, next) => {
-  console.log('getting~~~');
-  next();
-});
+app.get('/*', recoverUserInfo);
 app.use('/auctions', auctionHandler);
 app.use('/home', homeHandler);
 app.use('/auth', loginSignupHandler);

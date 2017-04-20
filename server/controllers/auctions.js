@@ -4,7 +4,7 @@ const Moment = require('moment');
 const authenticate = require('../middlewares/authenticate.js');
 
 const serverErr = { ERR: { status: 500, message: 'Something went wrong. So Sorry!' } };
-//auction home:
+
 router.get('/createAuction', (req, res) => {
   res.status(200).send('recovered user info');
 });
