@@ -8,7 +8,8 @@ const serverErr = { ERR: { status: 500, message: 'Something went wrong. So Sorry
 router.get('/:userId', authenticate, (req, res) => {
   model.getUser(req.params.userId)
   .then(response => {
-    //shoudln't send password back to client!
+    console.log('response user: ', response[0]);
+    console.log('response headers: ', res.headers);
     res.status(200).send(response[0]);
   })
   .catch(err => {

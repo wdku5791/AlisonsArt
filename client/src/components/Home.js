@@ -152,11 +152,9 @@ class Home extends Component {
         if (!response.ok) {
           throw Error(response.statusText);
         }
-        console.log('yess???');
         if (response.headers.get('x-username') && response.headers.get('x-userId')) {
           dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
         }
-        console.log('yes');
         dispatch(Auctions.fetchingAuctions(false));
         return response.json();
       })

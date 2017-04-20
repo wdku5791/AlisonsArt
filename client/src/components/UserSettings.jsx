@@ -39,6 +39,10 @@ class UserSettings extends Component {
     this._submitHandler = this._submitHandler.bind(this);
   }
 
+  componentWillMount() {
+    
+  }
+
   _clickHandler(e) {
     e.preventDefault();
     this.setState({toggle: !this.state.toggle});
@@ -48,15 +52,20 @@ class UserSettings extends Component {
     e.preventDefault();
     let { userId } = this.props.user;
     fetch('/user/' + userId, {
+      method: 'GET',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-      },
-      method: 'GET'
+      }
     })
     .then(response => {
       if (!response.ok) {
         throw Error(response.statusText);
       }
+
+      if (response.headers.get('x-username') && response.headers.get('x-userId')) {
+        dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
+      }
+
       return response.json();
     })
     .then(data => {
