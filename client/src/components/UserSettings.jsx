@@ -39,10 +39,6 @@ class UserSettings extends Component {
     this._submitHandler = this._submitHandler.bind(this);
   }
 
-  componentWillMount() {
-    
-  }
-
   _clickHandler(e) {
     e.preventDefault();
     this.setState({toggle: !this.state.toggle});
@@ -62,13 +58,10 @@ class UserSettings extends Component {
         throw Error(response.statusText);
       }
 
-      if (response.headers.get('x-username') && response.headers.get('x-userId')) {
-        dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
-      }
-
       return response.json();
     })
     .then(data => {
+      console.log('1');
       if (currentPassword.value === data.password) {
         if (newPassword.value === confirmPassword.value) {
           fetch('/user/' + userId + '/changePassword', {
@@ -95,6 +88,9 @@ class UserSettings extends Component {
           alert('Please enter the same password');
           _setInputsToNull();
         }
+      } else {
+        alert('You entered the wrong current password');
+        _setInputsToNull();
       }
     })
     .catch(err => {

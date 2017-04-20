@@ -22,7 +22,6 @@ router.post('/:userId', authenticate, (req, res) => {
     res.status(201).json();
   })
   .catch((serverErr) => {
-    console.log('serverErr', serverErr)
     res.status(500).send(serverErr);
   });
 });
