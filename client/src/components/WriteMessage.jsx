@@ -6,7 +6,7 @@ class WriteMessage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: 'this is a message from bryan',
+      text: '',
       sender_id: 4,
       receiver_id: 3,
       messages: [],
@@ -79,6 +79,7 @@ class WriteMessage extends React.Component {
   render() {
     return (
       <Segment className='messageWindow'>
+        <p><strong>conversation with: {this.state.receiver_id}</strong></p>
         <Segment className='messageFeed'>
           {
             this.state.messages.map(message => {
