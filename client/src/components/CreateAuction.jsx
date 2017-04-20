@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Form, Image, Container, Divider, Grid, Button } from 'semantic-ui-react';
+import * as UserActions from '../actions/userActionCreator.jsx';
 
 class CreateAuction extends React.Component {
   constructor(props) {
@@ -27,6 +28,31 @@ class CreateAuction extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleImageInput = this.handleImageInput.bind(this);
     this.handleImageCreate = this.handleImageCreate.bind(this);
+  }
+
+  componentWillMount() {
+    let { dispatch } = this.props;
+    fetch('/auctions/createAuction', {
+      method: 'GET',
+      headers: new Headers ({
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+      })
+    })
+    .then(response => {
+      if(!response.ok) {
+        throw Error('authorization error');
+      }
+
+      if (response.headers.get('x-username') && response.headers.get('x-userId')) {
+        dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
+      } else {
+        alert('You are not logged in, please log in~');
+        this.props.history.push('/login');
+      }
+    })
+    .catch(err => {
+      alert(err.message);
+    });
   }
 
   handleInputChange(e) {
@@ -83,7 +109,6 @@ class CreateAuction extends React.Component {
       history.push('/login');
     } else {
       return fetch('/auctions', {
-
         method: 'POST',
         headers: new Headers ({
           'Content-Type': 'application/json',
@@ -123,9 +148,9 @@ class CreateAuction extends React.Component {
     fetch('/images', {
         method: 'POST',
         body: formData,
-        headers: {
+        headers:  new Headers({
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-        }
+        })
     })
     .then((data) => {
       if (!data.ok) {

@@ -4,6 +4,7 @@ import ImageGallery from 'react-image-gallery';
 import { connect } from 'react-redux';
 import * as Auctions from '../actions/auctionActionCreator.jsx';
 import * as Artists from '../actions/artistActionCreator.jsx';
+import * as UserActions from '../actions/userActionCreator.jsx';
 
 const clickArt = (auctionId, history) => {
   history.push('/auction/' + auctionId);
@@ -141,16 +142,23 @@ class Home extends Component {
     // Auctions.fetchAuctionData('/auctions');
       dispatch(Auctions.fetchingAuctions(true));
 
-      fetch('/home')
+      fetch('/home', {
+        method: 'GET',
+        headers: new Headers({
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        })
+      })
       .then(response => {
         if (!response.ok) {
           throw Error(response.statusText);
+        }
+        if (response.headers.get('x-username') && response.headers.get('x-userId')) {
+          dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
         }
         dispatch(Auctions.fetchingAuctions(false));
         return response.json();
       })
       .then(data => {
-
         let {current, expired, featuredArt} = data;
         dispatch(Auctions.passedAuctionsFetchedSuccess(expired));
         dispatch(Auctions.ongoingAuctionsFetchedSuccess(current));

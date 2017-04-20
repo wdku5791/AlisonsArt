@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Button, Message } from 'semantic-ui-react';
-import * as UserAction from './../actions/userActionCreator.jsx';
-import decode from 'jwt-decode';
+import * as UserActions from './../actions/userActionCreator.jsx';
 
 //when login success, needs to save info in userReducer
 class LogIn extends Component {
@@ -14,7 +13,7 @@ class LogIn extends Component {
     let password = this.passwordNode.value;
 
     if (!username || !password) {
-      return dispatch(UserAction.loginError('invalid inputs'));
+      return dispatch(UserActions.loginError('invalid inputs'));
     }
     this.usernameNode.value = '';
     this.passwordNode.value = '';
@@ -23,7 +22,8 @@ class LogIn extends Component {
       //don't forget the headers, otherwise it won't work
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
       },
       method: 'POST',
       body: JSON.stringify({
@@ -31,20 +31,20 @@ class LogIn extends Component {
         password: password
       })
     }).then(response => {
-      dispatch(UserAction.checkingInfo(true));
+      dispatch(UserActions.checkingInfo(true));
       if(!response.ok) {
         throw Error('Log in post not ok!');
       }
+
+      dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
       return response.json();
     }).then(data => {
-      let decodedInfo = decode(data);
-      dispatch(UserAction.checkingInfo(false));
-      dispatch(UserAction.logInSuccess(decodedInfo.username, decodedInfo.userId));
+      dispatch(UserActions.checkingInfo(false));
       localStorage.setItem('authToken', data);
       this.props.history.push('/home');
     }).catch(err => {
-      dispatch(UserAction.checkingInfo(false));
-      dispatch(UserAction.loginError(err));
+      dispatch(UserActions.checkingInfo(false));
+      dispatch(UserActions.loginError(err));
     });
   }  
 

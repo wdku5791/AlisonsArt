@@ -1,5 +1,9 @@
 const router = require('express').Router();
 const model = require('../database/queries');
+//to get all artists: 
+router.get('/', (req, res) => {
+  res.status(200).send('recovered user info');
+});
 
 router.get('/:artistId', (req, res) => {
   let { artistId } = req.params;
@@ -12,6 +16,7 @@ router.get('/:artistId', (req, res) => {
     data.passedAuctions = fulfilled[1].filter(auction => auction.end_date.getTime() < timeNow);
     data.ongoingAuctions = fulfilled[1].filter(auction => auction.end_date.getTime() >= timeNow);
     data.profile = fulfilled[2];
+    
     res.status(200).send(data);
   })
   .catch(err => {

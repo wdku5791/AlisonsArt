@@ -48,15 +48,16 @@ class UserSettings extends Component {
     e.preventDefault();
     let { userId } = this.props.user;
     fetch('/user/' + userId, {
+      method: 'GET',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-      },
-      method: 'GET'
+      }
     })
     .then(response => {
       if (!response.ok) {
         throw Error(response.statusText);
       }
+
       return response.json();
     })
     .then(data => {
@@ -86,6 +87,9 @@ class UserSettings extends Component {
           alert('Please enter the same password');
           _setInputsToNull();
         }
+      } else {
+        alert('You entered the wrong current password');
+        _setInputsToNull();
       }
     })
     .catch(err => {

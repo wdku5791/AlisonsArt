@@ -1,8 +1,8 @@
 import React from 'react';
 import * as actions from '../actions/auctionActionCreator.jsx';
 import { Container, Image, Label, Button, Card, Grid, Divider } from 'semantic-ui-react';
-
 import { connect } from 'react-redux';
+import * as UserActions from '../actions/userActionCreator.jsx';
 
 class Auctions extends React.Component {
   constructor(props) {
@@ -13,19 +13,27 @@ class Auctions extends React.Component {
     const { dispatch } = this.props;
     dispatch(actions.fetchingAuctions(true));
 
-    fetch('/auctions')
+    fetch('/auctions', {
+      method: 'GET',
+      headers: new Headers({
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+      })
+    })
     .then((response) => {
       if (!response.ok) {
         throw Error(response.json());
-      } else {
+      } 
         dispatch(actions.fetchingAuctions(false));
-        response.json()
-        .then((auctions) => {
-          dispatch(actions.ongoingAuctionsFetchedSuccess(auctions));
-        });
-      }
+        if (response.headers.get('x-username') && response.headers.get('x-userId')) {
+          dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
+        }
+        return response.json();
+      })
+    .then((auctions) => {
+     dispatch(actions.ongoingAuctionsFetchedSuccess(auctions));
     })
     .catch((err) => {
+      dispatch(actions.fetchingAuctions(false));
       dispatch(actions.fetchAuctionErrored(true, err));
     });
   }

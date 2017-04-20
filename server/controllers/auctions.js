@@ -5,6 +5,10 @@ const authenticate = require('../middlewares/authenticate.js');
 
 const serverErr = { ERR: { status: 500, message: 'Something went wrong. So Sorry!' } };
 
+router.get('/createAuction', (req, res) => {
+  res.status(200).send('recovered user info');
+});
+
 router.get('/', (req, res) => {
   const limit = req.query.limit || 20;
   const status = req.query.status || '>';
@@ -25,7 +29,6 @@ router.post('/', authenticate, (req, res) => {
     req.body.artwork_id = data.id;
     return model.createAuction(req.body)
     .then((auctionId) => {
-      console.log('success', auctionId)
       res.status(201).json(auctionId);
     });
   })

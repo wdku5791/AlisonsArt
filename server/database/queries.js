@@ -126,7 +126,7 @@ module.exports = {
     artworks.age, artworks.art_name, artworks.estimated_price, artworks.description, artworks.dimensions, \
     users.first_name, users.last_name from artworks INNER JOIN \
     users ON artworks.artist_id=users.id LIMIT 3';
-
+    
     return db.query(query);
   },
 

@@ -14,11 +14,10 @@ describe('iii', () => {
     });
   });
 
-
   test('it should be handled by the auctions controller', () => {
     return supertest(app)
     .get('/auctions')
-    .expect(200);
+    .expect(403);
   });
 
   test('it should fail without a body', () => {

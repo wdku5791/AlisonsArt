@@ -6,15 +6,16 @@ const time = new Moment().format('YYYY-MM-DD HH:mm:ss');
 
 router.get('/', (req, res) => {
   const queries = [model.getAuctions(3, time, '>'), model.getAuctions(3, time, '<'), model.featuredArt()];
+
   Promise.all(queries)
-  .then((fufilled) => {
+  .then(fufilled => {
     const data = {};
     data.current = fufilled[0];
     data.expired = fufilled[1];
     data.featuredArt = fufilled[2];
     res.status(200).json(data);
   })
-  .catch((err) => {
+  .catch(err => {
     res.status(500).send(err);
   });
 });

@@ -13,6 +13,7 @@ import SaveFollow from './SaveFollow.jsx';
 import UserAuctions from './userAuctions/UserAuctions.jsx';
 import UserSettings from './UserSettings.jsx';
 import Payments from './Payments.jsx';
+import * as UserActions from '../actions/userActionCreator.jsx';
 
 const Navigation = (props) => {
   return (
@@ -28,29 +29,51 @@ const Navigation = (props) => {
   );
 }
 
-const User = (props) => {
-  if (!props.user.username) {
-    return (<div>Please log in</div>);
-  } else {
-    return (
-      <Container>
-        <Container>
-          {props.user.username[0].toUpperCase().concat(props.user.username.slice(1))}
-        </Container>
-      <Divider />
-      <Router>
-        <Container>
-          <Navigation userId={props.user.userId} />
-          <Route path="/user/:userId/savesFollows" component={SaveFollow} />
-          <Route path="/user/:userId/auctions" component={UserAuctions} />
-          <Route path="/user/:userId/settings" component={UserSettings} />
-          <Route path="/user/:userId/payments" component={Payments} />
-        </Container>
-      </Router>
+class User extends Component {
+  componentWillMount() {
+    let { dispatch } = this.props;
+    fetch('/user', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+      }
+    })
+    .then(response => {
+      if(!response.ok) {
+        throw Error('authorization error');
+      }
       
-      </Container>
-    );
-    
+      if (response.headers.get('x-username') && response.headers.get('x-userId')) {
+        dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
+      }
+    })
+    .catch(err => {
+      //change the error name later
+      alert(err.message);
+    })
+  }
+  render() {
+    if (!this.props.user.username) {
+      return (<div>Please log in</div>);
+    } else {
+      return (
+        <Container>
+          <Container>
+            {this.props.user.username[0].toUpperCase().concat(this.props.user.username.slice(1))}
+          </Container>
+        <Divider />
+        <Router>
+          <Container>
+            <Navigation userId={this.props.user.userId} />
+            <Route path="/user/:userId/savesFollows" component={SaveFollow} />
+            <Route path="/user/:userId/auctions" component={UserAuctions} />
+            <Route path="/user/:userId/settings" component={UserSettings} />
+            <Route path="/user/:userId/payments" component={Payments} />
+          </Container>
+        </Router>
+        </Container>
+      );
+    }
   }
 };
 
