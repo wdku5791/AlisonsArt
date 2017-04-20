@@ -23,7 +23,6 @@ class Artists extends Component {
     .catch(err => {
       alert(err.message);
     });
-
   }
 
   render() {

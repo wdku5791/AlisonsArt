@@ -33,9 +33,23 @@ class CreateAuction extends React.Component {
   componentWillMount() {
     let { dispatch } = this.props;
     fetch('/auctions/createAuction', {
-      
+      method: 'GET',
+      headers: new Headers ({
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+      })
     })
-    console.log('dispatch: ', dispatch);
+    .then(response => {
+      if(!response.ok) {
+        throw Error('authorization error');
+      }
+
+      if (response.headers.get('x-username') && response.headers.get('x-userId')) {
+        dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
+      }
+    })
+    .catch(err => {
+      alert(err.message);
+    });
   }
 
   handleInputChange(e) {
