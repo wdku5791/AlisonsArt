@@ -45,6 +45,9 @@ class CreateAuction extends React.Component {
 
       if (response.headers.get('x-username') && response.headers.get('x-userId')) {
         dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
+      } else {
+        alert('You are not logged in, please log in~');
+        this.props.history.push('/login');
       }
     })
     .catch(err => {
