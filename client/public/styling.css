@@ -62,8 +62,33 @@
   overflow-x: scroll;
 }
 
-.messageBar {
-  position: fixed;
+.messageWindow {
+  position: absolute;
   width: 250px;
   height: 300px;
+  z-index: 5;
 }
+
+.messageInput {
+  position: absolute;
+  bottom: 0;
+}
+
+.messageFeed {
+  overflow-y: scroll;
+  height: 200px;
+  width: 240px;
+}
+
+.senderMessage {
+  float: right;
+  color: white;
+  background-color: black;
+}
+
+.receiverMessage {
+  float: left;
+  color: black;
+  background-color: white;
+}
+
