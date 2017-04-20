@@ -48,7 +48,8 @@ class User extends Component {
       }
     })
     .catch(err => {
-      console.log('user component get error');
+      //change the error name later
+      alert(err.message);
     })
   }
   render() {

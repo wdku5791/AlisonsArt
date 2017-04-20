@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Form, Image, Container, Divider, Grid, Button } from 'semantic-ui-react';
+import * as UserActions from '../actions/userActionCreator.jsx';
 
 class CreateAuction extends React.Component {
   constructor(props) {
@@ -27,6 +28,14 @@ class CreateAuction extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleImageInput = this.handleImageInput.bind(this);
     this.handleImageCreate = this.handleImageCreate.bind(this);
+  }
+
+  componentWillMount() {
+    let { dispatch } = this.props;
+    fetch('/auctions/createAuction', {
+      
+    })
+    console.log('dispatch: ', dispatch);
   }
 
   handleInputChange(e) {

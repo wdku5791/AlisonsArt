@@ -6,7 +6,7 @@ const authenticate = require('../middlewares/authenticate.js');
 const serverErr = { ERR: { status: 500, message: 'Something went wrong. So Sorry!' } };
 
 router.get('/', (req, res) => {
-  res.status(200).send('succeeded recover user info');
+  res.status(200).send('recovered user info');
 });
 
 router.get('/:userId', authenticate, (req, res) => {

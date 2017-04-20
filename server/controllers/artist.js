@@ -1,5 +1,9 @@
 const router = require('express').Router();
 const model = require('../database/queries');
+//to get all artists: 
+router.get('/', (req, res) => {
+  res.status(200).send('recovered user info');
+});
 
 router.get('/:artistId', (req, res) => {
   let { artistId } = req.params;

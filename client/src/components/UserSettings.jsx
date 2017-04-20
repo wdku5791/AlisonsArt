@@ -61,7 +61,6 @@ class UserSettings extends Component {
       return response.json();
     })
     .then(data => {
-      console.log('1');
       if (currentPassword.value === data.password) {
         if (newPassword.value === confirmPassword.value) {
           fetch('/user/' + userId + '/changePassword', {
