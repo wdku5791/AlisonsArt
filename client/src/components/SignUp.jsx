@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Button, Message } from 'semantic-ui-react';
-import * as UserAction from './../actions/userActionCreator.jsx';
+import * as UserActions from './../actions/userActionCreator.jsx';
 
 class SignUp extends Component {
 
@@ -18,7 +18,7 @@ class SignUp extends Component {
     let address = this.streetNode.value + ', ' + this.cityNode.value + ', ' + this.stateNode.value;
     
     if (!username || !password || !email || !lastName || !firstName || !address) {
-      return dispatch(UserAction.loginError('all fields are required'));
+      return dispatch(UserActions.loginError('all fields are required'));
     }
 
     this.usernameNode.value = '';
@@ -46,7 +46,7 @@ class SignUp extends Component {
           type: 'user'
         })
       }).then(response => {
-        dispatch(UserAction.checkingInfo(true));
+        dispatch(UserActions.checkingInfo(true));
         if (!response.ok) {
           return response.text()
           .then((message) => {
@@ -54,12 +54,12 @@ class SignUp extends Component {
           });
         }
 
-        dispatch(UserAction.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
+        dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
         
         return response.json();
       }).then(data => {
         localStorage.setItem('authToken', data);
-        dispatch(UserAction.checkingInfo(false));
+        dispatch(UserActions.checkingInfo(false));
         //push user to Homepage:
         this.props.history.push('/home');
         this.streetNode.value = '';
@@ -68,8 +68,8 @@ class SignUp extends Component {
         this.firstNameNode.value = '';
         this.lastNameNode.value = '';
       }).catch(err => {
-        dispatch(UserAction.checkingInfo(false));
-        dispatch(UserAction.loginError(err.message));
+        dispatch(UserActions.checkingInfo(false));
+        dispatch(UserActions.loginError(err.message));
       });
     } else {
       alert('please enter matching passwords!');
