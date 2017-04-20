@@ -53,7 +53,7 @@ module.exports = {
 
           console.log('Got signout data!', action.data);
           socket.emit('action', {type:'MESSAGE', data:'logged out!'});
-          socket.emit('action', {type:'socket/LOGOUT', data: null});
+          socket.emit('action', {type:'socket/LOGOUT_COMPLETE', data: null});
         }
 
         if (action.type === 'socket/LOGIN'){

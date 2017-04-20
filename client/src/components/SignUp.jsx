@@ -64,7 +64,6 @@ class SignUp extends Component {
         let { userId } = this.props.user;
         console.log('userId');
         dispatch(SocketActions.loginSocket(userId));
-
         //push user to Homepage:
         this.props.history.push('/home');
         this.streetNode.value = '';

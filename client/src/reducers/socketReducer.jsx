@@ -24,6 +24,11 @@ const socketReducer = (state = initialState, action) => {
         ...state,
         id: action.data
       };
+    case 'socket/LOGOUT_COMPLETE':
+      return {
+        ...state,
+        id: action.data
+      };  
     default:
       return state;
   }
