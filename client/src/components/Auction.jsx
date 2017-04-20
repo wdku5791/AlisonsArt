@@ -29,12 +29,18 @@ class Auction extends Component {
         throw Error(response.statusText);
       }
         dispatch(Auctions.fetchingAnAuction(false));
+        if (response.headers.get('x-username') && response.headers.get('x-userId')) {
+          dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
+        }
         return response.json();
     })
     .then(data => {
       dispatch(Auctions.fetchedAnAuction(data[0]));
     })
-    .catch((err) => dispatch(Auctions.fetchAuctionErrored(true, err)));
+    .catch(err => {
+      dispatch(Auctions.fetchingAnAuction(false));
+      dispatch(Auctions.fetchAuctionErrored(true, err));
+    });
   }
 
   setBid(bid) {

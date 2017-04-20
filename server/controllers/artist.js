@@ -12,12 +12,7 @@ router.get('/:artistId', (req, res) => {
     data.passedAuctions = fulfilled[1].filter(auction => auction.end_date.getTime() < timeNow);
     data.ongoingAuctions = fulfilled[1].filter(auction => auction.end_date.getTime() >= timeNow);
     data.profile = fulfilled[2];
-    if (res.body) {
-      data.user = {
-        username: res.body.username,
-        userId: res.body.userId
-      };
-    }
+    
     res.status(200).send(data);
   })
   .catch(err => {

@@ -27,14 +27,15 @@ class Artist extends Component {
       if(!response.ok) {
         throw Error(response.statusText);
       }
+
+      if (response.headers.get('x-username') && response.headers.get('x-userId')) {
+        dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
+      }
       return response.json();
     })
     .then(data => {
-      dispatch(UserActions.logInSuccess(data.user.username, data.user.userId));
-      let artistData = {...data};
-      delete artistData.user;
       dispatch(ArtistAction.fetchingArtist(false));
-      dispatch(ArtistAction.fetchArtistSuccess(artistData));
+      dispatch(ArtistAction.fetchArtistSuccess(data));
       dispatch(ArtistAction.fetchArtistErrored(false, null));
     })
     .catch(err => {
