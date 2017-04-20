@@ -12,11 +12,29 @@ module.exports = {
     io = sockets();
     io.attach(server);
     var socketList = {};
-    var worker = fork(__dirname + '/worker.js');
+    // var worker = fork(__dirname + '/worker.js');
+    // worker.on('message', function(response) {
+    //   if (response.type === 'notification') {
+    //   console.log(response, 'closed auctions notifications');
+    //     response.data.forEach((notification) => {
+    //       if (socketList[notification.owner_id]) {
+    //         console.log('emission occurs', notification.owner_id);
+    //         socketList[notification.owner_id].emit('action', {type: 'MESSAGE', data: notification});
+    //       }
+    //     })
+    //   } else if (response.type === 'error') {
+    //     console.log('error with worker')
+    //     io.emit('action', {type: 'ERROR_SOCKET', data: response.data});
+    //   } else if (response.type === 'closed') {
+    //     console.log('closed', response.data);
+    //     io.emit('action', {type: 'MESSAGE', data: response.data});
+    //   }
+    // });
+
     io.on('connection', function(socket){
       // console.log('ioengine', io);
       console.log("Socket connected: " + socket.id);
-
+      console.log('number of sockets', io.eio.clientsCount);
       // socket.join('room 237', function(){
       //   console.log(socket.rooms); // [ <socket.id>, 'room 237' ]
       //   io.to('room 237', 'a new user has joined the room'); // broadcast to everyone in the room
@@ -68,21 +86,3 @@ module.exports = {
     return io;
   },
 };
-
-worker.on('message', function(response) {
-  if (response.type === 'notification') {
-  console.log(response, 'closed auctions notifications');
-    response.data.forEach((notification) => {
-      if (socketList[notification.owner_id]) {
-        console.log('emission occurs', notification.owner_id);
-        socketList[notification.owner_id].emit('action', {type: 'MESSAGE', data: notification});
-      }
-    })
-  } else if (response.type === 'error') {
-    console.log('error with worker')
-    io.emit('action', {type: 'ERROR_SOCKET', data: response.data});
-  } else if (response.type === 'closed') {
-    console.log('closed', response.data);
-    io.emit('action', {type: 'MESSAGE', data: response.data});
-  }
-});
