@@ -25,6 +25,7 @@ import User from './components/User.jsx';
 import CreateAuctionContainer from './components/CreateAuctionContainer.jsx';
 import Notification from './components/Notification.jsx';
 import ContactUs from './components/ContactUs.jsx';
+import MessageBar from './components/WriteMessage.jsx'
 import io from 'socket.io-client';
 import * as UserActions from './actions/userActionCreator.jsx';
 
@@ -77,7 +78,12 @@ class Index extends Component {
           <Route path="/login" component={LogIn} />
           <Route path="/signup" component={SignUp} />
           <Route path="/notification" component={Notification} />
+<<<<<<< HEAD
           <Route path="/createAuction" component={CreateAuctionContainer} />
+=======
+          <Route path="/createAuction" component={CreateAuction} />
+          <MessageBar />
+>>>>>>> able to post messages between users. Non-dynamic data
         </Container>
       </Router>
     )
