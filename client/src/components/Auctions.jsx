@@ -26,7 +26,8 @@ class Auctions extends React.Component {
         dispatch(actions.fetchingAuctions(false));
         response.json()
         .then((auctions) => {
-          dispatch(actions.ongoingAuctionsFetchedSuccess(auctions));
+          console.log('auctions in Auctions: ', auctions);
+          // dispatch(actions.ongoingAuctionsFetchedSuccess(auctions));
         });
       }
     })

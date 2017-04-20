@@ -2,6 +2,7 @@ const router = require('express').Router();
 const model = require('../database/queries');
 const Moment = require('moment');
 const authenticate = require('../middlewares/authenticate.js');
+const rehydrateUser = require('../Services/rehydrateUser.js');
 
 const serverErr = { ERR: { status: 500, message: 'Something went wrong. So Sorry!' } };
 
@@ -12,7 +13,8 @@ router.get('/', (req, res) => {
 
   model.getAuctions(limit, time, status)
   .then((auctions) => {
-    res.status(200).json(auctions);
+    let rehydratedAuctions = rehydrateUser(res, auctions);
+    res.status(200).json(rehydratedAuctions);
   })
   .catch((err) => {
     res.status(500).send(serverErr);

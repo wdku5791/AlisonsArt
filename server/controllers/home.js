@@ -12,7 +12,8 @@ router.get('/', (req, res) => {
     data.current = fufilled[0];
     data.expired = fufilled[1];
     data.featuredArt = fufilled[2];
-    if (res.body) {
+    console.log('request body in home: ', req.body);
+    if (req.body) {
         data.user = {
           username: res.body.username, 
           userId: res.body.userId

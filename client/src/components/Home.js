@@ -156,8 +156,6 @@ class Home extends Component {
         return response.json();
       })
       .then(data => {
-        console.log('data in home get: ', data);
-
         let {current, expired, featuredArt, user} = data;
         dispatch(UserActions.logInSuccess(user.username, user.userId));
         dispatch(Auctions.passedAuctionsFetchedSuccess(expired));

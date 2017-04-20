@@ -21,6 +21,7 @@ const recoverUserInfo = (req, res, next) => {
       } else {
         //attach decoded user info to res.body:
         let decodedInfo = decode(authToken);
+        res.headers = {'authToken' : decodedInfo};
         res.body = decodedInfo;
         next();
       }

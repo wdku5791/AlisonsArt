@@ -4,6 +4,7 @@ import { Container, Image, Divider, Grid, Button, Segment } from 'semantic-ui-re
 //this imageGallery is causing a warning on React.createClass will be removed in v16
 import * as ArtistAction from '../actions/artistActionCreator.jsx';
 import ArtistAuctions from './ArtistProfile/ArtistAuctions.jsx';
+import * as UserActions from '../actions/userActionCreator.jsx';
 
 class Artist extends Component {
   constructor(props){
@@ -29,8 +30,11 @@ class Artist extends Component {
       return response.json();
     })
     .then(data => {
+      dispatch(UserActions.logInSuccess(data.user.username, data.user.userId));
+      let artistData = {...data};
+      delete artistData.user;
       dispatch(ArtistAction.fetchingArtist(false));
-      dispatch(ArtistAction.fetchArtistSuccess(data));
+      dispatch(ArtistAction.fetchArtistSuccess(artistData));
       dispatch(ArtistAction.fetchArtistErrored(false, null));
     })
     .catch(err => {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Image } from 'semantic-ui-react';
 import * as Auctions from '../actions/auctionActionCreator.jsx';
+import * as UserActions from '../actions/userActionCreator.jsx';
 import { connect } from 'react-redux';
 import AuctionDetail from './AuctionDetail.jsx';
 import ClosedAuction from './ClosedAuction.jsx';
