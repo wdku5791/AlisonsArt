@@ -19,6 +19,11 @@ const socketReducer = (state = initialState, action) => {
         ...state,
         id: action.data
       };
+    case 'socket/LOGOUT':
+      return {
+        ...state,
+        id: action.data
+      };
     default:
       return state;
   }

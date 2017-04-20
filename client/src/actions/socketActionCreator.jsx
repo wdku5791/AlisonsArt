@@ -18,3 +18,10 @@ export function loginSocket(userId) {
     data: userId
   };
 }
+
+export function logoutSocket(userId) {
+  return {
+    type: 'socket/LOGOUT',
+    data: userId
+  };
+}
