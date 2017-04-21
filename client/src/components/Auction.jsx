@@ -40,9 +40,15 @@ class Auction extends Component {
     dispatch(bids.setBid(bid));
   }
 
-  handleSave() {
+  handleSave(artwork_id) {
     console.log('save is clicked!');
-    // fetch('/')
+    fetch('/saves', {
+      method: 'POST',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+      }),
+    })
   }
 
   handleClick(id) {
