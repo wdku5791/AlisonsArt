@@ -27,7 +27,7 @@ cron.schedule('*/30 * * * * *', function() {
       // tell server sockets the auctions have closed. (sends a list of auctions);
       process.send({data: results, type: 'closed'});
       // inserted into closed auctions table with winner id;
-      const insertClosed = model.workerInsertClosed(results).then(() => {console.log('inserted into closed')});
+      const insertClosed = model.workerInsertClosed(results).then(() => {console.log('inserted into closed_auctions table')});
       // for each auction get all the bidders unique (each bidder shows up once);
       return Promise.all((results.map((auction, index) => {
         return model.getAuctionBidsDistinct(auction.auction_id)

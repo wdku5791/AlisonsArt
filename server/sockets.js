@@ -12,24 +12,24 @@ module.exports = {
     io = sockets();
     io.attach(server);
     var socketList = {};
-    // var worker = fork(__dirname + '/worker.js');
-    // worker.on('message', function(response) {
-    //   if (response.type === 'notification') {
-    //   console.log(response, 'closed auctions notifications');
-    //     response.data.forEach((notification) => {
-    //       if (socketList[notification.owner_id]) {
-    //         console.log('emission occurs', notification.owner_id);
-    //         socketList[notification.owner_id].emit('action', {type: 'MESSAGE', data: notification});
-    //       }
-    //     })
-    //   } else if (response.type === 'error') {
-    //     console.log('error with worker')
-    //     io.emit('action', {type: 'ERROR_SOCKET', data: response.data});
-    //   } else if (response.type === 'closed') {
-    //     console.log('closed', response.data);
-    //     io.emit('action', {type: 'MESSAGE', data: response.data});
-    //   }
-    // });
+    var worker = fork(__dirname + '/worker.js');
+    worker.on('message', function(response) {
+      if (response.type === 'notification') {
+      // console.log(response, 'closed auctions notifications');
+        response.data.forEach((notification) => {
+          if (socketList[notification.owner_id]) {
+            // console.log('emission occurs', notification.owner_id);
+            socketList[notification.owner_id].emit('action', {type: 'MESSAGE', data: notification});
+          }
+        })
+      } else if (response.type === 'error') {
+        // console.log('error with worker');
+        io.emit('action', {type: 'ERROR_SOCKET', data: response.data});
+      } else if (response.type === 'closed') {
+        // console.log('closed', response.data);
+        io.emit('action', {type: 'MESSAGE', data: response.data});
+      }
+    });
 
     io.on('connection', function(socket){
       // console.log('ioengine', io);
@@ -39,7 +39,12 @@ module.exports = {
       //   console.log(socket.rooms); // [ <socket.id>, 'room 237' ]
       //   io.to('room 237', 'a new user has joined the room'); // broadcast to everyone in the room
       // });
-      
+      socket.on ('disconnect', () => {
+        if (socket.hasOwnProperty('_uid')) {
+          delete socketList[socket._uid];
+        }
+        console.log('disconnected socket', socketList);
+      })
       socket.on('action', (action) => {
 
         if (action.type === 'socket/hello'){
@@ -50,15 +55,15 @@ module.exports = {
         }
 
         if (action.type === 'socket/LOGOUT'){
-
-          console.log('Got signout data!', action.data);
+          delete socketList[action.data];
+          delete socket._uid;
+          // console.log('Got signout data!', action.data, io.eio.clientsCount, socketList);
           socket.emit('action', {type:'MESSAGE', data:'logged out!'});
           socket.emit('action', {type:'socket/LOGOUT_COMPLETE', data: null});
         }
 
         if (action.type === 'socket/LOGIN'){
-
-          console.log('Got login data!', action.data);
+          // console.log('Got login data!', action.data);
           model.getUserAuctions(action.data)
           .then((results) => {
             var rooms = results.map(function(room) {
@@ -71,6 +76,7 @@ module.exports = {
                 console.log(socket.id, ' joined room ', room)
               });
             })
+            socket['_uid'] = action.data;
             socketList[action.data] = socket;
             // console.log(socketList, 'socketList');
             socket.emit('action', {type:'MESSAGE', data: 'rooms joined'});
