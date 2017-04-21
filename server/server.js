@@ -18,6 +18,7 @@ const messageHandler = require('./controllers/messages')
 const stripeHandler = require('./controllers/stripe');
 const port = process.env.PORT || 3000;
 
+const savesHandler = require('./controllers/saves');
 const app = express();
 
 app.set('etag', false);
@@ -43,6 +44,7 @@ app.use('/notifications', notificationHandler);
 app.use('/contactus', contactHandler);
 app.use('/messages', messageHandler);
 app.use('/stripe', stripeHandler);
+app.use('/saves', savesHandler);
 
 const server = app.listen(port, function () {
   console.log('Listening on port ', port);

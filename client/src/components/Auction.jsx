@@ -40,6 +40,11 @@ class Auction extends Component {
     dispatch(bids.setBid(bid));
   }
 
+  handleSave() {
+    console.log('save is clicked!');
+    // fetch('/')
+  }
+
   handleClick(id) {
     const { bid, user, history, dispatch } = this.props;
     console.log('this.props: ', this.props);
@@ -93,12 +98,12 @@ class Auction extends Component {
       const now = new Moment();
       if (end.isBefore(now)) {
         return (
-          <ClosedAuction auction={auction} />
+          <ClosedAuction auction={auction} handleSave={this.handleSave} />
         );
       } else {
         return (
           <div>
-            <AuctionDetail handleClick={this.handleClick.bind(this, auction.id)} auction={auction} setBid={this.setBid.bind(this)} /> 
+            <AuctionDetail handleClick={this.handleClick.bind(this, auction.id)} auction={auction} setBid={this.setBid.bind(this)} handleSave={this.handleSave} /> 
           </div>
         );
       }

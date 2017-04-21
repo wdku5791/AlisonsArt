@@ -67,6 +67,23 @@ const profiles = [
 	}
 ];
 
+const saves = [
+  {
+  	id: 1,
+  	user_id: 1,
+  	artwork_id: 9
+  },
+  {
+  	id: 2,
+  	user_id: 2,
+  	artwork_id: 6
+  },
+  {id: 3,
+  	user_id: 2,
+  	artwork_id: 7
+  }
+];
+
 //notifications:
 //******************************
 const notifications = [
@@ -782,5 +799,6 @@ module.exports = {
 	auctions,
 	bids,
 	profiles,
+	saves,
 	notifications,
 };
