@@ -64,7 +64,6 @@ module.exports = {
           socket.emit('action', {type:'RESPONSE', data:'logged out!'});
           socket.emit('action', {type:'socket/LOGOUT_COMPLETE', data: null});
         }
-
         if (action.type === 'socket/LOGIN'){
           // console.log('Got login data!', action.data);
           model.getUserAuctions(action.data)
@@ -89,7 +88,14 @@ module.exports = {
             socket.emit('action', {type:'ERROR_SOCKET', data: error});
           });
         }
-      });
+        if (action.type === 'socket/CHAT_MESSAGE') {
+          socket.emit('action', {type:'MESSAGE', data:action.data});
+        }
+
+      // socket.on('send message', (message) => {
+      //   console.log('message: ', message);
+      //   socket.emit('send message', message);
+      // })
 
     });
     return io;

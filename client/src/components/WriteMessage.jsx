@@ -1,6 +1,11 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { Segment, Button, TextArea} from 'semantic-ui-react';
+import io from 'socket.io-client';
+import * as ChatActions from './../actions/chatActionCreator.jsx';
+
+var socket = io();
 
 class WriteMessage extends React.Component {
   constructor(props) {
@@ -14,6 +19,7 @@ class WriteMessage extends React.Component {
     this.handleFormChange = this.handleFormChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.retrieveMessages = this.retrieveMessages.bind(this);
+    this.appendMessage = this.appendMessage.bind(this);
   }
 
   handleFormChange(e) {
@@ -23,6 +29,13 @@ class WriteMessage extends React.Component {
   }
 
   handleFormSubmit() {
+    var messagePayload = {
+      text: this.state.text,
+      sender_id: this.state.sender_id,
+      receiver_id: this.state.receiver_id,
+    }
+    let {dispatch} = this.props;
+    dispatch(ChatActions.chatMessage(messagePayload));
     this.setState({
       text: ''
     })
@@ -41,6 +54,11 @@ class WriteMessage extends React.Component {
     })
     .then((data) => {
       console.log('message posted to DB! data: ', data);
+      var clone = this.state.messages.slice(0);
+      clone.push(this.props.chatMessage);
+      this.setState({
+        messages: clone
+      })
     })
     .catch((error) => {
       console.log('handleFormSubmit failed! Error: ', error);
@@ -72,8 +90,21 @@ class WriteMessage extends React.Component {
     })
   }
 
+  appendMessage(message) {
+    console.log('message retrieved from server: ', message, '\nthis.state: ', this.state);
+    var messageNode;
+    if (message.sender_id === this.state.sender_id) {
+      messageNode = <p className='senderMessage'>message.text</p>
+    } else {
+      messageNode = <p className='receiverMessage'>message.text</p>
+    }
+    console.log('messageNode: ', messageNode);
+    React.findDOMNode().appendChild(messageNode);
+    return;
+  }
+
   componentWillMount() {
-    this.retrieveMessages()
+    this.retrieveMessages();
   }
 
   render() {
@@ -111,6 +142,7 @@ const mapStateToProps = (state) => {
   return {
     username: state.user.username,
     userId: state.user.userId,
+    chatMessage: state.chat.chatMessage,
   }
 }
 

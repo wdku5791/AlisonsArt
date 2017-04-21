@@ -1,7 +1,11 @@
 const initialState = {
+<<<<<<< HEAD
   receiverId: null,
   messages: [],
   roomname: null,
+=======
+
+>>>>>>> able to live render messages back to client as sent. Uses middleware via redux
 };
 
 const chatReducer = (state = initialState, action) => {
@@ -26,6 +30,7 @@ const chatReducer = (state = initialState, action) => {
       return {
         ...state,
         roomname: action.data
+        chatMessage: action.data
       }
     default: 
       return state;

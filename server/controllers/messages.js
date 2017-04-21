@@ -14,7 +14,6 @@ router.post('/', (req, res) => {
 })
 
 router.get('/:userId', (req, res) => {
-  console.log('req.query: ', req.query);
   model.getUserMessages(req.params.userId, req.query.receiver_id)
   .then((messages) => {
     res.status(200).json(messages);

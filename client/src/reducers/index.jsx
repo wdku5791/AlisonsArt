@@ -9,6 +9,7 @@ import socketReducer from './socketReducer.jsx';
 import notificationReducer from './notificationReducer.jsx';
 import userAuctionsReducer from './userAuctionsReducer';
 import profileReducer from './profileReducer';
+import chatReducer from './chatReducer.jsx'
 
 const rootReducer = combineReducers({
   auctions: auctionsReducer,
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   notifications: notificationReducer,
   userAuctions: userAuctionsReducer,
   profile: profileReducer
+  chat: chatReducer,
 });
 
 export default rootReducer;

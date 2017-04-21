@@ -63,14 +63,14 @@
 }
 
 .messageWindow {
-  position: absolute;
+  position: fixed;
   width: 250px;
   height: 300px;
   z-index: 5;
 }
 
 .messageInput {
-  position: absolute;
+  position: fixed;
   bottom: 0;
 }
 
