@@ -17,20 +17,12 @@ class Artist extends Component {
     let { dispatch } = this.props;
     let artistId = this.props.match.params.artistId;
     dispatch(ArtistAction.fetchingArtist(true));
-    fetch('/artist/' + this.props.match.params.artistId, {
-      method: 'GET',
-      headers: new Headers ({
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-      })
-    })
+    fetch('/artist/' + this.props.match.params.artistId)
     .then(response => {
       if(!response.ok) {
         throw Error(response.statusText);
       }
 
-      if (response.headers.get('x-username') && response.headers.get('x-userId')) {
-        dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
-      }
       return response.json();
     })
     .then(data => {

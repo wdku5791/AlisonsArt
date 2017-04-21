@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { render } from 'react-dom';
 import {
   HashRouter as Router,
@@ -26,21 +26,41 @@ import CreateAuction from './components/CreateAuction.jsx';
 import Notification from './components/Notification.jsx';
 import ContactUs from './components/ContactUs.jsx';
 import io from 'socket.io-client';
+import * as UserActions from '../actions/userActionCreator.jsx';
 
 let socket = io();
 let socketIoMiddleware = createSocketIoMiddleware(socket, "socket/");
 
 const middleware = applyMiddleware(thunkMiddleware, logger, socketIoMiddleware);
-//preloadedState in between reducer and middleware is optional
-const store = createStore(reducer, middleware
-  //the following line is for redux devtools, but adding it leads to logger malfunction
-  // , window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  );
+const store = createStore(reducer, middleware);
 
 store.dispatch({type:'socket/hello', data:'Hello!'});
 
 //need to have a route for finished auctions that can't be bid
-const Index = () => {
+class Index extends Component {
+
+  componentWillMount() {
+    fetch('/rehydrate', {
+      method: 'GET',
+      headers: new Headers({
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+      })
+    })
+    .then(response => {
+      if(!response.ok) {
+        throw Error('authorization error');
+      }
+
+      if(response.headers.get('x-username') && response.headers.get('x-userId')) {
+        store.dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
+      }
+    })
+    .catch(err => {
+      alert(err.message);
+    });
+  }
+  
+  render(){
     return (
       <Router>
         <Container>
@@ -61,6 +81,7 @@ const Index = () => {
         </Container>
       </Router>
     )
+  }
 }
 
 render(

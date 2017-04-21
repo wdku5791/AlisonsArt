@@ -29,7 +29,12 @@ const io = require('./sockets.js').init(server);
 // app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/../client/public')));
 
-app.get('/*', recoverUserInfo);
+app.get('rehydrate', recoverUserInfo, (req, res) => {
+  console.log('yeah');
+  console.log('res header: ', res.headers);
+  res.status(200).send('ha');
+});
+// app.get('/*', recoverUserInfo);
 app.use('/auctions', auctionHandler);
 app.use('/home', homeHandler);
 app.use('/auth', loginSignupHandler);
