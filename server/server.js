@@ -4,6 +4,8 @@ dotenv.config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const busboy = require('express-busboy');
+
+const authenticate = require('./middlewares/authenticate');
 const recoverUserInfo = require('./middlewares/recoverUserInfo.js');
 const auctionHandler = require('./controllers/auctions');
 const homeHandler = require('./controllers/home');
@@ -26,6 +28,7 @@ const server = app.listen(port, function() {
   console.log('Listening on port ', port);
 });
 const io = require('./sockets.js').init(server);
+app.set('etag', false);
 
 // app.use(bodyParser.urlencoded({extended: true}));
 // app.use(bodyParser.json());
@@ -40,6 +43,6 @@ app.use('/artist', artistHandler);
 app.use('/images', imageHandler);
 app.use('/notifications', notificationHandler);
 app.use('/contactus', contactHandler);
-app.use('/stripe', stripeHandler);
+app.use('/stripe', authenticate, stripeHandler);
 
 module.exports = server;
