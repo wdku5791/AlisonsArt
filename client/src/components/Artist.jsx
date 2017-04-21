@@ -22,7 +22,6 @@ class Artist extends Component {
       if(!response.ok) {
         throw Error(response.statusText);
       }
-
       return response.json();
     })
     .then(data => {
@@ -128,6 +127,8 @@ class Artist extends Component {
 const mapStateToProps = (state) => {
   return {
     artist: state.artist
-  }
-}
+  };
+};
+
 export default connect(mapStateToProps)(Artist);
+

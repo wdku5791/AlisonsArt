@@ -147,7 +147,6 @@ class Home extends Component {
         if (!response.ok) {
           throw Error(response.statusText);
         }
-        
         dispatch(Auctions.fetchingAuctions(false));
         return response.json();
       })
