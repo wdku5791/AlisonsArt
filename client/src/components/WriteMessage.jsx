@@ -12,7 +12,6 @@ class WriteMessage extends React.Component {
     super(props);
     this.state = {
       text: '',
-      messages: [],
     }
     this.handleFormChange = this.handleFormChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -48,12 +47,7 @@ class WriteMessage extends React.Component {
     })
     .then((data) => {
       console.log('message posted to DB! data: ', data);
-      var clone = this.state.messages.slice(0);
-      clone.push(this.props.chatMessage);
-      this.setState({
-        text: '',
-        messages: clone
-      })
+      console.log('this.props.messages: ', this.props.messages);
     })
     .catch((error) => {
       console.log('handleFormSubmit failed! Error: ', error);
@@ -61,10 +55,11 @@ class WriteMessage extends React.Component {
   }
 
   retrieveMessages() {
-    fetch(`/messages/${this.props.senderId}?receiver_id=${this.props.receiverId}`, {
+    fetch(`/messages/${Number(this.props.userId)}/?receiver_id=${Number(this.props.receiverId)}`, {
       method: 'GET',
       headers: new Headers({
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
       })
     })
     .then((response) => {
@@ -75,28 +70,23 @@ class WriteMessage extends React.Component {
     })
     .then((data) => {
       console.log('messages retrieved! data: ', data);
-      this.setState({
-        messages: data
-      })
-      console.log('this.state.messages: ', this.state.messages);
     })
     .catch((error) => {
       console.log('retrieveMessages failed! error: ', error);
     })
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.retrieveMessages();
-  }
+  }  
 
   render() {
-    console.log('WriteMessage\'s state is: ', this.state);
     return (
       <Segment className='messageWindow'>
         <p><strong>conversation with: {this.props.receiverId}</strong></p>
         <Segment className='messageFeed'>
           {
-            this.state.messages.map(message => {
+            this.props.messages.map(message => {
               if (Number(message.sender_id) === this.props.senderId) {
                 return <p className='senderMessage'>{message.text}</p>
               } else {
@@ -125,8 +115,8 @@ const mapStateToProps = (state) => {
   return {
     username: state.user.username,
     userId: state.user.userId,
-    chatMessage: state.chat.chatMessage,
     receiverId: state.chat.receiverId,
+    messages: state.chat.messages
   }
 }
 

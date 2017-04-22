@@ -27,11 +27,6 @@ const chatReducer = (state = initialState, action) => {
         ...state,
         roomname: action.data
         chatMessage: action.data
-      };
-    case 'GETTING_RECEIVER_ID':
-      return {
-        ...state,
-        receiverId: action.data
       }
     default: 
       return state;

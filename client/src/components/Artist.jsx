@@ -15,8 +15,29 @@ class Artist extends Component {
   }
 
   directMessageHandler() {
-    let { dispatch } = this.props;
-    dispatch(ChatActions.grabReceiverId(this.props.match.params.artistId));
+    let receiverId = this.props.match.params.artistId;
+    console.log('this.props.userId: ', this.props.userId, '\nthis.props.receiverId: ', receiverId);
+    fetch(`/messages/${Number(this.props.userId)}/?receiver_id=${Number(receiverId)}`, {
+      method: 'GET',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+      })
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw Error('failed to retrieve messages...')
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log('messages retrieved! data: ', data);
+      let { dispatch } = this.props;
+      dispatch(ChatActions.getChatLog(receiverId, data));
+    })
+    .catch((error) => {
+      console.log('retrieveMessages failed! error: ', error);
+    })
   }
 
   componentWillMount() {
@@ -133,9 +154,9 @@ class Artist extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    artist: state.artist
-  };
-};
-
+    artist: state.artist,
+    userId: state.user.userId,
+  }
+}
 export default connect(mapStateToProps)(Artist);
 

@@ -35,11 +35,6 @@ const socketReducer = (state = initialState, action) => {
         notifications: action.data
       };
       }
-    case 'socket/CHAT_MESSAGE': 
-      return {
-        ...state,
-        chatMessage: action.data
-      }
     default:
       return state;
   }
