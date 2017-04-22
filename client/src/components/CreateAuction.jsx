@@ -124,7 +124,7 @@ class CreateAuction extends React.Component {
       })
       .then((data) => {
         alert('your auction was created successfully!');
-        history.push('/auctions/' + data.id); //THIS DOESNT WORK YET. PROBABLY NEEDS TO FETCH
+        //history.push('/auctions/' + data.id); //THIS DOESNT WORK YET. PROBABLY NEEDS TO FETCH
       })
       .catch((error) => {
         alert('your auction failed to create! Please try again.');
@@ -233,13 +233,6 @@ class CreateAuction extends React.Component {
                     type='checkbox' 
                     value='sculpture' 
                     onChange={this.handleCategoryChange}
-                  />
-                  <Form.TextArea 
-                    label='Description'
-                    name='description'
-                    placeholder='Tell us about your piece...'
-                    onChange={this.handleInputChange}
-                    value={this.state.description}
                   />
                   <Form.Input 
                     label='Height'
