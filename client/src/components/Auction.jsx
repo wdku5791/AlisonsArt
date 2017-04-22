@@ -18,20 +18,13 @@ class Auction extends Component {
     let auctionId = this.props.match.params.auctionId;
     let { dispatch, user } = this.props;
     dispatch(Auctions.fetchingAnAuction(true));
-    fetch(`/auctions/${auctionId}`, {
-      method: 'GET',
-      headers: new Headers({
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-      })
-    })
+    fetch(`/auctions/${auctionId}`)
     .then(response => {
       if(!response.ok) {
         throw Error(response.statusText);
       }
         dispatch(Auctions.fetchingAnAuction(false));
-        if (response.headers.get('x-username') && response.headers.get('x-userId')) {
-          dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
-        }
+        
         return response.json();
     })
     .then(data => {
@@ -65,7 +58,7 @@ class Auction extends Component {
           method: 'POST',
           headers: new Headers({
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
           }),
           body: JSON.stringify({ bidPrice: bid.bid, user: user.userId })
         })

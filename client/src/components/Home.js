@@ -142,19 +142,12 @@ class Home extends Component {
     // Auctions.fetchAuctionData('/auctions');
       dispatch(Auctions.fetchingAuctions(true));
 
-      fetch('/home', {
-        method: 'GET',
-        headers: new Headers({
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-        })
-      })
+      fetch('/home')
       .then(response => {
         if (!response.ok) {
           throw Error(response.statusText);
         }
-        if (response.headers.get('x-username') && response.headers.get('x-userId')) {
-          dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
-        }
+        
         dispatch(Auctions.fetchingAuctions(false));
         return response.json();
       })

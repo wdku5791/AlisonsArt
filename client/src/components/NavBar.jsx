@@ -7,13 +7,12 @@ import * as SocketActions from './../actions/socketActionCreator.jsx';
 
 class NavBar extends Component {
   handleLogout(userId) {
-      let { dispatch } = this.props;
-      localStorage.removeItem('authToken');
-      setTimeout(function() {
-        dispatch(SocketActions.logoutSocket());
-        dispatch(UserActions.logOut());
-      }, 1000);
-    }
+    let { dispatch } = this.props;
+    sessionStorage.removeItem('authToken');
+    dispatch(SocketActions.logoutSocket(userId));
+    dispatch(UserActions.logOut());
+  }
+
   render() {
     let {username, userId} = this.props;
 

@@ -16,7 +16,7 @@ class Auctions extends React.Component {
     fetch('/auctions', {
       method: 'GET',
       headers: new Headers({
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
       })
     })
     .then((response) => {

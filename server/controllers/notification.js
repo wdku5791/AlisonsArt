@@ -2,11 +2,7 @@ const router = require('express').Router();
 const model = require('../database/queries');
 const authenticate = require('../middlewares/authenticate.js');
 
-router.get('/', (req, res) => {
-  res.status(200).send('recovered user info');
-});
-
-router.get('/:userId', (req, res) => {
+router.get('/:userId', authenticate, (req, res) => {
   model.getUserNotifications(req.params.userId)
   .then((notifications) => {
     res.status(200).json(notifications);

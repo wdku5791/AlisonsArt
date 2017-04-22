@@ -17,7 +17,7 @@ describe('iii', () => {
   test('it should be handled by the auctions controller', () => {
     return supertest(app)
     .get('/auctions')
-    .expect(403);
+    .expect(200);
   });
 
   test('it should fail without a body', () => {

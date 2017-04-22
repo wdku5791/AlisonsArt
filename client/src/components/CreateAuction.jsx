@@ -32,10 +32,10 @@ class CreateAuction extends React.Component {
 
   componentWillMount() {
     let { dispatch } = this.props;
-    fetch('/auctions/createAuction', {
+    fetch('/rehydrate', {
       method: 'GET',
       headers: new Headers ({
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
       })
     })
     .then(response => {
@@ -112,7 +112,7 @@ class CreateAuction extends React.Component {
         method: 'POST',
         headers: new Headers ({
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+          'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
         }),
         body: JSON.stringify(auction)
       })
@@ -149,7 +149,7 @@ class CreateAuction extends React.Component {
         method: 'POST',
         body: formData,
         headers:  new Headers({
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+          'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
         })
     })
     .then((data) => {

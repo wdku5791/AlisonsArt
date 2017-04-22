@@ -24,7 +24,7 @@ class LogIn extends Component {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
       },
       method: 'POST',
       body: JSON.stringify({
@@ -43,10 +43,14 @@ class LogIn extends Component {
       let { userId } = this.props.user;
       dispatch(SocketActions.loginSocket(userId));
       dispatch(UserActions.checkingInfo(false));
-      localStorage.setItem('authToken', data);
-      //push user to Homepage:
+      sessionStorage.setItem('authToken', data);
+      //make sure everything's finished and re-direct to home
+      return true;
+    })
+    .then(data => {
       this.props.history.push('/home');
-    }).catch(err => {
+    })
+    .catch(err => {
       dispatch(UserActions.checkingInfo(false));
       dispatch(UserActions.loginError(err));
     });
