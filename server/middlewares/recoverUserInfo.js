@@ -23,12 +23,13 @@ const recoverUserInfo = (req, res, next) => {
         let decodedInfo = decode(authToken);
         res.setHeader('x-username', decodedInfo.username);
         res.setHeader('x-userId', decodedInfo.userId);
-        next();
+        res.status(200).send('authenticated');
       }
     });
   } else {
     //there's no auth token provided in the request headers
-    next();
+
+    res.status(200).send('no authentication token');
   }
 };
 
