@@ -21,10 +21,15 @@ const notificationReducer = (state = initialState, action) => {
         ...state,
         notifications: action.notifications
       };
-    case 'UPDATE':
+    case 'UPDATE_READ':
       return {
         ...state,
         notifications: action.notifications
+      };
+    case 'UPDATE_NEW_NOTIFICATIONS':
+      return {
+        ...state,
+        notifications: action.data.concat(state.notifications)
       };
     default:
       return state;

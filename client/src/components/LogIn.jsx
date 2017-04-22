@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Button, Message } from 'semantic-ui-react';
 import * as UserActions from './../actions/userActionCreator.jsx';
+import * as SocketActions from './../actions/socketActionCreator.jsx';
 
 //when login success, needs to save info in userReducer
 class LogIn extends Component {
@@ -39,6 +40,8 @@ class LogIn extends Component {
       dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
       return response.json();
     }).then(data => {
+      let { userId } = this.props.user;
+      dispatch(SocketActions.loginSocket(userId));
       dispatch(UserActions.checkingInfo(false));
       sessionStorage.setItem('authToken', data);
       //make sure everything's finished and re-direct to home

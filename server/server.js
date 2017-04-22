@@ -4,7 +4,6 @@ dotenv.config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const busboy = require('express-busboy');
-
 const recoverUserInfo = require('./middlewares/recoverUserInfo.js');
 const auctionHandler = require('./controllers/auctions');
 const homeHandler = require('./controllers/home');
@@ -15,6 +14,7 @@ const imageHandler = require('./controllers/imageUpload');
 const notificationHandler = require('./controllers/notification');
 const contactHandler = require('./controllers/contact');
 const app = express();
+app.set('etag', false);
 busboy.extend(app, {
   upload: true,
 });
