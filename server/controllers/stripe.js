@@ -38,6 +38,9 @@ router.get('/connect/callback', authenticate, (req, res) => {
       }
       model.updateStripe(body, req.user.userId)
       .then(() => {
+        return model.updateUserType('artist', req.user.userId);
+      })
+      .then(() => {
         res.redirect('/');
       })
       .catch((err) => {
