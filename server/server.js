@@ -6,7 +6,6 @@ const busboy = require('express-busboy');
 const cookieParser = require('cookie-parser');
 
 const recoverUserInfo = require('./middlewares/recoverUserInfo.js');
-const auctionHandler = require('./controllers/auctions');
 const homeHandler = require('./controllers/home');
 const loginSignupHandler = require('./controllers/loginSignup');
 const userHandler = require('./controllers/user');
@@ -16,11 +15,15 @@ const notificationHandler = require('./controllers/notification');
 const contactHandler = require('./controllers/contact');
 const messageHandler = require('./controllers/messages')
 const stripeHandler = require('./controllers/stripe');
+
 const port = process.env.PORT || 3000;
-
 const app = express();
-
 app.set('etag', false);
+const server = app.listen(port, function () {
+  console.log('Listening on port ', port);
+});
+const io = require('./sockets.js').init(server);
+const auctionHandler = require('./controllers/auctions')(io);
 
 busboy.extend(app, {
   upload: true,
@@ -44,11 +47,6 @@ app.use('/contactus', contactHandler);
 app.use('/messages', messageHandler);
 app.use('/stripe', stripeHandler);
 
-const server = app.listen(port, function () {
-  console.log('Listening on port ', port);
-});
-
-const io = require('./sockets.js').init(server);
 
 module.exports = server;
 
