@@ -29,9 +29,7 @@ const io = require('./sockets.js').init(server);
 // app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/../client/public')));
 
-app.get('/rehydrate', recoverUserInfo, (req, res) => {
-  res.status(200).send('um');
-});
+app.get('/rehydrate', recoverUserInfo);
 app.use('/auctions', auctionHandler);
 app.use('/home', homeHandler);
 app.use('/auth', loginSignupHandler);
