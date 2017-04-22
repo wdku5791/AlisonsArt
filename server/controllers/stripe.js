@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const model = require('../database/queries');
 const request = require('request');
+const stripe = require('stripe')(process.env.STRIPE_CLIENT_SECRET);
 const authenticate = require('../middlewares/authenticate');
 
 router.get('/connect', (req, res) => {
@@ -48,6 +49,40 @@ router.get('/connect/callback', authenticate, (req, res) => {
         res.status(404).send('Stripe Error - account not connected');
       });
     });
+});
+
+router.post('/charge', authenticate, (req, res) => {
+  const { token, auction } = req.body;
+  console.log(req.body);
+  const userId = req.user.userId;
+
+  model.getStripeId(auction.owner_id)
+  .then((result) => {
+    stripe.charges.create({
+      amount: auction.current_bid,
+      currency: "usd",
+      source: token,
+      destination: {
+        account: result.stripe_user_id,
+      },
+    }).then(function(charge) {
+      // asynchronously called
+      console.log(charge);
+      return model.updatePaymentStatus('paid', auction.id)
+      .then(() => {
+        res.status(200).json({status: 200, message: 'Payment made succesfully'});
+      })
+      .catch((err) => {
+        res.status(500).send(err);
+      });
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+  })
+  .catch((err) => {
+    res.status(404).send(err);
+  });
 });
 
 module.exports = router;
