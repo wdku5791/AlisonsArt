@@ -32,7 +32,7 @@ class SignUp extends Component {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+          'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
         },
         method: 'POST',
         body: JSON.stringify({
@@ -55,7 +55,7 @@ class SignUp extends Component {
         dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
         return response.json();
       }).then(data => {
-        localStorage.setItem('authToken', data);
+        sessionStorage.setItem('authToken', data);
         dispatch(UserActions.checkingInfo(false));
         
         this.streetNode.value = '';

@@ -50,7 +50,7 @@ class UserSettings extends Component {
     fetch('/user/' + userId, {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
       }
     })
     .then(response => {
@@ -67,7 +67,7 @@ class UserSettings extends Component {
             headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
             },
             method: 'POST',
             body: JSON.stringify({

@@ -43,7 +43,7 @@ class Index extends Component {
     fetch('/rehydrate', {
       method: 'GET',
       headers: new Headers({
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
       })
     })
     .then(response => {

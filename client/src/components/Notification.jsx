@@ -15,7 +15,7 @@ class Notification extends React.Component {
     fetch('/rehydrate', {
       method: 'GET',
       headers: new Headers ({
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
       })
     })
     .then(response => {
@@ -32,7 +32,7 @@ class Notification extends React.Component {
       fetch(`/notifications/${userId}`, {
         method: 'GET',
         headers: new Headers({
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+          'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
         })
       })
       .then(response => {
@@ -69,7 +69,7 @@ class Notification extends React.Component {
       method: 'POST',
       headers: new Headers({
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
       }),
       body: JSON.stringify({ id: notificationId })
     })

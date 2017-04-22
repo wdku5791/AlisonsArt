@@ -35,7 +35,7 @@ class User extends Component {
     fetch('/user', {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
       }
     })
     .then(response => {
