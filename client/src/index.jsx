@@ -47,12 +47,12 @@ class Index extends Component {
       })
     })
     .then(response => {
-      if(!response.ok) {
+      if (!response.ok) {
         throw Error('authorization error');
       }
       
-      if(response.headers.get('x-username') && response.headers.get('x-userId')) {
-        store.dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
+      if (response.headers.get('x-username') && response.headers.get('x-userId')) {
+        store.dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId'), response.headers.get('x-type') === 'artist'));
       }
     })
     .catch(err => {
