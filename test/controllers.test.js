@@ -26,14 +26,14 @@ describe('iii', () => {
     .expect(403);
   });
 
-  test('should be the highest bidder', () => {
-    return supertest(app)
-    .post('/auctions/11/bid', {bidPrice: 18000})
-    .expect(201)
-    .end((err, res) => {
-      res.body.should.have.property('isHighestBidder', true);
-    });
-  });
+  // test('should be the highest bidder', () => {
+  //   return supertest(app)
+  //   .post('/auctions/11/bid', {bidPrice: 18000})
+  //   .expect(201)
+  //   .end((err, res) => {
+  //     res.body.should.have.property('isHighestBidder', true);
+  //   });
+  // });
 
   describe('stripe payment system', () => {
     test('should respond with 302 redirect when connecting', () => {

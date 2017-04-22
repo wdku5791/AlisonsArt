@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const model = require('../database/queries');
 const request = require('request');
+const authenticate = require('./middlewares/authenticate');
 
 router.get('/connect', (req, res) => {
   let connectURL = 'https://connect.stripe.com/oauth/authorize';
@@ -21,7 +22,7 @@ router.get('/connect', (req, res) => {
   res.redirect(connectURL);
 });
 
-router.get('/connect/callback', (req, res) => {
+router.get('/connect/callback', authenticate, (req, res) => {
   const { code, error } = req.query;
 
   request.post('https://connect.stripe.com/oauth/token',
