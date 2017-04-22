@@ -71,16 +71,16 @@ const saves = [
   {
   	id: 1,
   	user_id: 1,
-  	artwork_id: 9
+  	auction_id: 9
   },
   {
   	id: 2,
   	user_id: 2,
-  	artwork_id: 6
+  	auction_id: 6
   },
   {id: 3,
   	user_id: 2,
-  	artwork_id: 7
+  	auction_id: 7
   }
 ];
 

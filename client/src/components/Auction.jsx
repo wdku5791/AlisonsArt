@@ -40,16 +40,29 @@ class Auction extends Component {
     dispatch(bids.setBid(bid));
   }
 
-  handleSave(artwork_id) {
-    console.log('save is clicked!', artwork_id);
+  handleSave(auction_id) {
     fetch('/saves', {
       method: 'POST',
       headers: new Headers({
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
       }),
-      body: 
+      body: JSON.stringify(auction_id)
     })
+    .then(response => {
+      if(!response.ok) {
+        throw Error('failed to save!');
+      }
+      return true;
+    })
+    .then(data => {
+      console.log('saved auction!');
+      //should render the button differently here
+      //and give user some feedback
+    })
+    .catch(err => {
+      alert('Something went wrong, can\'t save auction');
+    });
   }
 
   handleClick(id) {

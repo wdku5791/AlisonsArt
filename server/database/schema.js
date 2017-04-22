@@ -79,7 +79,8 @@ module.exports = function createSchemas(db) {
     let saves = t.query('CREATE TABLE IF NOT EXISTS saves(\
       id SERIAL PRIMARY KEY NOT NULL,\
       user_id BIGINT NOT NULL REFERENCES users(id),\
-      artwork_id BIGINT NOT NULL REFERENCES artworks(id))'
+      auction_id BIGINT NOT NULL REFERENCES auctions(id), \
+      UNIQUE (user_id, auction_id))'
       );
     let notifications = t.query('CREATE TABLE IF NOT EXISTS notifications (\
       id SERIAL PRIMARY KEY NOT NULL,\
