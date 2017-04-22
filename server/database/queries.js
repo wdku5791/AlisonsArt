@@ -57,6 +57,20 @@ module.exports = {
   getUserBids(userId) {
     return db.query('select * from bids where bidder_id=$1', [userId]);
   },
+  getUserSavedAuctions(userId) {
+    return db.manyOrNone('SELECT auction_id FROM saves WHERE user_id=$1', [userId])
+    .then(data => {
+      return db.task(t => {
+        let query = 'SELECT * from auctions WHERE id=$1';
+        
+      })
+    });
+    //I want db task
+    // return db.task(t => {
+    //   let query = 'SELECT * FROM '
+    // })
+  }
+  ,
   getAuctionBids(auctionId) {
     return db.query('select * from bids where auction_id=$1', [auctionId]);
   },
