@@ -26,7 +26,7 @@ import CreateAuction from './components/CreateAuction.jsx';
 import Notification from './components/Notification.jsx';
 import ContactUs from './components/ContactUs.jsx';
 import io from 'socket.io-client';
-import * as UserActions from '../actions/userActionCreator.jsx';
+import * as UserActions from './actions/userActionCreator.jsx';
 
 let socket = io();
 let socketIoMiddleware = createSocketIoMiddleware(socket, "socket/");
@@ -50,7 +50,7 @@ class Index extends Component {
       if(!response.ok) {
         throw Error('authorization error');
       }
-
+      
       if(response.headers.get('x-username') && response.headers.get('x-userId')) {
         store.dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
       }
@@ -59,7 +59,7 @@ class Index extends Component {
       alert(err.message);
     });
   }
-  
+
   render(){
     return (
       <Router>

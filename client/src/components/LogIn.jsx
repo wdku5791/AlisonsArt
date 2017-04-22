@@ -41,8 +41,13 @@ class LogIn extends Component {
     }).then(data => {
       dispatch(UserActions.checkingInfo(false));
       localStorage.setItem('authToken', data);
+      //make sure everything's finished and re-direct to home
+      return true;
+    })
+    .then(data => {
       this.props.history.push('/home');
-    }).catch(err => {
+    })
+    .catch(err => {
       dispatch(UserActions.checkingInfo(false));
       dispatch(UserActions.loginError(err));
     });

@@ -32,7 +32,7 @@ class CreateAuction extends React.Component {
 
   componentWillMount() {
     let { dispatch } = this.props;
-    fetch('/auctions/createAuction', {
+    fetch('/rehydrate', {
       method: 'GET',
       headers: new Headers ({
         'Authorization': `Bearer ${localStorage.getItem('authToken')}`

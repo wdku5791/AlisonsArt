@@ -12,8 +12,7 @@ class Notification extends React.Component {
 
   componentWillMount() {
     const {dispatch, userId} = this.props;
-
-    fetch('/notifications', {
+    fetch('/rehydrate', {
       method: 'GET',
       headers: new Headers ({
         'Authorization': `Bearer ${localStorage.getItem('authToken')}`

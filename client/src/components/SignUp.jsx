@@ -29,7 +29,6 @@ class SignUp extends Component {
 
     if (password === cPassword) {
       fetch('/auth/signup', {
-        //don't forget the headers, otherwise it won't work
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
@@ -53,21 +52,23 @@ class SignUp extends Component {
             throw new Error(message);
           });
         }
-
         dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
-        
         return response.json();
       }).then(data => {
         localStorage.setItem('authToken', data);
         dispatch(UserActions.checkingInfo(false));
-        //push user to Homepage:
-        this.props.history.push('/home');
+        
         this.streetNode.value = '';
         this.cityNode.value = '';
         this.stateNode.value = '';
         this.firstNameNode.value = '';
         this.lastNameNode.value = '';
-      }).catch(err => {
+        return true;
+      }).
+      then(data => {
+        this.props.history.push('/home');
+      })
+      .catch(err => {
         dispatch(UserActions.checkingInfo(false));
         dispatch(UserActions.loginError(err.message));
       });

@@ -23,7 +23,6 @@ const recoverUserInfo = (req, res, next) => {
         let decodedInfo = decode(authToken);
         res.setHeader('x-username', decodedInfo.username);
         res.setHeader('x-userId', decodedInfo.userId);
-        console.log('got through');
         next();
       }
     });
