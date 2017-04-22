@@ -15,16 +15,15 @@ class Auction extends Component {
     //if not re-direct
     //if logged in, grab all info and redirect to payment page.
   componentWillMount() {
-    let auctionId = this.props.match.params.auctionId;
-    let { dispatch, user } = this.props;
+    const auctionId = this.props.match.params.auctionId;
+    const { dispatch, user } = this.props;
     dispatch(Auctions.fetchingAnAuction(true));
     fetch(`/auctions/${auctionId}`)
     .then(response => {
-      if(!response.ok) {
+      if (!response.ok) {
         throw Error(response.statusText);
       }
         dispatch(Auctions.fetchingAnAuction(false));
-        
         return response.json();
     })
     .then(data => {
@@ -60,7 +59,7 @@ class Auction extends Component {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
           }),
-          body: JSON.stringify({ bidPrice: bid.bid, user: user.userId })
+          body: JSON.stringify({ bidPrice: bid.bid })
         })
         .then((answer) => {
           if (!answer.ok) {

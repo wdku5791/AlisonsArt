@@ -9,6 +9,8 @@ const recoverUserInfo = (req, res, next) => {
   let authToken;
   if (authorizationHeader) {
     authToken = authorizationHeader.split(' ')[1];
+  } else {
+    authToken = req.cookies.jwt;
   }
 
   if(authToken !== 'null') {
@@ -18,11 +20,13 @@ const recoverUserInfo = (req, res, next) => {
         res.status(403).json({
           error: 'Failed to authenticate.'
         });
+        next();
       } else {
         //attach decoded user info to res.headers:
         let decodedInfo = decode(authToken);
         res.setHeader('x-username', decodedInfo.username);
         res.setHeader('x-userId', decodedInfo.userId);
+        res.setHeader('x-type', decodedInfo.type);
         res.status(200).send('authenticated');
       }
     });

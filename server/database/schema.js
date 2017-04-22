@@ -66,14 +66,16 @@ module.exports = function createSchemas(db) {
       follower_id BIGINT NOT NULL REFERENCES users(id),\
       followee_id BIGINT NOT NULL REFERENCES users(id)\
     )');
-    let profiles = t.query('CREATE TABLE IF NOT EXISTS profiles(\
+    let profiles = t.query('CREATE TABLE IF NOT EXISTS profiles (\
       id SERIAL PRIMARY KEY NOT NULL,\
       user_id BIGINT NOT NULL REFERENCES users(id),\
       profile TEXT NOT NULL,\
       fb_link VARCHAR,\
       twitter_link VARCHAR,\
-      inst_link VARCHAR)'
-    );
+      inst_link VARCHAR,\
+      stripe_user_id VARCHAR,\
+      refresh_token VARCHAR\
+    )');
     let notifications = t.query('CREATE TABLE IF NOT EXISTS notifications (\
       id SERIAL PRIMARY KEY NOT NULL,\
       owner_id BIGINT NOT NULL REFERENCES users(id),\
@@ -90,7 +92,7 @@ module.exports = function createSchemas(db) {
       payment_status status DEFAULT \'unpaid\'\
     )');
 
-    return t.batch([drop, users, artworks, auctions, bids, attributes, messages, artworkAttributes, followers, profiles, closedAuctions, notifications]);
+    return t.batch([drop, users, artworks, auctions, bids, attributes, messages, artworkAttributes, followers, profiles, notifications, closedAuctions]);
   })
   .then(() => {
     console.log('database tables created');

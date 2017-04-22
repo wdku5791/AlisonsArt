@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class ContactUs extends Component {
 
-  render(){
+  render() {
     return(
       <div>
         Contact us at: xxxxx

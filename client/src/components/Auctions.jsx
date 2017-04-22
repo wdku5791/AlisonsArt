@@ -15,6 +15,7 @@ class Auctions extends React.Component {
 
     fetch('/auctions', {
       method: 'GET',
+      credentials: 'include',
       headers: new Headers({
         'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
       })
@@ -25,7 +26,7 @@ class Auctions extends React.Component {
       } 
         dispatch(actions.fetchingAuctions(false));
         if (response.headers.get('x-username') && response.headers.get('x-userId')) {
-          dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
+          dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId'), response.headers.get('x-type') === 'artist'));
         }
         return response.json();
       })

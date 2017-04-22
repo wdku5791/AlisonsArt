@@ -192,6 +192,17 @@ module.exports = {
   getAuctionsOfArtist(artist_id) {
     return db.any('SELECT auctions.id as auction_id, auctions.artwork_id, auctions.end_date, auctions.current_bid, Table1.image_url, Table1.art_name, Table1.estimated_price FROM auctions INNER JOIN (SELECT artworks.* FROM artworks INNER JOIN users ON (users.id=artworks.artist_id AND users.id=$1)) as Table1 ON auctions.artwork_id=Table1.id', [artist_id]);
   },
+
+  createArtistProfile(profile) {
+    return db.none('INSERT INTO profiles (user_id, profile, fb_link, twitter_link, inst_link) \
+    VALUES (${user_id}, ${profile}, ${fb_link}, ${twitter_link}, ${inst_link})', profile);
+  },
+
+  updateStripe(stripeCreds, userId) {
+    return db.query('UPDATE profiles SET stripe_user_id = $1, refresh_token=$2 \
+      WHERE id=$3', [stripeCreds.stripe_user_id, stripeCreds.refresh_token, userId]);
+  },
+
   getArtistProfile(artist_id) {
     return db.oneOrNone('SELECT profiles.profile, profiles.fb_link, profiles.twitter_link, profiles.inst_link, users.username FROM profiles INNER JOIN users ON profiles.user_id=users.id AND user_id=$1', [artist_id]);
   },
@@ -217,7 +228,7 @@ module.exports = {
       (username, first_name, last_name, email, address, type, password)\
       values \
       (${username}, ${first_name}, ${last_name}, ${email}, ${address}, ${type}, ${password})\
-      returning id', userObj);
+      returning id, type', userObj);
   },
   createAuction(auctionObj) {
     /*
@@ -365,7 +376,7 @@ module.exports = {
         if (result.current_bid_id === null) {
           return t.one('update auctions SET current_bid_id = $1, \
             bid_counter = bid_counter + 1, current_bid = $3\
-            where id = $2 returning current_bid_id', [auctionObj.bid.id, auctionObj.auction_id, auctionObj.bid.bid_price]);
+            where id = $2 returning current_bid_id, current_bid', [auctionObj.bid.id, auctionObj.auction_id, auctionObj.bid.bid_price]);
         } else {
           return t.one('SELECT bids.bid_price, bids.id FROM bids INNER JOIN auctions ON \
             auctions.id=$1 AND bids.id=auctions.current_bid_id', [auctionObj.auction_id])

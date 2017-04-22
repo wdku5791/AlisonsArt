@@ -22,7 +22,7 @@ import Events from './components/Events.jsx';
 import SignUp from './components/SignUp.jsx';
 import LogIn from './components/LogIn.jsx';
 import User from './components/User.jsx';
-import CreateAuction from './components/CreateAuction.jsx';
+import CreateAuctionContainer from './components/CreateAuctionContainer.jsx';
 import Notification from './components/Notification.jsx';
 import ContactUs from './components/ContactUs.jsx';
 import io from 'socket.io-client';
@@ -47,12 +47,12 @@ class Index extends Component {
       })
     })
     .then(response => {
-      if(!response.ok) {
+      if (!response.ok) {
         throw Error('authorization error');
       }
       
-      if(response.headers.get('x-username') && response.headers.get('x-userId')) {
-        store.dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
+      if (response.headers.get('x-username') && response.headers.get('x-userId')) {
+        store.dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId'), response.headers.get('x-type') === 'artist'));
       }
     })
     .catch(err => {
@@ -77,7 +77,7 @@ class Index extends Component {
           <Route path="/login" component={LogIn} />
           <Route path="/signup" component={SignUp} />
           <Route path="/notification" component={Notification} />
-          <Route path="/createAuction" component={CreateAuction} />
+          <Route path="/createAuction" component={CreateAuctionContainer} />
         </Container>
       </Router>
     )

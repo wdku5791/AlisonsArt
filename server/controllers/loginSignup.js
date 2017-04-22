@@ -20,12 +20,15 @@ router.post('/login', (req, res) => {
         let authToken = jwt.sign({
           username: username,
           userId: response[0].id,
+          type: response[0].type,
           isAuthenticated: true,
           exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24)
         }, process.env.jwtSecret);
         
         res.setHeader('x-username', username);
         res.setHeader('x-userId', response[0].id);
+        res.setHeader('x-type', response[0].type);
+        res.cookie('jwt', authToken);
         res.status(201).send(JSON.stringify(authToken));
       } else {
         throw Error('Wrong password');
@@ -62,12 +65,15 @@ router.post('/signup', (req, res) => {
     let authToken = jwt.sign({
           username: username,
           userId: result[0].id,
+          type: result[0].type,
           isAuthenticated: true,
           exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24)
         }, process.env.jwtSecret);
 
     res.setHeader('x-username', username);
     res.setHeader('x-userId', result[0].id);
+    res.setHeader('x-type', result[0].type);
+    res.cookie('jwt', authToken);
     res.status(201).send(JSON.stringify(authToken));
   })
   .catch(err => {

@@ -44,7 +44,7 @@ class CreateAuction extends React.Component {
       }
 
       if (response.headers.get('x-username') && response.headers.get('x-userId')) {
-        dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
+        dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId'), response.headers.get('x-type') === 'artist'));
       } else {
         alert('You are not logged in, please log in~');
         this.props.history.push('/login');
@@ -168,7 +168,7 @@ class CreateAuction extends React.Component {
     .catch((error) => {
     })
   }
-
+  
   render() {
     return (
       <Container>
@@ -177,8 +177,8 @@ class CreateAuction extends React.Component {
             <Form.Input 
               label='Piece name'
               name='art_name' 
-              placeholder='ex: Starry Night'  
-              onChange={this.handleInputChange} 
+              placeholder='ex: Starry Night'
+              onChange={this.handleInputChange}
               value={this.state.art_name}
               required
             />
@@ -186,7 +186,7 @@ class CreateAuction extends React.Component {
               label='Year'
               name='age' 
               placeholder='ex: 1911'
-              onChange={this.handleInputChange} 
+              onChange={this.handleInputChange}
               value={this.state.age}
               required
             />
@@ -234,14 +234,12 @@ class CreateAuction extends React.Component {
                     value='sculpture' 
                     onChange={this.handleCategoryChange}
                   />
-                </Form.Group>
-                <Form.Group widths='equal'>
-                  <Form.Input 
-                    label='Length'
-                    name='length'
-                    placeholder='inches'
+                  <Form.TextArea 
+                    label='Description'
+                    name='description'
+                    placeholder='Tell us about your piece...'
                     onChange={this.handleInputChange}
-                    value={this.state.length}
+                    value={this.state.description}
                   />
                   <Form.Input 
                     label='Height'
@@ -301,7 +299,7 @@ class CreateAuction extends React.Component {
         </Form>
         <Divider />
       </Container>
-    )
+    );
   }
 }
 
@@ -309,7 +307,8 @@ const mapStateToProps = (state) => {
   return {
     username: state.user.username,
     userId: state.user.userId,
-  }
-}
+    profile: state.profile
+  };
+};
 
 export default connect(mapStateToProps)(CreateAuction);

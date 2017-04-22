@@ -51,7 +51,9 @@ const profiles = [
 		profile: 'im no.1 talented!',
 		fb_link: 'https://www.facebook.com/xueying.zhang.509',
 		twitter_link: 'https://twitter.com/Alison_XYZ?lang=en',
-		inst_link: 'https://www.instagram.com/alisonzthu/'
+		inst_link: 'https://www.instagram.com/alisonzthu/',
+		stripe_user_id: 'acct_1AAPswCcyTeqgPZT',
+		refresh_token: 'rt_AVQvE4Lw2CSWPczQ4aO156PNx2FUoQnlMRc1e3MJ8e25bFn8'
 	},
 	{
 		id: 2,
@@ -59,13 +61,15 @@ const profiles = [
 		profile: 'im no.2 talented!',
 		fb_link: 'https://www.facebook.com/xueying.zhang.509',
 		twitter_link: null,
-		inst_link: 'https://www.instagram.com/alisonzthu/'
+		inst_link: 'https://www.instagram.com/alisonzthu/',
+		stripe_user_id: 'acct_1AAPswCcyTeqgPZT',
+		refresh_token: 'rt_AVQvE4Lw2CSWPczQ4aO156PNx2FUoQnlMRc1e3MJ8e25bFn8'
 	}
 ];
 
 //notifications:
 //******************************
-const notifications= [
+const notifications = [
 	{
 		id: 1,
 		owner_id: 2,
@@ -768,7 +772,7 @@ const bids = [
 		bidder_id: 4,
 		auction_id: 14,
 		bid_date: '2017-04-11 11:27:07',
-		bid_price: 18000,
+		bid_price: 18000
 	},
 ];
 

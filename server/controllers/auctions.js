@@ -6,10 +6,10 @@ const authenticate = require('../middlewares/authenticate.js');
 const serverErr = { ERR: { status: 500, message: 'Something went wrong. So Sorry!' } };
 
 router.get('/', (req, res) => {
+  console.log(req.cookies);
   const limit = req.query.limit || 20;
   const status = req.query.status || '>';
   const time = new Moment().format('YYYY-MM-DD HH:mm:ss');
-
   model.getAuctions(limit, time, status)
   .then((auctions) => {
     res.status(200).json(auctions);
@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
     res.status(500).send(serverErr);
   });
 });
-//SOMETHING WRONG WITH THIS ROUTE NOT CAUSED BY AUTHENTICATION
+
 router.post('/', authenticate, (req, res) => {
   model.createArtwork(req.body.artwork)
   .then((data) => {
@@ -32,9 +32,9 @@ router.post('/', authenticate, (req, res) => {
     res.status(500).send(serverErr);
   });
 });
-// SEEMS LIKE NO ONE IS POSTING TO THIS ENDPOINT
-router.post('/ongoing', (req, res) => {
-  const { user } = req.body;
+
+router.get('/ongoing', authenticate, (req, res) => {
+  const user = req.user.userId;
   model.getUserBiddingAuctions(user)
   .then((auctions) => {
     res.status(200).json(auctions);
@@ -70,7 +70,7 @@ router.get('/:auctionId/bids', (req, res) => {
 router.post('/:auctionId/bids', authenticate, (req, res) => {
   const bid = {};
   bid.auction_id = req.params.auctionId;
-  bid.bidder_id = req.body.user;
+  bid.bidder_id = req.user.userId;
   bid.bid_price = req.body.bidPrice;
   bid.bid_date = new Moment().format('YYYY-MM-DD HH:mm:ss');
 
