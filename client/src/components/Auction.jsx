@@ -41,13 +41,14 @@ class Auction extends Component {
   }
 
   handleSave(artwork_id) {
-    console.log('save is clicked!');
+    console.log('save is clicked!', artwork_id);
     fetch('/saves', {
       method: 'POST',
       headers: new Headers({
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
       }),
+      body: 
     })
   }
 

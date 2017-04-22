@@ -13,7 +13,9 @@ const AuctionDetail = ({ auction, setBid, handleClick, handleSave }) => {
       <Grid.Column width={5}>
         <Container>
           <h2>{auction.artwork.art_name}</h2>
-          <Button circular icon="heart" content="save" onClick={handleSave}/ >
+          <Button circular icon="heart" content="save" onClick={() =>{
+            handleSave(auction.artwork_id)
+          }}/ >
           <h3>{auction.first_name} {auction.last_name} ({auction.artwork.age})</h3>
           <p><strong>Auction Ends:</strong> {endTime}</p>
           <p><strong>Description:</strong> {auction.artwork.description}</p>
