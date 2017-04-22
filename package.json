@@ -11,7 +11,7 @@
     "start": "npm run build && node server/server.js",
     "dev": "nodemon server/server.js",
     "test": "jest ./test --runInBand --forceExit",
-    "build": "webpack -d",
+    "build": "webpack -d --watch",
     "lint": "eslint client server",
     "lint-fix": "eslint client server",
     "test-db-wipe": "NODE_ENV='TESTING' node server/database/dummyUpload.js",
