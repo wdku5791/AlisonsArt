@@ -5,11 +5,18 @@ import { Container, Image, Divider, Grid, Button, Segment } from 'semantic-ui-re
 import * as ArtistAction from '../actions/artistActionCreator.jsx';
 import ArtistAuctions from './ArtistProfile/ArtistAuctions.jsx';
 import * as UserActions from '../actions/userActionCreator.jsx';
+import * as ChatActions from '../actions/chatActionCreator.jsx';
 
 class Artist extends Component {
   constructor(props){
     super(props);
     this._socialMedia = this._socialMedia.bind(this);
+    this.directMessageHandler = this.directMessageHandler.bind(this);
+  }
+
+  directMessageHandler() {
+    let { dispatch } = this.props;
+    dispatch(ChatActions.grabReceiverId(this.props.match.params.artistId));
   }
 
   componentWillMount() {
@@ -78,7 +85,7 @@ class Artist extends Component {
               <Container>
                 <span>{username}</span>
                 {' '}
-                <button>Direct message</button>
+                <button onClick={this.directMessageHandler}>Direct message</button>
                 {' '}
                 {fb_link ? <Button circular color='facebook' icon='facebook' onClick={() => {
                   this._socialMedia(fb_link);

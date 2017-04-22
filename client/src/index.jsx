@@ -78,12 +78,8 @@ class Index extends Component {
           <Route path="/login" component={LogIn} />
           <Route path="/signup" component={SignUp} />
           <Route path="/notification" component={Notification} />
-<<<<<<< HEAD
-          <Route path="/createAuction" component={CreateAuctionContainer} />
-=======
           <Route path="/createAuction" component={CreateAuction} />
           <MessageBar />
->>>>>>> able to post messages between users. Non-dynamic data
         </Container>
       </Router>
     )

@@ -12,14 +12,11 @@ class WriteMessage extends React.Component {
     super(props);
     this.state = {
       text: '',
-      sender_id: 4,
-      receiver_id: 3,
       messages: [],
     }
     this.handleFormChange = this.handleFormChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.retrieveMessages = this.retrieveMessages.bind(this);
-    this.appendMessage = this.appendMessage.bind(this);
   }
 
   handleFormChange(e) {
@@ -31,20 +28,17 @@ class WriteMessage extends React.Component {
   handleFormSubmit() {
     var messagePayload = {
       text: this.state.text,
-      sender_id: this.state.sender_id,
-      receiver_id: this.state.receiver_id,
+      sender_id: this.props.userId,
+      receiver_id: this.props.receiverId,
     }
     let {dispatch} = this.props;
     dispatch(ChatActions.chatMessage(messagePayload));
-    this.setState({
-      text: ''
-    })
     fetch('/messages/', {
       method: 'POST',
       headers: new Headers({
         'Content-Type': 'application/json',
       }),
-      body: JSON.stringify(this.state)
+      body: JSON.stringify(messagePayload)
     })
     .then((response) => {
       if (!response.ok) {
@@ -57,6 +51,7 @@ class WriteMessage extends React.Component {
       var clone = this.state.messages.slice(0);
       clone.push(this.props.chatMessage);
       this.setState({
+        text: '',
         messages: clone
       })
     })
@@ -66,7 +61,7 @@ class WriteMessage extends React.Component {
   }
 
   retrieveMessages() {
-    fetch(`/messages/${this.state.sender_id}?receiver_id=${this.state.receiver_id}`, {
+    fetch(`/messages/${this.props.senderId}?receiver_id=${this.props.receiverId}`, {
       method: 'GET',
       headers: new Headers({
         'Content-Type': 'application/json',
@@ -90,31 +85,19 @@ class WriteMessage extends React.Component {
     })
   }
 
-  appendMessage(message) {
-    console.log('message retrieved from server: ', message, '\nthis.state: ', this.state);
-    var messageNode;
-    if (message.sender_id === this.state.sender_id) {
-      messageNode = <p className='senderMessage'>message.text</p>
-    } else {
-      messageNode = <p className='receiverMessage'>message.text</p>
-    }
-    console.log('messageNode: ', messageNode);
-    React.findDOMNode().appendChild(messageNode);
-    return;
-  }
-
   componentWillMount() {
     this.retrieveMessages();
   }
 
   render() {
+    console.log('WriteMessage\'s state is: ', this.state);
     return (
       <Segment className='messageWindow'>
-        <p><strong>conversation with: {this.state.receiver_id}</strong></p>
+        <p><strong>conversation with: {this.props.receiverId}</strong></p>
         <Segment className='messageFeed'>
           {
             this.state.messages.map(message => {
-              if (Number(message.sender_id) === this.state.sender_id) {
+              if (Number(message.sender_id) === this.props.senderId) {
                 return <p className='senderMessage'>{message.text}</p>
               } else {
                 return <p className='receiverMessage'>{message.text}</p>
@@ -143,6 +126,7 @@ const mapStateToProps = (state) => {
     username: state.user.username,
     userId: state.user.userId,
     chatMessage: state.chat.chatMessage,
+    receiverId: state.chat.receiverId,
   }
 }
 
