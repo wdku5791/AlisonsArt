@@ -19,7 +19,7 @@ module.exports = {
     //     response.data.forEach((notification) => {
     //       if (socketList[notification.owner_id]) {
     //         // console.log('emission occurs', notification.owner_id);
-    //         socketList[notification.owner_id].emit('action', {type: 'MESSAGE', data: notification});
+    //         socketList[notification.owner_id].emit('action', {type: 'UPDATE_NEW_NOTIFICATIONS', data: [notification]});
     //       }
     //     })
     //   } else if (response.type === 'error') {
@@ -27,8 +27,11 @@ module.exports = {
     //     io.emit('action', {type: 'ERROR_SOCKET', data: response.data});
     //   } else if (response.type === 'closed') {
     //     // console.log('closed', response.data);
-    //     io.emit('action', {type: 'MESSAGE', data: response.data});
+    //     io.emit('action', {type: 'RESPONSE', data: response.data});
     //   }
+    // });
+    // process.on('exit', function () {
+    //     worker.kill();
     // });
 
     io.on('connection', function(socket){
@@ -50,7 +53,7 @@ module.exports = {
         if (action.type === 'socket/hello'){
 
           console.log('Got hello data!', action.data);
-          socket.emit('action', {type:'MESSAGE', data:'good day!'});
+          socket.emit('action', {type:'RESPONSE', data:'good day!'});
 
         }
 
@@ -58,7 +61,7 @@ module.exports = {
           delete socketList[action.data];
           delete socket._uid;
           // console.log('Got signout data!', action.data, io.eio.clientsCount, socketList);
-          socket.emit('action', {type:'MESSAGE', data:'logged out!'});
+          socket.emit('action', {type:'RESPONSE', data:'logged out!'});
           socket.emit('action', {type:'socket/LOGOUT_COMPLETE', data: null});
         }
 
@@ -79,7 +82,7 @@ module.exports = {
             socket['_uid'] = action.data;
             socketList[action.data] = socket;
             // console.log(socketList, 'socketList');
-            socket.emit('action', {type:'MESSAGE', data: 'rooms joined'});
+            socket.emit('action', {type:'RESPONSE', data: 'rooms joined'});
           })
           .catch((error) => {
             console.log('error in room join', error)

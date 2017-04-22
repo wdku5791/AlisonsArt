@@ -59,11 +59,11 @@ class SignUp extends Component {
         
         return response.json();
       }).then(data => {
+        let { userId } = this.props.user;
+        dispatch(SocketActions.loginSocket(userId));
         localStorage.setItem('authToken', data);
         dispatch(UserActions.checkingInfo(false));
-        let { userId } = this.props.user;
         console.log('userId');
-        dispatch(SocketActions.loginSocket(userId));
         //push user to Homepage:
         this.props.history.push('/home');
         this.streetNode.value = '';

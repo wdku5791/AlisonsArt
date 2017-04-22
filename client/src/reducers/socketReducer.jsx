@@ -4,7 +4,7 @@ const initialState = {
 
 const socketReducer = (state = initialState, action) => {
   switch(action.type) {
-    case 'MESSAGE':
+    case 'RESPONSE':
       return {
         ...state,
         message: action.data
@@ -28,7 +28,12 @@ const socketReducer = (state = initialState, action) => {
       return {
         ...state,
         id: action.data
-      };  
+      };
+    case 'UPDATE_NEW_NOTIFICATIONS':
+      return {
+        ...state,
+        notifications: action.data
+      };
     default:
       return state;
   }

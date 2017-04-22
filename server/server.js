@@ -14,6 +14,7 @@ const imageHandler = require('./controllers/imageUpload');
 const notificationHandler = require('./controllers/notification');
 const contactHandler = require('./controllers/contact');
 const app = express();
+app.set('etag', false);
 busboy.extend(app, {
   upload: true,
 });

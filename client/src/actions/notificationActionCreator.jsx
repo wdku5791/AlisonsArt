@@ -21,7 +21,7 @@ export function fetchSuccess(notifications) {
 
 export function updater(notifications) {
   return {
-    type: 'UPDATE',
+    type: 'UPDATE_READ',
     notifications
   };
 }

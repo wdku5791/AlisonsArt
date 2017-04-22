@@ -13,6 +13,7 @@ export function bidSurpassed(message) {
 }
 
 export function loginSocket(userId) {
+  console.log('action called', userId);
   return {
     type: 'socket/LOGIN',
     data: userId

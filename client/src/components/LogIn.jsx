@@ -40,11 +40,10 @@ class LogIn extends Component {
       dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId')));
       return response.json();
     }).then(data => {
+      let { userId } = this.props.user;
+      dispatch(SocketActions.loginSocket(userId));
       dispatch(UserActions.checkingInfo(false));
       localStorage.setItem('authToken', data);
-      let { userId } = this.props.user;
-      console.log('userId');
-      dispatch(SocketActions.loginSocket(userId));
       //push user to Homepage:
       this.props.history.push('/home');
     }).catch(err => {
