@@ -89,13 +89,9 @@ module.exports = {
           });
         }
         if (action.type === 'socket/CHAT_MESSAGE') {
+          console.log('message inside socket: ', action.data);
           socket.emit('action', {type:'MESSAGE', data:'good day!'});
         } 
-        if (action.type === 'socket/CHAT_MESSAGE') {
-          console.log('message inside socket: ', action.data);
-          socket.emit('action', {type:'MESSAGE', data:action.data});
-        }
-
       // socket.on('send message', (message) => {
       //   console.log('message: ', message);
       //   socket.emit('send message', message);

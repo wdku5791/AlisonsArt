@@ -5,8 +5,6 @@ import { Segment, Button, TextArea} from 'semantic-ui-react';
 import io from 'socket.io-client';
 import * as ChatActions from './../actions/chatActionCreator.jsx';
 
-var socket = io();
-
 class WriteMessage extends React.Component {
   constructor(props) {
     super(props);
@@ -30,6 +28,9 @@ class WriteMessage extends React.Component {
       sender_id: this.props.userId,
       receiver_id: this.props.receiverId,
     }
+    this.setState({
+      text: '',
+    })
     let {dispatch} = this.props;
     dispatch(ChatActions.chatMessage(messagePayload));
     fetch('/messages/', {
@@ -87,7 +88,7 @@ class WriteMessage extends React.Component {
         <Segment className='messageFeed'>
           {
             this.props.messages.map(message => {
-              if (Number(message.sender_id) === this.props.senderId) {
+              if (Number(message.sender_id) === Number(this.props.userId)) {
                 return <p className='senderMessage'>{message.text}</p>
               } else {
                 return <p className='receiverMessage'>{message.text}</p>
