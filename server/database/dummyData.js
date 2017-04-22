@@ -772,20 +772,6 @@ const bids = [
 	},
 ];
 
-const closedAuctions = [
-  {
-  	auction_id: 1,
-  	winner: 4,
-  	payment_status: 'unpaid'
-  },
-  {
-  	auction_id: 4,
-  	winner: 1,
-  	payment_status: 'unpaid'
-  }
-]
-
-
 module.exports = {
 	users,
 	artworks,
@@ -793,5 +779,4 @@ module.exports = {
 	bids,
 	profiles,
 	notifications,
-	closedAuctions
 };

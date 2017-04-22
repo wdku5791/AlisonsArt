@@ -3,13 +3,17 @@ import { NavLink } from 'react-router-dom';
 import { Image, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import * as UserActions from './../actions/userActionCreator.jsx';
+import * as SocketActions from './../actions/socketActionCreator.jsx';
 
 class NavBar extends Component {
-  handleLogout() {
-    let { dispatch } = this.props;
-    dispatch(UserActions.logOut());
-    localStorage.removeItem('authToken');
-  }
+  handleLogout(userId) {
+      let { dispatch } = this.props;
+      localStorage.removeItem('authToken');
+      setTimeout(function() {
+        dispatch(SocketActions.logoutSocket());
+        dispatch(UserActions.logOut());
+      }, 1000);
+    }
   render() {
     let {username, userId} = this.props;
 
@@ -27,7 +31,7 @@ class NavBar extends Component {
         <NavLink className='navLinks' to={"/user/"+userId} >{username}</NavLink>
         {' | '}
         <NavLink className='navLinks' to="/home" onClick={() => {
-          this.handleLogout();
+          this.handleLogout(userId);
         }}>Log out</NavLink>
         {' | '}
         <NavLink className='navLinks' to="/notification" >Noties</NavLink>

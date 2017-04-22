@@ -1,4 +1,7 @@
 const db = require('./config');
+const helpers = db.$config.pgp.helpers;
+const csAuctions = new helpers.ColumnSet(['auction_id', 'winner'], {table: 'closed_auctions'});
+var csNotifications = new helpers.ColumnSet(['owner_id', 'trigger_id', 'type', 'text', 'date'], {table: 'notifications'});
 
 module.exports = {
   getUser(userId) {
@@ -57,6 +60,11 @@ module.exports = {
   getAuctionBids(auctionId) {
     return db.query('select * from bids where auction_id=$1', [auctionId]);
   },
+  getAuctionBidsDistinct(auctionId) {
+    return db.query('select distinct on (bidder_id) bidder_id, auction_id, bid_price, art_name\
+    from bids left join auctions on auctions.id = bids.auction_id\
+    left join artworks on auctions.artwork_id = artworks.id where auction_id = $1', [auctionId]);
+  },
   getUserBidsPerAuction({ user_id, auction_id, limit }) {
     /*
     {
@@ -81,6 +89,28 @@ module.exports = {
 
   getUserMessages(userId) {
     return db.query('select * from messages where sender_id=$1 or receiver_id=$1', [userId]);
+  },
+  workerAuctions(prevJob, endDate) {
+
+    // return db.query('select w.auction_id, w.current_bid_id as winner_id from\
+    // (select id as auction_id, current_bid_id, end_date from auctions\
+    // where end_date <= $1 and end_date > $2\
+    // and current_bid_id IS NULL UNION\
+    // (select auctions.id as auction_id, bids.bidder_id, auctions.end_date from auctions\
+    // INNER JOIN bids ON auctions.current_bid_id=bids.id\
+    // where auctions.end_date <= $1 and auctions.end_date > $2)) as w ORDER by w.end_date', [endDate, prevJob]);
+
+    return db.query('select auctions.id as auction_id, bids.bidder_id as winner from auctions left outer join bids\
+    on current_bid_id = bids.id where auctions.end_date <= $1 and auctions.end_date > $2\
+    order by auctions.end_date', [endDate, prevJob]);
+  },
+  getUserAuctions(userId) {
+    return db.query('select id from (select id from auctions as auction_id\
+    where owner_id = $1 UNION all select auction_id from bids where bidder_id = $1\
+    ) as foo group by id', [userId])
+  },
+  workerInsertClosed(array) {
+    return db.none(helpers.insert(array, csAuctions));
   },
 
   getAuctions(limit, endDate, status) {
@@ -226,6 +256,9 @@ module.exports = {
       values \
       (${owner_id}, ${trigger_id}, ${type}, ${read}, ${date}, ${text})\
       returning id', notificationObj);
+  },
+  createMassNotifications(arrayOfNotifications) {
+    return db.query(helpers.insert(arrayOfNotifications, csNotifications));
   },
   createArtwork(artworkObj) {
     /*
