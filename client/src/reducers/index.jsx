@@ -20,7 +20,7 @@ const rootReducer = combineReducers({
   socket: socketReducer,
   notifications: notificationReducer,
   userAuctions: userAuctionsReducer,
-  profile: profileReducer
+  profile: profileReducer,
   chat: chatReducer,
 });
 

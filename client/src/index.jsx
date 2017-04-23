@@ -78,7 +78,7 @@ class Index extends Component {
           <Route path="/login" component={LogIn} />
           <Route path="/signup" component={SignUp} />
           <Route path="/notification" component={Notification} />
-          <Route path="/createAuction" component={CreateAuction} />
+          <Route path="/createAuction" component={CreateAuctionContainer} />
           <MessageBar />
         </Container>
       </Router>

@@ -34,11 +34,10 @@ const socketReducer = (state = initialState, action) => {
         ...state,
         notifications: action.data
       };
-      }
     default:
       return state;
   }
- };
+};
  
  export default socketReducer; 
  

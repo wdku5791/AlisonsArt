@@ -22,7 +22,7 @@ const chatReducer = (state = initialState, action) => {
         receiverId: action.data[0],
         messages: action.data[1]
       }
-    case: 'socket/JOIN_ROOM':
+    case 'socket/JOIN_ROOM':
       return {
         ...state,
         roomname: action.data
