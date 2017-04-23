@@ -88,9 +88,20 @@ module.exports = {
             socket.emit('action', {type:'ERROR_SOCKET', data: error});
           });
         }
-        if (action.type === 'socket/JOIN_ROOM') {
-          console.log('joining room: ', action.data.room);
-          socket.join(action.data.room);
+        if (action.type === 'socket/INITIALIZE_ROOM'){
+          // console.log('socket.js is getting the INITIALIZE_ROOM action');
+          // console.log('roomname (action.data[2]): ', action.data[2]);
+          var roomname = action.data[2];
+          socket.join(roomname, () => {
+            console.log('INITIALIZE_ROOM: ', socket.id, ' joined room ', roomname)
+          });
+        }
+        if (action.type === 'socket/CHAT_MESSAGE'){
+          console.log('sockets.js is getting the CHAT_MESSAGE action');
+          console.log('action.data: ', action.data);
+          var roomname = action.data.roomname;
+          console.log('roomname: ', roomname);
+          io.to(roomname).emit('action', {type: 'PASS_MESSAGE', data: action.data});
         }
         console.log('socket.rooms: ', socket.rooms);
       });

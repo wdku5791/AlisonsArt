@@ -27,12 +27,11 @@ class WriteMessage extends React.Component {
       text: this.state.text,
       sender_id: this.props.userId,
       receiver_id: this.props.receiverId,
+      roomname: this.props.roomname,
     }
     this.setState({
       text: '',
     })
-    let {dispatch} = this.props;
-    dispatch(ChatActions.chatMessage(messagePayload));
     fetch('/messages/', {
       method: 'POST',
       headers: new Headers({
@@ -48,7 +47,8 @@ class WriteMessage extends React.Component {
     })
     .then((data) => {
       console.log('message posted to DB! data: ', data);
-      console.log('this.props.messages: ', this.props.messages);
+      let {dispatch} = this.props;
+      dispatch(ChatActions.chatMessage(messagePayload));
     })
     .catch((error) => {
       console.log('handleFormSubmit failed! Error: ', error);
@@ -78,7 +78,7 @@ class WriteMessage extends React.Component {
   }
 
   componentDidMount() {
-    this.retrieveMessages();
+    setTimeout(this.retrieveMessages, 1500);
   }  
 
   render() {
@@ -117,7 +117,8 @@ const mapStateToProps = (state) => {
     username: state.user.username,
     userId: state.user.userId,
     receiverId: state.chat.receiverId,
-    messages: state.chat.messages
+    messages: state.chat.messages,
+    roomname: state.chat.roomname,
   }
 }
 

@@ -16,6 +16,13 @@ class Artist extends Component {
 
   directMessageHandler() {
     let receiverId = this.props.match.params.artistId;
+    console.log('typeof userId: ', typeof this.props.userId, '\ntypeof receiverId: ', typeof receiverId);
+    let roomname;
+    if (this.props.userId > receiverId) {
+      roomname = this.props.userId + receiverId;
+    } else {
+      roomname = receiverId + this.props.userId;
+    }
     fetch(`/messages/${Number(this.props.userId)}/?receiver_id=${Number(receiverId)}`, {
       method: 'GET',
       headers: new Headers({
@@ -32,8 +39,7 @@ class Artist extends Component {
     .then((data) => {
       console.log('messages retrieved! data: ', data);
       let { dispatch } = this.props;
-      dispatch()
-      dispatch(ChatActions.getChatLog(receiverId, data));
+      dispatch(ChatActions.initRoom(receiverId, data, roomname));
     })
     .catch((error) => {
       console.log('retrieveMessages failed! error: ', error);

@@ -9,23 +9,23 @@ const chatReducer = (state = initialState, action) => {
     case 'socket/CHAT_MESSAGE':
       return {
         ...state,
-        messages: state.messages.concat(action.data)
       }
     case 'GETTING_RECEIVER_ID':
       return {
         ...state,
         receiverId: action.data
       }
-    case 'GETTING_CHAT_LOG':
+    case 'socket/INITIALIZE_ROOM':
       return {
         ...state,
         receiverId: action.data[0],
-        messages: action.data[1]
+        messages: action.data[1],
+        roomname: action.data[2],
       }
-    case 'socket/JOIN_ROOM':
+    case 'PASS_MESSAGE':
       return {
         ...state,
-        roomname: action.data
+        messages: state.messages.slice().concat(action.data)
       }
     default: 
       return state;
