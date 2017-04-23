@@ -4,7 +4,10 @@ const initialState = {
   artist: false,
   checkingInfo: false,
   error: null,
-  loggedOut: true
+  loggedOut: true,
+  fetchingSF: false,
+  savedAuctions: [],
+  followingArtists: []
 };
 
 const userReducer = (state = initialState, action) => {
@@ -33,6 +36,21 @@ const userReducer = (state = initialState, action) => {
         ...state,
         ...initialState
       };
+    case 'FETCHING_SAVE_FOLLOW':
+      return {
+        ...state,
+        fetchingSF: action.fetchingSF
+      };
+    case 'FETCHED_SAVES':
+      return {
+        ...state,
+        savedAuctions: action.fetchedAuctions
+      }
+    case 'FETCHED_FOLLOWS':
+      return {
+        ...state,
+        followingArtists: action.fetchedFollows
+      }
     default:
       return state;
   }
