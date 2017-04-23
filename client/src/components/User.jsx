@@ -50,7 +50,7 @@ class User extends Component {
     .catch(err => {
       //change the error name later
       alert(err.message);
-    })
+    });
   }
   render() {
     if (!this.props.user.username) {
@@ -58,19 +58,21 @@ class User extends Component {
     } else {
       return (
         <Container>
+            <Container>
+              {this.props.user.username[0].toUpperCase().concat(this.props.user.username.slice(1))}
+            </Container>
+          <Divider />
           <Container>
-            {this.props.user.username[0].toUpperCase().concat(this.props.user.username.slice(1))}
+            <Router>
+              <Container>
+                <Navigation userId={this.props.user.userId} />
+                <Route path="/user/:userId/savesFollows" component={SaveFollow} />
+                <Route path="/user/:userId/auctions" component={UserAuctions} />
+                <Route path="/user/:userId/settings" component={UserSettings} />
+                <Route path="/user/:userId/payments" component={Payments} />
+              </Container>
+            </Router>
           </Container>
-        <Divider />
-        <Router>
-          <Container>
-            <Navigation userId={this.props.user.userId} />
-            <Route path="/user/:userId/savesFollows" component={SaveFollow} />
-            <Route path="/user/:userId/auctions" component={UserAuctions} />
-            <Route path="/user/:userId/settings" component={UserSettings} />
-            <Route path="/user/:userId/payments" component={Payments} />
-          </Container>
-        </Router>
         </Container>
       );
     }

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import {Divider, Container } from 'semantic-ui-react';
+import { Divider, Container, Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import SavedAuctions from './userProfile/SavedAuctions.jsx';
-import ArtistAuctions from './ArtistProfile/ArtistAuctions.jsx';
 import * as UserActions from '../actions/userActionCreator.jsx';
+import ArtistAuctions from './ArtistProfile/ArtistAuctions.jsx';
 
 class SaveFollow extends Component {
   componentWillMount() {
@@ -22,21 +21,35 @@ class SaveFollow extends Component {
     });
   }
   render() {
+    let { savedAuctions, followingArtists, dispatch, history } = this.props;
     return (
       <Container>
-        <div>
-          Saved auctions:
-          <ArtistAuctions flag="saves" history={this.props.history}/>
-        </div>
+        Saved auctions:
+        <Grid divided={true}>
+          <Grid.Row columns={3}>
+          {savedAuctions.map(auction => {
+            return (
+              <Grid.Column key={auction.id}>
+                <ArtistAuctions auction={auction} dispatch={dispatch} history={history} />
+              </Grid.Column>)
+          })}
+          </Grid.Row>
+        </Grid>
         <Divider />
         <div>
           Following artists:
+
         </div>
       </Container>
     );
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    savedAuctions: state.user.savedAuctions,
+    followingArtists: state.user.followingArtists
+  }
+}
 
-//needs to fetch data from backend for rendering
-export default connect()(SaveFollow);
+export default connect(mapStateToProps)(SaveFollow);

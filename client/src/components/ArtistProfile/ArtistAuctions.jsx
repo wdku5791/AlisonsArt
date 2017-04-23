@@ -6,42 +6,30 @@ const _handleImageClick = (auction_id, history) => {
   history.push('/auction/' + auction_id);
 };
 
-const _helper =(auctions, history) => {
-  if(auctions) {
-    if(auctions.length === 0){
-      return (
-        <div>
-          No auctions
+const _helper =(auction, history) => {
+  if(auction) {
+    console.log('auction: ', auction);
+    //want to add onClick for Images.
+    //find the styling first.
+    return (
+      <Container>
+        <div key={auction.artwork_id}>
+          <Image 
+            className='imageLink'
+            src={auction.image_url}
+            onClick={() => {
+              _handleImageClick(auction.auction_id, history);
+            }} 
+          />
+          <br />
+          <span>Name: {auction.art_name}</span>
+          {auction.current_bid ? <span><br /><span>Current bid price: {auction.current_bid}</span></span> : null}
+          <br />
+          <span>Estimated value: {auction.estimated_price}</span>
+          <br />
         </div>
-      );
-    } else {
-      //want to add onClick for Images.
-      //find the styling first.
-      return (
-        <Container>
-          {auctions.map(auction => {
-            return (
-              <div key={auction.artwork_id}>
-                <Image 
-                  className='imageLink'
-                  src={auction.image_url}
-                  onClick={() => {
-                    _handleImageClick(auction.auction_id, history);
-                  }} 
-                />
-                <br />
-                <span>Name: {auction.art_name}</span>
-                <br />
-                <span>Current bid price: {auction.current_bid}</span>
-                <br />
-                <span>Estimated value: {auction.estimated_price}</span>
-                <br />
-              </div>
-            )
-          })}
-        </Container>
-      );
-    }
+      </Container>
+    );
   } else {
     return(
       <p>
@@ -52,33 +40,8 @@ const _helper =(auctions, history) => {
 }
 
 const ArtistAuctions = (props) => {
-  let { flag, ongoingAuctions, passedAuctions, savedAuctions, followingArtists,dispatch, history } = props;
-  if(flag === 'current') {
-    return _helper(ongoingAuctions, history);
-  } 
-  else if(flag === 'previous'){
-    return _helper(passedAuctions, history);
-  } else if(flag === 'saves') {
-    return _helper(savedAuctions, history);
-  } else if(flag === 'following') {
-    return _helper(followingArtists, history);
-  }
-  else {
-    return (
-      <div>
-        Wrong flag. Nothing should render~
-      </div>
-    );
-  }
+  let { auction, dispatch, history } = props;
+  return _helper(auction, history);
 }
 
-const mapStateToProps = (state) => {
-  return {
-    ongoingAuctions: state.artist.fetchedArtist.ongoingAuctions,
-    passedAuctions: state.artist.fetchedArtist.passedAuctions,
-    savedAuctions: state.user.savedAuctions,
-    followingArtists: state.user.followingArtists
-  }
-}
-
-export default connect(mapStateToProps)(ArtistAuctions);
+export default ArtistAuctions;
