@@ -58,7 +58,8 @@ module.exports = {
     return db.query('select * from bids where bidder_id=$1', [userId]);
   },
   getUserSavedAuctions(userId) {
-    return db.manyOrNone('SELECT auctions.* FROM auctions INNER JOIN saves ON saves.user_id=$1 AND saves.auction_id=auctions.id', [userId]);
+    return db.manyOrNone('SELECT * FROM ((SELECT auctions.artwork_id AS artworkId, auctions.end_date, auctions.id FROM auctions INNER JOIN saves ON auctions.id=saves.auction_id AND saves.user_id=$1) AS table1 INNER JOIN artworks ON table1.artworkId= artworks.id)', 
+        [userId]);
   }
   ,
   getAuctionBids(auctionId) {
@@ -194,7 +195,10 @@ module.exports = {
     return db.query('SELECT artworks.image_url FROM artworks INNER JOIN users ON artworks.artist_id=users.id AND artworks.artist_id=$1', [artist_id]);
   },
   getAuctionsOfArtist(artist_id) {
-    return db.any('SELECT auctions.id as auction_id, auctions.artwork_id, auctions.end_date, auctions.current_bid, Table1.image_url, Table1.art_name, Table1.estimated_price FROM auctions INNER JOIN (SELECT artworks.* FROM artworks INNER JOIN users ON (users.id=artworks.artist_id AND users.id=$1)) as Table1 ON auctions.artwork_id=Table1.id', [artist_id]);
+    return db.any('SELECT auctions.id AS auction_id, auctions.artwork_id, auctions.end_date, auctions.current_bid, Table1.image_url, Table1.art_name, Table1.estimated_price \
+      FROM auctions INNER JOIN \
+      (SELECT artworks.* FROM artworks INNER JOIN users ON (users.id=artworks.artist_id AND users.id=$1)) AS Table1 \
+      ON auctions.artwork_id=Table1.id', [artist_id]);
   },
 
   createArtistProfile(profile) {

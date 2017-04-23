@@ -3,10 +3,12 @@ import { Container, Image } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 const _handleImageClick = (auction_id, history) => {
+  console.log('hadle history: ', history);
   history.push('/auction/' + auction_id);
 };
 
 const _helper =(auctions, history) => {
+  console.log('auction: ', auctions);
   if(auctions) {
     if(auctions.length === 0){
       return (
@@ -52,13 +54,19 @@ const _helper =(auctions, history) => {
 }
 
 const ArtistAuctions = (props) => {
-  let { flag, ongoingAuctions, passedAuctions, dispatch, history } = props;
+  let { flag, ongoingAuctions, passedAuctions, savedAuctions, followingArtists,dispatch, history } = props;
+  console.log('props; ', props);
+  console.log('history: ', history);
   if(flag === 'current') {
     return _helper(ongoingAuctions, history);
   } 
   else if(flag === 'previous'){
     return _helper(passedAuctions, history);
-  } 
+  } else if(flag === 'saves') {
+    return _helper(savedAuctions, history);
+  } else if(flag === 'following') {
+    return _helper(followingArtists, history);
+  }
   else {
     return (
       <div>
@@ -71,7 +79,9 @@ const ArtistAuctions = (props) => {
 const mapStateToProps = (state) => {
   return {
     ongoingAuctions: state.artist.fetchedArtist.ongoingAuctions,
-    passedAuctions: state.artist.fetchedArtist.passedAuctions
+    passedAuctions: state.artist.fetchedArtist.passedAuctions,
+    savedAuctions: state.user.savedAuctions,
+    followingArtists: state.user.followingArtists
   }
 }
 

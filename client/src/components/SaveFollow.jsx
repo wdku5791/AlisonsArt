@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import {Divider, Container } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 import SavedAuctions from './userProfile/SavedAuctions.jsx';
+import ArtistAuctions from './ArtistProfile/ArtistAuctions.jsx';
+import * as UserActions from '../actions/userActionCreator.jsx';
 
 class SaveFollow extends Component {
   componentWillMount() {
@@ -9,11 +12,10 @@ class SaveFollow extends Component {
       headers: new Headers ({'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`})
     })
     .then(response => {
-      console.log('got response');
       return response.json();
     })
     .then(data => {
-      console.log('this is data: ', data);
+      this.props.dispatch(UserActions.fetchedSaves(data));
     })
     .catch(err => {
       console.log('errored!');
@@ -24,6 +26,7 @@ class SaveFollow extends Component {
       <Container>
         <div>
           Saved auctions:
+          <ArtistAuctions flag="saves" history={this.props.history}/>
           
         </div>
         <Divider />
@@ -37,4 +40,4 @@ class SaveFollow extends Component {
 
 
 //needs to fetch data from backend for rendering
-export default SaveFollow;
+export default connect()(SaveFollow);
