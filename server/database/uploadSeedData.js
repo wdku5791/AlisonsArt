@@ -6,6 +6,7 @@ const auctions = data.auctions;
 const bids = data.bids;
 const profiles = data.profiles;
 const saves = data.saves;
+const followers = data.followers;
 const notifications = data.notifications;
 
 const helpers = db.$config.pgp.helpers;
@@ -16,6 +17,7 @@ var csAuctions = new helpers.ColumnSet(['owner_id', 'artwork_id', 'start_date', 
 var csBids = new helpers.ColumnSet(['bidder_id', 'auction_id', 'bid_date', 'bid_price'], {table: 'bids'});
 var csProfiles = new helpers.ColumnSet(['user_id', 'profile', 'fb_link', 'twitter_link', 'inst_link', 'stripe_user_id', 'refresh_token'], {table: 'profiles'});
 var csSaves = new helpers.ColumnSet(['user_id', 'auction_id'], {table: 'saves'});
+var csFollowers = new helpers.ColumnSet(['follower_id', 'followee_id'], {table: 'followers'})
 var csNotifications = new helpers.ColumnSet(['owner_id', 'trigger_id', 'type', 'text', 'read', 'date'], {table: 'notifications'});
 module.exports = function insertDummyData(db) {
   return db.tx((t) => {
@@ -26,9 +28,10 @@ module.exports = function insertDummyData(db) {
     var bidInserts = t.none(helpers.insert(bids, csBids));
     var profileInserts = t.none(helpers.insert(profiles, csProfiles));
     var saveInserts = t.none(helpers.insert(saves, csSaves));
+    var followerInserts = t.none(helpers.insert(followers, csFollowers));
     var notificationInserts = t.none(helpers.insert(notifications, csNotifications));
     
-        return t.batch([userInserts, artWorkInserts, auctionInserts, bidInserts, profileInserts, saveInserts, notificationInserts]);
+        return t.batch([userInserts, artWorkInserts, auctionInserts, bidInserts, profileInserts, saveInserts, followerInserts, notificationInserts]);
     })
   .then(() => {
     console.log('success seeding data');

@@ -64,7 +64,8 @@ module.exports = function createSchemas(db) {
     let followers = t.query('CREATE TABLE IF NOT EXISTS followers (\
       id SERIAL PRIMARY KEY NOT NULL,\
       follower_id BIGINT NOT NULL REFERENCES users(id),\
-      followee_id BIGINT NOT NULL REFERENCES users(id)\
+      followee_id BIGINT NOT NULL REFERENCES users(id), \
+      UNIQUE (follower_id, followee_id)\
     )');
     let profiles = t.query('CREATE TABLE IF NOT EXISTS profiles (\
       id SERIAL PRIMARY KEY NOT NULL,\

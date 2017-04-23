@@ -84,6 +84,24 @@ const saves = [
   }
 ];
 
+const followers = [
+  {
+  	id: 1,
+  	follower_id: 2,
+  	followee_id: 1
+  },
+  {
+  	id: 2,
+  	follower_id: 1,
+  	followee_id: 2
+  }, 
+  {
+  	id: 3,
+  	follower_id: 3,
+  	followee_id: 2
+  }
+];
+
 //notifications:
 //******************************
 const notifications = [
@@ -800,5 +818,6 @@ module.exports = {
 	bids,
 	profiles,
 	saves,
+	followers,
 	notifications,
 };
