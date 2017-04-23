@@ -18,7 +18,7 @@ class SaveFollow extends Component {
       this.props.dispatch(UserActions.fetchedSaves(data));
     })
     .catch(err => {
-      console.log('errored!');
+      alert('Sorry, an error occurred!');
     });
   }
   render() {
@@ -27,7 +27,6 @@ class SaveFollow extends Component {
         <div>
           Saved auctions:
           <ArtistAuctions flag="saves" history={this.props.history}/>
-          
         </div>
         <Divider />
         <div>

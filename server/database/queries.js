@@ -58,7 +58,7 @@ module.exports = {
     return db.query('select * from bids where bidder_id=$1', [userId]);
   },
   getUserSavedAuctions(userId) {
-    return db.manyOrNone('SELECT * FROM ((SELECT auctions.artwork_id AS artworkId, auctions.end_date, auctions.id FROM auctions INNER JOIN saves ON auctions.id=saves.auction_id AND saves.user_id=$1) AS table1 INNER JOIN artworks ON table1.artworkId= artworks.id)', 
+    return db.manyOrNone('SELECT * FROM ((SELECT auctions.artwork_id, auctions.end_date, auctions.id AS auction_id FROM auctions INNER JOIN saves ON auctions.id=saves.auction_id AND saves.user_id=$1) AS table1 INNER JOIN artworks ON table1.artwork_id= artworks.id)', 
         [userId]);
   }
   ,

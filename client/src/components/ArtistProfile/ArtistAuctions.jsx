@@ -3,12 +3,10 @@ import { Container, Image } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 const _handleImageClick = (auction_id, history) => {
-  console.log('hadle history: ', history);
   history.push('/auction/' + auction_id);
 };
 
 const _helper =(auctions, history) => {
-  console.log('auction: ', auctions);
   if(auctions) {
     if(auctions.length === 0){
       return (
@@ -55,8 +53,6 @@ const _helper =(auctions, history) => {
 
 const ArtistAuctions = (props) => {
   let { flag, ongoingAuctions, passedAuctions, savedAuctions, followingArtists,dispatch, history } = props;
-  console.log('props; ', props);
-  console.log('history: ', history);
   if(flag === 'current') {
     return _helper(ongoingAuctions, history);
   } 
