@@ -16,7 +16,6 @@ class Artist extends Component {
 
   directMessageHandler() {
     let receiverId = this.props.match.params.artistId;
-    console.log('this.props.userId: ', this.props.userId, '\nthis.props.receiverId: ', receiverId);
     fetch(`/messages/${Number(this.props.userId)}/?receiver_id=${Number(receiverId)}`, {
       method: 'GET',
       headers: new Headers({
@@ -33,6 +32,7 @@ class Artist extends Component {
     .then((data) => {
       console.log('messages retrieved! data: ', data);
       let { dispatch } = this.props;
+      dispatch()
       dispatch(ChatActions.getChatLog(receiverId, data));
     })
     .catch((error) => {

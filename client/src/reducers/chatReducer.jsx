@@ -26,7 +26,6 @@ const chatReducer = (state = initialState, action) => {
       return {
         ...state,
         roomname: action.data
-        chatMessage: action.data
       }
     default: 
       return state;

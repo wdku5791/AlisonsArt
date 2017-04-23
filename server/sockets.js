@@ -88,15 +88,12 @@ module.exports = {
             socket.emit('action', {type:'ERROR_SOCKET', data: error});
           });
         }
-        if (action.type === 'socket/CHAT_MESSAGE') {
-          console.log('message inside socket: ', action.data);
-          socket.emit('action', {type:'MESSAGE', data:'good day!'});
-        } 
-      // socket.on('send message', (message) => {
-      //   console.log('message: ', message);
-      //   socket.emit('send message', message);
-      // })
-
+        if (action.type === 'socket/JOIN_ROOM') {
+          console.log('joining room: ', action.data.room);
+          socket.join(action.data.room);
+        }
+        console.log('socket.rooms: ', socket.rooms);
+      });
     });
     return io;
   },
