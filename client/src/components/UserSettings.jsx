@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Image } from 'semantic-ui-react';
+import { Container, Image, Button, Input } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 let currentPassword = null;
@@ -17,14 +17,14 @@ const ChangePassword = () => {
     <span>
       <br />
       Current password:
-      <input type="password" placeholder="current password" ref={node => currentPassword = node} />
+      <Input type="password" placeholder="current password" ref={node => currentPassword = node} />
       <br />
       New password:
-      <input type="password" placeholder="new password" ref={node => newPassword = node} />
+      <Input type="password" placeholder="new password" ref={node => newPassword = node} />
       <br />
       Confirm password:
-      <input type="password" placeholder="confirm password" ref={node => confirmPassword = node} />
-      <input type="submit" value="Submit" />
+      <Input type="password" placeholder="confirm password" ref={node => confirmPassword = node} />
+      <Input type="submit" value="Submit" />
     </span>
   );
 }
@@ -81,6 +81,7 @@ class UserSettings extends Component {
             } else {
               alert('Successfully changed password');
               _setInputsToNull();
+              this.setState({toggle: !this.state.toggle});
             }
           })
         } else {
@@ -110,7 +111,7 @@ class UserSettings extends Component {
           <br />
           Phone number: xxxxxxx
           <br />
-          <button onClick={(e) => {this._clickHandler(e)}}>Change password</button>
+          <Button onClick={(e) => {this._clickHandler(e)}} content="Change password" />
           {this.state.toggle? <ChangePassword /> : null}
           </form>
         </Container>
