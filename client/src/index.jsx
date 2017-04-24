@@ -27,6 +27,7 @@ import Notification from './components/Notification.jsx';
 import ContactUs from './components/ContactUs.jsx';
 import io from 'socket.io-client';
 import * as UserActions from './actions/userActionCreator.jsx';
+import * as SocketActions from './actions/socketActionCreator.jsx';
 
 let socket = io();
 let socketIoMiddleware = createSocketIoMiddleware(socket, "socket/");
@@ -53,6 +54,7 @@ class Index extends Component {
       
       if (response.headers.get('x-username') && response.headers.get('x-userId')) {
         store.dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId'), response.headers.get('x-type') === 'artist'));
+        store.dispatch(SocketActions.loginSocket(response.headers.get('x-userId')));
       }
     })
     .catch(err => {

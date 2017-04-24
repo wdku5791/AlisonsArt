@@ -61,8 +61,6 @@ class Notification extends React.Component {
     const {dispatch, userId, notification} = this.props;
     let notes = notification.notifications;
 
-    let newNotification = notes.slice(0, index).concat([{...notes[index], 'read': true}]).concat(notes.slice(index + 1));
-    dispatch(notifications.updater(newNotification));
 
     dispatch(notifications.fetchNotifications(true));
     fetch(`/notifications/${userId}`, {
@@ -74,6 +72,8 @@ class Notification extends React.Component {
       body: JSON.stringify({ id: notificationId })
     })
     .then(data => {
+      let newNotification = notes.slice(0, index).concat([{...notes[index], 'read': true}]).concat(notes.slice(index + 1));
+      dispatch(notifications.updater(newNotification));
       dispatch(notifications.fetchNotifications(false));
       dispatch(notifications.fetchError(false));
     })

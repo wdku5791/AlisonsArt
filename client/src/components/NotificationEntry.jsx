@@ -17,6 +17,5 @@ const Note = ({ notification, clickHandler, index}) => {
     )
   }
 };
-      // {notification.read ? <div> : <div onClick={() => {clickHandler(notification.id)}}>}
 
 export default Note;

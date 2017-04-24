@@ -12,6 +12,7 @@ module.exports = {
     io = sockets();
     io.attach(server);
     var socketList = {};
+    io.socketList = socketList;
     // var worker = fork(__dirname + '/worker.js');
     // worker.on('message', function(response) {
     //   if (response.type === 'notification') {
@@ -46,13 +47,13 @@ module.exports = {
         if (socket.hasOwnProperty('_uid')) {
           delete socketList[socket._uid];
         }
-        console.log('disconnected socket', socketList);
+        // console.log('disconnected socket', socketList);
       })
       socket.on('action', (action) => {
 
         if (action.type === 'socket/hello'){
 
-          console.log('Got hello data!', action.data);
+          // console.log('Got hello data!', action.data);
           socket.emit('action', {type:'RESPONSE', data:'good day!'});
 
         }
@@ -76,11 +77,12 @@ module.exports = {
             rooms.forEach(function(room) {
               socket.join(room, function() {
                 // room joining function
-                console.log(socket.id, ' joined room ', room)
+                console.log(socket.id, ' joined room ', room);
               });
-            })
+            });
             socket['_uid'] = action.data;
             socketList[action.data] = socket;
+            // console.log('rooms: ', socket.rooms);
             // console.log(socketList, 'socketList');
             socket.emit('action', {type:'RESPONSE', data: 'rooms joined'});
           })
