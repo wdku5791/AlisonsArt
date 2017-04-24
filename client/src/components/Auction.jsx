@@ -11,6 +11,11 @@ import Moment from 'moment';
 
 class Auction extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {flag: false};
+  }
+
   //when user clicks submit, check if user is logged in
     //if not re-direct
     //if logged in, grab all info and redirect to payment page.
@@ -44,9 +49,9 @@ class Auction extends Component {
       })
       .then(data => {
         if (data === 'success') {
-          this.setState({active: true});
+          this.setState({flag: true});
         } else {
-          this.setState({active: false});
+          this.setState({flag: false});
         }
       })
       .catch(err => {
@@ -56,7 +61,6 @@ class Auction extends Component {
   }
 
   handleSave(auction_id) {
-    console.log('im this: ', this);
     fetch('/saves/save', {
       method: 'POST',
       headers: new Headers({
@@ -72,7 +76,7 @@ class Auction extends Component {
       return true;
     })
     .then(data => {
-      this.setState({active: true});
+      this.setState({flag: true});
     })
     .catch(err => {
       alert('Something went wrong, can\'t save auction');
@@ -80,7 +84,6 @@ class Auction extends Component {
   }
 
   handleUnsave(auction_id) {
-    console.log('im this: ', this);
     fetch('/saves/unsave', {
       method: 'POST',
       headers: new Headers({
@@ -96,7 +99,7 @@ class Auction extends Component {
       return true;
     })
     .then(data => {
-      this.setState({active: false});
+      this.setState({flag: false});
     })
     .catch(err => {
       alert('Something went wrong, can\'t unsave auction');
@@ -152,7 +155,6 @@ class Auction extends Component {
 
     const { auction } = this.props.auction;
     const { bid, user } = this.props;
-    console.log('auction id?? ', auction.id);
     if (Object.keys(auction).length === 0) {
       return (
         <p>loading~~~</p>
@@ -162,14 +164,18 @@ class Auction extends Component {
       const now = new Moment();
       if (end.isBefore(now)) {
         return (
-          <ClosedAuction user={user} auction={auction} handleSave={() => {this.handleSave(auction.id)}} handleUnsave={() => {
+          <ClosedAuction flag={this.state.flag} user={user} auction={auction} handleSave={() => {this.handleSave(auction.id)}} handleUnsave={() => {
             this.handleUnsave(auction.id)
           }}/>
         );
       } else {
         return (
           <div>
-            <AuctionDetail user={user} handleClick={this.handleClick.bind(this, auction.id)} auction={auction} setBid={this.setBid.bind(this)} /> 
+            <AuctionDetail flag={this.state.flag} user={user} handleClick={this.handleClick.bind(this, auction.id)} auction={auction} setBid={this.setBid.bind(this)} handleSave={() => {
+              this.handleSave(auction.id)
+            }} handleUnsave={() => {
+              this.handleUnsave(auction.id)
+            }}/> 
           </div>
         );
       }
