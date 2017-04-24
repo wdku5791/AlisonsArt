@@ -87,8 +87,8 @@ module.exports = {
     return db.one('select * from bids where bidder_id=$1 and auction_id=$2 ORDER BY bid_price DESC LIMIT 1', [user_id, auction_id]);
   },
 
-  getUserMessages(userId) {
-    return db.query('select * from messages where sender_id=$1 or receiver_id=$1', [userId]);
+  getUserMessages(userId, receiverId) {
+    return db.query('select * from messages where sender_id=$1 and receiver_id=$2 or sender_id=$2 and receiver_id=$1', [userId, receiverId]);
   },
   workerAuctions(prevJob, endDate) {
 

@@ -64,7 +64,6 @@ module.exports = {
           socket.emit('action', {type:'RESPONSE', data:'logged out!'});
           socket.emit('action', {type:'socket/LOGOUT_COMPLETE', data: null});
         }
-
         if (action.type === 'socket/LOGIN'){
           // console.log('Got login data!', action.data);
           model.getUserAuctions(action.data)
@@ -89,8 +88,16 @@ module.exports = {
             socket.emit('action', {type:'ERROR_SOCKET', data: error});
           });
         }
+        if (action.type === 'socket/INITIALIZE_ROOM'){
+          var roomname = action.data[2];
+          socket.join(roomname);
+        }
+        if (action.type === 'socket/CHAT_MESSAGE'){
+          var roomname = action.data.roomname;
+          io.to(roomname).emit('action', {type: 'PASS_MESSAGE', data: action.data});
+        }
+        console.log('socket.rooms: ', socket.rooms);
       });
-
     });
     return io;
   },

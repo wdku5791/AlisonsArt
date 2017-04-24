@@ -37,7 +37,8 @@ const socketReducer = (state = initialState, action) => {
     default:
       return state;
   }
- };
+};
  
- export default socketReducer; 
+export default socketReducer; 
+
  

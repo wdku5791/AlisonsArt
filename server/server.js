@@ -14,6 +14,7 @@ const artistHandler = require('./controllers/artist');
 const imageHandler = require('./controllers/imageUpload');
 const notificationHandler = require('./controllers/notification');
 const contactHandler = require('./controllers/contact');
+const messageHandler = require('./controllers/messages')
 const stripeHandler = require('./controllers/stripe');
 const port = process.env.PORT || 3000;
 
@@ -40,6 +41,7 @@ app.use('/artist', artistHandler);
 app.use('/images', imageHandler);
 app.use('/notifications', notificationHandler);
 app.use('/contactus', contactHandler);
+app.use('/messages', messageHandler);
 app.use('/stripe', stripeHandler);
 
 const server = app.listen(port, function () {
