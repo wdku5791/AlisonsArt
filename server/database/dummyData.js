@@ -92,11 +92,6 @@ const followers = [
   },
   {
   	id: 2,
-  	follower_id: 1,
-  	followee_id: 2
-  }, 
-  {
-  	id: 3,
   	follower_id: 3,
   	followee_id: 2
   }
