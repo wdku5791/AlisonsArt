@@ -13,7 +13,9 @@ class Auction extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {flag: false};
+    this.state = {
+      flag: false
+    };
   }
 
   //when user clicks submit, check if user is logged in
@@ -113,7 +115,6 @@ class Auction extends Component {
 
   handleClick(id) {
     const { bid, user, history, dispatch } = this.props;
-    console.log('this.props: ', this.props);
     if (bid.bid === 0) {
       alert('Please select a value');
     } else {

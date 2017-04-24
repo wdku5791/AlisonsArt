@@ -218,7 +218,7 @@ module.exports = {
   },
 
   getArtistProfile(artist_id) {
-    return db.oneOrNone('SELECT profiles.profile, profiles.fb_link, profiles.twitter_link, profiles.inst_link, users.username FROM profiles INNER JOIN users ON profiles.user_id=users.id AND user_id=$1', [artist_id]);
+    return db.oneOrNone('SELECT profiles.profile, profiles.fb_link, profiles.twitter_link, profiles.inst_link, users.first_name, users.last_name FROM profiles INNER JOIN users ON profiles.user_id=users.id AND user_id=$1', [artist_id]);
   },
 
   getUserArtworks(userId) {
