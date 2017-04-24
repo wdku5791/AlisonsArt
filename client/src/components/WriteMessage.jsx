@@ -46,7 +46,6 @@ class WriteMessage extends React.Component {
       return response.json();
     })
     .then((data) => {
-      console.log('message posted to DB! data: ', data);
       let {dispatch} = this.props;
       dispatch(ChatActions.chatMessage(messagePayload));
     })

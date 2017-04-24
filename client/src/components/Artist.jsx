@@ -37,7 +37,6 @@ class Artist extends Component {
       return response.json();
     })
     .then((data) => {
-      console.log('messages retrieved! data: ', data);
       let { dispatch } = this.props;
       dispatch(ChatActions.initRoom(receiverId, data, roomname));
     })
