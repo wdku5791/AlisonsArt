@@ -62,8 +62,8 @@ const profiles = [
 		fb_link: 'https://www.facebook.com/xueying.zhang.509',
 		twitter_link: null,
 		inst_link: 'https://www.instagram.com/alisonzthu/',
-		stripe_user_id: 'acct_1AAPswCcyTeqgPZT',
-		refresh_token: 'rt_AVQvE4Lw2CSWPczQ4aO156PNx2FUoQnlMRc1e3MJ8e25bFn8'
+		stripe_user_id: 'acct_1ACFPEKWPmjvdi41',
+		refresh_token: 'rt_AXK8FEjCs0zfwG1aa8Notehp7FopmUhqx90POA9Ij7eSVMbR'
 	}
 ];
 
