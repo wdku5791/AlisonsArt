@@ -38,9 +38,7 @@ router.post('/follow', (req, res) => {
     let followerObj = {};
     followerObj.follower_id = decoded.userId;
     followerObj.followee_id = req.body;
-    //check if there are any user follow info.
-    //if yes unfollow
-    //if no follow
+    
     model.createFollower(followerObj)
     .then(result => {
       res.status(201).send(result);
@@ -52,7 +50,6 @@ router.post('/follow', (req, res) => {
 });
 
 router.post('/unfollow', (req, res) => {
-  console.log('try to unfolow');
   let authToken = req.headers.authorization.split(' ')[1];
   
   jwt.verify(authToken, process.env.jwtSecret, (err, decoded) => {
