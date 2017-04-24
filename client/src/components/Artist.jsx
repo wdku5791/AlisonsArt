@@ -73,6 +73,7 @@ class Artist extends Component {
 
     //if user logged in, check if user followed this artist
     if(this.props.user.username) {
+      //refactor to use authToken:
       fetch('/follows/?q=' + this.props.user.userId +'+' + artistId)
       .then(response => {
         if(!response.ok) {

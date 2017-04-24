@@ -388,7 +388,12 @@ module.exports = {
       );
     });
   },
-
+  unsaveAuction(userId, auctionId) {
+    return db.none('DELETE FROM saves WHERE user_id=$1 AND auction_id=$2', [userId, auctionId]);
+  },
+  getSaveOrNot(userId, auctionId){
+    return db.oneOrNone('SELECT * FROM saves WHERE user_id=$1 AND auction_id=$2', [userId, auctionId]);
+  },
   updateUserNotification({id, owner_id}) {
   /*{
       id 

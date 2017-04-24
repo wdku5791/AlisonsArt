@@ -7,14 +7,14 @@ router.get('/', (req, res) => {
   let { q } = req.query;
   model.getFollowOrNot(q.split(' ')[0], q.split(' ')[1])
   .then(data => {
-    if (Object.keys(data).length > 0) {
+    if(data && Object.keys(data).length > 0){
       res.status(200).send('true');
     } else {
       res.status(200).send('false');
     }
   })
   .catch(err => {
-    res.status(400).send(err);
+    res.status(400).send('Get follows error');
   });
 });
 
@@ -59,7 +59,7 @@ router.post('/unfollow', (req, res) => {
     if(err) {
       res.status(400).send('failed to unfollow');
     }
-    
+
     model.deleteFollower(decoded.userId, req.body)
     .then(() => {
       res.status(201).send('success');
