@@ -6,7 +6,6 @@ const authenticate = require('../middlewares/authenticate.js');
 const serverErr = { ERR: { status: 500, message: 'Something went wrong. So Sorry!' } };
 
 module.exports = function(io) {
-  console.log('HAVE IO', io);
   router.get('/', (req, res) => {
     console.log(req.cookies);
     const limit = req.query.limit || 20;
@@ -75,18 +74,61 @@ module.exports = function(io) {
     bid.bidder_id = req.user.userId;
     bid.bid_price = req.body.bidPrice;
     bid.bid_date = new Moment().format('YYYY-MM-DD HH:mm:ss');
-
+    // console.log('bidder', bid.bidder_id);
+    // console.log(io.sockets.sockets, 'listof sockets in auctions handler');
     model.createBid(bid)
     .then((bid) => {
       const update = {};
       update.auction_id = req.params.auctionId;
       update.bid = bid;
 
-      model.updateAuction(update)
+      return model.updateAuction(update)
       .then((bid) => {
-        res.status(201).json({
-          current_bid: bid.bid_price || bid.current_bid,
-          current_bid_id: bid.id || bid.current_bid_id });
+        // new bid beats current highest bid
+        // console.log(bid, bid.owner_id, 'LOOK HERE');
+        if (bid.owner_id) {
+          // person is currently on.
+          return model.getAuction(update.auction_id)
+          .then((auction) => {
+            
+            const noty = [{
+                    owner_id: bid.bidder_id,
+                    trigger_id: auction[0].id,
+                    type: 'auction',
+                    date: new Moment().format('YYYY-MM-DD HH:mm:ss'),
+                    text: `You have been outbidded on an auction ${auction[0].artwork.art_name}`
+            },{
+                    owner_id: bid.owner_id,
+                    trigger_id: auction[0].id,
+                    type: 'auction',
+                    date: new Moment().format('YYYY-MM-DD HH:mm:ss'),
+                    text: `Someone has bidded on your auction ${auction[0].artwork.art_name}`
+            }]
+            return model.createMassNotifications(noty)
+            .then(() => {
+              // console.log(io.socketList, 'list socket emissions')
+              // console.log('owner, bidder', io.socketList.hasOwnProperty(bid.owner_id), io.socketList.hasOwnProperty(bid.bidder_id));
+              if (io.socketList.hasOwnProperty(bid.owner_id)) {
+                io.socketList[bid.owner_id].emit('action', {type: 'UPDATE_NEW_NOTIFICATIONS', data: [noty[1]]});
+              }
+              if (io.socketList.hasOwnProperty(bid.bidder_id)) {
+                io.socketList[bid.bidder_id].emit('action', {type: 'UPDATE_NEW_NOTIFICATIONS', data: [noty[0]]});
+              }
+              // console.log('room:'+req.params.auctionId);
+              io.to('room:' + req.params.auctionId).emit('action', {type: 'UPDATE_CURRENT_BID', current_bid: bid.bid_price || bid.current_bid, current_bid_id: bid.id || bid.current_bid_id});
+              res.status(201).json({
+                current_bid: bid.bid_price || bid.current_bid,
+                current_bid_id: bid.id || bid.current_bid_id 
+              });  
+            })
+          })
+        }
+          io.to('room:' + req.params.auctionId).emit('action', {type: 'UPDATE_CURRENT_BID', current_bid: bid.bid_price || bid.current_bid, current_bid_id: bid.id || bid.current_bid_id});
+          res.status(201).json({
+            current_bid: bid.bid_price || bid.current_bid,
+            current_bid_id: bid.id || bid.current_bid_id 
+          });  
+
       });
     })
     .catch((err) => {
