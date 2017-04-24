@@ -33,7 +33,6 @@ class SaveFollow extends Component {
       return response.json();
     })
     .then(data => {
-      console.log('im data: ', data);
       this.props.dispatch(UserActions.fetchedFollows(data));
     })
     .catch(err => {

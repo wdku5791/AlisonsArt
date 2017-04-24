@@ -156,7 +156,7 @@ class Artist extends Component {
                 {inst_link ? <Button circular color='instagram' icon='instagram' onClick={() => {
                   this._socialMedia(inst_link);
                 }}/> : null}
-                {userId !== artistId ? <Button icon="heart" content="follow this artist" toggle active={this.state.active} onClick={this._handleFollow} /> : null}
+                {userId && userId !== artistId ? <Button icon="heart" content="follow this artist" toggle active={this.state.active} onClick={this._handleFollow} /> : null}
               </Container>
               <Grid verticalAlign='middle'>
                 <Grid.Row>

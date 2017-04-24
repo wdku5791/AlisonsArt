@@ -108,7 +108,7 @@ class Auction extends Component {
   render() {
 
     const { auction } = this.props.auction;
-    const { bid } = this.props;
+    const { bid, user } = this.props;
     if (Object.keys(auction).length === 0) {
       return (
         <p>loading~~~</p>
@@ -123,7 +123,7 @@ class Auction extends Component {
       } else {
         return (
           <div>
-            <AuctionDetail handleClick={this.handleClick.bind(this, auction.id)} auction={auction} setBid={this.setBid.bind(this)} handleSave={this.handleSave} /> 
+            <AuctionDetail user={user.username} handleClick={this.handleClick.bind(this, auction.id)} auction={auction} setBid={this.setBid.bind(this)} handleSave={this.handleSave} /> 
           </div>
         );
       }
