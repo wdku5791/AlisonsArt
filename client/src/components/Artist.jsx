@@ -188,7 +188,7 @@ class Artist extends Component {
               <Container>
                 <span>{first_name} {last_name}</span>
                 {' '}
-                <button onClick={this.directMessageHandler}>Direct message</button>
+                {this.props.userId ? <Button onClick={this.directMessageHandler} content="Direct message"/> : null}
                 {' '}
                 {fb_link ? <Button circular color='facebook' icon='facebook' onClick={() => {
                   this._socialMedia(fb_link);
