@@ -10,8 +10,13 @@ import * as ChatActions from '../actions/chatActionCreator.jsx';
 class Artist extends Component {
   constructor(props){
     super(props);
+    this.state= {
+      active: false
+    }
     this._socialMedia = this._socialMedia.bind(this);
     this.directMessageHandler = this.directMessageHandler.bind(this);
+    this._handleFollow = this._handleFollow.bind(this);
+    this._handleUnfollow = this._handleUnfollow.bind(this);
   }
 
   directMessageHandler() {
@@ -65,6 +70,28 @@ class Artist extends Component {
       dispatch(ArtistAction.fetchingArtist(false));
       dispatch(ArtistAction.fetchArtistErrored(true, err));
     });
+
+    //if user logged in, check if user followed this artist
+    if(this.props.user.username) {
+      //refactor to use authToken:
+      fetch('/follows/?q=' + this.props.user.userId +'+' + artistId)
+      .then(response => {
+        if(!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response.text();
+      })
+      .then(data => {
+        if(data === 'true') {
+          this.setState({active: true});
+        } else {
+          this.setState({active: false});
+        }
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
+    }
   }
 
   _socialMedia(link) {
@@ -72,8 +99,59 @@ class Artist extends Component {
       window.open(link);
     }
   }
+
+  _handleFollow() {
+    fetch('/follows/follow', {
+      method: 'POST',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
+      }),
+      body: JSON.stringify(this.props.match.params.artistId)
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw Error('failed to follow!');
+      }
+      return response.json();
+    })
+    .then(data => {
+      this.setState({active: true});
+    })
+    .catch(err => {
+      alert('Something went wrong, can\'t follow artist');
+    });
+  }
+
+  _handleUnfollow() {
+    fetch('/follows/unfollow', {
+      method: 'POST',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
+      }),
+      body: JSON.stringify(this.props.match.params.artistId)
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw Error('failed to unfollow!');
+      }
+      return response.text();
+    })
+    .then(data => {
+      if(data === 'success') {
+        this.setState({active: false});
+      }
+    })
+    .catch(err => {
+      alert('Something went wrong, can\'t unfollow artist');
+    });
+  }
   
   render(){
+    let { artistId } = this.props.match.params;
+    let { userId } = this.props.user;
+    let { dispatch, ongoingAuctions, passedAuctions } = this.props;
     let { isFetching, fetchArtistErrored, fetchedArtist } = this.props.artist;
     if (fetchArtistErrored) {
       return (
@@ -102,13 +180,13 @@ class Artist extends Component {
             </div>
           );
         }
-        let { fb_link, twitter_link, inst_link, profile, username} = fetchedArtist.profile;
+        let { fb_link, twitter_link, inst_link, profile, first_name, last_name} = fetchedArtist.profile;
         let { history } = this.props;
         return (
           <Container>
             <Container>
               <Container>
-                <span>{username}</span>
+                <span>{first_name} {last_name}</span>
                 {' '}
                 <button onClick={this.directMessageHandler}>Direct message</button>
                 {' '}
@@ -123,6 +201,8 @@ class Artist extends Component {
                 {inst_link ? <Button circular color='instagram' icon='instagram' onClick={() => {
                   this._socialMedia(inst_link);
                 }}/> : null}
+                {userId && userId !== artistId && !this.state.active ? <Button icon="heart" content="follow this artist" color="green" onClick={this._handleFollow} /> : null}
+                {userId && userId !== artistId && this.state.active ? <Button icon="empty heart" content="unfollow" onClick={this._handleUnfollow} /> : null}
               </Container>
               <Grid verticalAlign='middle'>
                 <Grid.Row>
@@ -137,16 +217,26 @@ class Artist extends Component {
                 </Grid.Row>
               </Grid>
             </Container>
-            <Grid columns={2}>
-              <Grid.Row>
-                <Grid.Column>
-                  <h3>Ongoing auctions:</h3>
-                  <ArtistAuctions flag="current" history={history}/>
+            <Grid divided={true}>
+            <h3>Ongoing auctions:</h3>
+              <Grid.Row columns={3}>
+              {ongoingAuctions.length === 0 ? <span>No ongoing auctions for this artist</span> : null}
+              {ongoingAuctions.map(auction => (
+                <Grid.Column key={auction.id}>
+                  <ArtistAuctions auction={auction} history={history} dispatch={dispatch} />
                 </Grid.Column>
-                <Grid.Column>
-                  <h3>Previous auctions:</h3>
-                  <ArtistAuctions flag="previous" history={history} />
+                ))}
+              </Grid.Row>
+            </Grid>
+            <Grid divided={true}>
+            <h3>Passed auctions:</h3>
+              <Grid.Row columns={3}>
+              {passedAuctions.length === 0 ? <span>No passed auctions for this artist</span> : null}
+              {passedAuctions.map(auction => (
+                <Grid.Column key={auction.id}>
+                  <ArtistAuctions auction={auction} history={history} dispatch={dispatch} />
                 </Grid.Column>
+                ))}
               </Grid.Row>
             </Grid>
           </Container>
@@ -158,9 +248,12 @@ class Artist extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    user: state.user,
     artist: state.artist,
     userId: state.user.userId,
-  }
-}
-export default connect(mapStateToProps)(Artist);
+    ongoingAuctions: state.artist.fetchedArtist.ongoingAuctions,
+    passedAuctions: state.artist.fetchedArtist.passedAuctions
+  };
+};
 
+export default connect(mapStateToProps)(Artist);

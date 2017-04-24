@@ -27,3 +27,24 @@ export function loginError(err) {
   };
 }
 
+export function fetchingSaveFollow(bool) {
+  return {
+    type: 'FETCHING_SAVE_FOLLOW',
+    fetchingSF: bool
+  };
+}
+
+export function fetchedSaves(saves) {
+  return {
+    type: 'FETCHED_SAVES',
+    fetchedAuctions: saves
+  };
+}
+
+export function fetchedFollows(follows) {
+  return {
+    type: 'FETCHED_FOLLOWS',
+    fetchedFollows: follows
+  };
+}
+

@@ -57,6 +57,11 @@ module.exports = {
   getUserBids(userId) {
     return db.query('select * from bids where bidder_id=$1', [userId]);
   },
+  getUserSavedAuctions(userId) {
+    return db.manyOrNone('SELECT * FROM ((SELECT auctions.artwork_id, auctions.end_date, auctions.id AS auction_id FROM auctions INNER JOIN saves ON auctions.id=saves.auction_id AND saves.user_id=$1) AS table1 INNER JOIN artworks ON table1.artwork_id= artworks.id)', 
+        [userId]);
+  }
+  ,
   getAuctionBids(auctionId) {
     return db.query('select * from bids where auction_id=$1', [auctionId]);
   },
@@ -175,13 +180,15 @@ module.exports = {
       .then(t.batch);
     });
   },
-  getUserFollowers(userId) {
-    return db.query('select * from users inner join followers\
-     on users.id = followers.follower_id where followers.followee_id = $1', [userId]);
-  },
   getUserFollows(userId) {
-    return db.query('select * from users inner join followers\
-     on users.id = followers.follower_id where followers.follower_id = $1', [userId]);
+    return db.query('SELECT * FROM \
+      (SELECT followee_id FROM followers WHERE follower_id=$1) AS table1 \
+      INNER JOIN(SELECT artworks.image_url, users.first_name, users.last_name, users.id FROM artworks \
+      INNER JOIN users ON artworks.artist_id=users.id) AS table2 \
+      ON table1.followee_id=table2.id LIMIT 1', [userId]);
+  },
+  getFollowOrNot(userId, artistId) {
+    return db.oneOrNone('SELECT * FROM followers WHERE follower_id=$1 AND followee_id=$2', [userId, artistId]);
   },
   getArtworks() {
     return db.query('select * from artworks');
@@ -190,7 +197,10 @@ module.exports = {
     return db.query('SELECT artworks.image_url FROM artworks INNER JOIN users ON artworks.artist_id=users.id AND artworks.artist_id=$1', [artist_id]);
   },
   getAuctionsOfArtist(artist_id) {
-    return db.any('SELECT auctions.id as auction_id, auctions.artwork_id, auctions.end_date, auctions.current_bid, Table1.image_url, Table1.art_name, Table1.estimated_price FROM auctions INNER JOIN (SELECT artworks.* FROM artworks INNER JOIN users ON (users.id=artworks.artist_id AND users.id=$1)) as Table1 ON auctions.artwork_id=Table1.id', [artist_id]);
+    return db.any('SELECT auctions.id AS auction_id, auctions.artwork_id, auctions.end_date, auctions.current_bid, Table1.image_url, Table1.art_name, Table1.estimated_price \
+      FROM auctions INNER JOIN \
+      (SELECT artworks.* FROM artworks INNER JOIN users ON (users.id=artworks.artist_id AND users.id=$1)) AS Table1 \
+      ON auctions.artwork_id=Table1.id', [artist_id]);
   },
 
   createArtistProfile(profile) {
@@ -208,7 +218,7 @@ module.exports = {
   },
 
   getArtistProfile(artist_id) {
-    return db.oneOrNone('SELECT profiles.profile, profiles.fb_link, profiles.twitter_link, profiles.inst_link, users.username FROM profiles INNER JOIN users ON profiles.user_id=users.id AND user_id=$1', [artist_id]);
+    return db.oneOrNone('SELECT profiles.profile, profiles.fb_link, profiles.twitter_link, profiles.inst_link, users.first_name, users.last_name FROM profiles INNER JOIN users ON profiles.user_id=users.id AND user_id=$1', [artist_id]);
   },
 
   getUserArtworks(userId) {
@@ -332,6 +342,9 @@ module.exports = {
       (${follower_id}, ${followee_id})\
       returning id', followerObj);
   },
+  deleteFollower(userId, artistId) {
+    return db.none('DELETE FROM followers WHERE follower_id=$1 AND followee_id=$2', [userId, artistId]);
+  },
   createMessage(messageObj) {
     /*
     {
@@ -360,7 +373,27 @@ module.exports = {
   updateUserType(type, id) {
     return db.none('UPDATE users SET type=$1 where id=$2', [type, id]);
   },
-
+  
+  saveAuction(user_id, auction_id) {
+    let auctionId = Number(auction_id);
+    return db.oneOrNone('SELECT * FROM saves WHERE user_id=$1 AND auction_id=$2', [user_id, auctionId])
+    .then(data => {
+      if(data && Object.keys(data).length > 0) {
+        return 'existing save';
+      }
+      return db.none(`INSERT INTO saves \
+        (user_id, auction_id) \
+        values \
+        (${user_id}, ${auctionId})`
+      );
+    });
+  },
+  unsaveAuction(userId, auctionId) {
+    return db.none('DELETE FROM saves WHERE user_id=$1 AND auction_id=$2', [userId, auctionId]);
+  },
+  getSaveOrNot(userId, auctionId){
+    return db.oneOrNone('SELECT * FROM saves WHERE user_id=$1 AND auction_id=$2', [userId, auctionId]);
+  },
   updateUserNotification({id, owner_id}) {
   /*{
       id 

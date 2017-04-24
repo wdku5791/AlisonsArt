@@ -1,8 +1,9 @@
 import React from 'react';
-import { Container, Image, Grid } from 'semantic-ui-react';
+import { Container, Image, Grid, Button } from 'semantic-ui-react';
 import Moment from 'moment';
 
-const ClosedAuction = ({ auction }) => {
+const ClosedAuction = ({ auction, handleSave, handleUnsave, user, flag }) => {
+
   let endTime = new Moment(auction.end_date).format('MMMM Do, YYYY, h:mm:ss a');
   return (
     <Grid>
@@ -12,6 +13,12 @@ const ClosedAuction = ({ auction }) => {
       <Grid.Column width={4}>
         <Container>
           <h2 className='closedListing'>This auction ended: {endTime}</h2>
+          {user.username && !flag ? <Button circular icon="heart" content="save" color="green" onClick={() =>{
+            handleSave(auction.id)
+          }} /> : null}
+          {user.username && flag ?  <Button circular icon="empty heart" content="unsave" onClick={() => {
+            handleUnsave(auction.id)
+          }}/> : null}
           <h2>{auction.artwork.art_name}</h2>
           <h3>{auction.first_name} {auction.last_name} ({auction.artwork.age})</h3>
           <p><strong>Description:</strong> {auction.artwork.description}</p>

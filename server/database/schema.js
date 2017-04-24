@@ -3,7 +3,7 @@ module.exports = function createSchemas(db) {
 
     let drop = t.query('DROP TABLE IF EXISTS\
       followers, artwork_attributes, attributes, messages,\
-      bids, auctions, artworks, users, closed_auctions, notifications, profiles cascade \
+      bids, auctions, artworks, users, closed_auctions, ended_auctions, notifications, profiles, saves cascade \
     ');
 
     let users = t.query('CREATE TABLE IF NOT EXISTS users (\
@@ -64,7 +64,8 @@ module.exports = function createSchemas(db) {
     let followers = t.query('CREATE TABLE IF NOT EXISTS followers (\
       id SERIAL PRIMARY KEY NOT NULL,\
       follower_id BIGINT NOT NULL REFERENCES users(id),\
-      followee_id BIGINT NOT NULL REFERENCES users(id)\
+      followee_id BIGINT NOT NULL REFERENCES users(id), \
+      UNIQUE (follower_id, followee_id)\
     )');
     let profiles = t.query('CREATE TABLE IF NOT EXISTS profiles (\
       id SERIAL PRIMARY KEY NOT NULL,\
@@ -76,6 +77,12 @@ module.exports = function createSchemas(db) {
       stripe_user_id VARCHAR,\
       refresh_token VARCHAR\
     )');
+    let saves = t.query('CREATE TABLE IF NOT EXISTS saves(\
+      id SERIAL PRIMARY KEY NOT NULL,\
+      user_id BIGINT NOT NULL REFERENCES users(id),\
+      auction_id BIGINT NOT NULL REFERENCES auctions(id), \
+      UNIQUE (user_id, auction_id))'
+      );
     let notifications = t.query('CREATE TABLE IF NOT EXISTS notifications (\
       id SERIAL PRIMARY KEY NOT NULL,\
       owner_id BIGINT NOT NULL REFERENCES users(id),\
@@ -92,7 +99,7 @@ module.exports = function createSchemas(db) {
       payment_status status DEFAULT \'unpaid\'\
     )');
 
-    return t.batch([drop, users, artworks, auctions, bids, attributes, messages, artworkAttributes, followers, profiles, notifications, closedAuctions]);
+    return t.batch([drop, users, artworks, auctions, bids, attributes, messages, artworkAttributes, followers, profiles, saves, closedAuctions, notifications]);
   })
   .then(() => {
     console.log('database tables created');

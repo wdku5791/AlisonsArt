@@ -132,9 +132,9 @@ describe('should modify or get data from the auctions table', () => {
 
 describe('should modify or get data from the followers table', () => {
   test('should create follower relationships in the followers table', () => {
-    return model.createFollower({follower_id: 1, followee_id: 1})
+    return model.createFollower({follower_id: 1, followee_id: 2})
     .then(() => {
-      return model.getUserFollowers(1);
+      return model.getUserFollows(1);
     })
     .then((data) => {
       expect(data.length).toEqual(1);

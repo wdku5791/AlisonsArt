@@ -12,7 +12,7 @@ import { logger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import createSocketIoMiddleware from 'redux-socket.io';
 import NavBar from './components/NavBar.jsx';
-import Home from './components/Home.js';
+import Home from './components/Home.jsx';
 import reducer from './reducers/index.jsx';
 import Auctions from './components/Auctions.jsx';
 import Auction from './components/Auction.jsx';
