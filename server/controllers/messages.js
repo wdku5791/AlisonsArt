@@ -23,4 +23,14 @@ router.get('/:userId', (req, res) => {
   })
 })
 
+router.get('/inbox/:userId', (req, res) => {
+  model.getInboxMessages(req.params.userId)
+  .then((messages) => {
+    res.status(200).json(messages);
+  })
+  .catch((serverErr) => {
+    res.status(500).send(serverErr);
+  })
+})
+
 module.exports = router;

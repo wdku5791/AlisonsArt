@@ -2,6 +2,7 @@ const initialState = {
   receiverId: null,
   messages: [],
   roomname: null,
+  inboxMessages: []
 };
 
 const chatReducer = (state = initialState, action) => {

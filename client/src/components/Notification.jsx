@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as notifications from '../actions/notificationActionCreator.jsx';
 import Note from './NotificationEntry.jsx';
 import * as UserActions from '../actions/userActionCreator.jsx';
+import Inbox from './Inbox.jsx'
 
 class Notification extends React.Component {
   constructor(props) {
@@ -95,6 +96,7 @@ class Notification extends React.Component {
             notification={notification} />)
           )}
         </div>
+        <Inbox />
       </div>
     );
   }
