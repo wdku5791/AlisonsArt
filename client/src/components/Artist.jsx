@@ -27,7 +27,7 @@ class Artist extends Component {
       method: 'GET',
       headers: new Headers({
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+        'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`,
       })
     })
     .then((response) => {

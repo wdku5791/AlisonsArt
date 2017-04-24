@@ -56,11 +56,11 @@ class WriteMessage extends React.Component {
   }
 
   retrieveMessages() {
-    fetch(`/messages/${Number(this.props.userId)}/?receiver_id=${Number(this.props.receiverId)}`, {
+    fetch(`/messages/${this.props.userId}/?receiver_id=${this.props.receiverId}`, {
       method: 'GET',
       headers: new Headers({
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+        'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`,
       })
     })
     .then((response) => {
