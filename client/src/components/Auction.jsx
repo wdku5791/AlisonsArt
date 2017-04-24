@@ -33,6 +33,74 @@ class Auction extends Component {
       dispatch(Auctions.fetchingAnAuction(false));
       dispatch(Auctions.fetchAuctionErrored(true, err));
     });
+    //lala:
+    if (user.username) {
+      fetch('/saves/?q=' + user.userId + '+' + auctionId)
+      .then(response => {
+        if(!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response.text();
+      })
+      .then(data => {
+        if (data === 'success') {
+          this.setState({active: true});
+        } else {
+          this.setState({active: false});
+        }
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
+    }
+  }
+
+  handleSave(auction_id) {
+    console.log('im this: ', this);
+    fetch('/saves/save', {
+      method: 'POST',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
+      }),
+      body: JSON.stringify(auction_id)
+    })
+    .then(response => {
+      if(!response.ok) {
+        throw Error('failed to save!');
+      }
+      return true;
+    })
+    .then(data => {
+      this.setState({active: true});
+    })
+    .catch(err => {
+      alert('Something went wrong, can\'t save auction');
+    });
+  }
+
+  handleUnsave(auction_id) {
+    console.log('im this: ', this);
+    fetch('/saves/unsave', {
+      method: 'POST',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
+      }),
+      body: JSON.stringify(auction_id)
+    })
+    .then(response => {
+      if(!response.ok) {
+        throw Error('failed to unsave!');
+      }
+      return true;
+    })
+    .then(data => {
+      this.setState({active: false});
+    })
+    .catch(err => {
+      alert('Something went wrong, can\'t unsave auction');
+    });
   }
 
   setBid(bid) {
@@ -84,6 +152,7 @@ class Auction extends Component {
 
     const { auction } = this.props.auction;
     const { bid, user } = this.props;
+    console.log('auction id?? ', auction.id);
     if (Object.keys(auction).length === 0) {
       return (
         <p>loading~~~</p>
@@ -93,7 +162,9 @@ class Auction extends Component {
       const now = new Moment();
       if (end.isBefore(now)) {
         return (
-          <ClosedAuction auction={auction} handleSave={this.handleSave} />
+          <ClosedAuction user={user} auction={auction} handleSave={() => {this.handleSave(auction.id)}} handleUnsave={() => {
+            this.handleUnsave(auction.id)
+          }}/>
         );
       } else {
         return (

@@ -12,72 +12,72 @@ class AuctionDetail extends Component{
   }
 
   componentWillMount() {
-    if (this.props.user.username) {
-      fetch('/saves/?q=' + this.props.user.userId + '+' + this.props.auction.id)
-      .then(response => {
-        if(!response.ok) {
-          throw Error(response.statusText);
-        }
-        return response.text();
-      })
-      .then(data => {
-        if (data === 'success') {
-          this.setState({active: true});
-        } else {
-          this.setState({active: false});
-        }
-      })
-      .catch(err => {
-        console.log(err.message);
-      });
-    }
+    // if (this.props.user.username) {
+    //   fetch('/saves/?q=' + this.props.user.userId + '+' + this.props.auction.id)
+    //   .then(response => {
+    //     if(!response.ok) {
+    //       throw Error(response.statusText);
+    //     }
+    //     return response.text();
+    //   })
+    //   .then(data => {
+    //     if (data === 'success') {
+    //       this.setState({active: true});
+    //     } else {
+    //       this.setState({active: false});
+    //     }
+    //   })
+    //   .catch(err => {
+    //     console.log(err.message);
+    //   });
+    // }
   }
 
-  handleSave(auction_id) {
-    fetch('/saves/save', {
-      method: 'POST',
-      headers: new Headers({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
-      }),
-      body: JSON.stringify(auction_id)
-    })
-    .then(response => {
-      if(!response.ok) {
-        throw Error('failed to save!');
-      }
-      return true;
-    })
-    .then(data => {
-      this.setState({active: true});
-    })
-    .catch(err => {
-      alert('Something went wrong, can\'t save auction');
-    });
-  }
+  // handleSave(auction_id) {
+  //   fetch('/saves/save', {
+  //     method: 'POST',
+  //     headers: new Headers({
+  //       'Content-Type': 'application/json',
+  //       'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
+  //     }),
+  //     body: JSON.stringify(auction_id)
+  //   })
+  //   .then(response => {
+  //     if(!response.ok) {
+  //       throw Error('failed to save!');
+  //     }
+  //     return true;
+  //   })
+  //   .then(data => {
+  //     this.setState({active: true});
+  //   })
+  //   .catch(err => {
+  //     alert('Something went wrong, can\'t save auction');
+  //   });
+  // }
 
-  handleUnsave(auction_id) {
-    fetch('/saves/unsave', {
-      method: 'POST',
-      headers: new Headers({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
-      }),
-      body: JSON.stringify(auction_id)
-    })
-    .then(response => {
-      if(!response.ok) {
-        throw Error('failed to unsave!');
-      }
-      return true;
-    })
-    .then(data => {
-      this.setState({active: false});
-    })
-    .catch(err => {
-      alert('Something went wrong, can\'t unsave auction');
-    });
-  }
+  // handleUnsave(auction_id) {
+  //   fetch('/saves/unsave', {
+  //     method: 'POST',
+  //     headers: new Headers({
+  //       'Content-Type': 'application/json',
+  //       'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
+  //     }),
+  //     body: JSON.stringify(auction_id)
+  //   })
+  //   .then(response => {
+  //     if(!response.ok) {
+  //       throw Error('failed to unsave!');
+  //     }
+  //     return true;
+  //   })
+  //   .then(data => {
+  //     this.setState({active: false});
+  //   })
+  //   .catch(err => {
+  //     alert('Something went wrong, can\'t unsave auction');
+  //   });
+  // }
 
   render(){
     let { auction, setBid, handleClick, user } = this.props;
@@ -91,10 +91,10 @@ class AuctionDetail extends Component{
           <Container>
             <h2>{auction.artwork.art_name}</h2>
             {user && !this.state.active ? <Button circular icon="heart" content="save" color="green" onClick={() =>{
-              this.handleSave(auction.id)
+              this.props.handleSave(auction.id)
             }} /> : null}
             {user && this.state.active ? <Button circular icon="empty heart" content="unsave" onClick={() => {
-              this.handleUnsave(auction.id)
+              this.props.handleUnsave(auction.id)
             }} /> : null}
             <h3>{auction.first_name} {auction.last_name} ({auction.artwork.age})</h3>
             <p><strong>Auction Ends:</strong> {endTime}</p>
