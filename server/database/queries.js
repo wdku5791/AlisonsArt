@@ -97,7 +97,7 @@ module.exports = {
   },
 
   getInboxMessages(userId) {
-    return db.query('select * from messages where sender_id=$1 or receiver_id=$1', [userId]);
+    return db.query('select * from messages where sender_id=$1 or receiver_id=$1 order by id desc', [userId]);
   },
 
   workerAuctions(prevJob, endDate) {

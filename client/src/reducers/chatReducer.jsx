@@ -28,6 +28,11 @@ const chatReducer = (state = initialState, action) => {
         ...state,
         messages: state.messages.slice().concat(action.data)
       }
+    case 'GET_INBOX':
+      return {
+        ...state,
+        inboxMessages: action.data
+      }
     default: 
       return state;
   }

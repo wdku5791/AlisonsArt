@@ -18,3 +18,10 @@ export function initRoom(receiverId, messages, roomname) {
     data: [receiverId, messages, roomname]
   }
 }
+
+export function getInbox(messages) {
+  return {
+    type: 'GET_INBOX',
+    data: messages
+  }
+}
