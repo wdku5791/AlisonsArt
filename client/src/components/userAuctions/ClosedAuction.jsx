@@ -33,7 +33,7 @@ const ClosedAuction = ({auction}) => {
       }
     })
     .then(data => {
-      alert(data);
+      alert(data.message);
     })
     .catch(err => {
       alert(err);

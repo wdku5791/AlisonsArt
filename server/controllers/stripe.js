@@ -37,15 +37,14 @@ router.get('/connect/callback', authenticate, (req, res) => {
       if (error) {
         res.send(error);
       }
-      model.updateStripe(body, req.user.userId)
-      .then(() => {
+      model.updateStripe(JSON.parse(body), req.user.userId)
+      .then((stripeId) => {
         return model.updateUserType('artist', req.user.userId);
       })
       .then(() => {
         res.redirect('/');
       })
       .catch((err) => {
-        console.log(err.message);
         res.status(404).send('Stripe Error - account not connected');
       });
     });
@@ -53,28 +52,22 @@ router.get('/connect/callback', authenticate, (req, res) => {
 
 router.post('/charge', authenticate, (req, res) => {
   const { token, auction } = req.body;
-  console.log(req.body);
-  const userId = req.user.userId;
 
   model.getStripeId(auction.owner_id)
   .then((result) => {
+    console.log(result.stripe_user_id);
     stripe.charges.create({
       amount: auction.current_bid,
-      currency: "usd",
-      source: token,
-      destination: {
-        account: result.stripe_user_id,
-      },
-    }).then(function(charge) {
+      currency: 'usd',
+      source: token.id
+    }, {
+      stripe_account: result.stripe_user_id
+    }).then((charge) => {
       // asynchronously called
-      console.log(charge);
       return model.updatePaymentStatus('paid', auction.id)
-      .then(() => {
-        res.status(200).json({status: 200, message: 'Payment made succesfully'});
-      })
-      .catch((err) => {
-        res.status(500).send(err);
-      });
+    })
+    .then(() => {
+      res.status(200).json({status: 200, message: 'Payment made succesfully'});
     })
     .catch((err) => {
       res.status(400).send(err);

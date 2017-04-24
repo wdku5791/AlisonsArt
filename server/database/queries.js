@@ -199,8 +199,8 @@ module.exports = {
   },
 
   updateStripe(stripeCreds, userId) {
-    return db.query('UPDATE profiles SET stripe_user_id = $1, refresh_token=$2 \
-      WHERE user_id=$3', [stripeCreds.stripe_user_id, stripeCreds.refresh_token, userId]);
+    return db.one('UPDATE profiles SET stripe_user_id = $1, refresh_token=$2 \
+      WHERE user_id=$3 returning stripe_user_id', [stripeCreds.stripe_user_id, stripeCreds.refresh_token, userId]);
   },
 
   getStripeId(userId) {
@@ -407,7 +407,7 @@ module.exports = {
   },
 
   updatePaymentStatus(status, auctionId) {
-    return db.none('UPDATE closed_auction SET payment_status=$1 WHERE auction_id=$2', [status, auctionId]);
+    return db.query('UPDATE closed_auctions SET payment_status=$1 WHERE auction_id=$2', [status, auctionId]);
   }
 
 
