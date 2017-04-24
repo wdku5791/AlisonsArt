@@ -16,7 +16,6 @@ class Artist extends Component {
 
   directMessageHandler() {
     let receiverId = this.props.match.params.artistId;
-    console.log('typeof userId: ', typeof this.props.userId, '\ntypeof receiverId: ', typeof receiverId);
     let roomname;
     if (this.props.userId > receiverId) {
       roomname = this.props.userId + receiverId;

@@ -90,9 +90,7 @@ module.exports = {
         }
         if (action.type === 'socket/INITIALIZE_ROOM'){
           var roomname = action.data[2];
-          socket.join(roomname, () => {
-            console.log('INITIALIZE_ROOM: ', socket.id, ' joined room ', roomname)
-          });
+          socket.join(roomname);
         }
         if (action.type === 'socket/CHAT_MESSAGE'){
           var roomname = action.data.roomname;
