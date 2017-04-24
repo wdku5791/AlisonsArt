@@ -60,6 +60,7 @@
     "semantic-ui-react": "^0.67.2",
     "socket.io": "^1.7.3",
     "socket.io-client": "^1.7.3",
+    "stripe": "^4.18.0",
     "supertest": "^3.0.0",
     "webpack": "^2.3.3"
   },

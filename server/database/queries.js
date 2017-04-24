@@ -199,13 +199,18 @@ module.exports = {
   },
 
   updateStripe(stripeCreds, userId) {
-    return db.query('UPDATE profiles SET stripe_user_id = $1, refresh_token=$2 \
-      WHERE id=$3', [stripeCreds.stripe_user_id, stripeCreds.refresh_token, userId]);
+    return db.one('UPDATE profiles SET stripe_user_id = $1, refresh_token=$2 \
+      WHERE user_id=$3 returning stripe_user_id', [stripeCreds.stripe_user_id, stripeCreds.refresh_token, userId]);
+  },
+
+  getStripeId(userId) {
+    return db.one('SELECT stripe_user_id FROM profiles WHERE user_id=$1', [userId]);
   },
 
   getArtistProfile(artist_id) {
     return db.oneOrNone('SELECT profiles.profile, profiles.fb_link, profiles.twitter_link, profiles.inst_link, users.username FROM profiles INNER JOIN users ON profiles.user_id=users.id AND user_id=$1', [artist_id]);
   },
+
   getUserArtworks(userId) {
     return db.query('select * from artworks where artist_id = $1', [userId]);
   },
@@ -351,6 +356,11 @@ module.exports = {
   updateUser() {
     //TODO
   },
+
+  updateUserType(type, id) {
+    return db.none('UPDATE users SET type=$1 where id=$2', [type, id]);
+  },
+
   updateUserNotification({id, owner_id}) {
   /*{
       id 
@@ -394,6 +404,10 @@ module.exports = {
         }
       });
     });
+  },
+
+  updatePaymentStatus(status, auctionId) {
+    return db.query('UPDATE closed_auctions SET payment_status=$1 WHERE auction_id=$2', [status, auctionId]);
   }
 
 

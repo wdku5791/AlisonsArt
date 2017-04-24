@@ -16,7 +16,7 @@ class UserAuctions extends Component {
     dispatch(userAuctions.fetchingUserAuctions(true));
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    headers.append('authorization', `Bearer ${localStorage.getItem('authToken')}`);
+    headers.append('authorization', `Bearer ${sessionStorage.getItem('authToken')}`);
     fetch('/auctions/ongoing', {
       headers: headers
     })
