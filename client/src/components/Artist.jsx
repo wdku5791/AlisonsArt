@@ -10,6 +10,9 @@ import * as ChatActions from '../actions/chatActionCreator.jsx';
 class Artist extends Component {
   constructor(props){
     super(props);
+    this.state= {
+      active: false
+    }
     this._socialMedia = this._socialMedia.bind(this);
     this.directMessageHandler = this.directMessageHandler.bind(this);
     this._handleFollow = this._handleFollow.bind(this);
@@ -84,13 +87,15 @@ class Artist extends Component {
       body: JSON.stringify(this.props.match.params.artistId)
     })
     .then(response => {
-      if (!respones.ok) {
+      if (!response.ok) {
         throw Error('failed to follow!');
       }
-      return true;
+      return response.json();
     })
     .then(data => {
-      console.log('followed artist!');
+      this.setState((prevState) =>{
+        return {active: !prevState.active};
+      });
     })
     .catch(err => {
       alert('Something went wrong, can\'t follow artist');
@@ -98,8 +103,11 @@ class Artist extends Component {
   }
   
   render(){
+    let { artistId } = this.props.match.params;
+    let { userId } = this.props.user;
     let { dispatch, ongoingAuctions, passedAuctions } = this.props;
     let { isFetching, fetchArtistErrored, fetchedArtist } = this.props.artist;
+    console.log(this.state.active);
     if (fetchArtistErrored) {
       return (
         <div>
@@ -148,7 +156,7 @@ class Artist extends Component {
                 {inst_link ? <Button circular color='instagram' icon='instagram' onClick={() => {
                   this._socialMedia(inst_link);
                 }}/> : null}
-                <Button icon="heart" content="follow this artist" onClick={this._handleFollow} />
+                {userId !== artistId ? <Button icon="heart" content="follow this artist" toggle active={this.state.active} onClick={this._handleFollow} /> : null}
               </Container>
               <Grid verticalAlign='middle'>
                 <Grid.Row>
@@ -164,28 +172,27 @@ class Artist extends Component {
               </Grid>
             </Container>
             <Grid divided={true}>
-            Ongoing auctions:
+            <h3>Ongoing auctions:</h3>
               <Grid.Row columns={3}>
               {ongoingAuctions.length === 0 ? <span>No ongoing auctions for this artist</span> : null}
               {ongoingAuctions.map(auction => (
-                <Grid.Column>
+                <Grid.Column key={auction.id}>
                   <ArtistAuctions auction={auction} history={history} dispatch={dispatch} />
                 </Grid.Column>
                 ))}
               </Grid.Row>
             </Grid>
             <Grid divided={true}>
-            Passed auctions:
+            <h3>Passed auctions:</h3>
               <Grid.Row columns={3}>
               {passedAuctions.length === 0 ? <span>No passed auctions for this artist</span> : null}
               {passedAuctions.map(auction => (
-                <Grid.Column>
+                <Grid.Column key={auction.id}>
                   <ArtistAuctions auction={auction} history={history} dispatch={dispatch} />
                 </Grid.Column>
                 ))}
               </Grid.Row>
             </Grid>
-
           </Container>
         )
       }
@@ -195,6 +202,7 @@ class Artist extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    user: state.user,
     artist: state.artist,
     userId: state.user.userId,
     ongoingAuctions: state.artist.fetchedArtist.ongoingAuctions,
@@ -203,4 +211,3 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(Artist);
-

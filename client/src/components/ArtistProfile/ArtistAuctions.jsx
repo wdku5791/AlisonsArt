@@ -8,12 +8,10 @@ const _handleImageClick = (auction_id, history) => {
 
 const _helper =(auction, history) => {
   if(auction) {
-    console.log('auction: ', auction);
     //want to add onClick for Images.
     //find the styling first.
     return (
       <Container>
-        <div key={auction.artwork_id}>
           <Image 
             className='imageLink'
             src={auction.image_url}
@@ -27,7 +25,6 @@ const _helper =(auction, history) => {
           <br />
           <span>Estimated value: {auction.estimated_price}</span>
           <br />
-        </div>
       </Container>
     );
   } else {

@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
-import { Divider, Container, Grid } from 'semantic-ui-react';
+import { Divider, Container, Grid, Image } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import * as UserActions from '../actions/userActionCreator.jsx';
 import ArtistAuctions from './ArtistProfile/ArtistAuctions.jsx';
+import Artist from './Artist.jsx';
 
 class SaveFollow extends Component {
+  constructor(props) {
+    super(props);
+    this._handleClickArtist = this._handleClickArtist.bind(this);
+  }
+
   componentWillMount() {
     let { userId } = this.props.match.params;
     fetch('/saves/' + userId, {
@@ -17,15 +23,35 @@ class SaveFollow extends Component {
       this.props.dispatch(UserActions.fetchedSaves(data));
     })
     .catch(err => {
-      alert('Sorry, an error occurred!');
+      alert('Sorry! Failed to fetch your saved auctions.');
+    });
+
+    fetch('/follows/' + userId, {
+      headers: new Headers ({'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`})
+    })
+    .then(response => {
+      return response.json();
+    })
+    .then(data => {
+      console.log('im data: ', data);
+      this.props.dispatch(UserActions.fetchedFollows(data));
+    })
+    .catch(err => {
+      alert('Sorry! Failed to fetch your following artists');
     });
   }
+
+  _handleClickArtist(artistId) {
+    this.props.history.push('/artist/' + artistId);
+  }
+
   render() {
     let { savedAuctions, followingArtists, dispatch, history } = this.props;
     return (
       <Container>
-        Saved auctions:
+        <h3>Saved auctions:</h3>
         <Grid divided={true}>
+        {savedAuctions.length === 0 ? <div>You don't have any saves yet</div> : null}
           <Grid.Row columns={3}>
           {savedAuctions.map(auction => {
             return (
@@ -37,8 +63,27 @@ class SaveFollow extends Component {
         </Grid>
         <Divider />
         <div>
-          Following artists:
-
+          <h3>Following artists:</h3>
+          <Grid divied={true}>
+          {followingArtists.length === 0 ? <div>You are not following any artists yet</div> : null}
+            <Grid.Row columns={3}>
+            {followingArtists.map(artist => {
+              return (
+                <Grid.Column>
+                <Container>
+                  <Image 
+                    className='imageLink'
+                    src={artist.image_url} 
+                    onClick={() => {
+                      this._handleClickArtist(artist.followee_id)
+                  }} />
+                  <div>{artist.first_name} {artist.last_name}</div>
+                  <div>categories?</div>
+                </Container>
+                </Grid.Column>);
+            })}
+            </Grid.Row>
+          </Grid>
         </div>
       </Container>
     );

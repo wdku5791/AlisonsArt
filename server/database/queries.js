@@ -180,13 +180,12 @@ module.exports = {
       .then(t.batch);
     });
   },
-  getUserFollowers(userId) {
-    return db.query('select * from users inner join followers\
-     on users.id = followers.follower_id where followers.followee_id = $1', [userId]);
-  },
   getUserFollows(userId) {
-    return db.query('select * from users inner join followers\
-     on users.id = followers.follower_id where followers.follower_id = $1', [userId]);
+    return db.query('SELECT * FROM \
+      (SELECT followee_id FROM followers WHERE follower_id=$1) AS table1 \
+      INNER JOIN(SELECT artworks.image_url, users.first_name, users.last_name, users.id FROM artworks \
+      INNER JOIN users ON artworks.artist_id=users.id) AS table2 \
+      ON table1.followee_id=table2.id LIMIT 1', [userId]);
   },
   getArtworks() {
     return db.query('select * from artworks');
