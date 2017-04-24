@@ -187,6 +187,9 @@ module.exports = {
       INNER JOIN users ON artworks.artist_id=users.id) AS table2 \
       ON table1.followee_id=table2.id LIMIT 1', [userId]);
   },
+  getFollowOrNot(userId, artistId) {
+    return db.oneOrNone('SELECT * FROM followers WHERE follower_id=$1 AND followee_id=$2', [userId, artistId]);
+  },
   getArtworks() {
     return db.query('select * from artworks');
   },
@@ -338,6 +341,9 @@ module.exports = {
       values \
       (${follower_id}, ${followee_id})\
       returning id', followerObj);
+  },
+  deleteFollower(userId, artistId) {
+    return db.none('DELETE FROM followers WHERE follower_id=$1 AND followee_id=$2', [userId, artistId]);
   },
   createMessage(messageObj) {
     /*

@@ -16,6 +16,7 @@ const AuctionDetail = ({ auction, setBid, handleClick, handleSave, user }) => {
           {user ? <Button circular icon="heart" content="save" onClick={() =>{
             handleSave(auction.id)
           }}/ > : null}
+          <Button circular icon="empty heart" content="unsave" color="green"/>
           <h3>{auction.first_name} {auction.last_name} ({auction.artwork.age})</h3>
           <p><strong>Auction Ends:</strong> {endTime}</p>
           <p><strong>Description:</strong> {auction.artwork.description}</p>
