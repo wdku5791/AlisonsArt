@@ -278,10 +278,10 @@ module.exports = {
       text
     } */
     return db.one('insert into notifications \
-      (owner_id, trigger_id, type, read, date, text)\
+      (owner_id, trigger_id, type, date, text)\
       values \
-      (${owner_id}, ${trigger_id}, ${type}, ${read}, ${date}, ${text})\
-      returning id', notificationObj);
+      (${owner_id}, ${trigger_id}, ${type}, ${date}, ${text})\
+      returning *', notificationObj);
   },
   createMassNotifications(arrayOfNotifications) {
     return db.query(helpers.insert(arrayOfNotifications, csNotifications));
@@ -421,7 +421,7 @@ module.exports = {
             bid_counter = bid_counter + 1, current_bid = $3\
             where id = $2 returning current_bid_id, current_bid', [auctionObj.bid.id, auctionObj.auction_id, auctionObj.bid.bid_price]);
         } else {
-          return t.one('SELECT bids.bid_price, bids.id FROM bids INNER JOIN auctions ON \
+          return t.one('SELECT bids.bid_price, bids.bidder_id, bids.id FROM bids INNER JOIN auctions ON \
             auctions.id=$1 AND bids.id=auctions.current_bid_id', [auctionObj.auction_id])
           .then((currentBid) => {
             // if the new bid is higher than the current champion
@@ -429,7 +429,11 @@ module.exports = {
               // set it to be the current_bid_id
               return t.one('update auctions SET current_bid_id = $1, \
                 bid_counter = bid_counter + 1, current_bid = $3\
-                where id = $2 returning current_bid, current_bid_id', [auctionObj.bid.id, auctionObj.auction_id, auctionObj.bid.bid_price]);
+                where id = $2 returning current_bid, current_bid_id, owner_id', [auctionObj.bid.id, auctionObj.auction_id, auctionObj.bid.bid_price])
+                .then((bid) => {
+                  bid.bidder_id = currentBid.bidder_id
+                  return bid;
+                });
             } else {
               return currentBid;
             }
