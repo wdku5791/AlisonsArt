@@ -25,3 +25,9 @@ export function getInbox(messages) {
     data: messages
   }
 }
+
+export function clearChat() {
+  return {
+    type: 'CLEAR_CHAT'
+  }
+}

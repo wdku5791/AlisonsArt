@@ -2,7 +2,7 @@ const initialState = {
   receiverId: null,
   messages: [],
   roomname: null,
-  inboxMessages: []
+  inboxMessages: [],
 };
 
 const chatReducer = (state = initialState, action) => {
@@ -32,6 +32,13 @@ const chatReducer = (state = initialState, action) => {
       return {
         ...state,
         inboxMessages: action.data
+      }
+    case 'CLEAR_CHAT':
+      return {
+        ...state,
+        receiverId: null,
+        messages: [],
+        inboxMessages: [],
       }
     default: 
       return state;

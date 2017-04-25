@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import { Segment, Button, TextArea} from 'semantic-ui-react';
+import { Segment, Button, TextArea, Form } from 'semantic-ui-react';
 import * as ChatActions from './../actions/chatActionCreator.jsx';
 
 class WriteMessage extends React.Component {
@@ -13,6 +13,7 @@ class WriteMessage extends React.Component {
     this.handleFormChange = this.handleFormChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     // this.retrieveMessages = this.retrieveMessages.bind(this);
+    // this.handleEnter = this.handleEnter.bind(this);
   }
 
   handleFormChange(e) {
@@ -21,7 +22,8 @@ class WriteMessage extends React.Component {
     })
   }
 
-  handleFormSubmit() {
+  handleFormSubmit(e) {
+    e.preventDefault();
     var messagePayload = {
       text: this.state.text,
       sender_id: this.props.userId,
@@ -80,34 +82,40 @@ class WriteMessage extends React.Component {
   //   setTimeout(this.retrieveMessages, 1500);
   // }  
 
+  // handleEnter(e) {
+  //   if(e.keyCode == 13 && e.shiftKey == false) {
+  //     e.preventDefault();
+  //     this.handleFormSubmit(); 
+  //   }
+  // }
+
   render() {
-    return (
-      <Segment className='messageWindow'>
-        <p><strong>conversation with: {this.props.receiverId}</strong></p>
-        <Segment className='messageFeed'>
-          {
-            this.props.messages.map(message => {
-              if (Number(message.sender_id) === Number(this.props.userId)) {
-                return <p className='senderMessage'>{message.text}</p>
-              } else {
-                return <p className='receiverMessage'>{message.text}</p>
-              }
-            })
-          }
+    if (!this.props.roomname || !this.props.receiverId) {
+      return <div></div>
+    } else {
+      return (
+        <Segment className='messageWindow'>
+          <p><strong>conversation with: {this.props.receiverId}</strong></p>
+          <Segment className='messageFeed'>
+            {
+              this.props.messages.map(message => {
+                if (Number(message.sender_id) === Number(this.props.userId)) {
+                  return <p className='senderMessage'>{message.text}</p>
+                } else {
+                  return <p className='receiverMessage'>{message.text}</p>
+                }
+              })
+            }
+          </Segment>
+          <Form>  
+            <Form.Field>
+              <input value={this.state.text} onChange={this.handleFormChange}/>
+            </Form.Field>
+            <Button style={{'display': 'none'}} type='submit' onClick={this.handleFormSubmit}>the button</Button>
+          </Form>
         </Segment>
-        <Segment className='messageInput'>
-          <TextArea autoHeight 
-            value={this.state.text}  
-            onChange={this.handleFormChange}
-          />
-          <Button 
-            onClick={this.handleFormSubmit}
-          >
-            Send
-          </Button>
-        </Segment>
-      </Segment>
-    )
+      )
+    }
   }
 }
 

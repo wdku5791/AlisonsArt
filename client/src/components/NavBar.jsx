@@ -4,12 +4,14 @@ import { Image, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import * as UserActions from './../actions/userActionCreator.jsx';
 import * as SocketActions from './../actions/socketActionCreator.jsx';
+import * as ChatActions from './../actions/chatActionCreator.jsx';
 
 class NavBar extends Component {
   handleLogout(userId) {
     let { dispatch } = this.props;
     sessionStorage.removeItem('authToken');
     dispatch(SocketActions.logoutSocket(userId));
+    dispatch(ChatActions.clearChat());
     dispatch(UserActions.logOut());
   }
 
@@ -38,7 +40,7 @@ class NavBar extends Component {
     );
 
     return (
-      <div>
+      <div className='navbar'>
         <h1> <Image avatar src='./assets/logo.jpeg' />ArtPoint</h1>
         <div className='navBar'>
           {'  '}
