@@ -19,32 +19,30 @@ let BiddingRange = ({current, start, buyout, setBid}) => {
   current = +current;
   start = +start;
   buyout = +buyout;
+  let avail = current;
 
-  if(current === 0) {
-    
-  }
+  avail = current ? Math.min(current + interval, buyout) : start;
 
-  start = start < current ? current : start;
-
-  let range = [];
-
-  for(let i = start; i <= buyout; i += interval) {
-    range.push({key: i, text: '$'+i, value: i});
-  }
-
+//the className in strong is not working yet, but it should work
   return (
     <span>
-      <label><strong>Bid for: </strong></label>{' '}<Input type='text' placeholder={1234}/>
+      <p>
+        <strong className="blue-text">
+          Next available bidding amount: {avail.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+        </strong>
+      </p>
+      <strong>
+        Bid for: 
+      </strong>
+      <input onChange={e => {
+        if(isNaN(e.target.value)) {
+          e.target.value = '';
+        } else {
+          setBid(e.target.value);
+        }
+      }} />
     </span>
   );
 };
-// <Form.Field 
-      // control={Select} 
-      // options={range}
-      // onChange={(e, value) => { 
-        // setBid(value.value) 
-      // }} 
-      // placeholder='Bid now'
-    // />
 
 export default BiddingRange;
