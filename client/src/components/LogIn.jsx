@@ -39,10 +39,9 @@ class LogIn extends Component {
       }
 
       dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId'), response.headers.get('x-type') === 'artist'));
+      dispatch(SocketActions.loginSocket(response.headers.get('x-userId')));
       return response.json();
     }).then(data => {
-      let { userId } = this.props.user;
-      dispatch(SocketActions.loginSocket(userId));
       dispatch(UserActions.checkingInfo(false));
       sessionStorage.setItem('authToken', data);
       //make sure everything's finished and re-direct to home

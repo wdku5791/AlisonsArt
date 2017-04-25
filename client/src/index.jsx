@@ -22,12 +22,13 @@ import Events from './components/Events.jsx';
 import SignUp from './components/SignUp.jsx';
 import LogIn from './components/LogIn.jsx';
 import User from './components/User.jsx';
-import CreateAuctionContainer from './components/CreateAuctionContainer.jsx';
+import CreateAuctionContainer from './components/createAuctionContainer.jsx';
 import Notification from './components/Notification.jsx';
 import ContactUs from './components/ContactUs.jsx';
 import MessageBar from './components/WriteMessage.jsx'
 import io from 'socket.io-client';
 import * as UserActions from './actions/userActionCreator.jsx';
+import * as SocketActions from './actions/socketActionCreator.jsx';
 
 let socket = io();
 let socketIoMiddleware = createSocketIoMiddleware(socket, "socket/");
@@ -54,6 +55,7 @@ class Index extends Component {
       
       if (response.headers.get('x-username') && response.headers.get('x-userId')) {
         store.dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId'), response.headers.get('x-type') === 'artist'));
+        store.dispatch(SocketActions.loginSocket(response.headers.get('x-userId')));
       }
     })
     .catch(err => {

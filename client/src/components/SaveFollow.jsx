@@ -63,7 +63,7 @@ class SaveFollow extends Component {
         <Divider />
         <div>
           <h3>Following artists:</h3>
-          <Grid divied={true}>
+          <Grid divided={true}>
           {followingArtists.length === 0 ? <div>You are not following any artists yet</div> : null}
             <Grid.Row columns={3}>
             {followingArtists.map(artist => {
