@@ -13,7 +13,7 @@ class WriteMessage extends React.Component {
     }
     this.handleFormChange = this.handleFormChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
-    this.retrieveMessages = this.retrieveMessages.bind(this);
+    // this.retrieveMessages = this.retrieveMessages.bind(this);
   }
 
   handleFormChange(e) {
@@ -54,31 +54,31 @@ class WriteMessage extends React.Component {
     })
   }
 
-  retrieveMessages() {
-    fetch(`/messages/${this.props.userId}/?receiver_id=${this.props.receiverId}`, {
-      method: 'GET',
-      headers: new Headers({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`,
-      })
-    })
-    .then((response) => {
-      if (!response.ok) {
-        throw Error('failed to retrieve messages...')
-      }
-      return response.json();
-    })
-    .then((data) => {
-      console.log('messages retrieved! data: ', data);
-    })
-    .catch((error) => {
-      console.log('retrieveMessages failed! error: ', error);
-    })
-  }
+  // retrieveMessages() {
+  //   fetch(`/messages/${this.props.userId}/?receiver_id=${this.props.receiverId}`, {
+  //     method: 'GET',
+  //     headers: new Headers({
+  //       'Content-Type': 'application/json',
+  //       'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`,
+  //     })
+  //   })
+  //   .then((response) => {
+  //     if (!response.ok) {
+  //       throw Error('failed to retrieve messages...')
+  //     }
+  //     return response.json();
+  //   })
+  //   .then((data) => {
+  //     console.log('messages retrieved! data: ', data);
+  //   })
+  //   .catch((error) => {
+  //     console.log('retrieveMessages failed! error: ', error);
+  //   })
+  // }
 
-  componentDidMount() {
-    setTimeout(this.retrieveMessages, 1500);
-  }  
+  // componentDidMount() {
+  //   setTimeout(this.retrieveMessages, 1500);
+  // }  
 
   render() {
     return (
