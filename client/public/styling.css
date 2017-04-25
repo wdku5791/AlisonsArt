@@ -95,3 +95,9 @@ body {
   background-color: white;
 }
 
+.closeChatButton {
+  display: inline;
+  float: right;
+}
+
+

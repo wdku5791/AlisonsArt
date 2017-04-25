@@ -12,6 +12,7 @@ class WriteMessage extends React.Component {
     }
     this.handleFormChange = this.handleFormChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.closeChat = this.closeChat.bind(this);
   }
 
   handleFormChange(e) {
@@ -54,6 +55,11 @@ class WriteMessage extends React.Component {
     });
   }
 
+  closeChat() {
+    let { dispatch } = this.props;
+    dispatch(ChatActions.clearChat());
+  }
+
   scrollToBottom() {
     const node = ReactDOM.findDOMNode(this.messagesEnd);
     node.scrollIntoView({behavior: "smooth"});
@@ -74,7 +80,7 @@ class WriteMessage extends React.Component {
       return (
         <Segment className='messageWindow'>
           <p style={{'display':'inline'}}><strong>conversation with: {this.props.receiverId}</strong></p>
-          <p style={{'display':'inline'}}>X</p>
+          <p className='closeChatButton' onClick={this.closeChat}>X</p>
           <Segment className='messageFeed'>
             {
               this.props.messages.map(message => {
