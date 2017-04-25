@@ -2,6 +2,7 @@ const initialState = {
   receiverId: null,
   messages: [],
   roomname: null,
+  inboxMessages: []
 };
 
 const chatReducer = (state = initialState, action) => {
@@ -26,6 +27,11 @@ const chatReducer = (state = initialState, action) => {
       return {
         ...state,
         messages: state.messages.slice().concat(action.data)
+      }
+    case 'GET_INBOX':
+      return {
+        ...state,
+        inboxMessages: action.data
       }
     default: 
       return state;

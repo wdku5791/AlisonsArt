@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { Segment, Button, TextArea} from 'semantic-ui-react';
-import io from 'socket.io-client';
 import * as ChatActions from './../actions/chatActionCreator.jsx';
 
 class WriteMessage extends React.Component {

@@ -27,7 +27,7 @@ class Artist extends Component {
     } else {
       roomname = receiverId + this.props.userId;
     }
-    fetch(`/messages/${Number(this.props.userId)}/?receiver_id=${Number(receiverId)}`, {
+    fetch(`/messages/${this.props.userId}/?receiver_id=${receiverId}`, {
       method: 'GET',
       headers: new Headers({
         'Content-Type': 'application/json',
