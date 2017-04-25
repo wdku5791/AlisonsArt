@@ -12,6 +12,9 @@
     "STRIPE_CLIENT_ID": {
       "required": true
     },
+    "STRIPE_CLIENT_SECRET": {
+      "required": true
+    },
     "jwtSecret": {
       "required": true
     }
