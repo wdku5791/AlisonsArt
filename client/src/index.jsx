@@ -22,7 +22,7 @@ import Events from './components/Events.jsx';
 import SignUp from './components/SignUp.jsx';
 import LogIn from './components/LogIn.jsx';
 import User from './components/User.jsx';
-import CreateAuctionContainer from './components/CreateAuctionContainer.jsx';
+import CreateAuctionContainer from './components/createAuctionContainer.jsx';
 import Notification from './components/Notification.jsx';
 import ContactUs from './components/ContactUs.jsx';
 import MessageBar from './components/WriteMessage.jsx'
