@@ -96,13 +96,13 @@ module.exports = function(io) {
                     trigger_id: auction[0].id,
                     type: 'auction',
                     date: new Moment().format('YYYY-MM-DD HH:mm:ss'),
-                    text: `You have been outbidded on an auction ${auction[0].artwork.art_name}`
+                    text: `You have been outbid on an auction ${auction[0].artwork.art_name}`
             },{
                     owner_id: bid.owner_id,
                     trigger_id: auction[0].id,
                     type: 'auction',
                     date: new Moment().format('YYYY-MM-DD HH:mm:ss'),
-                    text: `Someone has bidded on your auction ${auction[0].artwork.art_name}`
+                    text: `Someone has bid on your auction ${auction[0].artwork.art_name}`
             }]
             return model.createMassNotifications(noty)
             .then(() => {
@@ -115,7 +115,7 @@ module.exports = function(io) {
                 io.socketList[bid.bidder_id].emit('action', {type: 'UPDATE_NEW_NOTIFICATIONS', data: [noty[0]]});
               }
               // console.log('room:'+req.params.auctionId);
-              io.to('room:' + req.params.auctionId).emit('action', {type: 'UPDATE_CURRENT_BID', current_bid: bid.bid_price || bid.current_bid, current_bid_id: bid.id || bid.current_bid_id});
+              io.emit('action', {type: 'UPDATE_CURRENT_BID', current_bid: bid.bid_price || bid.current_bid, current_bid_id: bid.id || bid.current_bid_id});
               res.status(201).json({
                 current_bid: bid.bid_price || bid.current_bid,
                 current_bid_id: bid.id || bid.current_bid_id 
@@ -123,7 +123,7 @@ module.exports = function(io) {
             })
           })
         }
-          io.to('room:' + req.params.auctionId).emit('action', {type: 'UPDATE_CURRENT_BID', current_bid: bid.bid_price || bid.current_bid, current_bid_id: bid.id || bid.current_bid_id});
+          io.emit('action', {type: 'UPDATE_CURRENT_BID', current_bid: bid.bid_price || bid.current_bid, current_bid_id: bid.id || bid.current_bid_id});
           res.status(201).json({
             current_bid: bid.bid_price || bid.current_bid,
             current_bid_id: bid.id || bid.current_bid_id 
