@@ -18,9 +18,6 @@ class Auction extends Component {
     };
   }
 
-  //when user clicks submit, check if user is logged in
-    //if not re-direct
-    //if logged in, grab all info and redirect to payment page.
   componentWillMount() {
     const auctionId = this.props.match.params.auctionId;
     const { dispatch, user } = this.props;
@@ -40,7 +37,7 @@ class Auction extends Component {
       dispatch(Auctions.fetchingAnAuction(false));
       dispatch(Auctions.fetchAuctionErrored(true, err));
     });
-    //lala:
+
     if (user.username) {
       fetch('/saves/?q=' + user.userId + '+' + auctionId)
       .then(response => {
