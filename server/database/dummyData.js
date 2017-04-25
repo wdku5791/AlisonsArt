@@ -48,16 +48,18 @@ const profiles = [
 	{
 		id: 1,
 		user_id: 1,
+		image_url: 'assets/winston.jpeg',
 		profile: 'im no.1 talented!',
 		fb_link: 'https://www.facebook.com/xueying.zhang.509',
 		twitter_link: 'https://twitter.com/Alison_XYZ?lang=en',
 		inst_link: 'https://www.instagram.com/alisonzthu/',
-		stripe_user_id: 'acct_1AAPswCcyTeqgPZT',
-		refresh_token: 'rt_AVQvE4Lw2CSWPczQ4aO156PNx2FUoQnlMRc1e3MJ8e25bFn8'
+		stripe_user_id: 'acct_1ACFPEKWPmjvdi41',
+		refresh_token: 'rt_AXK8FEjCs0zfwG1aa8Notehp7FopmUhqx90POA9Ij7eSVMbR'
 	},
 	{
 		id: 2,
 		user_id: 2,
+		image_url: 'assets/alison.jpeg',
 		profile: 'im no.2 talented!',
 		fb_link: 'https://www.facebook.com/xueying.zhang.509',
 		twitter_link: null,
