@@ -12,8 +12,6 @@ class WriteMessage extends React.Component {
     }
     this.handleFormChange = this.handleFormChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
-    // this.retrieveMessages = this.retrieveMessages.bind(this);
-    // this.handleEnter = this.handleEnter.bind(this);
   }
 
   handleFormChange(e) {
@@ -56,42 +54,22 @@ class WriteMessage extends React.Component {
     });
   }
 
-  // retrieveMessages() {
-  //   fetch(`/messages/${this.props.userId}/?receiver_id=${this.props.receiverId}`, {
-  //     method: 'GET',
-  //     headers: new Headers({
-  //       'Content-Type': 'application/json',
-  //       'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`,
-  //     })
-  //   })
-  //   .then((response) => {
-  //     if (!response.ok) {
-  //       throw Error('failed to retrieve messages...')
-  //     }
-  //     return response.json();
-  //   })
-  //   .then((data) => {
-  //     console.log('messages retrieved! data: ', data);
-  //   })
-  //   .catch((error) => {
-  //     console.log('retrieveMessages failed! error: ', error);
-  //   })
-  // }
+  scrollToBottom() {
+    const node = ReactDOM.findDOMNode(this.messagesEnd);
+    node.scrollIntoView({behavior: "smooth"});
+  }
 
-  // componentDidMount() {
-  //   setTimeout(this.retrieveMessages, 1500);
-  // }  
-
-  // handleEnter(e) {
-  //   if(e.keyCode == 13 && e.shiftKey == false) {
-  //     e.preventDefault();
-  //     this.handleFormSubmit(); 
-  //   }
-  // }
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
 
   render() {
     if (!this.props.roomname || !this.props.receiverId) {
-      return <div></div>
+      return (
+        <div>
+          <div style={{float:"left", clear: "both"}} ref={(el) => {this.messagesEnd = el;}}></div>
+        </div>
+      )
     } else {
       return (
         <Segment className='messageWindow'>
@@ -106,6 +84,7 @@ class WriteMessage extends React.Component {
                 }
               })
             }
+            <div style={{float:"left", clear: "both"}} ref={(el) => {this.messagesEnd = el;}}></div>
           </Segment>
           <Form>  
             <Form.Field>
@@ -118,7 +97,6 @@ class WriteMessage extends React.Component {
     }
   }
 }
-
 const mapStateToProps = (state) => {
   return {
     username: state.user.username,
