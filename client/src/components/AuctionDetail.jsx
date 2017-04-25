@@ -27,7 +27,7 @@ const AuctionDetail = ({auction, setBid, handleClick, user, handleSave, handleUn
           <p><strong>Buyout Price (USD):</strong> ${auction.buyout_price}</p>
           <Form.Group widths='equal'>
             <BiddingRange setBid={setBid} current={auction.current_bid} start={auction.start_price} end={auction.buyout_price} />
-            <Button onClick={handleClick}>Submit</Button>
+            <Button className="ui right floated" color="green" onClick={handleClick}>Submit</Button>
           </Form.Group>
         </Container>
       </Grid.Column>

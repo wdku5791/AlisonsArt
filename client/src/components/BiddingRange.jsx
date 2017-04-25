@@ -16,18 +16,13 @@ let BiddingRange = ({current, start, buyout, setBid}) => {
     interval = 1000;
   }
 
-  // if (!current) {
-  //   //bid: [start, buyout];
-  //   return (
-  //     <Form.Input label='Bid for...' type='text' />
-  //     );
-  // } else {
-  //   //bid: [current+inteval, buyout]
-  // }
-
   current = +current;
   start = +start;
   buyout = +buyout;
+
+  if(current === 0) {
+    
+  }
 
   start = start < current ? current : start;
 
@@ -38,9 +33,9 @@ let BiddingRange = ({current, start, buyout, setBid}) => {
   }
 
   return (
-    <Container>
+    <span>
       <label><strong>Bid for: </strong></label>{' '}<Input type='text' placeholder={1234}/>
-    </Container>
+    </span>
   );
 };
 // <Form.Field 
