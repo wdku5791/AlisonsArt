@@ -70,6 +70,7 @@ module.exports = function createSchemas(db) {
     let profiles = t.query('CREATE TABLE IF NOT EXISTS profiles (\
       id SERIAL PRIMARY KEY NOT NULL,\
       user_id BIGINT NOT NULL REFERENCES users(id),\
+      image_url VARCHAR DEFAULT \'assets/default.jpg\',\
       profile TEXT NOT NULL,\
       fb_link VARCHAR,\
       twitter_link VARCHAR,\

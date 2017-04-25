@@ -31,12 +31,12 @@ class Artist extends Component {
       method: 'GET',
       headers: new Headers({
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`,
+        Authorization: `Bearer ${sessionStorage.getItem('authToken')}`,
       })
     })
     .then((response) => {
       if (!response.ok) {
-        throw Error('failed to retrieve messages...')
+        throw Error('failed to retrieve messages...');
       }
       return response.json();
     })
@@ -50,13 +50,13 @@ class Artist extends Component {
   }
 
   componentWillMount() {
-    //should have a detailed, user customized profile
+    // should have a detailed, user customized profile
     let { dispatch } = this.props;
     let artistId = this.props.match.params.artistId;
     dispatch(ArtistAction.fetchingArtist(true));
-    fetch('/artist/' + this.props.match.params.artistId)
+    fetch(`/artist/${this.props.match.params.artistId}`)
     .then(response => {
-      if(!response.ok) {
+      if (!response.ok) {
         throw Error(response.statusText);
       }
       return response.json();
@@ -71,18 +71,18 @@ class Artist extends Component {
       dispatch(ArtistAction.fetchArtistErrored(true, err));
     });
 
-    //if user logged in, check if user followed this artist
-    if(this.props.user.username) {
-      //refactor to use authToken:
+    // if user logged in, check if user followed this artist
+    if (this.props.user.username) {
+      // refactor to use authToken:
       fetch('/follows/?q=' + this.props.user.userId +'+' + artistId)
       .then(response => {
-        if(!response.ok) {
+        if (!response.ok) {
           throw Error(response.statusText);
         }
         return response.text();
       })
       .then(data => {
-        if(data === 'true') {
+        if (data === 'true') {
           this.setState({active: true});
         } else {
           this.setState({active: false});
@@ -95,7 +95,7 @@ class Artist extends Component {
   }
 
   _socialMedia(link) {
-    if(link) {
+    if (link) {
       window.open(link);
     }
   }
@@ -105,7 +105,7 @@ class Artist extends Component {
       method: 'POST',
       headers: new Headers({
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
+        Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
       }),
       body: JSON.stringify(this.props.match.params.artistId)
     })
@@ -139,7 +139,7 @@ class Artist extends Component {
       return response.text();
     })
     .then(data => {
-      if(data === 'success') {
+      if (data === 'success') {
         this.setState({active: false});
       }
     })
@@ -167,7 +167,7 @@ class Artist extends Component {
       );
     } else {
       if (Object.keys(fetchedArtist).length === 0) {
-        return(
+        return (
           <div>
             still loading~
           </div>
@@ -180,7 +180,7 @@ class Artist extends Component {
             </div>
           );
         }
-        let { fb_link, twitter_link, inst_link, profile, first_name, last_name} = fetchedArtist.profile;
+        let { fb_link, twitter_link, inst_link, profile, first_name, last_name, image_url } = fetchedArtist.profile;
         let { history } = this.props;
         return (
           <Container>
@@ -206,8 +206,8 @@ class Artist extends Component {
               </Container>
               <Grid verticalAlign='middle'>
                 <Grid.Row>
-                  <Grid.Column width={8} >
-                    <Image src="./assets/temp.png" centered />
+                  <Grid.Column width={6} >
+                    <Image src={image_url} centered />
                   </Grid.Column>
                   <Grid.Column width={8}>
                     <Container fluid textAlign="justified">
@@ -240,10 +240,10 @@ class Artist extends Component {
               </Grid.Row>
             </Grid>
           </Container>
-        )
+        );
       }
     }
-  } 
+  };
 }
 
 const mapStateToProps = (state) => {
