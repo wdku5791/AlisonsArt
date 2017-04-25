@@ -61,8 +61,6 @@ class NavBar extends Component {
           {username === '' ? LoggedOutNav : LoggedInNav}
           {this.props.children}
         </div>
-        <br />
-        <Divider />
       </div>
     );
   }

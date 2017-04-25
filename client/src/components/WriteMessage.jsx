@@ -73,7 +73,8 @@ class WriteMessage extends React.Component {
     } else {
       return (
         <Segment className='messageWindow'>
-          <p><strong>conversation with: {this.props.receiverId}</strong></p>
+          <p style={{'display':'inline'}}><strong>conversation with: {this.props.receiverId}</strong></p>
+          <p style={{'display':'inline'}}>X</p>
           <Segment className='messageFeed'>
             {
               this.props.messages.map(message => {

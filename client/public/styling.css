@@ -1,11 +1,16 @@
+body {
+  padding-top: 150px;
+}
+
 .navbar {
   z-index: 100;
   background-color: white;
   overflow: hidden;
   position: fixed;
   top: 0;
-  width: 94%;
-  margin-left: -20px;
+  width: 93%;
+  margin-left: -7%;
+  /*white-space: nowrap;*/
 }
 
 .carousel {
@@ -60,7 +65,7 @@
 
 .messageWindow {
   position: fixed;
-  bottom: 20px;
+  bottom: 5px;
   right: 10px;
   width: 250px;
   height: 300px;
