@@ -99,8 +99,8 @@ class Inbox extends React.Component {
                 )
               } else {
                 return (
-                  <li value={conversation.sender_id} onClick={this.renderChatRoom}>
-                    <strong>Conversation With: {conversation.sender_id} </strong>"{conversation.text}"<strong> at: {conversation.message_date}</strong>
+                  <li value={conversation.receiver_id} onClick={this.renderChatRoom}>
+                    <strong>Conversation With: {conversation.receiver_id} </strong>"{conversation.text}"<strong> at: {conversation.message_date}</strong>
                   </li>
                 )
               }
