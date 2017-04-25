@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Image } from 'semantic-ui-react';
+import { Container, Image, Grid } from 'semantic-ui-react';
 
 const OpenAuction = ({auction, history}) => {
   let message;
@@ -14,17 +14,19 @@ const OpenAuction = ({auction, history}) => {
     message = <button onClick={() => handleClick(auction.id)}>You've Been Outbid!</button>;
   }
   return (
-    <Container>
-      <Container className="ui medium images">
-        <Image className="ui image" src={auction.image_url} />
-      </Container>
+    <Grid.Column>
+      <Image
+        className="imageLink"
+        src={auction.image_url}
+        onClick={() => handleClick(auction.id)}
+      />
       <Container>
-        <p>Description: {auction.description}</p>
-        <p>Year: {auction.age}</p>
+        <h4 className>{auction.art_name}</h4>
+        <p>{auction.first_name} {auction.last_name} ({auction.age})</p>
         <p>Current Bid ($USD): {auction.current_bid}</p>
         {message}
       </Container>
-    </Container>
+    </Grid.Column>
   );
 };
 

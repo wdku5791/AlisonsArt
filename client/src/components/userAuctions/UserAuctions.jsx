@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Image } from 'semantic-ui-react';
+import { Container, Image, Grid } from 'semantic-ui-react';
 import * as userAuctions from '../../actions/userAuctionsActionCreator';
 import ClosedAuction from './ClosedAuction.jsx';
 import OpenAuction from './OpenAuction.jsx';
@@ -120,19 +120,23 @@ class UserAuctions extends Component {
     return (
       <div>
         <h3>Closed Auctions</h3>
-        <div className="user_auctions">
-          {closedAuctions.length > 0 ? closedAuctions.map(auction => (
-            <ClosedAuction auction={auction} />
-            )
-          ) : ''}
-        </div>
+        <Grid columns="equal">
+          <Grid.Row columns={3}>
+            {closedAuctions.length > 0 ? closedAuctions.map(auction => (
+              <ClosedAuction auction={auction} />
+              )
+            ) : ''}
+          </Grid.Row>
+        </Grid>
         <h3>Ongoing Auctions</h3>
-        <div className="user_auctions">
-          {openAuctions.length > 0 ? openAuctions.map(auction => (
-            <OpenAuction history={history} auction={auction} />
-            )
-          ) : ''}
-        </div>
+        <Grid columns="equal">
+          <Grid.Row>
+            {openAuctions.length > 0 ? openAuctions.map(auction => (
+              <OpenAuction history={history} auction={auction} />
+              )
+            ) : ''}
+          </Grid.Row>
+        </Grid>
       </div>
     );
   }

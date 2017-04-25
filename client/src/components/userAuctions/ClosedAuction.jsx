@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Image } from 'semantic-ui-react';
+import { Container, Image, Grid } from 'semantic-ui-react';
 import StripeCheckout from 'react-stripe-checkout';
 
 const ClosedAuction = ({auction}) => {
@@ -38,6 +38,10 @@ const ClosedAuction = ({auction}) => {
     });
   };
 
+  const handleClick = (id) => {
+    history.push(`/auction/${id}`);
+  };
+
   let message;
     if (auction.won) {
       message = <StripeCheckout
@@ -48,17 +52,19 @@ const ClosedAuction = ({auction}) => {
       message = <button>More by this Artist</button>;
     }
     return (
-      <Container>
-        <Container className="ui medium images">
-          <Image className="ui image" src={auction.image_url} />
-        </Container>
+      <Grid.Column>
+        <Image
+          className="imageLink"
+          src={auction.image_url}
+          onClick={() => handleClick(auction.id)}
+        />
         <Container>
-          <p>Description: {auction.description}</p>
-          <p>Year: {auction.age}</p>
+          <h4 className>{auction.art_name}</h4>
+          <p>{auction.first_name} {auction.last_name} ({auction.age})</p>
           <p>Closing Price ($USD): {auction.current_bid}</p>
           {message}
         </Container>
-      </Container>
+      </Grid.Column>
     );
 };
 
