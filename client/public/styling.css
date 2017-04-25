@@ -98,6 +98,22 @@ body {
 .closeChatButton {
   display: inline;
   float: right;
+  cursor: pointer;
 }
 
+.chatTopBar {
+  display: inline;
+  float: left;
+  cursor: pointer;
+}
+
+.miniChatBar {
+  cursor: pointer;
+  position: fixed;
+  bottom: 5px;
+  right: 10px;
+  width: 250px;
+  height: 50px;
+  z-index: 100;
+}
 

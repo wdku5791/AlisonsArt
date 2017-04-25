@@ -3,6 +3,7 @@ const initialState = {
   messages: [],
   roomname: null,
   inboxMessages: [],
+  minimized: false,
 };
 
 const chatReducer = (state = initialState, action) => {
@@ -39,6 +40,11 @@ const chatReducer = (state = initialState, action) => {
         receiverId: null,
         messages: [],
         inboxMessages: [],
+      }
+    case 'MINIMIZE_CHAT':
+      return {
+        ...state,
+        minimized: !state.minimized
       }
     default: 
       return state;

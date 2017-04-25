@@ -13,6 +13,7 @@ class WriteMessage extends React.Component {
     this.handleFormChange = this.handleFormChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.closeChat = this.closeChat.bind(this);
+    this.toggleMinimize = this.toggleMinimize.bind(this);
   }
 
   handleFormChange(e) {
@@ -65,6 +66,11 @@ class WriteMessage extends React.Component {
     node.scrollIntoView({behavior: "smooth"});
   }
 
+  toggleMinimize() {
+    let { dispatch } = this.props;
+    dispatch(ChatActions.minimizeWindow());
+  }
+
   componentDidUpdate() {
     this.scrollToBottom();
   }
@@ -76,10 +82,10 @@ class WriteMessage extends React.Component {
           <div style={{float:"left", clear: "both"}} ref={(el) => {this.messagesEnd = el;}}></div>
         </div>
       )
-    } else {
+    } else if (!this.props.minimized) {
       return (
         <Segment className='messageWindow'>
-          <p style={{'display':'inline'}}><strong>conversation with: {this.props.receiverId}</strong></p>
+          <p className='chatTopBar' onClick={this.toggleMinimize}><strong>conversation with: {this.props.receiverId}</strong></p>
           <p className='closeChatButton' onClick={this.closeChat}>X</p>
           <Segment className='messageFeed'>
             {
@@ -101,6 +107,12 @@ class WriteMessage extends React.Component {
           </Form>
         </Segment>
       )
+    } else if (this.props.minimized) {
+      return (
+        <Segment className='miniChatBar' onClick={this.toggleMinimize}>
+          <p><strong>conversation with: {this.props.receiverId}</strong></p>
+        </Segment>
+      )
     }
   }
 }
@@ -111,6 +123,7 @@ const mapStateToProps = (state) => {
     receiverId: state.chat.receiverId,
     messages: state.chat.messages,
     roomname: state.chat.roomname,
+    minimized: state.chat.minimized
   }
 }
 

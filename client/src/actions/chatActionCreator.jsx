@@ -31,3 +31,9 @@ export function clearChat() {
     type: 'CLEAR_CHAT'
   }
 }
+
+export function minimizeWindow() {
+  return {
+    type: 'MINIMIZE_CHAT'
+  }
+}
