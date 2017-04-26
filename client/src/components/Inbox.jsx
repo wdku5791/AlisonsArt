@@ -81,8 +81,8 @@ class Inbox extends React.Component {
     })
   }
 
-  componentDidMount() {
-    this.getInbox();
+  componentWillMount() {
+    setTimeout(this.getInbox, 1500);
   }
 
   render() {
