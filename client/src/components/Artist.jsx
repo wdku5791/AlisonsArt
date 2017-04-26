@@ -62,7 +62,6 @@ class Artist extends Component {
       return response.json();
     })
     .then(data => {
-      console.log('got data: ', data);
       dispatch(ArtistAction.fetchingArtist(false));
       dispatch(ArtistAction.fetchArtistSuccess(data));
       dispatch(ArtistAction.fetchArtistErrored(false, null));

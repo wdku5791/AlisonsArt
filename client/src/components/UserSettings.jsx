@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Image, Button, Input, Segment} from 'semantic-ui-react';
+import { Container, Image, Button, Input} from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 let currentPassword = null;
@@ -14,18 +14,18 @@ const _setInputsToNull = () => {
 
 const ChangePassword = () => {
   return (
-    <Segment>
+    <span className="ui form">
       <br />
       Current password:
-      <Input type="password" placeholder="current password" ref={node => currentPassword = node} />
+      <input type="password" placeholder="current password" ref={node => currentPassword = node} />
       <br />
       New password:
-      <Input type="password" placeholder="new password" ref={node => newPassword = node} />
+      <input type="password" placeholder="new password" ref={node => newPassword = node} />
       <br />
       Confirm password:
-      <Input type="password" placeholder="confirm password" ref={node => confirmPassword = node} />
+      <input type="password" placeholder="confirm password" ref={node => confirmPassword = node} />
       <Input type="submit" value="Submit" />
-    </Segment>
+    </span>
   );
 }
 

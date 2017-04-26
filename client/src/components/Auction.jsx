@@ -127,7 +127,7 @@ class Auction extends Component {
       } else if(bid.bid > buyout) {
         alert('How about bidding for the buyout amount?');
       } else {
-        fetch('/auctions/' + auctionId + '/bids', {
+        fetch(`/auctions/${auctionId}/bids`, {
           method: 'POST',
           headers: new Headers({
             'Content-Type': 'application/json',
