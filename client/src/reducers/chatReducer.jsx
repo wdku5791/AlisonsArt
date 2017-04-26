@@ -4,6 +4,7 @@ const initialState = {
   roomname: null,
   inboxMessages: [],
   minimized: false,
+  receiverName: null,
 };
 
 const chatReducer = (state = initialState, action) => {
@@ -23,6 +24,7 @@ const chatReducer = (state = initialState, action) => {
         receiverId: action.data[0],
         messages: action.data[1],
         roomname: action.data[2],
+        receiverName: action.data[3]
       }
     case 'PASS_MESSAGE':
       return {
@@ -39,7 +41,6 @@ const chatReducer = (state = initialState, action) => {
         ...state,
         receiverId: null,
         messages: [],
-        inboxMessages: [],
       }
     case 'MINIMIZE_CHAT':
       return {

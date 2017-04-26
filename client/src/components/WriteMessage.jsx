@@ -78,14 +78,14 @@ class WriteMessage extends React.Component {
   render() {
     if (!this.props.roomname || !this.props.receiverId) {
       return (
-        <div>
+        <div className='messageWindow'>
           <div style={{float:"left", clear: "both"}} ref={(el) => {this.messagesEnd = el;}}></div>
         </div>
       )
     } else if (!this.props.minimized) {
       return (
         <Segment className='messageWindow'>
-          <p className='chatTopBar' onClick={this.toggleMinimize}><strong>conversation with: {this.props.receiverId}</strong></p>
+          <p className='chatTopBar' onClick={this.toggleMinimize}><strong>{this.props.receiverName}</strong></p>
           <p className='closeChatButton' onClick={this.closeChat}>X</p>
           <Segment className='messageFeed'>
             {
@@ -110,7 +110,7 @@ class WriteMessage extends React.Component {
     } else if (this.props.minimized) {
       return (
         <Segment className='miniChatBar' onClick={this.toggleMinimize}>
-          <p><strong>conversation with: {this.props.receiverId}</strong></p>
+          <p><strong>{this.props.receiverName}</strong></p>
         </Segment>
       )
     }
@@ -123,7 +123,8 @@ const mapStateToProps = (state) => {
     receiverId: state.chat.receiverId,
     messages: state.chat.messages,
     roomname: state.chat.roomname,
-    minimized: state.chat.minimized
+    minimized: state.chat.minimized,
+    receiverName: state.chat.receiverName,
   }
 }
 

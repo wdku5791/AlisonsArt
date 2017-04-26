@@ -11,7 +11,7 @@ class Inbox extends React.Component {
   }
 
   getInbox() {
-    fetch(`/messages/inbox/${this.props.userId}`, {
+    fetch(`/messages/inbox/${this.props.userId}/?username=${this.props.username}`, {
       method: 'GET',
       headers: new Headers({
         'Content-Type': 'application/json',
@@ -41,6 +41,7 @@ class Inbox extends React.Component {
       for (var key in filteredInbox) {
         filteredArray.push(filteredInbox[key]);
       }
+      console.log('filteredArray: ', filteredArray);
       let { dispatch } = this.props;
       dispatch(ChatActions.getInbox(filteredArray));
     })
@@ -49,15 +50,14 @@ class Inbox extends React.Component {
     })
   }
 
-  renderChatRoom(e) {
-    let receiverId = e.target.value;
+  renderChatRoom(receiverId, fullName) {
     let roomname;
     if (this.props.userId > receiverId) {
       roomname = this.props.userId + receiverId;
     } else {
       roomname = receiverId + this.props.userId;
     }
-    console.log('receiverId: ', receiverId, '\nroomname: ', roomname);
+    console.log('receiverId: ', receiverId, '\nfullName: ', fullName, '\nroomname: ', roomname);
     fetch(`/messages/${this.props.userId}/?receiver_id=${receiverId}`, {
       method: 'GET',
       headers: new Headers({
@@ -72,8 +72,9 @@ class Inbox extends React.Component {
       return response.json();
     })
     .then((data) => {
+      console.log('DATA FROM QUERY, INIT FROM INBOX: ', data);
       let { dispatch } = this.props;
-      dispatch(ChatActions.initRoom(receiverId, data, roomname));
+      dispatch(ChatActions.initRoom(receiverId, data, roomname, fullName));
     })
     .catch((error) => {
       console.log('retrieveMessages failed! error: ', error);
@@ -91,16 +92,20 @@ class Inbox extends React.Component {
         <ul>
           {
             this.props.inboxMessages.map(conversation => {
+              let fullName = conversation.first_name + ' ' + conversation.last_name;
+              let senderId = conversation.sender_id;
+              let receiverId = conversation.receiver_id;
+              // console.log('conversation fullName: ', fullName);
               if (this.props.userId !== conversation.sender_id) {
                 return (
-                  <li value={conversation.sender_id} onClick={this.renderChatRoom}>
-                    <strong>Conversation With: {conversation.sender_id} </strong>"{conversation.text}"<strong> at: {conversation.message_date}</strong>
+                  <li value={conversation.sender_id} name={fullName} onClick={() => this.renderChatRoom(senderId, fullName)}>
+                    <strong>{conversation.first_name} {conversation.last_name} </strong>"{conversation.text}"<strong> at: {conversation.message_date}</strong>
                   </li>
                 )
               } else {
                 return (
-                  <li value={conversation.receiver_id} onClick={this.renderChatRoom}>
-                    <strong>Conversation With: {conversation.receiver_id} </strong>"{conversation.text}"<strong> at: {conversation.message_date}</strong>
+                  <li value={conversation.receiver_id} name={fullName} onClick={() => this.renderChatRoom(receiverId, fullName)}>
+                    <strong>{conversation.first_name} {conversation.last_name} </strong>"{conversation.text}"<strong> at: {conversation.message_date}</strong>
                   </li>
                 )
               }
@@ -115,6 +120,7 @@ class Inbox extends React.Component {
 const mapStateToProps = (state) => {
   return {
     userId: state.user.userId,
+    username: state.user.username,
     inboxMessages: state.chat.inboxMessages,
   }
 }

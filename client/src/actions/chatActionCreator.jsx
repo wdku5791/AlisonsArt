@@ -12,10 +12,10 @@ export function grabReceiverId(receiverId) {
   }
 }
 
-export function initRoom(receiverId, messages, roomname) {
+export function initRoom(receiverId, messages, roomname, receiverName) {
   return {
     type: 'socket/INITIALIZE_ROOM',
-    data: [receiverId, messages, roomname]
+    data: [receiverId, messages, roomname, receiverName]
   }
 }
 
