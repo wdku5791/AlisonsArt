@@ -1,12 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Form, Container, Button } from 'semantic-ui-react';
+import { Image, Form, Container, Button, Grid } from 'semantic-ui-react';
 import * as profileActions from '../actions/profileActionCreator';
 
 class Connect extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      image_url: '',
+      preview_image: 'https://www.mountaineers.org/images/placeholder-images/placeholder-400-x-400/image_preview',
       profile: '',
       fb_link: '',
       twitter_link: '',
@@ -15,11 +17,48 @@ class Connect extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.login = this.login.bind(this);
+    this.handleImageCreate = this.handleImageCreate.bind(this);
   }
   
   handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value
+    });
+  }
+  
+  handleImageCreate() {
+    this.setState({
+      preview_image: 'http://www.theodo.fr/uploads/blog//2015/12/spinner.gif'
+    });
+
+    const formData = new FormData();
+    formData.append('image_file', document.getElementById('image').files[0]);
+    fetch('/images', {
+        method: 'POST',
+        body: formData,
+        headers:  new Headers({
+          Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
+        })
+    })
+    .then((data) => {
+      if (!data.ok) {
+        throw Error(data.responseText);
+      } else {
+        return data.json();
+      }
+    })
+    .then((response) => {
+      this.setState({
+        image_url: response.url,
+        preview_image: response.url
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+      this.setState({
+        image_url: 'assets/default.jpg',
+        preview_image: 'assets/default.jpg'
+      });
     });
   }
 
@@ -28,6 +67,7 @@ class Connect extends React.Component {
     const { dispatch } = this.props;
 
     const profile = {
+      image_url: this.state.image_url,
       profile: this.state.profile,
       fb_link: this.state.fb_link,
       twitter_link: this.state.twitter_link,
@@ -36,7 +76,7 @@ class Connect extends React.Component {
     
     const headers = new Headers({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+      Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
     });
 
     return fetch('/artist/profile', {
@@ -91,13 +131,31 @@ class Connect extends React.Component {
       return (
         <Container>
           <Form>
-            <Form.Input 
-              label="Profile"
-              name="profile"
-              value={this.state.profile}
-              onChange={this.handleChange}
-              required
-            />
+            <Grid>
+              <Grid.Row columns={2}>
+                <Grid.Column width={6}>
+                  <Image
+                    src={this.state.preview_image}
+                  />
+                </Grid.Column>
+                <Grid.Column width={10}>
+                  <input
+                    type="file" 
+                    name="image" 
+                    accept="image/*" 
+                    id="image"
+                    onChange={this.handleImageCreate}
+                  />
+                  <Form.TextArea
+                    label="Profile"
+                    name="profile"
+                    value={this.state.profile}
+                    onChange={this.handleChange}
+                    required
+                  />
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
             <Form.Input 
               label="Facebook Link"
               name="fb_link"

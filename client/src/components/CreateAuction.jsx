@@ -149,7 +149,7 @@ class CreateAuction extends React.Component {
         method: 'POST',
         body: formData,
         headers:  new Headers({
-          'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
+          Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
         })
     })
     .then((data) => {
