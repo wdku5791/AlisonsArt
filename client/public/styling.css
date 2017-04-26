@@ -1,5 +1,5 @@
 body {
-  padding-top: 150px;
+  padding-top: 110px;
 }
 
 .navbar {
@@ -8,9 +8,10 @@ body {
   overflow: hidden;
   position: fixed;
   top: 0;
-  width: 93%;
-  margin-left: -7%;
-  /*white-space: nowrap;*/
+  width: 82%;
+  margin-left: -50px;
+  padding-left: 50px;
+  padding-bottom: 10px;
 }
 
 .carousel {
@@ -33,12 +34,13 @@ body {
 .authLink {
   float: right;
   text-align: right;
-  display: inline-block;
+  display: inline;
 }
 
 .navLinks {
   font-size: 18px;
   color: #474a4f;
+  display: inline;
 }
 
 .navSearch {
