@@ -190,6 +190,35 @@ a {
   cursor: pointer;
 }
 
+.read.read {
+  /*color: red;*/
+  /*border-color: black;*/
+  /*overflow: hidden;*/
+  /*font-weight: bolder;*/
+  border-radius: 7px;
+  height: 60px;
+  padding: 5px;
+  background-color: rgba(153, 239, 246, 0.3);
+}
 
+.rowu.rowu {
+  box-shadow: 1px 0px 1px 0px !important;
+}
 
+.noty.noty {
+  /*border-radius: 7px;*/
+  word-wrap: break-word;
+  overflow: hidden;
+  height: 60px;
+  padding: 5px;
+}
 
+.listitem.listitem {
+
+}
+
+.scrollable.scrollable {
+  overflow: hidden;
+  overflow-y: scroll;
+  max-height:400px;
+}

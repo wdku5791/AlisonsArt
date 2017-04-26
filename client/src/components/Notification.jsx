@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import * as notifications from '../actions/notificationActionCreator.jsx';
 import Note from './NotificationEntry.jsx';
 import * as UserActions from '../actions/userActionCreator.jsx';
-import Inbox from './Inbox.jsx'
+import Inbox from './Inbox.jsx';
+import { Grid, List } from 'semantic-ui-react';
 
 class Notification extends React.Component {
   constructor(props) {
@@ -85,22 +86,37 @@ class Notification extends React.Component {
     const { notification } = this.props;
     return (
       <div>
-        <div>
-          <p>Notifications~~~</p>
-        </div>
-        <div>
-          {notification.notifications.map((notification, index) => (
-            <Note key={notification.id}
-            index={index}
-            clickHandler={this.clickHandler}
-            notification={notification} />)
-          )}
-        </div>
+        <Grid celled='internally' centered={true}>
+          <Grid.Row>
+            <Grid.Column width={4}>
+                <h1>Notifications</h1>
+            </Grid.Column>
+            <Grid.Column width={12} className="gridStyle">
+              <Grid celled='internally' centered={true} className='scrollable'>
+                {notification.notifications.map((notification, index) => (
+                  <Note key={notification.id}
+                  index={index}
+                  clickHandler={this.clickHandler}
+                  notification={notification} />)
+                )}
+              </Grid>
+              
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
         <Inbox />
       </div>
     );
   }
 }
+// <List animated verticalAlign='middle' className="scrollable">
+//   {notification.notifications.map((notification, index) => (
+//     <Note key={notification.id}
+//     index={index}
+//     clickHandler={this.clickHandler}
+//     notification={notification} />)
+//   )}
+// </List>
 
 const mapStateToProps = (state) => {
   return { 
