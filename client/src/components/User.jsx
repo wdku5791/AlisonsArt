@@ -32,7 +32,7 @@ const Navigation = (props) => {
 class User extends Component {
   componentWillMount() {
     let { dispatch } = this.props;
-    fetch('/user', {
+    fetch(`/user`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`

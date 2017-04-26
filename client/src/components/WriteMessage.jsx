@@ -31,7 +31,7 @@ class WriteMessage extends React.Component {
     this.setState({
       text: '',
     })
-    fetch('/messages/', {
+    fetch(`/messages/`, {
       method: 'POST',
       headers: new Headers({
         'Content-Type': 'application/json',
@@ -49,8 +49,9 @@ class WriteMessage extends React.Component {
       dispatch(ChatActions.chatMessage(messagePayload));
     })
     .catch((error) => {
+      //this can dispatch an error to the reducer and when the fronend detects error, render something differently
       console.log('handleFormSubmit failed! Error: ', error);
-    })
+    });
   }
 
   // retrieveMessages() {

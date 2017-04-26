@@ -5,7 +5,7 @@ import * as UserActions from '../actions/userActionCreator.jsx';
 import { connect } from 'react-redux';
 import AuctionDetail from './AuctionDetail.jsx';
 import ClosedAuction from './ClosedAuction.jsx';
-import * as bids from '../actions/bidActionCreator';
+import * as Bids from '../actions/bidActionCreator';
 import Moment from 'moment';
 
 
@@ -16,11 +16,10 @@ class Auction extends Component {
     this.state = {
       flag: false
     };
+    this.setBid = this.setBid.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
-  //when user clicks submit, check if user is logged in
-    //if not re-direct
-    //if logged in, grab all info and redirect to payment page.
   componentWillMount() {
     const auctionId = this.props.match.params.auctionId;
     const { dispatch, user } = this.props;
@@ -40,9 +39,9 @@ class Auction extends Component {
       dispatch(Auctions.fetchingAnAuction(false));
       dispatch(Auctions.fetchAuctionErrored(true, err));
     });
-    //lala:
+
     if (user.username) {
-      fetch('/saves/?q=' + user.userId + '+' + auctionId)
+      fetch(`/saves/?q=${user.userId}+${auctionId}`)
       .then(response => {
         if(!response.ok) {
           throw Error(response.statusText);
@@ -63,7 +62,7 @@ class Auction extends Component {
   }
 
   handleSave(auction_id) {
-    fetch('/saves/save', {
+    fetch(`/saves/save`, {
       method: 'POST',
       headers: new Headers({
         'Content-Type': 'application/json',
@@ -86,7 +85,7 @@ class Auction extends Component {
   }
 
   handleUnsave(auction_id) {
-    fetch('/saves/unsave', {
+    fetch(`/saves/unsave`, {
       method: 'POST',
       headers: new Headers({
         'Content-Type': 'application/json',
@@ -110,43 +109,48 @@ class Auction extends Component {
 
   setBid(bid) {
     const { dispatch } = this.props;
-    dispatch(bids.setBid(bid));
+    dispatch(Bids.setBid(bid));
   }
 
-  handleClick(id) {
+  handleClick(auctionId, avail, buyout) {
     const { bid, user, history, dispatch } = this.props;
-    if (bid.bid === 0) {
-      alert('Please select a value');
+    //this is for invalid input:
+    let temp = bid.bid;
+    if(!user.username) {
+      alert('You are not logged in, please sign up or log in');
+      history.push('/login');
     } else {
-      //if user not logged in, redirect
-      if(!user.username) {
-        alert('you are not logged in, please sign up or log in');
-        history.push('/login');
+      if (!bid.bid){
+        alert('Please enter a valid value');
+      } else if(bid.bid < avail) {
+        alert('Please at least bid for the next available amount');
+      } else if(bid.bid > buyout) {
+        alert('How about bidding for the buyout amount?');
       } else {
-      //grab userid, artwork_id and value
-        dispatch(bids.toggleSend());
-        fetch(`/auctions/${id}/bids`, {
+        fetch(`/auctions/${auctionId}/bids`, {
           method: 'POST',
           headers: new Headers({
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
           }),
-          body: JSON.stringify({ bidPrice: bid.bid })
+          body: JSON.stringify({
+            bidPrice: Number((+bid.bid).toFixed(2))
+          })
         })
-        .then((answer) => {
-          if (!answer.ok) {
-            throw Error(answer.json());
-          } else {
-            answer.json()
-            .then((bid) => {
-              dispatch(Auctions.updateBid(bid));
-              alert(`you have successfully bid $${bid.current_bid}`);
-
-            });
+        .then(response => {
+          if (!response.ok) {
+            throw Error(response.json());
           }
+          return response.json();
         })
-        .catch((err) => {
-          dispatch(bids.error(err));
+        .then(data => {
+          bid.current_bid = data.current_bid;
+          bid.current_bid_id = data.current_bid_id;
+          dispatch(Auctions.updateBid(bid));
+          alert(`You have successfully bid $${data.current_bid}`);
+        })
+        .catch(err => {
+          dispatch(Bids.error(err));
         });
       }
     }
@@ -172,7 +176,7 @@ class Auction extends Component {
       } else {
         return (
           <div>
-            <AuctionDetail flag={this.state.flag} user={user} handleClick={this.handleClick.bind(this, auction.id)} auction={auction} setBid={this.setBid.bind(this)} handleSave={() => {
+            <AuctionDetail flag={this.state.flag} user={user} handleClick={this.handleClick} auction={auction} setBid={this.setBid} handleSave={() => {
               this.handleSave(auction.id)
             }} handleUnsave={() => {
               this.handleUnsave(auction.id)

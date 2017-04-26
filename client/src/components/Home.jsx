@@ -145,7 +145,7 @@ class Home extends Component {
     // Auctions.fetchAuctionData('/auctions');
     dispatch(Auctions.fetchingAuctions(true));
 
-    fetch('/home')
+    fetch(`/home`)
     .then((response) => {
       if (!response.ok) {
         throw Error(response.statusText);

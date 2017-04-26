@@ -74,7 +74,7 @@ class Artist extends Component {
     // if user logged in, check if user followed this artist
     if (this.props.user.username) {
       // refactor to use authToken:
-      fetch('/follows/?q=' + this.props.user.userId +'+' + artistId)
+      fetch(`/follows/?q=${this.props.user.userId}+${artistId}`)
       .then(response => {
         if (!response.ok) {
           throw Error(response.statusText);
@@ -101,7 +101,7 @@ class Artist extends Component {
   }
 
   _handleFollow() {
-    fetch('/follows/follow', {
+    fetch(`/follows/follow`, {
       method: 'POST',
       headers: new Headers({
         'Content-Type': 'application/json',
@@ -124,7 +124,7 @@ class Artist extends Component {
   }
 
   _handleUnfollow() {
-    fetch('/follows/unfollow', {
+    fetch(`/follows/unfollow`, {
       method: 'POST',
       headers: new Headers({
         'Content-Type': 'application/json',
@@ -188,7 +188,7 @@ class Artist extends Component {
               <Container>
                 <span>{first_name} {last_name}</span>
                 {' '}
-                <button onClick={this.directMessageHandler}>Direct message</button>
+                {this.props.userId ? <Button onClick={this.directMessageHandler} content="Direct message"/> : null}
                 {' '}
                 {fb_link ? <Button circular color='facebook' icon='facebook' onClick={() => {
                   this._socialMedia(fb_link);

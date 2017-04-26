@@ -32,9 +32,9 @@ module.exports = function createSchemas(db) {
       artwork_id BIGINT NOT NULL REFERENCES artworks(id),\
       start_date TIMESTAMP NOT NULL,\
       end_date TIMESTAMP NOT NULL,\
-      start_price BIGINT NOT NULL,\
-      buyout_price BIGINT NOT NULL,\
-      current_bid BIGINT DEFAULT NULL,\
+      start_price DECIMAL NOT NULL,\
+      buyout_price DECIMAL NOT NULL,\
+      current_bid DECIMAL DEFAULT NULL,\
       current_bid_id BIGINT DEFAULT NULL,\
       bid_counter BIGINT DEFAULT 0\
     )');
@@ -43,7 +43,7 @@ module.exports = function createSchemas(db) {
       bidder_id BIGINT NOT NULL REFERENCES users(id),\
       auction_id BIGINT NOT NULL REFERENCES auctions(id),\
       bid_date TIMESTAMP NOT NULL,\
-      bid_price BIGINT NOT NULL\
+      bid_price DECIMAL NOT NULL\
     )');
     let attributes = t.query('CREATE TABLE IF NOT EXISTS attributes (\
       id SERIAL PRIMARY KEY NOT NULL,\

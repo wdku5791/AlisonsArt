@@ -29,7 +29,7 @@ class SignUp extends Component {
     
 
     if (password === cPassword) {
-      fetch('/auth/signup', {
+      fetch(`/auth/signup`, {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
