@@ -451,6 +451,4 @@ module.exports = {
   updatePaymentStatus(status, auctionId) {
     return db.query('UPDATE closed_auctions SET payment_status=$1 WHERE auction_id=$2', [status, auctionId]);
   }
-
-
 };

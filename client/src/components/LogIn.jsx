@@ -20,7 +20,6 @@ class LogIn extends Component {
     this.passwordNode.value = '';
 
     fetch('/auth/login', {
-      //don't forget the headers, otherwise it won't work
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',

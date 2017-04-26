@@ -1,7 +1,6 @@
 import React from 'react';
-import { Container, Image, Grid, Button, Form } from 'semantic-ui-react';
+import { Container, Image, Grid, Button, Form, Input } from 'semantic-ui-react';
 import Moment from 'moment';
-import BiddingRange from './BiddingRange.jsx';
 
 const AuctionDetail = ({auction, setBid, handleClick, user, handleSave, handleUnsave, flag}) => {
 
@@ -11,14 +10,8 @@ const AuctionDetail = ({auction, setBid, handleClick, user, handleSave, handleUn
   let buyout = +auction.buyout_price;
 
   let interval = 0;
-  if (buyout < 100) {
-    interval = 10;
-  } else if (buyout < 500) {
-    interval = 50;
-  } else if (buyout < 1000) {
-    interval = 100;
-  } else if (buyout < 5000) {
-    interval = 500;
+  if (buyout < 5000) {
+    interval = parseInt(0.1 * buyout);
   } else {
     interval = 1000;
   }
@@ -42,8 +35,8 @@ const AuctionDetail = ({auction, setBid, handleClick, user, handleSave, handleUn
           <h3>{auction.first_name} {auction.last_name} ({auction.artwork.age})</h3>
           <p><strong>Auction Ends:</strong> {endTime}</p>
           <p><strong>Description:</strong> {auction.artwork.description}</p>
-          <p><strong>Current Price (USD):</strong> ${(auction.current_bid || auction.start_price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
-          <p><strong>Buyout Price (USD):</strong> ${(auction.buyout_price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
+          <p><strong>Current Price (USD):</strong> ${(current || start).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
+          <p><strong>Buyout Price (USD):</strong> ${buyout.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
           <Form.Group widths='equal'>
             <span>
               <p>
@@ -54,7 +47,7 @@ const AuctionDetail = ({auction, setBid, handleClick, user, handleSave, handleUn
               <strong>
                 Bid for: 
               </strong>
-              <input onChange={e => {
+              <Input onChange={e => {
                 if(isNaN(e.target.value)) {
                   e.target.value = '';
                 } else {
@@ -62,7 +55,9 @@ const AuctionDetail = ({auction, setBid, handleClick, user, handleSave, handleUn
                 }
               }} />
             </span>
-            <Button className="ui right floated" color="green" onClick={handleClick}>Submit</Button>
+            <Button className="ui right floated" color="green" onClick={() => {
+              handleClick(auction.id, avail, buyout)
+            }}>Submit</Button>
           </Form.Group>
         </Container>
       </Grid.Column>

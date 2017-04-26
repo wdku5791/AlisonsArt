@@ -17,6 +17,7 @@ class Auction extends Component {
       flag: false
     };
     this.setBid = this.setBid.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentWillMount() {
@@ -111,29 +112,52 @@ class Auction extends Component {
     dispatch(Bids.setBid(bid));
   }
 
-  handleClick(id) {
+  handleClick(auctionId, avail, buyout) {
     const { bid, user, history, dispatch } = this.props;
     //Alison's new: 
     //this is for invalid input:
-    if (!bid.bid){
-      alert('Please enter a valid value');
-    } else if(bid.bid < avail) {
-      alert('Please at least bid for the next available amount');
-    } else if(bid.bid > buyout) {
-      alert('Do you want to bid for the buyout amount?');
+    if(!user.username) {
+      alert('You are not logged in, please sign up or log in');
+      history.push('/login');
     } else {
-      //can send the request here now~~~
+      if (!bid.bid){
+        alert('Please enter a valid value');
+      } else if(bid.bid < avail) {
+        alert('Please at least bid for the next available amount');
+      } else if(bid.bid > buyout) {
+        alert('Do you want to bid for the buyout amount?');
+      } else {
+        //can send the request here now~~~
+        //send 
+        fetch('/auctions/' + auctionId + '/bids', {
+          method: 'POST',
+          headers: new Headers({
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
+          }),
+          body: JSON.stringify({
+            bidPrice: bid.bid
+          })
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw Error(response.json());
+          }
+          return response.json();
+        })
+        .then(data => {
+          bid.current_bid_id = user.userId;
+          bid.current_bid = bid.bid;
+          dispatch(Auctions.updateBid(bid));
+          alert(`You have successfully bid $${bid.bid}`);
+        })
+        .catch(err => {
+          dispatch(Bids.error(err));
+        });
+      }
     }
 
     //old: 
-    // if (bid.bid === 0) {
-    //   alert('Please select a value');
-    // } else {
-    //   //if user not logged in, redirect
-    //   if(!user.username) {
-    //     alert('you are not logged in, please sign up or log in');
-    //     history.push('/login');
-    //   } else {
     //   //grab userid, artwork_id and value
     //     dispatch(Bids.toggleSend());
     //     fetch(`/auctions/${id}/bids`, {
@@ -159,7 +183,6 @@ class Auction extends Component {
     //     .catch((err) => {
     //       dispatch(Bids.error(err));
     //     });
-    //   }
     // }
   }
 
@@ -183,7 +206,7 @@ class Auction extends Component {
       } else {
         return (
           <div>
-            <AuctionDetail flag={this.state.flag} user={user} handleClick={this.handleClick.bind(this, auction.id)} auction={auction} setBid={this.setBid} handleSave={() => {
+            <AuctionDetail flag={this.state.flag} user={user} handleClick={this.handleClick} auction={auction} setBid={this.setBid} handleSave={() => {
               this.handleSave(auction.id)
             }} handleUnsave={() => {
               this.handleUnsave(auction.id)
