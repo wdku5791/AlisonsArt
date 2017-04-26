@@ -63,7 +63,7 @@ class Index extends Component {
     });
   }
 
-  render(){
+  render() {
     return (
       <Router>
         <Container>
