@@ -114,8 +114,8 @@ class Auction extends Component {
 
   handleClick(auctionId, avail, buyout) {
     const { bid, user, history, dispatch } = this.props;
-    //Alison's new: 
     //this is for invalid input:
+    let temp = bid.bid;
     if(!user.username) {
       alert('You are not logged in, please sign up or log in');
       history.push('/login');
@@ -125,10 +125,8 @@ class Auction extends Component {
       } else if(bid.bid < avail) {
         alert('Please at least bid for the next available amount');
       } else if(bid.bid > buyout) {
-        alert('Do you want to bid for the buyout amount?');
+        alert('How about bidding for the buyout amount?');
       } else {
-        //can send the request here now~~~
-        //send 
         fetch('/auctions/' + auctionId + '/bids', {
           method: 'POST',
           headers: new Headers({
@@ -136,7 +134,7 @@ class Auction extends Component {
             'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
           }),
           body: JSON.stringify({
-            bidPrice: bid.bid
+            bidPrice: Number((+bid.bid).toFixed(2))
           })
         })
         .then(response => {
@@ -146,44 +144,16 @@ class Auction extends Component {
           return response.json();
         })
         .then(data => {
-          bid.current_bid_id = user.userId;
-          bid.current_bid = bid.bid;
+          bid.current_bid = data.current_bid;
+          bid.current_bid_id = data.current_bid_id;
           dispatch(Auctions.updateBid(bid));
-          alert(`You have successfully bid $${bid.bid}`);
+          alert(`You have successfully bid $${data.current_bid}`);
         })
         .catch(err => {
           dispatch(Bids.error(err));
         });
       }
     }
-
-    //old: 
-    //   //grab userid, artwork_id and value
-    //     dispatch(Bids.toggleSend());
-    //     fetch(`/auctions/${id}/bids`, {
-    //       method: 'POST',
-    //       headers: new Headers({
-    //         'Content-Type': 'application/json',
-    //         'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
-    //       }),
-    //       body: JSON.stringify({ bidPrice: bid.bid })
-    //     })
-    //     .then((answer) => {
-    //       if (!answer.ok) {
-    //         throw Error(answer.json());
-    //       } else {
-    //         answer.json()
-    //         .then((bid) => {
-    //           dispatch(Auctions.updateBid(bid));
-    //           alert(`you have successfully bid $${bid.current_bid}`);
-
-    //         });
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       dispatch(Bids.error(err));
-    //     });
-    // }
   }
 
   render() {

@@ -2,6 +2,8 @@ import React from 'react';
 import { Container, Image, Grid, Button, Form, Input } from 'semantic-ui-react';
 import Moment from 'moment';
 
+let inputNode = null;
+
 const AuctionDetail = ({auction, setBid, handleClick, user, handleSave, handleUnsave, flag}) => {
 
   let endTime = new Moment(auction.end_date).format('MMMM Do, YYYY, h:mm:ss a');
@@ -17,7 +19,6 @@ const AuctionDetail = ({auction, setBid, handleClick, user, handleSave, handleUn
   }
 
   let avail = current ? Math.min(current + interval, buyout) : start;
-
   return (
     <Grid>
       <Grid.Column width={11}>
@@ -47,16 +48,21 @@ const AuctionDetail = ({auction, setBid, handleClick, user, handleSave, handleUn
               <strong>
                 Bid for: 
               </strong>
-              <Input onChange={e => {
-                if(isNaN(e.target.value)) {
-                  e.target.value = '';
-                } else {
-                  setBid(e.target.value);
-                }
-              }} />
+              <span className="ui input">
+                <input onChange={e => {
+                  if(isNaN(e.target.value)) {
+                    e.target.value = '';
+                  } else {
+                    setBid(e.target.value);
+                  }
+                }} ref={node => {
+                  inputNode = node
+                }} />
+              </span>
             </span>
             <Button className="ui right floated" color="green" onClick={() => {
               handleClick(auction.id, avail, buyout)
+              inputNode.value=''
             }}>Submit</Button>
           </Form.Group>
         </Container>

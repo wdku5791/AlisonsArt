@@ -75,13 +75,11 @@ module.exports = function(io) {
     bid.bid_price = req.body.bidPrice;
     bid.bid_date = new Moment().format('YYYY-MM-DD HH:mm:ss');
     // console.log(io.sockets.sockets, 'listof sockets in auctions handler');
-    console.log('bid: ', bid);
     model.createBid(bid)
     .then((bid) => {
       const update = {};
       update.auction_id = req.params.auctionId;
       update.bid = bid;
-      console.log('update: ', update);
       return model.updateAuction(update)
       .then((bid) => {
         // new bid beats current highest bid
