@@ -47,7 +47,7 @@ class UserSettings extends Component {
   _submitHandler(e) {
     e.preventDefault();
     let { userId } = this.props.user;
-    fetch('/user/' + userId, {
+    fetch(`/user/${userId}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
@@ -63,7 +63,7 @@ class UserSettings extends Component {
     .then(data => {
       if (currentPassword.value === data.password) {
         if (newPassword.value === confirmPassword.value) {
-          fetch('/user/' + userId + '/changePassword', {
+          fetch(`/user/${userId}/changePassword`, {
             headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',

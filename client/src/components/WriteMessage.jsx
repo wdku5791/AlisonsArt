@@ -31,7 +31,7 @@ class WriteMessage extends React.Component {
     this.setState({
       text: '',
     })
-    fetch('/messages/', {
+    fetch(`/messages/`, {
       method: 'POST',
       headers: new Headers({
         'Content-Type': 'application/json',

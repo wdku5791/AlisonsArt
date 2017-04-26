@@ -41,7 +41,7 @@ class Auction extends Component {
     });
 
     if (user.username) {
-      fetch('/saves/?q=' + user.userId + '+' + auctionId)
+      fetch(`/saves/?q=${user.userId}+${auctionId}`)
       .then(response => {
         if(!response.ok) {
           throw Error(response.statusText);
@@ -62,7 +62,7 @@ class Auction extends Component {
   }
 
   handleSave(auction_id) {
-    fetch('/saves/save', {
+    fetch(`/saves/save`, {
       method: 'POST',
       headers: new Headers({
         'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ class Auction extends Component {
   }
 
   handleUnsave(auction_id) {
-    fetch('/saves/unsave', {
+    fetch(`/saves/unsave`, {
       method: 'POST',
       headers: new Headers({
         'Content-Type': 'application/json',

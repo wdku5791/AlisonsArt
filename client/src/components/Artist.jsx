@@ -62,6 +62,7 @@ class Artist extends Component {
       return response.json();
     })
     .then(data => {
+      console.log('got data: ', data);
       dispatch(ArtistAction.fetchingArtist(false));
       dispatch(ArtistAction.fetchArtistSuccess(data));
       dispatch(ArtistAction.fetchArtistErrored(false, null));
@@ -74,7 +75,7 @@ class Artist extends Component {
     // if user logged in, check if user followed this artist
     if (this.props.user.username) {
       // refactor to use authToken:
-      fetch('/follows/?q=' + this.props.user.userId +'+' + artistId)
+      fetch(`/follows/?q=${this.props.user.userId}+${artistId}`)
       .then(response => {
         if (!response.ok) {
           throw Error(response.statusText);
@@ -101,7 +102,7 @@ class Artist extends Component {
   }
 
   _handleFollow() {
-    fetch('/follows/follow', {
+    fetch(`/follows/follow`, {
       method: 'POST',
       headers: new Headers({
         'Content-Type': 'application/json',
@@ -124,7 +125,7 @@ class Artist extends Component {
   }
 
   _handleUnfollow() {
-    fetch('/follows/unfollow', {
+    fetch(`/follows/unfollow`, {
       method: 'POST',
       headers: new Headers({
         'Content-Type': 'application/json',

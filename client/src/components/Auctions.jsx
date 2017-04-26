@@ -13,7 +13,7 @@ class Auctions extends React.Component {
     const { dispatch } = this.props;
     dispatch(actions.fetchingAuctions(true));
 
-    fetch('/auctions', {
+    fetch(`/auctions`, {
       method: 'GET',
       credentials: 'include',
       headers: new Headers({

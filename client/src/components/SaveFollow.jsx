@@ -13,7 +13,7 @@ class SaveFollow extends Component {
 
   componentWillMount() {
     let { userId } = this.props.match.params;
-    fetch('/saves/' + userId, {
+    fetch(`/saves/${userId}`, {
       headers: new Headers ({'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`})
     })
     .then(response => {
@@ -26,7 +26,7 @@ class SaveFollow extends Component {
       alert('Sorry! Failed to fetch your saved auctions.');
     });
 
-    fetch('/follows/' + userId, {
+    fetch(`/follows/${userId}`, {
       headers: new Headers ({'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`})
     })
     .then(response => {
@@ -41,7 +41,7 @@ class SaveFollow extends Component {
   }
 
   _handleClickArtist(artistId) {
-    this.props.history.push('/artist/' + artistId);
+    this.props.history.push(`/artist/${artistId}`);
   }
 
   render() {

@@ -32,7 +32,7 @@ class CreateAuction extends React.Component {
 
   componentWillMount() {
     let { dispatch } = this.props;
-    fetch('/rehydrate', {
+    fetch(`/rehydrate`, {
       method: 'GET',
       headers: new Headers ({
         'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
@@ -108,7 +108,7 @@ class CreateAuction extends React.Component {
       alert('you are not logged in, please sign up or log in');
       history.push('/login');
     } else {
-      return fetch('/auctions', {
+      return fetch(`/auctions`, {
         method: 'POST',
         headers: new Headers ({
           'Content-Type': 'application/json',
@@ -145,7 +145,7 @@ class CreateAuction extends React.Component {
     })
     var formData = new FormData();
     formData.append('image_file', document.getElementById('imageToSend').files[0]);
-    fetch('/images', {
+    fetch(`/images`, {
         method: 'POST',
         body: formData,
         headers:  new Headers({
