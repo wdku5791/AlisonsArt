@@ -87,7 +87,7 @@ class Inbox extends React.Component {
 
   render() {
     return (
-      <Segment>
+      <Segment className='inboxContainer'>
         <h3>INBOX</h3>
         <ul>
           {
@@ -98,13 +98,22 @@ class Inbox extends React.Component {
               // console.log('conversation fullName: ', fullName);
               if (this.props.userId !== conversation.sender_id) {
                 return (
-                  <li value={conversation.sender_id} name={fullName} onClick={() => this.renderChatRoom(senderId, fullName)}>
+                  <li 
+                    className='inboxLink'
+                    value={conversation.sender_id} 
+                    name={fullName} 
+                    onClick={() => this.renderChatRoom(senderId, fullName)}
+                  >
                     <strong>{conversation.first_name} {conversation.last_name} </strong>"{conversation.text}"<strong> at: {conversation.message_date}</strong>
                   </li>
                 )
               } else {
                 return (
-                  <li value={conversation.receiver_id} name={fullName} onClick={() => this.renderChatRoom(receiverId, fullName)}>
+                  <li 
+                    className='inboxLink'
+                    value={conversation.receiver_id} 
+                    name={fullName} 
+                    onClick={() => this.renderChatRoom(receiverId, fullName)}>
                     <strong>{conversation.first_name} {conversation.last_name} </strong>"{conversation.text}"<strong> at: {conversation.message_date}</strong>
                   </li>
                 )

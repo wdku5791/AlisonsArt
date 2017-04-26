@@ -91,15 +91,19 @@ class WriteMessage extends React.Component {
             {
               this.props.messages.map(message => {
                 if (Number(message.sender_id) === Number(this.props.userId)) {
-                  return <p className='senderMessage'>{message.text}</p>
+                  return (
+                    <p className='senderMessage'>{message.text}</p>
+                  )
                 } else {
-                  return <p className='receiverMessage'>{message.text}</p>
+                  return (
+                    <p className='receiverMessage'>{message.text}</p>
+                  )
                 }
               })
             }
             <div style={{float:"left", clear: "both"}} ref={(el) => {this.messagesEnd = el;}}></div>
           </Segment>
-          <Form>  
+          <Form className='messageInput'>  
             <Form.Field>
               <input value={this.state.text} onChange={this.handleFormChange}/>
             </Form.Field>

@@ -67,7 +67,7 @@ body {
 
 .messageWindow {
   position: fixed;
-  bottom: 5px;
+  bottom: 0px;
   right: 10px;
   width: 250px;
   height: 300px;
@@ -82,17 +82,15 @@ body {
 .messageFeed {
   overflow-y: scroll;
   height: 200px;
-  width: 240px;
+  width: 220px;
 }
 
 .senderMessage {
-  float: right;
   color: white;
   background-color: black;
 }
 
 .receiverMessage {
-  float: left;
   color: black;
   background-color: white;
 }
@@ -118,4 +116,20 @@ body {
   height: 50px;
   z-index: 100;
 }
+
+.messageInput {
+  margin-top: -5px;
+  margin-bottom: 5px;
+}
+
+.inboxContainer {
+  margin-bottom: 30px;
+}
+
+.inboxLink {
+  cursor: pointer;
+}
+
+
+
 
