@@ -14,6 +14,10 @@ body {
   padding-bottom: 10px;
 }
 
+a {
+  color: inherit;
+}
+
 .carousel {
   max-height: 400px;
   width: 100%;
