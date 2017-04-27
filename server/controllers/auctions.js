@@ -113,7 +113,7 @@ module.exports = function(io) {
                 io.socketList[bid.bidder_id].emit('action', {type: 'UPDATE_NEW_NOTIFICATIONS', data: [noty[0]]});
               }
               // console.log('room:'+req.params.auctionId);
-              io.emit('action', {type: 'UPDATE_CURRENT_BID', bid: bid.bid_price || bid.current_bid});
+              io.emit('action', {type: 'UPDATE_CURRENT_BID', current_bid: bid.bid_price || bid.current_bid, current_bid_id: bid.id || bid.current_bid_id});
               res.status(201).json({
                 current_bid: bid.bid_price || bid.current_bid,
                 current_bid_id: bid.id || bid.current_bid_id 
@@ -121,7 +121,7 @@ module.exports = function(io) {
             });
           });
         }
-          io.emit('action', {type: 'UPDATE_CURRENT_BID', bid: bid.bid_price || bid.current_bid});
+          io.emit('action', {type: 'UPDATE_CURRENT_BID', current_bid: bid.bid_price || bid.current_bid, current_bid_id: bid.id || bid.current_bid_id});
           res.status(201).json({
             current_bid: bid.bid_price || bid.current_bid,
             current_bid_id: bid.id || bid.current_bid_id 

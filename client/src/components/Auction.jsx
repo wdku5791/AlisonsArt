@@ -185,11 +185,13 @@ class Auction extends Component {
           />
         );
       } else {
+        console.log('acution details', auction);
         return (
           <div>
             <AuctionDetail
               flag={this.state.flag}
               user={user}
+              bid={bid}
               handleClick={this.handleClick}
               auction={auction}
               setBid={this.setBid}
