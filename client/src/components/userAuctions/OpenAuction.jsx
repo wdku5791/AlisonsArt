@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Image, Grid } from 'semantic-ui-react';
+import { Container, Grid, Button } from 'semantic-ui-react';
 
 const OpenAuction = ({auction, history}) => {
   let message;
@@ -8,22 +8,28 @@ const OpenAuction = ({auction, history}) => {
     history.push(`/auction/${id}`);
   };
 
+  const _formatMoney = (money) => {
+    return money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   if (auction.isHighestBidder) {
-    message = <button onClick={() => handleClick(auction.id)}>You're Winning!</button>;
+    message = <Button onClick={() => handleClick(auction.id)}>You're Winning!</Button>;
   } else {
-    message = <button onClick={() => handleClick(auction.id)}>You've Been Outbid!</button>;
+    message = <Button color="green" onClick={() => handleClick(auction.id)}>You've Been Outbid!</Button>;
   }
   return (
     <Grid.Column>
-      <Image
-        className="imageLink"
-        src={auction.image_url}
+      <div
+        className="imageLink thumbnails"
+        style={{backgroundImage: `url(${auction.image_url})`}}
         onClick={() => handleClick(auction.id)}
       />
       <Container>
-        <h4 className>{auction.art_name}</h4>
-        <p>{auction.first_name} {auction.last_name} ({auction.age})</p>
-        <p>Current Bid ($USD): {auction.current_bid}</p>
+        <h4 className="artName">{auction.art_name}</h4>
+        <span>{auction.first_name} {auction.last_name} ({auction.age})</span>
+        <br />
+        <span>Current Bid: ${_formatMoney(+auction.current_bid)}</span>
+        <br />
         {message}
       </Container>
     </Grid.Column>

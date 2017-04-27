@@ -103,7 +103,7 @@ class UserAuctions extends Component {
         </Grid>
         <h3>Ongoing Auctions</h3>
         <Grid columns="equal">
-          <Grid.Row>
+          <Grid.Row columns={3}>
             {openAuctions.length > 0 ? openAuctions.map(auction => (
               <OpenAuction
                 history={history}

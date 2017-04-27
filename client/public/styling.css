@@ -59,6 +59,15 @@ a {
   margin-bottom: 5px;
 }
 
+.userFormWrapper {
+  margin: 10px 0 5px 0;
+}
+
+.userForm {
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+
 #messageButton {
   padding-left: 34px;
   padding-right: 33px;
@@ -69,7 +78,7 @@ a {
   padding-right: 30px;
 }
 
-.frame-square {
+.frame-square, .auctionsFrame {
   display: inline-block;
   vertical-align: top;
   width: 280px;
@@ -80,6 +89,10 @@ a {
   position: relative;
   overflow: hidden;
 }
+
+/*.auctionsFrame {
+  height: 380px;
+}*/
 
 .auctionType {
   margin-top: 10px;

@@ -105,10 +105,10 @@ class UserSettings extends Component {
       return(
         <Container>
           <form onSubmit={(e) => {this._submitHandler(e)}}>
-          Username: {username}
-          <br />
-          Email: {userEmail}
-          <br />
+          <div className="userFormWrapper">
+            <p className="userForm">Username: {username}</p>
+            <p className="userForm">Email: {userEmail}</p>
+          </div>
           <Button onClick={(e) => {this._clickHandler(e)}} content="Change password" />
           {this.state.toggle? <ChangePassword /> : null}
           </form>

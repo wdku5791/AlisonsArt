@@ -7,7 +7,7 @@ const _handleImageClick = (auction_id, history) => {
 };
 
 const _formatMoney = (money) => {
-  return money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  return money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
 const _helper = (auction, history) => {
