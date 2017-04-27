@@ -216,7 +216,7 @@ class Artist extends Component {
                     </List.Item>
                     <List.Item>
                       <List.Content>
-                        {this.props.userId ? <Button color="green" onClick={this.directMessageHandler} content="Direct message"/> : null}
+                        {this.props.userId ? <Button id="messageButton" color="green" onClick={this.directMessageHandler} content="Message"/> : null}
                       </List.Content>
                     </List.Item>
                     <List.Item>
@@ -234,20 +234,23 @@ class Artist extends Component {
                       <Grid.Row columns={3}>
                         {ongoingAuctions.length === 0 ? 
                           <p className="auctionInfo">No ongoing auctions for this artist</p> 
-                        : null}
+                          : null}
                       {ongoingAuctions.map(auction => (
-                        <div key={auction.id}>
+                        <Grid.Column key={auction.id}>
                           <ArtistAuctions auction={auction} history={history} dispatch={dispatch} />
-                        </div>
+                        </Grid.Column>
                         ))}
                       </Grid.Row>
                     </Grid>
                   </div>
                   <div>
-                  <Grid>
-                    <h3>Passed auctions:</h3>
-                      <Grid.Row columns={3}>
-                      {passedAuctions.length === 0 ? <span>No passed auctions for this artist</span> : null}
+                  <Divider />
+                    <Grid>
+                      <h3 className="auctionType">Passed auctions:</h3>
+                        <Grid.Row columns={3}>
+                        {passedAuctions.length === 0 ? 
+                          <p className="auctionInfo">No passed auctions for this artist</p> 
+                          : null}
                       {passedAuctions.map(auction => (
                         <Grid.Column key={auction.id}>
                           <ArtistAuctions auction={auction} history={history} dispatch={dispatch} />
