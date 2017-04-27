@@ -101,7 +101,9 @@ a {
 }
 
 .userNavLinks {
-
+  color: green;
+  padding-right: 10px;
+  font-size: 16px
 }
 
 .navSearch {
