@@ -191,7 +191,7 @@ class Artist extends Component {
                     <img className='profile' src={image_url} />
                     <List.Item>
                       <List.Content>
-                        <span>{first_name} {last_name}</span>
+                        <span className="artistName">{first_name} {last_name}</span>
                       </List.Content>
                     </List.Item>
                     <List.Item>

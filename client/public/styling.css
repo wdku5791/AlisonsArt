@@ -26,6 +26,11 @@
   height: 180px;
 }
 
+.artistName {
+  color: #1b3868;
+  font-weight: bold;
+}
+
 #messageButton {
   padding-left: 34px;
   padding-right: 33px;
