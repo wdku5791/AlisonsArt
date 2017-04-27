@@ -39,10 +39,13 @@ class Artist extends Component {
         throw Error('failed to retrieve messages...');
       }
       return response.json();
-    })
+    }) 
     .then((data) => {
+      var firstName =this.props.artist.fetchedArtist.profile.first_name;
+      var lastName = this.props.artist.fetchedArtist.profile.last_name;
+      var fullName = firstName + ' ' + lastName;
       let { dispatch } = this.props;
-      dispatch(ChatActions.initRoom(receiverId, data, roomname));
+      dispatch(ChatActions.initRoom(receiverId, data, roomname, fullName));
     })
     .catch((error) => {
       console.log('retrieveMessages failed! error: ', error);
@@ -252,7 +255,7 @@ const mapStateToProps = (state) => {
     artist: state.artist,
     userId: state.user.userId,
     ongoingAuctions: state.artist.fetchedArtist.ongoingAuctions,
-    passedAuctions: state.artist.fetchedArtist.passedAuctions
+    passedAuctions: state.artist.fetchedArtist.passedAuctions,
   };
 };
 

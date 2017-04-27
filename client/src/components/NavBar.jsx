@@ -4,12 +4,14 @@ import { Image, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import * as UserActions from './../actions/userActionCreator.jsx';
 import * as SocketActions from './../actions/socketActionCreator.jsx';
+import * as ChatActions from './../actions/chatActionCreator.jsx';
 
 class NavBar extends Component {
   handleLogout(userId) {
     let { dispatch } = this.props;
     sessionStorage.removeItem('authToken');
     dispatch(SocketActions.logoutSocket(userId));
+    dispatch(ChatActions.clearChat());
     dispatch(UserActions.logOut());
   }
 
@@ -17,15 +19,15 @@ class NavBar extends Component {
     let {username, userId} = this.props;
 
     let LoggedOutNav = (
-        <div>
+        <span>
           <NavLink className='navLinks' to="/login" >Log In</NavLink>
           {' | '}
           <NavLink className='navLinks' to="/signup" >Sign Up</NavLink>
-        </div>
+        </span>
       );
 
     let LoggedInNav = (
-      <div>
+      <span>
         {'  '}
         <NavLink className='navLinks' to={"/user/"+userId} >{username}</NavLink>
         {' | '}
@@ -34,13 +36,13 @@ class NavBar extends Component {
         }}>Log out</NavLink>
         {' | '}
         <NavLink className='navLinks' to="/notification" >Noties</NavLink>
-      </div>
+      </span>
     );
 
     return (
-      <div>
+      <span className='navbar'>
         <h1> <Image avatar src='./assets/logo.jpeg' />ArtPoint</h1>
-        <div className='navBar'>
+        <span className='navBar'>
           {'  '}
           <NavLink className='navLinks' to="/home">Home</NavLink>
           {' | '}
@@ -54,14 +56,12 @@ class NavBar extends Component {
           {' | '}
           <NavLink className='navLinks' to="/contactus" >Contact us</NavLink>
           <input className='navSearch' type="text" placeholder="search" />
-        </div>
-        <div className='authLink'>
+        </span>
+        <span className='authLink'>
           {username === '' ? LoggedOutNav : LoggedInNav}
           {this.props.children}
-        </div>
-        <br />
-        <Divider />
-      </div>
+        </span>
+      </span>
     );
   }
 }

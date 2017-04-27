@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import { Segment, Button, TextArea} from 'semantic-ui-react';
+import { Segment, Button, TextArea, Form } from 'semantic-ui-react';
 import * as ChatActions from './../actions/chatActionCreator.jsx';
 
 class WriteMessage extends React.Component {
@@ -12,7 +12,8 @@ class WriteMessage extends React.Component {
     }
     this.handleFormChange = this.handleFormChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
-    // this.retrieveMessages = this.retrieveMessages.bind(this);
+    this.closeChat = this.closeChat.bind(this);
+    this.toggleMinimize = this.toggleMinimize.bind(this);
   }
 
   handleFormChange(e) {
@@ -21,7 +22,8 @@ class WriteMessage extends React.Component {
     })
   }
 
-  handleFormSubmit() {
+  handleFormSubmit(e) {
+    e.preventDefault();
     var messagePayload = {
       text: this.state.text,
       sender_id: this.props.userId,
@@ -49,68 +51,74 @@ class WriteMessage extends React.Component {
       dispatch(ChatActions.chatMessage(messagePayload));
     })
     .catch((error) => {
-      //this can dispatch an error to the reducer and when the fronend detects error, render something differently
       console.log('handleFormSubmit failed! Error: ', error);
     });
   }
 
-  // retrieveMessages() {
-  //   fetch(`/messages/${this.props.userId}/?receiver_id=${this.props.receiverId}`, {
-  //     method: 'GET',
-  //     headers: new Headers({
-  //       'Content-Type': 'application/json',
-  //       'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`,
-  //     })
-  //   })
-  //   .then((response) => {
-  //     if (!response.ok) {
-  //       throw Error('failed to retrieve messages...')
-  //     }
-  //     return response.json();
-  //   })
-  //   .then((data) => {
-  //     console.log('messages retrieved! data: ', data);
-  //   })
-  //   .catch((error) => {
-  //     console.log('retrieveMessages failed! error: ', error);
-  //   })
-  // }
+  closeChat() {
+    let { dispatch } = this.props;
+    dispatch(ChatActions.clearChat());
+  }
 
-  // componentDidMount() {
-  //   setTimeout(this.retrieveMessages, 1500);
-  // }  
+  scrollToBottom() {
+    const node = ReactDOM.findDOMNode(this.messagesEnd);
+    node.scrollIntoView({behavior: "smooth"});
+  }
+
+  toggleMinimize() {
+    let { dispatch } = this.props;
+    dispatch(ChatActions.minimizeWindow());
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
 
   render() {
-    return (
-      <Segment className='messageWindow'>
-        <p><strong>conversation with: {this.props.receiverId}</strong></p>
-        <Segment className='messageFeed'>
-          {
-            this.props.messages.map(message => {
-              if (Number(message.sender_id) === Number(this.props.userId)) {
-                return <p className='senderMessage'>{message.text}</p>
-              } else {
-                return <p className='receiverMessage'>{message.text}</p>
-              }
-            })
-          }
+    if (!this.props.roomname || !this.props.receiverId) {
+      return (
+        <div className='messageWindow'>
+          <div style={{float:"left", clear: "both"}} ref={(el) => {this.messagesEnd = el;}}></div>
+        </div>
+      )
+    } else if (!this.props.minimized) {
+      return (
+        <Segment className='messageWindow'>
+          <p className='chatTopBar' onClick={this.toggleMinimize}><strong>{this.props.receiverName}</strong></p>
+          <p className='closeChatButton' onClick={this.closeChat}>X</p>
+          <Segment className='messageFeed'>
+            {
+              this.props.messages.map(message => {
+                if (Number(message.sender_id) === Number(this.props.userId)) {
+                  return (
+                    <p className='senderMessage'>{message.text}</p>
+                  )
+                } else {
+                  return (
+                    <p className='receiverMessage'>{message.text}</p>
+                  )
+                }
+              })
+            }
+            <div style={{float:"left", clear: "both"}} ref={(el) => {this.messagesEnd = el;}}></div>
+          </Segment>
+          <Form className='messageInput'>  
+            <Form.Field>
+              <input value={this.state.text} onChange={this.handleFormChange}/>
+            </Form.Field>
+            <Button style={{'display': 'none'}} type='submit' onClick={this.handleFormSubmit}>the button</Button>
+          </Form>
         </Segment>
-        <Segment className='messageInput'>
-          <TextArea autoHeight 
-            value={this.state.text}  
-            onChange={this.handleFormChange}
-          />
-          <Button 
-            onClick={this.handleFormSubmit}
-          >
-            Send
-          </Button>
+      )
+    } else if (this.props.minimized) {
+      return (
+        <Segment className='miniChatBar' onClick={this.toggleMinimize}>
+          <p><strong>{this.props.receiverName}</strong></p>
         </Segment>
-      </Segment>
-    )
+      )
+    }
   }
 }
-
 const mapStateToProps = (state) => {
   return {
     username: state.user.username,
@@ -118,6 +126,8 @@ const mapStateToProps = (state) => {
     receiverId: state.chat.receiverId,
     messages: state.chat.messages,
     roomname: state.chat.roomname,
+    minimized: state.chat.minimized,
+    receiverName: state.chat.receiverName,
   }
 }
 

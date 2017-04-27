@@ -12,10 +12,10 @@ export function grabReceiverId(receiverId) {
   }
 }
 
-export function initRoom(receiverId, messages, roomname) {
+export function initRoom(receiverId, messages, roomname, receiverName) {
   return {
     type: 'socket/INITIALIZE_ROOM',
-    data: [receiverId, messages, roomname]
+    data: [receiverId, messages, roomname, receiverName]
   }
 }
 
@@ -23,5 +23,17 @@ export function getInbox(messages) {
   return {
     type: 'GET_INBOX',
     data: messages
+  }
+}
+
+export function clearChat() {
+  return {
+    type: 'CLEAR_CHAT'
+  }
+}
+
+export function minimizeWindow() {
+  return {
+    type: 'MINIMIZE_CHAT'
   }
 }
