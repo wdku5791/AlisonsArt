@@ -286,3 +286,12 @@ a {
 .cursorpointer {
   cursor: pointer;
 }
+
+.inboxMessage {
+  overflow: hidden;
+}
+
+.fakeDiv {
+  float: left;
+  clear: both;
+}
