@@ -52,7 +52,7 @@ class Auctions extends React.Component {
       return (
         <Container>
           <Grid divided={true} >
-            <Grid.Row columns={3} style={{'height': '50px'}}>
+            <Grid.Row columns={3}>
               {auctions.map(auction => (
                 <Grid.Column key={auction.id}>
                   <Image 

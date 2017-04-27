@@ -93,7 +93,7 @@ class Artist extends Component {
       });
     }
   }
-
+  
   _socialMedia(link) {
     if (link) {
       window.open(link);
