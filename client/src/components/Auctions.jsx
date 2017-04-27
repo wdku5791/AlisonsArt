@@ -51,8 +51,8 @@ class Auctions extends React.Component {
     } else {
       return (
         <Container>
-          <Grid divided={true}>
-            <Grid.Row columns={3}>
+          <Grid divided={true} >
+            <Grid.Row columns={3} style={{'height': '50px'}}>
               {auctions.map(auction => (
                 <Grid.Column key={auction.id}>
                   <Image 
@@ -60,7 +60,7 @@ class Auctions extends React.Component {
                     src={auction.artwork.image_url} 
                     onClick={() => this.goToAuction(auction.id)}
                     label={{ as: 'a', color: 'black', content: '$' + auction.current_bid, ribbon: true }} 
-                  />
+                  height="100%"/>
                   <Container>
                     <h4 className='imageHeader'>
                       {auction.artwork.art_name}

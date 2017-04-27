@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Image, Divider, Grid, Button, Segment } from 'semantic-ui-react';
+import ReactDOM from 'react-dom';
+import { Container, Image, Divider, Grid, Button, Segment, List } from 'semantic-ui-react';
 //this imageGallery is causing a warning on React.createClass will be removed in v16
 import * as ArtistAction from '../actions/artistActionCreator.jsx';
 import ArtistAuctions from './ArtistProfile/ArtistAuctions.jsx';
@@ -11,8 +12,8 @@ class Artist extends Component {
   constructor(props){
     super(props);
     this.state= {
-      active: false
-    }
+      active: false,
+    };
     this._socialMedia = this._socialMedia.bind(this);
     this.directMessageHandler = this.directMessageHandler.bind(this);
     this._handleFollow = this._handleFollow.bind(this);
@@ -71,7 +72,6 @@ class Artist extends Component {
       dispatch(ArtistAction.fetchArtistErrored(true, err));
     });
 
-    // if user logged in, check if user followed this artist
     if (this.props.user.username) {
       // refactor to use authToken:
       fetch(`/follows/?q=${this.props.user.userId}+${artistId}`)
@@ -184,62 +184,83 @@ class Artist extends Component {
         let { history } = this.props;
         return (
           <Container>
-            <Container>
-              <Container>
-                <span>{first_name} {last_name}</span>
-                {' '}
-                {this.props.userId ? <Button onClick={this.directMessageHandler} content="Direct message"/> : null}
-                {' '}
-                {fb_link ? <Button circular color='facebook' icon='facebook' onClick={() => {
-                  this._socialMedia(fb_link);
-                }}/> : null}
-                {' '}
-                {twitter_link ? <Button circular color='twitter' icon='twitter' onClick={() => {
-                  this._socialMedia(twitter_link);
-                }}/> : null}
-                {' '}
-                {inst_link ? <Button circular color='instagram' icon='instagram' onClick={() => {
-                  this._socialMedia(inst_link);
-                }}/> : null}
-                {userId && userId !== artistId && !this.state.active ? <Button icon="heart" content="follow this artist" color="green" onClick={this._handleFollow} /> : null}
-                {userId && userId !== artistId && this.state.active ? <Button icon="empty heart" content="unfollow" onClick={this._handleUnfollow} /> : null}
-              </Container>
-              <Grid verticalAlign='middle'>
-                <Grid.Row>
-                  <Grid.Column width={6} >
-                    <Image src={image_url} centered />
-                  </Grid.Column>
-                  <Grid.Column width={8}>
-                    <Container fluid textAlign="justified">
-                    {profile}
-                    </Container>
-                  </Grid.Column>
-                </Grid.Row>
-              </Grid>
+            <Grid>
+              <Grid.Row>
+                <Grid.Column width={4}>
+                  <List>
+                    <img className='profile' src={image_url} />
+                    <List.Item>
+                      <List.Content>
+                        <span>{first_name} {last_name}</span>
+                      </List.Content>
+                    </List.Item>
+                    <List.Item>
+                      <List.Content>
+                        <span>{profile}</span>
+                      </List.Content>
+                    </List.Item>
+                    <List.Item>
+                      <List.Content>
+                        {fb_link ? <Button circular color='facebook' icon='facebook' onClick={() => {
+                          this._socialMedia(fb_link);
+                        }}/> : null}
+                        {' '}
+                        {twitter_link ? <Button circular color='twitter' icon='twitter' onClick={() => {
+                          this._socialMedia(twitter_link);
+                        }}/> : null}
+                        {' '}
+                        {inst_link ? <Button circular color='instagram' icon='instagram' onClick={() => {
+                          this._socialMedia(inst_link);
+                        }}/> : null}
+                      </List.Content>
+                    </List.Item>
+                    <List.Item>
+                      <List.Content>
+                        {this.props.userId ? <Button color="green" onClick={this.directMessageHandler} content="Direct message"/> : null}
+                      </List.Content>
+                    </List.Item>
+                    <List.Item>
+                      <List.Content>
+                        {userId && userId !== artistId && !this.state.active ? <Button id="followButton" icon="heart" content="follow" color="green" onClick={this._handleFollow} /> : null}
+                        {userId && userId !== artistId && this.state.active ? <Button icon="empty heart" content="unfollow" onClick={this._handleUnfollow} /> : null}
+                      </List.Content>
+                    </List.Item>
+                  </List>
+                </Grid.Column>
+                <Grid.Column width={12}>
+                  <div>
+                    <Grid>
+                    <h3 className="auctionType">Ongoing auctions:</h3>
+                      <Grid.Row columns={3}>
+                        {ongoingAuctions.length === 0 ? 
+                          <p className="auctionInfo">No ongoing auctions for this artist</p> 
+                        : null}
+                      {ongoingAuctions.map(auction => (
+                        <div key={auction.id}>
+                          <ArtistAuctions auction={auction} history={history} dispatch={dispatch} />
+                        </div>
+                        ))}
+                      </Grid.Row>
+                    </Grid>
+                  </div>
+                  <div>
+                  <Grid>
+                    <h3>Passed auctions:</h3>
+                      <Grid.Row columns={3}>
+                      {passedAuctions.length === 0 ? <span>No passed auctions for this artist</span> : null}
+                      {passedAuctions.map(auction => (
+                        <Grid.Column key={auction.id}>
+                          <ArtistAuctions auction={auction} history={history} dispatch={dispatch} />
+                        </Grid.Column>
+                        ))}
+                      </Grid.Row>
+                    </Grid>
+                  </div>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
             </Container>
-            <Grid divided={true}>
-            <h3>Ongoing auctions:</h3>
-              <Grid.Row columns={3}>
-              {ongoingAuctions.length === 0 ? <span>No ongoing auctions for this artist</span> : null}
-              {ongoingAuctions.map(auction => (
-                <Grid.Column key={auction.id}>
-                  <ArtistAuctions auction={auction} history={history} dispatch={dispatch} />
-                </Grid.Column>
-                ))}
-              </Grid.Row>
-            </Grid>
-            <Grid divided={true}>
-            <h3>Passed auctions:</h3>
-              <Grid.Row columns={3}>
-              {passedAuctions.length === 0 ? <span>No passed auctions for this artist</span> : null}
-              {passedAuctions.map(auction => (
-                <Grid.Column key={auction.id}>
-                  <ArtistAuctions auction={auction} history={history} dispatch={dispatch} />
-                </Grid.Column>
-                ))}
-              </Grid.Row>
-            </Grid>
-          </Container>
+
         );
       }
     }
