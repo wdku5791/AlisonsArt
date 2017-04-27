@@ -48,7 +48,7 @@ class SaveFollow extends Component {
     let { savedAuctions, followingArtists, dispatch, history } = this.props;
     return (
       <Container>
-        <h3>Saved auctions:</h3>
+        <h3>Your saved auctions:</h3>
         <Grid divided={true}>
         {savedAuctions.length === 0 ? <div>You don't have any saves yet</div> : null}
           <Grid.Row columns={3}>
@@ -62,7 +62,7 @@ class SaveFollow extends Component {
         </Grid>
         <Divider />
         <div>
-          <h3>Following artists:</h3>
+          <h3>Your following artists:</h3>
           <Grid divided={true}>
           {followingArtists.length === 0 ? <div>You are not following any artists yet</div> : null}
             <Grid.Row columns={3}>

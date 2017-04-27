@@ -12,19 +12,16 @@ import {
 import SaveFollow from './SaveFollow.jsx';
 import UserAuctions from './userAuctions/UserAuctions.jsx';
 import UserSettings from './UserSettings.jsx';
-import Payments from './Payments.jsx';
 import * as UserActions from '../actions/userActionCreator.jsx';
 
 const Navigation = (props) => {
   return (
     <Container>
-      <NavLink to={"/user/" + props.userId + '/savesFollows'}>Saves & Follows</NavLink>
+      <NavLink className="userNavLinks" to={"/user/" + props.userId + '/savesFollows'}>Saves & Follows</NavLink>
       {'  '}
-      <NavLink to={"/user/" + props.userId + '/auctions'}>Auctions</NavLink>
+      <NavLink className="userNavLinks" to={"/user/" + props.userId + '/auctions'}>Auctions</NavLink>
       {'  '}
-      <NavLink to={"/user/" + props.userId + '/settings'}>Settings</NavLink>
-      {'  '}
-      <NavLink to={"/user/" + props.userId + '/payments'}>Payments</NavLink>
+      <NavLink className="userNavLinks" to={"/user/" + props.userId + '/settings'}>Settings</NavLink>
     </Container>
   );
 }
@@ -58,9 +55,9 @@ class User extends Component {
     } else {
       return (
         <Container>
-            <Container>
-              {this.props.user.username[0].toUpperCase().concat(this.props.user.username.slice(1))}
-            </Container>
+            <div className="artistName">
+              {this.props.user.username}
+            </div>
           <Divider />
           <Container>
             <Router>
@@ -69,7 +66,6 @@ class User extends Component {
                 <Route path="/user/:userId/savesFollows" component={SaveFollow} />
                 <Route path="/user/:userId/auctions" component={UserAuctions} />
                 <Route path="/user/:userId/settings" component={UserSettings} />
-                <Route path="/user/:userId/payments" component={Payments} />
               </Container>
             </Router>
           </Container>
