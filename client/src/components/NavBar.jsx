@@ -29,7 +29,7 @@ class NavBar extends Component {
     let LoggedInNav = (
       <span>
         {'  '}
-        <NavLink className='navLinks' to={"/user/"+userId} >{username}</NavLink>
+        <NavLink className='navLinks' to={"/user/"+userId + "/savesFollows"} >{username}</NavLink>
         {' | '}
         <NavLink className='navLinks' to="/home" onClick={() => {
           this.handleLogout(userId);

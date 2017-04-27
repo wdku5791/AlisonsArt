@@ -60,7 +60,7 @@ class Auctions extends React.Component {
                     src={auction.artwork.image_url}
                     onClick={() => this.goToAuction(auction.id)}
                     label={{ as: 'a', color: 'black', content: '$' + auction.current_bid, ribbon: true }} 
-                  />
+                  height="100%"/>
                   <Container>
                     <h4 className="imageHeader">
                       {auction.artwork.art_name}

@@ -17,11 +17,11 @@ import * as UserActions from '../actions/userActionCreator.jsx';
 const Navigation = (props) => {
   return (
     <Container>
-      <NavLink to={`/user/${props.userId}/savesFollows`}>Saves & Follows</NavLink>
+      <NavLink className="userNavLinks" to={"/user/" + props.userId + '/savesFollows'}>Saves & Follows</NavLink>
       {'  '}
-      <NavLink to={`/user/${props.userId}/auctions`}>Auctions</NavLink>
+      <NavLink className="userNavLinks" to={"/user/" + props.userId + '/auctions'}>Auctions</NavLink>
       {'  '}
-      <NavLink to={`/user/${props.userId}/settings`}>Settings</NavLink>
+      <NavLink className="userNavLinks" to={"/user/" + props.userId + '/settings'}>Settings</NavLink>
     </Container>
   );
 };
@@ -54,9 +54,9 @@ class User extends Component {
     } else {
       return (
         <Container>
-            <Container>
-              {this.props.user.username[0].toUpperCase().concat(this.props.user.username.slice(1))}
-            </Container>
+            <div className="artistName">
+              {this.props.user.username}
+            </div>
           <Divider />
           <Container>
             <Router>
