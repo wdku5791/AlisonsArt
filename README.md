@@ -1,6 +1,6 @@
-# Project Name
+# ArtPoint
 
-> Pithy project description
+> An online auction place for artists and art lovers
 
 ## Team
 
@@ -21,7 +21,9 @@
 
 ## Usage
 
-> Some usage instructions
+> Install dependencies from package.json using 'npm install from the root directory'.
+
+> Once the app is open, create a user profile. While creating a user profile, specify whether or not you are an artist to make a profile and auctions.
 
 ## Requirements
 
@@ -45,7 +47,7 @@ bower install
 
 ### Roadmap
 
-View the project roadmap [here](LINK_TO_DOC)
+View the project roadmap [here](https://docs.google.com/spreadsheets/d/1OQ5QlUWEKvGVBXwcbZcXDItu2rm6zEILZ6WvbeDeCq0/edit?usp=sharing)
 
 
 ## Contributing
