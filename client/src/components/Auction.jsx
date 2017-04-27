@@ -208,7 +208,7 @@ const mapStateToProps = (state) => {
   return {
     auction: state.auction,
     user: state.user,
-    bid: state.bid,
+    bid: state.bid
   }
 }
 export default connect(mapStateToProps)(Auction);
