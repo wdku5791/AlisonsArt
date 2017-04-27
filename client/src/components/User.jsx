@@ -24,7 +24,7 @@ const Navigation = (props) => {
       <NavLink className="userNavLinks" to={"/user/" + props.userId + '/settings'}>Settings</NavLink>
     </Container>
   );
-}
+};
 
 class User extends Component {
   componentWillMount() {
@@ -32,20 +32,19 @@ class User extends Component {
     fetch(`/user`, {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
+        Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
       }
     })
-    .then(response => {
-      if(!response.ok) {
+    .then((response) => {
+      if (!response.ok) {
         throw Error('authorization error');
       }
-      
       if (response.headers.get('x-username') && response.headers.get('x-userId')) {
         dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId'), response.headers.get('x-type') === 'artist'));
       }
     })
-    .catch(err => {
-      //change the error name later
+    .catch((err) => {
+      // change the error name later
       alert(err.message);
     });
   }
@@ -73,12 +72,12 @@ class User extends Component {
       );
     }
   }
-};
+}
 
 const mapStateToProps = (state) => {
   return {
     user: state.user
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps)(User);

@@ -2,7 +2,9 @@ const initialState = {
   receiverId: null,
   messages: [],
   roomname: null,
-  inboxMessages: []
+  inboxMessages: [],
+  minimized: false,
+  receiverName: null,
 };
 
 const chatReducer = (state = initialState, action) => {
@@ -22,6 +24,7 @@ const chatReducer = (state = initialState, action) => {
         receiverId: action.data[0],
         messages: action.data[1],
         roomname: action.data[2],
+        receiverName: action.data[3]
       }
     case 'PASS_MESSAGE':
       return {
@@ -32,6 +35,17 @@ const chatReducer = (state = initialState, action) => {
       return {
         ...state,
         inboxMessages: action.data
+      }
+    case 'CLEAR_CHAT':
+      return {
+        ...state,
+        receiverId: null,
+        messages: [],
+      }
+    case 'MINIMIZE_CHAT':
+      return {
+        ...state,
+        minimized: !state.minimized
       }
     default: 
       return state;

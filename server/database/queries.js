@@ -16,6 +16,11 @@ module.exports = {
   getUsers() {
     return db.query('select * from users');
   },
+
+  getArtists(limit) {
+    return db.manyOrNone('SELECT profiles.image_url, profiles.profile, profiles.fb_link, profiles.twitter_link, profiles.inst_link, users.first_name, users.last_name, users.id FROM profiles INNER JOIN users ON profiles.user_id=users.id LIMIT $1', [limit]);
+  },
+
   getUserOwnedAuctions(userId) {
     return db.query('select * from auctions where owner_id=$1', [userId]);
   },
@@ -93,11 +98,11 @@ module.exports = {
   },
 
   getUserMessages(userId, receiverId) {
-    return db.query('select * from messages where sender_id=$1 and receiver_id=$2 or sender_id=$2 and receiver_id=$1', [userId, receiverId]);
+    return db.query('SELECT users.first_name, users.last_name, messages.text, messages.sender_id, messages.receiver_id, messages.message_date FROM messages INNER JOIN users ON users.id=$2 WHERE messages.sender_id=$1 AND messages.receiver_id=$2 OR messages.sender_id=$2 AND messages.receiver_id=$1', [userId, receiverId]);
   },
 
-  getInboxMessages(userId) {
-    return db.query('select * from messages where sender_id=$1 or receiver_id=$1 order by id desc', [userId]);
+  getInboxMessages(userId, username) {
+    return db.query("SELECT users.first_name, users.last_name, messages.text, messages.sender_id, messages.receiver_id, messages.message_date FROM messages INNER JOIN users ON messages.sender_id=users.id AND users.username!=$2 OR messages.receiver_id=users.id AND users.username!=$2 WHERE messages.sender_id=$1 OR messages.receiver_id=$1 ORDER BY messages.id DESC", [userId, username]);
   },
 
   workerAuctions(prevJob, endDate) {

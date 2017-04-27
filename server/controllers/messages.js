@@ -24,7 +24,7 @@ router.get('/:userId', (req, res) => {
 })
 
 router.get('/inbox/:userId', (req, res) => {
-  model.getInboxMessages(req.params.userId)
+  model.getInboxMessages(req.params.userId, req.query.username)
   .then((messages) => {
     res.status(200).json(messages);
   })
@@ -32,5 +32,17 @@ router.get('/inbox/:userId', (req, res) => {
     res.status(500).send(serverErr);
   })
 })
+
+router.get('/initbox/:userId', (req, res) => {
+  model.getInboxMessages(req.params.userId, req.query.receiver_id)
+  .then((messages) => {
+    res.status(200).json(messages);
+  })
+  .catch((serverErr) => {
+    res.status(500).send(serverErr);
+  })
+})
+
+
 
 module.exports = router;

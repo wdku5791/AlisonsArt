@@ -1,3 +1,23 @@
+body {
+  padding-top: 110px;
+}
+
+.navbar {
+  z-index: 100;
+  background-color: white;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  width: 82%;
+  margin-left: -50px;
+  padding-left: 50px;
+  padding-bottom: 10px;
+}
+
+a {
+  color: inherit;
+}
+
 .carousel {
   max-height: 400px;
   width: 100%;
@@ -67,21 +87,16 @@
   margin-bottom: 5px;
 }
 
-.navBar {
-  float: left;
-  text-align: left;
-  display: inline-block;
-}
-
 .authLink {
   float: right;
   text-align: right;
-  display: inline-block;
+  display: inline;
 }
 
 .navLinks {
   font-size: 18px;
   color: #474a4f;
+  display: inline;
 }
 
 .userNavLinks {
@@ -112,31 +127,69 @@
 
 .messageWindow {
   position: fixed;
+  bottom: 0px;
+  right: 10px;
   width: 250px;
   height: 300px;
-  z-index: 5;
+  z-index: 100;
 }
 
 .messageInput {
-  position: fixed;
+  position: /*fixed*/;
   bottom: 0;
 }
 
 .messageFeed {
   overflow-y: scroll;
   height: 200px;
-  width: 240px;
+  width: 220px;
 }
 
 .senderMessage {
-  float: right;
   color: white;
   background-color: black;
 }
 
 .receiverMessage {
-  float: left;
   color: black;
   background-color: white;
 }
+
+.closeChatButton {
+  display: inline;
+  float: right;
+  cursor: pointer;
+}
+
+.chatTopBar {
+  display: inline;
+  float: left;
+  cursor: pointer;
+}
+
+.miniChatBar {
+  cursor: pointer;
+  position: fixed;
+  bottom: 5px;
+  right: 10px;
+  width: 250px;
+  height: 50px;
+  z-index: 100;
+}
+
+.messageInput {
+  margin-top: -5px;
+  margin-bottom: 5px;
+}
+
+.inboxContainer {
+  margin-bottom: 30px;
+}
+
+.inboxLink {
+  cursor: pointer;
+}
+
+
+
 

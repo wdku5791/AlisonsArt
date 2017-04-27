@@ -2,16 +2,23 @@ const router = require('express').Router();
 const model = require('../database/queries');
 const authenticate = require('../middlewares/authenticate');
 
-//to get all artists: 
+// to get all artists:
 router.get('/', (req, res) => {
-  res.status(200).send('recovered user info');
+  const { limit } = req.params || 20;
+  model.getArtists(limit)
+  .then((artists) => {
+    res.status(200).json(artists);
+  })
+  .catch(() => {
+    res.status(500).json({status: 500, message: 'internal server error'});
+  });
 });
 
 router.get('/:artistId', (req, res) => {
   let { artistId } = req.params;
   const queries = [model.getArtworksOfArtist(artistId), model.getAuctionsOfArtist(artistId), model.getArtistProfile(artistId)];
   Promise.all(queries)
-  .then(fulfilled => {
+  .then((fulfilled) => {
     const data = {};
     data.artworks = fulfilled[0];
     let timeNow = new Date().getTime();
