@@ -12,9 +12,9 @@ class CreateAuction extends React.Component {
       art_name: '',
       age: '',
       description: '',
-      length: null,
-      height: null,
-      width: null,
+      length: 0,
+      height: 0,
+      width: 0,
       categories: [],
       estimated_price: '',
       buyout_price: '',
@@ -111,7 +111,7 @@ class CreateAuction extends React.Component {
     else if (!this.state.image_url 
       || !this.state.art_name 
       || !this.state.age 
-      || !this.state.start_price 
+      || !this.state.estimated_price 
       || !this.state.buyout_price 
       || !this.state.start_date 
       || !this.state.end_date) {
@@ -136,9 +136,10 @@ class CreateAuction extends React.Component {
       })
       .then((data) => {
         alert('your auction was created successfully!');
-        //history.push('/auctions/' + data.id); //THIS DOESNT WORK YET. PROBABLY NEEDS TO FETCH
+        history.push('/auctions/' + data.id);
       })
       .catch((error) => {
+        console.log('auction failed to create: ', error);
         alert('your auction failed to create! Please try again.');
       })
     }
@@ -178,6 +179,7 @@ class CreateAuction extends React.Component {
       })
     })
     .catch((error) => {
+      console.log('Uploading image failed! ', error);
     })
   }
   

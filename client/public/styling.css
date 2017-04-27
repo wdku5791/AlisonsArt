@@ -134,6 +134,13 @@ a {
   z-index: 100;
 }
 
+.hiddenWindow {
+  position: fixed;
+  bottom: 0px;
+  right: 10px;
+  height: 2px;
+}
+
 .messageInput {
   position: /*fixed*/;
   bottom: 0;
@@ -170,7 +177,7 @@ a {
 .miniChatBar {
   cursor: pointer;
   position: fixed;
-  bottom: 5px;
+  bottom: 0px;
   right: 10px;
   width: 250px;
   height: 50px;

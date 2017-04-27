@@ -77,7 +77,7 @@ class WriteMessage extends React.Component {
   render() {
     if (!this.props.roomname || !this.props.receiverId) {
       return (
-        <div className='messageWindow'>
+        <div className='hiddenWindow'>
           <div style={{float:"left", clear: "both"}} ref={(el) => {this.messagesEnd = el;}}></div>
         </div>
       )
