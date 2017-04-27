@@ -1,5 +1,5 @@
 # Project Name #
-Alison & Anthony's House of Art
+ArtPoint
 <!-- 
 > This material was originally posted [here](http://www.quora.com/What-is-Amazons-approach-to-product-development-and-product-management). It is reproduced here for posterities sake.
 
@@ -18,7 +18,7 @@ Once the project moves into development, the press release can be used as a touc
  
 ## Heading ##
   > Name the product in a way the reader (i.e. your target customers) will understand.
-  Alison & Anthony’s House of Art
+  ArtPoint
 
 ## Sub-Heading ##
   > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
@@ -34,7 +34,7 @@ An intuitive and flexible platform for connecting art lovers and collectors with
 
 ## Solution ##
   > Describe how your product elegantly solves the problem.
-  Alison and Anthony’s House of Art (tm) presents a centralized marketplace to sell artwork as well as a social platform for art lovers to interact with their favorite artists. 
+  ArtPoint provides a centralized marketplace to sell artwork as well as a social platform for art lovers to interact with their favorite artists. 
 
 ## Quote from You ##
   > A quote from a spokesperson in your company.
