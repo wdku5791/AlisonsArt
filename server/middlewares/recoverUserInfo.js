@@ -37,6 +37,7 @@ const recoverUserInfo = (req, res, next) => {
           res.cookie('jwt', authToken);
           res.setHeader('x-username', user.username);
           res.setHeader('x-userId', user.id);
+          res.setHeader('x-userEmail', user.email);
           res.setHeader('x-type', user.type);
           res.status(200).send('authenticated');
         });

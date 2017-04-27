@@ -100,16 +100,14 @@ class UserSettings extends Component {
   }
 
   render(){
-    let { username } = this.props.user;
+    let { username, userEmail } = this.props.user;
     if(username) {
       return(
         <Container>
           <form onSubmit={(e) => {this._submitHandler(e)}}>
           Username: {username}
           <br />
-          Email:
-          <br />
-          Phone number: xxxxxxx
+          Email: {userEmail}
           <br />
           <Button onClick={(e) => {this._clickHandler(e)}} content="Change password" />
           {this.state.toggle? <ChangePassword /> : null}

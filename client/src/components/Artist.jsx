@@ -187,7 +187,7 @@ class Artist extends Component {
         let { history } = this.props;
         return (
           <Container>
-            <Grid divided>
+            <Grid divided stackable>
               <Grid.Row>
                 <Grid.Column width={4}>
                   <List>
