@@ -190,6 +190,57 @@ a {
   cursor: pointer;
 }
 
+.read.read {
+  /*color: red;*/
+  /*border-color: black;*/
+  /*overflow: hidden;*/
+  /*font-weight: bolder;*/
+  border-radius: 7px;
+  border-top: 1px solid #0F3D26;
+  border-bottom: 1px solid #0F3D26;
+  margin-bottom: 0.5px;
+  margin-top: 0.5px;
+  height: 60px;
+  padding: 5px;
+  background-color: rgba(153, 199, 246, 0.3);
+  box-shadow: none !important;
+}
 
+.noty.noty {
+  /*border-radius: 7px;*/
+  margin-top: 0.5px;
+  margin-bottom: 0.5px;
+  border-top: 1px solid #0F3D26;
+  border-bottom: 1px solid #0F3D26;
+  word-wrap: break-word;
+  overflow: hidden;
+  height: 60px;
+  padding: 5px;
+  box-shadow: none !important;
+}
 
+.shadowless.shadowless {
+  box-shadow:none !important;
+}
 
+.borderleft.borderleft {
+  border-left: 1px solid black;
+}
+
+.expanded.expanded {
+  height: 100% !important;
+}
+
+.scrollable.scrollable {
+  overflow: hidden;
+  overflow-y: scroll;
+  max-height: 370px;
+}
+
+.menuheight.menuheight {
+  height: 400px !important;
+}
+
+.cursorpointer {
+  cursor: pointer;
+}

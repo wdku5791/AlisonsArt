@@ -92,7 +92,7 @@ module.exports = function(io) {
             const noty = [{
                     owner_id: bid.bidder_id,
                     trigger_id: auction[0].id,
-                    type: 'auction',
+                    type: 'outbid',
                     date: new Moment().format('YYYY-MM-DD HH:mm:ss'),
                     text: `You have been outbid on an auction ${auction[0].artwork.art_name}`
             },{
