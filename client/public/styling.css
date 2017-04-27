@@ -47,9 +47,15 @@ a {
   height: 180px;
 }
 
-.artistName {
+.artistName, .artName{
   color: #1b3868;
   font-weight: bold;
+  font-size: 18px;
+}
+
+.artName {
+  color: black;
+  font-size: 16px;
 }
 
 #messageButton {
