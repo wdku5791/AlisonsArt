@@ -8,10 +8,11 @@ body {
   overflow: hidden;
   position: fixed;
   top: 0;
-  width: 82%;
-  margin-left: -50px;
-  padding-left: 50px;
+  left: 0;
+  width: 100%;
   padding-bottom: 10px;
+  padding-left: 4%;
+  padding-right: 4%;
 }
 
 a {

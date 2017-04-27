@@ -55,7 +55,6 @@ class NavBar extends Component {
           <NavLink className='navLinks' to="/events" >Events</NavLink>
           {' | '}
           <NavLink className='navLinks' to="/contactus" >Contact us</NavLink>
-          <input className='navSearch' type="text" placeholder="search" />
         </span>
         <span className='authLink'>
           {username === '' ? LoggedOutNav : LoggedInNav}

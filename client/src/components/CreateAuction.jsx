@@ -136,7 +136,7 @@ class CreateAuction extends React.Component {
       })
       .then((data) => {
         alert('your auction was created successfully!');
-        history.push('/auctions/' + data.id);
+        // history.push('/auctions/' + data.id);
       })
       .catch((error) => {
         console.log('auction failed to create: ', error);
