@@ -185,7 +185,6 @@ class Auction extends Component {
           />
         );
       } else {
-        console.log('acution details', auction);
         return (
           <div>
             <AuctionDetail

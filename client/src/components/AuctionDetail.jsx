@@ -10,9 +10,6 @@ const AuctionDetail = ({auction, bid, setBid, handleClick, user, handleSave, han
   let current = +auction.current_bid;
   let start = +auction.start_price;
   let buyout = +auction.buyout_price;
-  console.log('auction: ', auction.auction);
-  console.log('current bid? ', auction.current_bid);
-  console.log('current bid price: ', current);
 
   let interval = 0;
   if (buyout < 5000) {

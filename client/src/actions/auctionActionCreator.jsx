@@ -49,7 +49,6 @@ export function fetchedAnAuction(auction) {
 }
 
 export function updateBid(bid) {
-  console.log('bid::: ', bid);
   return {
     type: 'UPDATE_CURRENT_BID',
     current_bid: bid.current_bid,
