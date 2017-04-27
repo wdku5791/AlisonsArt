@@ -231,6 +231,10 @@ a {
   height: 100% !important;
 }
 
+.contactHeader {
+  text-align: center;
+}
+
 .scrollable.scrollable {
   overflow: hidden;
   overflow-y: scroll;
