@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Form, Image, Container, Divider, Grid, Button } from 'semantic-ui-react';
+import { Form, Image, Container, Divider, Grid, Button, Message } from 'semantic-ui-react';
 import * as UserActions from '../actions/userActionCreator.jsx';
 
 class CreateAuction extends React.Component {
@@ -12,9 +12,9 @@ class CreateAuction extends React.Component {
       art_name: '',
       age: '',
       description: '',
-      length: '',
-      height: '',
-      width: '',
+      length: 0,
+      height: 0,
+      width: 0,
       categories: [],
       estimated_price: '',
       buyout_price: '',
@@ -22,6 +22,7 @@ class CreateAuction extends React.Component {
       end_date: '',
       username: this.props.username,
       userId: this.props.userId,
+      isError: false,
     }
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
@@ -46,7 +47,6 @@ class CreateAuction extends React.Component {
       if (response.headers.get('x-username') && response.headers.get('x-userId')) {
         dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId'), response.headers.get('x-type') === 'artist'));
       } else {
-        alert('You are not logged in, please log in~');
         this.props.history.push('/login');
       }
     })
@@ -107,7 +107,19 @@ class CreateAuction extends React.Component {
     if (!this.state.userId) {
       alert('you are not logged in, please sign up or log in');
       history.push('/login');
-    } else {
+    } 
+    else if (!this.state.image_url 
+      || !this.state.art_name 
+      || !this.state.age 
+      || !this.state.estimated_price 
+      || !this.state.buyout_price 
+      || !this.state.start_date 
+      || !this.state.end_date) {
+      this.setState({
+        isError: true
+      })
+    } 
+    else {
       return fetch(`/auctions`, {
         method: 'POST',
         headers: new Headers ({
@@ -124,9 +136,10 @@ class CreateAuction extends React.Component {
       })
       .then((data) => {
         alert('your auction was created successfully!');
-        //history.push('/auctions/' + data.id); //THIS DOESNT WORK YET. PROBABLY NEEDS TO FETCH
+        // history.push('/auctions/' + data.id);
       })
       .catch((error) => {
+        console.log('auction failed to create: ', error);
         alert('your auction failed to create! Please try again.');
       })
     }
@@ -166,13 +179,14 @@ class CreateAuction extends React.Component {
       })
     })
     .catch((error) => {
+      console.log('Uploading image failed! ', error);
     })
   }
   
   render() {
     return (
       <Container>
-        <Form>
+        <Form error={!!this.state.isError}>
           <Form.Group widths='equal'>
             <Form.Input 
               label='Piece name'
@@ -185,6 +199,7 @@ class CreateAuction extends React.Component {
             <Form.Input
               label='Year'
               name='age' 
+              type='number'
               placeholder='ex: 1911'
               onChange={this.handleInputChange}
               value={this.state.age}
@@ -197,6 +212,7 @@ class CreateAuction extends React.Component {
                 <Image src={this.state.preview_image} size='large'/>
               </Grid.Column>
               <Grid.Column width={8}>
+                <h5>Upload Image...</h5>
                 <input 
                   type='file' 
                   name='image' 
@@ -212,41 +228,29 @@ class CreateAuction extends React.Component {
                   value={this.state.description}
                 />
                 <Form.Group>
-                  <label>Categories</label>
-                  <Form.Field 
-                    label='Painting'
-                    control='input' 
-                    type='checkbox' 
-                    value='painting' 
-                    onChange={this.handleCategoryChange}
-                  />
-                  <Form.Field 
-                    label='Photography'
-                    control='input' 
-                    type='checkbox' 
-                    value='photography' 
-                    onChange={this.handleCategoryChange}
-                  />
-                  <Form.Field 
-                    label='Sculpture'
-                    control='input' 
-                    type='checkbox' 
-                    value='sculpture' 
-                    onChange={this.handleCategoryChange}
-                  />
                   <Form.Input 
-                    label='Height'
-                    name='height'
+                    label='Length'
+                    type='number'
+                    name='length'
                     placeholder='inches'
                     onChange={this.handleInputChange}
-                    value={this.state.height}
+                    value={this.state.length}
                   />
                   <Form.Input 
                     label='Width'
+                    type='number'
                     name='width'
                     placeholder='inches'
                     onChange={this.handleInputChange}
                     value={this.state.width}
+                  />
+                  <Form.Input 
+                    label='Height'
+                    type='number'
+                    name='height'
+                    placeholder='inches'
+                    onChange={this.handleInputChange}
+                    value={this.state.height}
                   />
                 </Form.Group>
               </Grid.Column>
@@ -255,6 +259,7 @@ class CreateAuction extends React.Component {
           <Form.Group widths='equal'>
             <Form.Input 
               label='Estimated value'
+              type='number'
               name='estimated_price' 
               placeholder='USD'
               onChange={this.handleInputChange} 
@@ -263,6 +268,7 @@ class CreateAuction extends React.Component {
             />
             <Form.Input 
               label='Buyout price'
+              type='number'
               name='buyout_price'
               placeholder='USD' 
               onChange={this.handleInputChange} 
@@ -273,21 +279,26 @@ class CreateAuction extends React.Component {
           <Form.Group widths='equal'>
             <Form.Input 
               label='Start date'
+              type='datetime-local'
               name='start_date'
-              placeholder='YYYY-MM-DD HH:MM:SS' 
               onChange={this.handleInputChange} 
               value={this.state.start_date}
               required
             />
             <Form.Input 
               label='End date'
+              type='datetime-local'
               name='end_date'
-              placeholder='YYYY-MM-DD HH:MM:SS' 
               onChange={this.handleInputChange} 
               value={this.state.end_date}
               required
             />
           </Form.Group>
+          <Message
+            error
+            header='Missing Required Fields'
+            content='Please fill out all required fields.'
+          />
           <Button onClick={(e) => this.handleSubmit(e)}>Submit Auction</Button>
         </Form>
         <Divider />

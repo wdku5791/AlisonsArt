@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Segment } from 'semantic-ui-react';
+import { Segment, Grid } from 'semantic-ui-react';
 import * as ChatActions from './../actions/chatActionCreator.jsx';
 
 class Inbox extends React.Component {
@@ -85,7 +85,6 @@ class Inbox extends React.Component {
     return (
       <Segment className='inboxContainer'>
         <h3>INBOX</h3>
-        <ul>
           {
             this.props.inboxMessages.map(conversation => {
               let fullName = conversation.first_name + ' ' + conversation.last_name;
@@ -93,29 +92,53 @@ class Inbox extends React.Component {
               let receiverId = conversation.receiver_id;
               if (this.props.userId !== conversation.sender_id) {
                 return (
-                  <li 
-                    className='inboxLink'
-                    value={conversation.sender_id} 
-                    name={fullName} 
-                    onClick={() => this.renderChatRoom(senderId, fullName)}
+                  <Segment
+                   className='inboxLink'
+                   value={conversation.sender_id} 
+                   name={fullName} 
+                   onClick={() => this.renderChatRoom(senderId, fullName)}
                   >
-                    <strong>{conversation.first_name} {conversation.last_name} </strong>"{conversation.text}"<strong> at: {conversation.message_date}</strong>
-                  </li>
+                    <Grid>
+                      <Grid.Row>
+                        <Grid.Column width={2}>
+                          <strong>{conversation.first_name} {conversation.last_name} </strong>
+                        </Grid.Column>
+                        <Grid.Column width={10}>
+                          "{conversation.text}"
+                        </Grid.Column>
+                        <Grid.Column width={4}>
+                          <strong> at: {conversation.message_date}</strong>
+                        </Grid.Column>
+                      </Grid.Row>
+                    </Grid>
+                  </Segment>
                 )
               } else {
                 return (
-                  <li 
+                  <Segment
                     className='inboxLink'
                     value={conversation.receiver_id} 
                     name={fullName} 
-                    onClick={() => this.renderChatRoom(receiverId, fullName)}>
-                    <strong>{conversation.first_name} {conversation.last_name} </strong>"{conversation.text}"<strong> at: {conversation.message_date}</strong>
-                  </li>
+                    onClick={() => this.renderChatRoom(receiverId, fullName)}
+                  >
+                    <Grid>
+                      <Grid.Row>
+                        <Grid.Column width={2}>
+                          <strong>{conversation.first_name} {conversation.last_name} </strong>
+                        </Grid.Column> 
+                        <Grid.Column width={10}>
+                          "{conversation.text}"
+                        </Grid.Column> 
+                        <Grid.Column width={4}>
+                          <strong> at: {conversation.message_date}</strong>
+                        </Grid.Column> 
+                      </Grid.Row>
+                    </Grid>
+                  </Segment>
                 )
               }
             })
           }
-        </ul>
       </Segment>
     )
   }
