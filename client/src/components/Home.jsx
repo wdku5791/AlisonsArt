@@ -44,7 +44,7 @@ const MainArts = ({ mainArts, history }) => {
     mainArts.forEach((item) => {
       const imageObj = {
         original: `${item.artwork.image_url}?${item.id}`,
-        description: `${item.first_name} ${item.last_name} Closing Price: $${item.buyout_price}`, 
+        description: `${item.first_name} ${item.last_name} Closing Price: $${_formatMoney(+item.buyout_price)}`, 
       };
       images.push(imageObj);
     });
