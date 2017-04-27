@@ -112,6 +112,10 @@ a {
   font-size: 16px
 }
 
+.label {
+  left: 20%;
+}
+
 .navSearch {
   height: 26px;
   font-size: 18px;

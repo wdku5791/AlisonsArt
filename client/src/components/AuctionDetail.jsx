@@ -18,6 +18,10 @@ const AuctionDetail = ({auction, setBid, handleClick, user, handleSave, handleUn
     interval = 1000;
   }
 
+  const _formatMoney = (money) => {
+    return money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  };
+
   let avail = current ? Math.min(current + interval, buyout) : start;
   return (
     <Grid>
@@ -36,13 +40,13 @@ const AuctionDetail = ({auction, setBid, handleClick, user, handleSave, handleUn
           <h3><a onClick={clickArtist}>{auction.first_name} {auction.last_name} ({auction.artwork.age})</a></h3>
           <p><strong>Auction Ends:</strong> {endTime}</p>
           <p><strong>Description:</strong> {auction.artwork.description}</p>
-          <p><strong>Current Price (USD):</strong> ${(current || start).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
-          <p><strong>Buyout Price (USD):</strong> ${buyout.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
+          <p><strong>Current Price (USD):</strong> ${_formatMoney (+(current || start))}</p>
+          <p><strong>Buyout Price (USD):</strong> ${_formatMoney(+buyout)}</p>
           <Form.Group widths='equal'>
             <span>
               <p>
                 <strong className="blue-text">
-                  Next available bidding amount: {avail.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  Next available bidding amount: {_formatMoney(+avail)}
                 </strong>
               </p>
               <strong>
