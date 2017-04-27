@@ -1,43 +1,41 @@
 import React from 'react';
-import { Grid, List } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 import moment from 'moment';
-import tz from 'moment-timezone';
 
-const Note = ({ notification, clickHandler, index}) => {
-  const style = {
-        fontWeight: !notification.read ? 'bold' : 'normal',
-        color: !notification.read ? 'purple' : 'black'
-      };
-  if (!notification) {
-    return <p>loading~~~~</p>
-  } else {
-    let time = moment.utc(notification.date).fromNow();
-
-    return (
-        
-        <Grid.Row verticalAlign='top' className={notification.read ? 'noty rowu' : 'read rowu'}>
-          <Grid.Column width={12} className='noty' textAlign='left'>
-            {notification.text}
-          </Grid.Column>
-          <Grid.Column width={4} 
-          onClick={() => {!notification.read ? clickHandler(notification.id, index) : null}}
-          textAlign='right'>
-            { time }
-          </Grid.Column>
-        </Grid.Row>
-    )
+class Note extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      expanded: false,
+    };
+  };
+  render() {
+    let { noty } = this.props;
+    let time = moment(noty.date).fromNow();
+    let elem;
+    if (!noty) {
+      elem = <p>loading~~~~</p>;
+    } else {
+      elem = (
+          <Grid.Row verticalAlign='top' className={(noty.read ? 'noty' : 'read') + (this.state.expanded ? ' expanded' : '')}>
+            <Grid.Column width={13} 
+            className='shadowless'
+            onClick={() => {this.setState({expanded: !this.state.expanded})}}
+            textAlign='left'>
+              {noty.text}
+            </Grid.Column>
+            <Grid.Column width={3} 
+            className={noty.read ? 'shadowless' : 'shadowless cursorpointer'}
+            onClick={() => {!noty.read ? this.props.clickHandler(noty.id, noty) : null}}
+            textAlign='right'>
+              { time }
+              <div>{noty.read ? null : 'Unread'}</div>
+            </Grid.Column>
+          </Grid.Row>
+      )
+    }  
+  return elem;
   }
 };
-
-// <List.Item className={notification.read ? '' : 'read'}>
-//   <List.Content verticalAlign="bottom" floated="right" 
-//   onClick={() => {!notification.read ? clickHandler(notification.id, index) : null}}>
-//     {notification.read ? '' : 'unread'}
-//   </List.Content>
-//   <List.Content>
-//     <List.Header>{notification.date}</List.Header>
-//     {notification.text}
-//   </List.Content>
-// </List.Item>
 
 export default Note;

@@ -4,12 +4,16 @@ import * as notifications from '../actions/notificationActionCreator.jsx';
 import Note from './NotificationEntry.jsx';
 import * as UserActions from '../actions/userActionCreator.jsx';
 import Inbox from './Inbox.jsx';
-import { Grid, List } from 'semantic-ui-react';
+import { Grid, Menu } from 'semantic-ui-react';
 
 class Notification extends React.Component {
   constructor(props) {
     super(props);
-    this.clickHandler =this.clickHandler.bind(this);
+    this.state={
+      activeItem: 'All',
+    };
+    this.clickHandler=this.clickHandler.bind(this);
+    this.menuSelector=this.menuSelector.bind(this);
   };
 
   componentWillMount() {
@@ -51,6 +55,8 @@ class Notification extends React.Component {
       })
       .then(data => {
         dispatch(notifications.fetchSuccess(data));
+        const {notification} = this.props
+        this.setState({noties: notification.notifications});
       })
       .catch(() => dispatch(notifications.fetchError(true)));
     })
@@ -59,10 +65,10 @@ class Notification extends React.Component {
     });
   }
 
-  clickHandler(notificationId, index) {
+  clickHandler(notificationId, notificationObj) {
     const {dispatch, userId, notification} = this.props;
     let notes = notification.notifications;
-
+    let index = notes.indexOf(notificationObj);
 
     dispatch(notifications.fetchNotifications(true));
     fetch(`/notifications/${userId}`, {
@@ -82,23 +88,61 @@ class Notification extends React.Component {
     .catch(() => dispatch(notifications.fetchError(true)));
   };
 
+  menuSelector(event) {
+    this.setState({
+      activeItem: event.target.text,
+    });
+  }
+
   render() {
     const { notification } = this.props;
+    let newNotification = notification.notifications;
+    let filteredNoties;
+    if (this.state.activeItem === 'All') {
+      filteredNoties = newNotification
+    } else if (this.state.activeItem === 'Bids') {
+      filteredNoties = newNotification.filter((noty) => {
+        return noty.type === 'outbid';
+      });
+    } else if (this.state.activeItem === 'Read') {
+      filteredNoties = newNotification.filter((noty) => {
+        return noty.read === true;
+      });
+    } else if (this.state.activeItem === 'Unread') {
+      filteredNoties = newNotification.filter((noty) => {
+        return noty.read === false;
+      });
+    } else {
+      filteredNoties = newNotification.filter((noty) => {
+        return noty.type === 'auction';
+      });
+    }
+    let depiction = 'loading';
+    if (notification.notifications.length > 0) {
+      depiction = filteredNoties.length > 0 ? (filteredNoties.map((noty, index) => {
+                    return (<Note key={noty.id + 'all'}
+                      index={index}
+                      clickHandler={this.clickHandler}
+                      noty={noty} />)
+                    })) : 'No Notifications';
+    }
     return (
       <div>
         <Grid celled='internally' centered={true}>
           <Grid.Row>
-            <Grid.Column width={4}>
+            <Grid.Column width={4} className='menuheight'>
                 <h1>Notifications</h1>
+                <Menu pointing secondary vertical>
+                  <Menu.Item name='All' active={this.state.activeItem === 'All'} onClick={(e) => this.menuSelector(e)} />
+                  <Menu.Item name='Auctions' active={this.state.activeItem === 'Auctions'} onClick={(e) => this.menuSelector(e)} />
+                  <Menu.Item name='Bids' active={this.state.activeItem === 'Bids'} onClick={(e) => this.menuSelector(e)} />
+                  <Menu.Item name='Unread' active={this.state.activeItem === 'Unread'} onClick={(e) => this.menuSelector(e)} />
+                  <Menu.Item name='Read' active={this.state.activeItem === 'Read'} onClick={(e) => this.menuSelector(e)} />
+                </Menu>
             </Grid.Column>
-            <Grid.Column width={12} className="gridStyle">
+            <Grid.Column width={12} className='shadowless borderleft'>
               <Grid celled='internally' centered={true} className='scrollable'>
-                {notification.notifications.map((notification, index) => (
-                  <Note key={notification.id}
-                  index={index}
-                  clickHandler={this.clickHandler}
-                  notification={notification} />)
-                )}
+                {depiction}
               </Grid>
               
             </Grid.Column>
@@ -109,14 +153,6 @@ class Notification extends React.Component {
     );
   }
 }
-// <List animated verticalAlign='middle' className="scrollable">
-//   {notification.notifications.map((notification, index) => (
-//     <Note key={notification.id}
-//     index={index}
-//     clickHandler={this.clickHandler}
-//     notification={notification} />)
-//   )}
-// </List>
 
 const mapStateToProps = (state) => {
   return { 
