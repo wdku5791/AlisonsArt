@@ -25,7 +25,6 @@ class Inbox extends React.Component {
       return response.json()
     })
     .then((data) => {
-      console.log('inbox SUCCESS! data: ', data);
       let filteredInbox = {};
       for (var i = 0; i < data.length; i++) {
         var userId = this.props.userId;
@@ -41,7 +40,6 @@ class Inbox extends React.Component {
       for (var key in filteredInbox) {
         filteredArray.push(filteredInbox[key]);
       }
-      console.log('filteredArray: ', filteredArray);
       let { dispatch } = this.props;
       dispatch(ChatActions.getInbox(filteredArray));
     })
@@ -57,7 +55,6 @@ class Inbox extends React.Component {
     } else {
       roomname = receiverId + this.props.userId;
     }
-    console.log('receiverId: ', receiverId, '\nfullName: ', fullName, '\nroomname: ', roomname);
     fetch(`/messages/${this.props.userId}/?receiver_id=${receiverId}`, {
       method: 'GET',
       headers: new Headers({
@@ -72,7 +69,6 @@ class Inbox extends React.Component {
       return response.json();
     })
     .then((data) => {
-      console.log('DATA FROM QUERY, INIT FROM INBOX: ', data);
       let { dispatch } = this.props;
       dispatch(ChatActions.initRoom(receiverId, data, roomname, fullName));
     })
@@ -95,7 +91,6 @@ class Inbox extends React.Component {
               let fullName = conversation.first_name + ' ' + conversation.last_name;
               let senderId = conversation.sender_id;
               let receiverId = conversation.receiver_id;
-              // console.log('conversation fullName: ', fullName);
               if (this.props.userId !== conversation.sender_id) {
                 return (
                   <li 

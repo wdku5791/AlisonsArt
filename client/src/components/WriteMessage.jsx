@@ -51,7 +51,6 @@ class WriteMessage extends React.Component {
       dispatch(ChatActions.chatMessage(messagePayload));
     })
     .catch((error) => {
-      //this can dispatch an error to the reducer and when the fronend detects error, render something differently
       console.log('handleFormSubmit failed! Error: ', error);
     });
   }
