@@ -65,13 +65,6 @@ const MainArts = ({ mainArts, history }) => {
   }
 };
 
-// <Image
-        // className='imageLink'
-        // src={homeAuction.artwork.image_url}
-        // onClick={() => {clickArt(homeAuction.id, history)}}
-        // label={{ as: 'a', color: 'black', content: `$${homeAuction.current_bid}`, ribbon: true }}
-      // />
-
 const HomeAuction = ({ homeAuction, history }) => {
   return (
     <Grid.Column>
@@ -118,8 +111,6 @@ const HomeArtist = ({ artist, history }) => {
         <h4 className="imageHeader">
           {artist.first_name} {artist.last_name}
         </h4>
-        <Divider />
-        <p>CATEGORY TAGS GO HERE</p>
       </Container>
     </Grid.Column>
   );

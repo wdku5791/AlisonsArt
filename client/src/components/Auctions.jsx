@@ -4,6 +4,10 @@ import { Container, Image, Grid, Divider } from 'semantic-ui-react';
 import * as actions from '../actions/auctionActionCreator.jsx';
 import * as UserActions from '../actions/userActionCreator.jsx';
 
+const _formatMoney = (money) => {
+  return money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+};
+
 class Auctions extends React.Component {
   constructor(props) {
     super(props);
@@ -51,21 +55,17 @@ class Auctions extends React.Component {
     } else {
       return (
         <Container>
-          <Grid divided>
+          <Grid>
             <Grid.Row columns={3}>
               {auctions.map(auction => (
-                <Grid.Column key={auction.id}>
-                  <Image
-                    className="imageLink"
-                    src={auction.artwork.image_url}
-                    onClick={() => this.goToAuction(auction.id)}
-                    label={{ as: 'a', color: 'black', content: '$' + auction.current_bid, ribbon: true }} 
-                  height="100%"/>
+                <Grid.Column className="frame-squre" key={auction.id}>
+                  <div className="imageLink thumbnails" style={{backgroundImage: `url(${auction.artwork.image_url})`}} onClick={() => this.goToAuction(auction.id)} >
+                  <a className="ui ribbon label black">${_formatMoney(+auction.current_bid)}</a>
+                  </div>
                   <Container>
-                    <h4 className="imageHeader">
+                    <h4 className="artName">
                       {auction.artwork.art_name}
                     </h4>
-                    <Divider />
                     <p className="artworkDescription">{auction.artwork.description}</p>
                   </Container>
                 </Grid.Column>
