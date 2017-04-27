@@ -190,6 +190,7 @@ class Auction extends Component {
             <AuctionDetail
               flag={this.state.flag}
               user={user}
+              bid={bid}
               handleClick={this.handleClick}
               auction={auction}
               setBid={this.setBid}

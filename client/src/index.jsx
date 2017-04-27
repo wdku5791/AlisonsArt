@@ -54,7 +54,7 @@ class Index extends Component {
       }
       
       if (response.headers.get('x-username') && response.headers.get('x-userId')) {
-        store.dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId'), response.headers.get('x-type') === 'artist'));
+        store.dispatch(UserActions.logInSuccess(response.headers.get('x-username'), response.headers.get('x-userId'), response.headers.get('x-userEmail'), response.headers.get('x-type') === 'artist'));
         store.dispatch(SocketActions.loginSocket(response.headers.get('x-userId')));
       }
     })
@@ -64,6 +64,7 @@ class Index extends Component {
   }
 
   render() {
+
     return (
       <Router>
         <Container>

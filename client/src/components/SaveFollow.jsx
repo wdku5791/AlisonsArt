@@ -49,7 +49,7 @@ class SaveFollow extends Component {
     return (
       <Container>
         <h3>Your saved auctions:</h3>
-        <Grid divided={true}>
+        <Grid>
         {savedAuctions.length === 0 ? <div>You don't have any saves yet</div> : null}
           <Grid.Row columns={3}>
           {savedAuctions.map(auction => {
@@ -63,21 +63,20 @@ class SaveFollow extends Component {
         <Divider />
         <div>
           <h3>Your following artists:</h3>
-          <Grid divided={true}>
+          <Grid>
           {followingArtists.length === 0 ? <div>You are not following any artists yet</div> : null}
             <Grid.Row columns={3}>
             {followingArtists.map(artist => {
               return (
                 <Grid.Column>
                 <Container>
-                  <Image 
-                    className='imageLink'
-                    src={artist.image_url} 
+                  <div 
+                    className='imageLink thumbnails'
+                    style={{backgroundImage: `url(${artist.image_url})`}}
                     onClick={() => {
                       this._handleClickArtist(artist.followee_id)
                   }} />
-                  <div>{artist.first_name} {artist.last_name}</div>
-                  <div>categories?</div>
+                  <div className="artName">{artist.first_name} {artist.last_name}</div>
                 </Container>
                 </Grid.Column>);
             })}

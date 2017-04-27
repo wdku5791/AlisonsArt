@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Image, Grid } from 'semantic-ui-react';
+import { Container, Grid } from 'semantic-ui-react';
 import StripeCheckout from 'react-stripe-checkout';
 
 const ClosedAuction = ({ auction, history }) => {
@@ -55,9 +55,9 @@ const ClosedAuction = ({ auction, history }) => {
   }
   return (
     <Grid.Column>
-      <Image
-        className="imageLink"
-        src={auction.image_url}
+      <div
+        className="imageLink thumbnails"
+        style={{backgroundImage: `url(${auction.image_url})`}}
         onClick={() => handleClick(auction.id)}
       />
       <Container>

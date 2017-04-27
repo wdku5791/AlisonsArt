@@ -1,6 +1,7 @@
 const initialState = {
   username: '',
   userId: null,
+  userEmail: '',
   artist: false,
   checkingInfo: false,
   error: null,
@@ -23,6 +24,7 @@ const userReducer = (state = initialState, action) => {
         ...state,
         username: action.username,
         userId: action.userId,
+        userEmail: action.userEmail,
         artist: action.artist,
         loggedOut: false
       };

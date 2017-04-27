@@ -17,6 +17,10 @@ const onImageClick = (event, history) => {
   clickArt(lastCharacter, history);
 };
 
+const _formatMoney = (money) => {
+  return money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+};
+
 // render the description ... as floating right of the image
 // closed auctions should be rendered differently from the ongoing ones
 const MainArt = ({ art, history }) => {
@@ -40,7 +44,7 @@ const MainArts = ({ mainArts, history }) => {
     mainArts.forEach((item) => {
       const imageObj = {
         original: `${item.artwork.image_url}?${item.id}`,
-        description: `${item.first_name} ${item.last_name} Closing Price: $${item.buyout_price}`, 
+        description: `${item.first_name} ${item.last_name} Closing Price: $${_formatMoney(+item.buyout_price)}`, 
       };
       images.push(imageObj);
     });
@@ -61,17 +65,13 @@ const MainArts = ({ mainArts, history }) => {
   }
 };
 
-// the images, when onClick, will lead to bidding page(filled with info for just this artwork).
-
 const HomeAuction = ({ homeAuction, history }) => {
   return (
     <Grid.Column>
-      <Image
-        className='imageLink'
-        src={homeAuction.artwork.image_url}
-        onClick={() => {clickArt(homeAuction.id, history);}}
-        label={{ as: 'a', color: 'black', content: `$${homeAuction.current_bid}`, ribbon: true }}
-      />
+      <div className="imageLink thumbnails" style={{backgroundImage: `url(${homeAuction.artwork.image_url})`}} onClick={() => {clickArt(homeAuction.id, history)}} >
+      <a className="ui ribbon label black">${_formatMoney(+homeAuction.current_bid)} </a>
+      </div>
+      
       <Container>
         <h4 className="imageHeader">
           {homeAuction.artwork.art_name}
@@ -82,14 +82,13 @@ const HomeAuction = ({ homeAuction, history }) => {
   );
 };
 
-// not using dispatch for the moment
 const HomeAuctions = ({ homeAuctions, history }) => {
   if (!homeAuctions[0]) {
     return <p>loading~~~</p>;
   } else {
     return (
       <Grid columns="equal">
-        <Grid.Row columns={3}>
+        <Grid.Row className="frame-squre" columns={3}>
           {homeAuctions.map(homeAuction => <HomeAuction key={homeAuction.artwork.id} homeAuction={homeAuction} history={history} />)}
         </Grid.Row>
       </Grid>
@@ -97,7 +96,6 @@ const HomeAuctions = ({ homeAuctions, history }) => {
   }
 };
 
-// dispatch is not in use: 
 const clickArtist = (id, history, dispatch) => {
   history.push(`/artist/${id}`);
 };
@@ -105,17 +103,14 @@ const clickArtist = (id, history, dispatch) => {
 const HomeArtist = ({ artist, history }) => {
   return (
     <Grid.Column>
-      <Image
-        className="imageLink"
-        src={artist.image_url}
+      <div
+        className="imageLink thumbnails" style={{backgroundImage: `url(${artist.image_url})`}}
         onClick={() => clickArtist(artist.artist_id, history)} 
       />
       <Container>
         <h4 className="imageHeader">
           {artist.first_name} {artist.last_name}
         </h4>
-        <Divider />
-        <p>CATEGORY TAGS GO HERE</p>
       </Container>
     </Grid.Column>
   );

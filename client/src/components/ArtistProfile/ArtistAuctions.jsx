@@ -6,9 +6,12 @@ const _handleImageClick = (auction_id, history) => {
   history.push(`/auction/${auction_id}`);
 };
 
+const _formatMoney = (money) => {
+  return money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
 const _helper = (auction, history) => {
   if (auction) {
-    
     return (
       <div className="frame-square">
         <div className="imageLink thumbnails" style={{backgroundImage: `url(${auction.image_url})`}} onClick={() => {
@@ -16,13 +19,13 @@ const _helper = (auction, history) => {
             }} />
           
         <div>
-          <span>
-            Name: {auction.art_name}
+          <span className="artName">
+            {auction.art_name}
           </span>
           {auction.current_bid ? <span>
-            <br /><span>Current bid price: {auction.current_bid}</span></span>: null}
+            <br /><span>Current bid price: ${_formatMoney(+auction.current_bid)}</span></span>: null}
           <br />
-          <span>Estimated value: {auction.estimated_price}</span>
+          <span>Estimated value: ${_formatMoney(+auction.estimated_price)}</span>
         </div>
       </div>
     );
