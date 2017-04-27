@@ -16,8 +16,12 @@ const _helper = (auction, history) => {
             }} />
           
         <div>
-          <span>Name: {auction.art_name}</span>
-          {auction.current_bid ? <span><br /><span>Current bid price: {auction.current_bid}</span></span> : null}
+          <span>
+            Name: {auction.art_name}
+          </span>
+          {auction.current_bid ? <span>
+            <br /><span>Current bid price: {auction.current_bid}</span></span>: null}
+          <br />
           <span>Estimated value: {auction.estimated_price}</span>
         </div>
       </div>
